@@ -5,7 +5,7 @@
 #include "lemlib/util.hpp"
 #include "pros/misc.hpp"
 
-void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointParams params, bool async) {
+void lemlib::Chassis::moveToPoseCarrotless(float x, float y, float theta, int timeout, MoveToPointParams params, bool async) {
     params.earlyExitRange = fabs(params.earlyExitRange);
     this->requestMotionStart();
     // were all motions cancelled?
@@ -22,6 +22,8 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     lateralPID.reset();
     lateralLargeExit.reset();
     lateralSmallExit.reset();
+    angularLargeExit.reset();
+    angularSmallExit.reset();
     angularPID.reset();
 
     // initialize vars used between iterations
@@ -34,13 +36,15 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     const int compState = pros::competition::get_status();
     std::optional<bool> prevSide = std::nullopt;
 
-    // calculate target pose in standard form
-    Pose target(x, y);
-    //TODO: ok we're gonna try no target theta let's go
+    // calculate target pose in standard form with new theta added converted to radians
+    Pose target(x, y, degToRad(theta));
 
     // main loop
-    while (!timer.isDone() && ((!lateralSmallExit.getExit() && !lateralLargeExit.getExit())) && //TODO: removed the || !close condition in while loop
-           this->motionRunning) {
+    //exit when: timer is done; //TODO: removed the || !close condition in while loop
+    while (!timer.isDone() 
+            && ((!lateralSmallExit.getExit() && !lateralLargeExit.getExit()) //TODO: if one of the laterals.getExit is true (meaning it's turned to false and the && turns false) BUT both of the angulars are still false -> true, will not exit
+            || (!angularSmallExit.getExit() && !angularLargeExit.getExit()))
+            && this->motionRunning) { 
         // update position
         const Pose pose = getPose(true, true);
 
@@ -69,20 +73,17 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         prevSide = side;
 
         // calculate error
-        const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI; //TODO: here is where params.forwards comes into play
-        const float angularError = angleError(pose.angle(target), adjustedRobotTheta);
-            // const float angularError = angleError(adjustedRobotTheta, pose.angle(target)); 
-            //TODO: angular error calculated as error between current heading and the angle between the current position and the target. shouldn't that angle be added onto the 
-            //TODO: why does this have adjustedRobotTheta in the target and pose angle in the position, doesn't that flip signs
-            //TODO: okay i'm taking this out i have no idea if this new code will work
-        const float lateralError = pose.distance(target) * cos(angularError); 
-            //TODO: added a const here because why wouldn't there be one
-            //TODO: also like i think this makes sense
-            //* lateral is actually LONGITUDINAL error which makes sense
+        const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI;
+        const float angularError = angleError(target.theta, adjustedRobotTheta);
+        const float lateralError = pose.distance(target) * cos(angleError(pose.angle(target), adjustedRobotTheta)); 
+            //TODO: the cosine is of the same angular error as movetopoint
+        //* lateral is actually LONGITUDINAL error which makes sense
 
         // update exit conditions
         lateralSmallExit.update(lateralError);
         lateralLargeExit.update(lateralError);
+        angularSmallExit.update(angularError);
+        angularLargeExit.update(angularError);
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError);
@@ -98,13 +99,13 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
         // constrain lateral output by max accel
         // but not for decelerating, since that would interfere with settling
-        // if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: no way to use linear slew without messing with settling
+        // lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: no way to mess with slew without obliterating settling
 
         // prevent moving in the wrong direction //TODO: gang what does this do (need to disable since could mess with settling since no more close variabnle)
         // if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
         // else if (!params.forwards && !close) lateralOut = std::fmin(lateralOut, 0);
 
-        // constrain lateral output by the minimum speed //TODO: review but i'm too tired to right now
+        // constrain lateral output by the minimum speed
         if (params.forwards && lateralOut < fabs(params.minSpeed) && lateralOut > 0) lateralOut = fabs(params.minSpeed);
         if (!params.forwards && -lateralOut < fabs(params.minSpeed) && lateralOut < 0)
             lateralOut = -fabs(params.minSpeed);

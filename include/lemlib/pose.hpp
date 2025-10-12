@@ -171,7 +171,7 @@ class Pose {
          */
         float distance(Pose other) const;
         /**
-         * @brief Get the angle between two poses
+         * @brief Returns the angle, RELATIVE TO THE X-AXIS, of the VECTOR STARTING AT THE POSE USING THE FUNCTION AND ENDING AT THE OTHER POSE
          *
          * @note heading is not considered in this operation
          *

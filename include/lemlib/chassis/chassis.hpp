@@ -687,30 +687,12 @@ class Chassis {
          */
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
-         * @brief Move the chassis along a path
-         *
-         * @param path the path asset to follow
-         * @param lookahead the lookahead distance. Units in inches. Larger values will make the robot move
-         * faster but will follow the path less accurately
-         * @param timeout the maximum time the robot can spend moving
-         * @param forwards whether the robot should follow the path going forwards. true by default
-         * @param async whether the function should be run asynchronously. FALSE by default
-         *
-         * @b Example
-         * @code {.cpp}
-         * // load "myPath.txt"
-         * // the file should be in the "static" folder in the project root directory
-         * // this should also be done outside of any functions, otherwise it won't compile
-         * ASSET(myPath_txt); // we replace "." with "_" to make the asset name valid
-         *
-         * // autonomous function in your project. The function that runs during the autonomous period
-         * void autonomous() {
-         *     // follow the path in "myPath.txt" with a lookahead of 10 inches and a timeout of 4000ms
-         *     chassis.follow(myPath_txt, 10, 4000);
-         *     // follow the path in "myPath.txt" with a lookahead of 10 inches and a timeout of 4000ms
-         *     // but follow the path backwards
-         *     chassis.follow(myPath_txt, 10, 4000, false);
-         * }
+         * @brief move to a pose but through pure uncoupled pids (don't use for curves)
+         * @endcode
+         */
+        void moveToPoseCarrotless(float x, float y, float theta, int timeout, MoveToPointParams params = {}, bool async = false);
+        /**
+         * @brief oops i deleted the descriptive paragraph for follow
          * @endcode
          */
         void follow(const asset& path, float lookahead, int timeout, bool forwards = true, bool async = false);
