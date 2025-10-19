@@ -687,7 +687,7 @@ class Chassis {
          */
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
-         * @brief Move the chassis towards a target point
+         * @brief Move the chassis a relative distance
          *
          * @param dist distance to move
          * @param timeout longest time the robot can spend moving
@@ -696,6 +696,14 @@ class Chassis {
          * @endcode
          */
         void moveDistance(float dist, int timeout, MoveToPointParams params = {}, bool async = false);
+        /**
+         * @brief Send in a constant voltage to the chassis
+         *
+         * @param voltage voltage to send, in millivolts
+         * @param time time to send voltage for
+         * @endcode
+         */
+        void sendVoltage(float voltage, int time);
         /**
          * @brief oops i deleted the descriptive paragraph for follow
          * @endcode
