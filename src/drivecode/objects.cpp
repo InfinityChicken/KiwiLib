@@ -1,0 +1,88 @@
+#include "main.h"
+
+//motor definitions
+pros::Motor bottomRoller(20, pros::MotorGearset::blue);
+pros::Motor topRoller(12, pros::MotorGearset::blue);
+
+pros::MotorGroup leftMotors({-15, -13, -14}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({19, 3, 17}, pros::MotorGearset::blue);
+
+//piston definitions
+pros::ADIDigitalOut littleWill ('B'); 
+pros::ADIDigitalOut descore ('D');
+pros::ADIDigitalOut trapdoor ('C');
+pros::ADIDigitalOut hood('A');
+//pros::ADIDigitalOut colorPiston ('D');
+
+
+//sensor definitions
+pros::Optical colorLeft(0); //TODO: THIS IS THE ONE THAT'S WIRED // was 10
+pros::Optical colorRight(0); //TODO: fix port //3
+pros::Distance distance(1);
+pros::Imu imu(16);
+pros::Rotation horizRotation(4);
+pros::Rotation vertRotation(-11);
+
+//drivetrain definitions
+lemlib::TrackingWheel horizOdom(
+    &horizRotation, 
+    lemlib::Omniwheel::NEW_2, 
+    0
+);
+
+lemlib::TrackingWheel vertOdom(
+    &vertRotation, 
+    lemlib::Omniwheel::NEW_2, 
+    0
+);
+
+lemlib::OdomSensors sensorsForUse(
+    &vertOdom, //got rid of odom
+    nullptr,
+    &horizOdom,
+    nullptr,
+    &imu
+);
+
+lemlib::Drivetrain drivetrain(
+    &leftMotors,
+    &rightMotors,
+    29,
+    lemlib::Omniwheel::NEW_325,
+    450,   
+    8
+);
+
+lemlib::ControllerSettings lateralController( //TODO: tune error zones, pids
+    3.8,
+    0,
+    0,
+    3,
+    1,
+    100,
+    3,
+    500,
+    0
+);
+
+lemlib::ControllerSettings angularController( //TODO: tune error zones, pids
+    3.2, 
+    0,
+    11.5, 
+    3,
+    1.5,
+    100,
+    3,
+    500,
+    0
+);
+
+lemlib::Chassis chassis(
+    drivetrain,
+    lateralController,
+    angularController,
+    sensorsForUse
+);
+
+//control definitions
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
