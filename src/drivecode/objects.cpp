@@ -1,4 +1,5 @@
 #include "main.h"
+#include <climits>
 
 //motor definitions
 pros::Motor bottomRoller(20, pros::MotorGearset::blue);
@@ -53,27 +54,27 @@ lemlib::Drivetrain drivetrain(
     8
 );
 
-lemlib::ControllerSettings lateralController( //TODO: tune error zones, pids
-    3.8,
+lemlib::ControllerSettings lateralController(
+    0,
     0,
     0,
     3,
-    1,
-    100,
-    3,
-    500,
+    0.25, //within 1/4 inch
+    250, //stay within 1/4 inch for 250 ms
+    3, 
+    INT_MAX, //large disabled
     0
 );
 
-lemlib::ControllerSettings angularController( //TODO: tune error zones, pids
-    3.2, 
+lemlib::ControllerSettings angularController(
+    0, 
     0,
-    11.5, 
+    0, 
     3,
-    1.5,
-    100,
+    0.5,
+    250,
     3,
-    500,
+    INT_MAX, //large disabled
     0
 );
 
