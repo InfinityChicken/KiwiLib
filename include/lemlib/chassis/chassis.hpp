@@ -687,11 +687,6 @@ class Chassis {
          */
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
-         * @brief move to a pose but through pure uncoupled pids (don't use for curves)
-         * @endcode
-         */
-        void moveToPoseCarrotless(float x, float y, float theta, int timeout, MoveToPointParams params = {}, bool async = false);
-        /**
          * @brief oops i deleted the descriptive paragraph for follow
          * @endcode
          */

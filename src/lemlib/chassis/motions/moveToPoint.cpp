@@ -28,19 +28,18 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     Pose lastPose = getPose();
     distTraveled = 0;
     Timer timer(timeout);
-    // bool close = false; //TODO: close fully doesn't do anything
+    // bool close = false; //TODO: close removed
     float prevLateralOut = 0; // previous lateral power
     float prevAngularOut = 0; // previous angular power
+        //TODO: previous values only used for slew, but we removed slew, so we can remove these too
     const int compState = pros::competition::get_status();
     std::optional<bool> prevSide = std::nullopt;
 
     // calculate target pose in standard form
-    Pose target(x, y);
-    //TODO: ok we're gonna try no target theta let's go
+    Pose target(x, y); //TODO: no target theta used
 
-    // main loop
-    while (!timer.isDone() && ((!lateralSmallExit.getExit() && !lateralLargeExit.getExit())) && //TODO: removed the || !close condition in while loop
-           this->motionRunning) {
+    // main loop; will exit if timer finishes, exit conditions are met, or motion isn't running
+    while (!timer.isDone() && !lateralSmallExit.getExit() && !lateralLargeExit.getExit() && this->motionRunning) { //TODO: close condition removed
         // update position
         const Pose pose = getPose(true, true);
 
@@ -51,9 +50,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // calculate distance to the target point
         const float distTarget = pose.distance(target);
 
-        //TODO: i don't think there's a point to this
-
-        // // check if the robot is close enough to the target to start settling
+        // check if the robot is close enough to the target to start settling //TODO: settling removed
         // if (distTarget < 7.5 && close == false) {
         //     close = true;
         //     params.maxSpeed = fmax(fabs(prevLateralOut), 60);
@@ -69,16 +66,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         prevSide = side;
 
         // calculate error
-        const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI; //TODO: here is where params.forwards comes into play
+        const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI;
         const float angularError = angleError(pose.angle(target), adjustedRobotTheta);
-            // const float angularError = angleError(adjustedRobotTheta, pose.angle(target)); 
-            //TODO: angular error calculated as error between current heading and the angle between the current position and the target. shouldn't that angle be added onto the 
-            //TODO: why does this have adjustedRobotTheta in the target and pose angle in the position, doesn't that flip signs
-            //TODO: okay i'm taking this out i have no idea if this new code will work
+            // const float angularError = angleError(adjustedRobotTheta, pose.angle(target)); //TODO: previous code, is negated and doesn't make sense
         const float lateralError = pose.distance(target) * cos(angularError); 
-            //TODO: added a const here because why wouldn't there be one
-            //TODO: also like i think this makes sense
-            //* lateral is actually LONGITUDINAL error which makes sense
+            //*longitudinal error, technically
 
         // update exit conditions
         lateralSmallExit.update(lateralError);
@@ -86,10 +78,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError);
-        float angularOut = angularPID.update(radToDeg(angularError));
-        // if (close) angularOut = 0; //TODO: YO DUDE.
+        float angularOut = angularPID.update(radToDeg(angularError)); 
+            //TODO: angular error might get really really high close to the endpoint; check that behavior
+            //TODO: may need to add a clamp to angular error because of this
+        // if (close) angularOut = 0; //TODO: removed
 
-        //TODO: may need to add a hard restriction since we don't have the close variable anymore
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
         angularOut = slew(angularOut, prevAngularOut, angularSettings.slew);
@@ -98,16 +91,16 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
         // constrain lateral output by max accel
         // but not for decelerating, since that would interfere with settling
-        // if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: no way to use linear slew without messing with settling
+        // if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: slew removed because it would interfere with settling
 
-        // prevent moving in the wrong direction //TODO: gang what does this do (need to disable since could mess with settling since no more close variabnle)
+        //TODO: moving in the wrong direction code disabled, check that that's fine
+        // prevent moving in the wrong direction
         // if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
         // else if (!params.forwards && !close) lateralOut = std::fmin(lateralOut, 0);
 
-        // constrain lateral output by the minimum speed //TODO: review but i'm too tired to right now
+        // constrain lateral output by the minimum speed
         if (params.forwards && lateralOut < fabs(params.minSpeed) && lateralOut > 0) lateralOut = fabs(params.minSpeed);
-        if (!params.forwards && -lateralOut < fabs(params.minSpeed) && lateralOut < 0)
-            lateralOut = -fabs(params.minSpeed);
+        if (!params.forwards && -lateralOut < fabs(params.minSpeed) && lateralOut < 0) lateralOut = -fabs(params.minSpeed);
 
         // update previous output
         prevAngularOut = angularOut;
