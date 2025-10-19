@@ -22,7 +22,7 @@ void lemlib::Chassis::turnToHeading(float theta, int timeout, TurnToHeadingParam
     float motorPower;
     float prevMotorPower = 0;
     float startTheta = getPose().theta;
-    bool settling = false;
+    bool settling = false; 
     std::optional<float> prevRawDeltaTheta = std::nullopt;
     std::optional<float> prevDeltaTheta = std::nullopt;
     std::uint8_t compState = pros::competition::get_status();

@@ -687,6 +687,16 @@ class Chassis {
          */
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
+         * @brief Move the chassis towards a target point
+         *
+         * @param dist distance to move
+         * @param timeout longest time the robot can spend moving
+         * @param params struct to simulate named parameters
+         * @param async whether the function should be run asynchronously. FALSE by default
+         * @endcode
+         */
+        void moveDistance(float dist, int timeout, MoveToPointParams params = {}, bool async = false);
+        /**
          * @brief oops i deleted the descriptive paragraph for follow
          * @endcode
          */
