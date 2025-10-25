@@ -30,8 +30,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     Timer timer(timeout);
     // bool close = false; //TODO: close removed
     float prevLateralOut = 0; // previous lateral power
-    float prevAngularOut = 0; // previous angular power
-        //TODO: previous values only used for slew, but we removed slew, so we can remove these too
+    float prevAngularOut = 0; // previous angular power //* used for slew
     const int compState = pros::competition::get_status();
     std::optional<bool> prevSide = std::nullopt;
 
@@ -91,7 +90,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
         // constrain lateral output by max accel
         // but not for decelerating, since that would interfere with settling
-        // if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: slew removed because it would interfere with settling
+        lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: CHECK OUT SLEW.
 
         //TODO: moving in the wrong direction code disabled, check that that's fine
         // prevent moving in the wrong direction

@@ -1,9 +1,6 @@
 #include <cmath>
 #include "lemlib/chassis/chassis.hpp"
-#include "lemlib/logger/logger.hpp"
 #include "lemlib/timer.hpp"
-#include "lemlib/util.hpp"
-#include "pros/misc.hpp"
 
 void lemlib::Chassis::sendVoltage(float voltage, int time) {
     this->requestMotionStart();

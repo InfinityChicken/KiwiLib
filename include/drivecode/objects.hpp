@@ -1,17 +1,22 @@
 #include "main.h"
+#include "pros/adi.hpp"
+
+//kP, kD, and slew for tuning easy
+extern float kP;
+extern float kD;
+extern float slew;
 
 //motor declarations
 extern pros::Motor bottomRoller;
 extern pros::Motor topRoller;
-
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
 //piston declarations
-extern pros::ADIDigitalOut littleWill;
-extern pros::ADIDigitalOut descore;
-extern pros::ADIDigitalOut trapdoor;
-extern pros::ADIDigitalOut hood;
+extern pros::adi::DigitalOut littleWill;
+extern pros::adi::DigitalOut descore;
+extern pros::adi::DigitalOut trapdoor;
+extern pros::adi::DigitalOut hood;
 //extern pros::ADIDigitalOut colorPiston;
 
 //sensor declarations

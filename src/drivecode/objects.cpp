@@ -1,6 +1,11 @@
 #include "main.h"
 #include <climits>
 
+//gains for easy tuning
+float kP = 5;
+float kD = 0;
+float slew = 8;
+
 //motor definitions
 pros::Motor bottomRoller(20, pros::MotorGearset::blue);
 pros::Motor topRoller(12, pros::MotorGearset::blue);
@@ -9,12 +14,11 @@ pros::MotorGroup leftMotors({-15, -13, -14}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({19, 3, 17}, pros::MotorGearset::blue);
 
 //piston definitions
-pros::ADIDigitalOut littleWill ('B'); 
-pros::ADIDigitalOut descore ('D');
-pros::ADIDigitalOut trapdoor ('C');
-pros::ADIDigitalOut hood('A');
+pros::adi::DigitalOut littleWill ('B'); 
+pros::adi::DigitalOut descore ('D');
+pros::adi::DigitalOut trapdoor ('C');
+pros::adi::DigitalOut hood('A');
 //pros::ADIDigitalOut colorPiston ('D');
-
 
 //sensor definitions
 pros::Optical colorLeft(0); //TODO: THIS IS THE ONE THAT'S WIRED // was 10
@@ -37,7 +41,7 @@ lemlib::TrackingWheel vertOdom(
     0
 );
 
-lemlib::OdomSensors sensorsForUse(
+lemlib::OdomSensors odomSensorsDrive(
     &vertOdom, //got rid of odom
     nullptr,
     &horizOdom,
@@ -54,16 +58,17 @@ lemlib::Drivetrain drivetrain(
     8
 );
 
+//setting definitions
 lemlib::ControllerSettings lateralController(
+    kP, //6
     0,
-    0,
-    0,
+    kD, //30
     3,
-    0.25, //within 1/4 inch
-    250, //stay within 1/4 inch for 250 ms
+    0.2, //range to exit within
+    500, //stay within range for this time
     3, 
     INT_MAX, //large disabled
-    0
+    slew
 );
 
 lemlib::ControllerSettings angularController(
@@ -71,7 +76,7 @@ lemlib::ControllerSettings angularController(
     0,
     0, 
     3,
-    0.5,
+    0.5, //within .5 deg
     250,
     3,
     INT_MAX, //large disabled
@@ -82,7 +87,7 @@ lemlib::Chassis chassis(
     drivetrain,
     lateralController,
     angularController,
-    sensorsForUse
+    odomSensorsDrive
 );
 
 //control definitions
