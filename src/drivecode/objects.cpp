@@ -2,9 +2,9 @@
 #include <climits>
 
 //gains for easy tuning
-float kP = 5;
+float kP = 15;
 float kD = 0;
-float slew = 8;
+float slew = 6;
 
 //motor definitions
 pros::Motor bottomRoller(20, pros::MotorGearset::blue);
@@ -31,13 +31,13 @@ pros::Rotation vertRotation(-11);
 //drivetrain definitions
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
-    lemlib::Omniwheel::NEW_2, 
+    2,  //TODO: changed from 2.125
     0
 );
 
 lemlib::TrackingWheel vertOdom(
     &vertRotation, 
-    lemlib::Omniwheel::NEW_2, 
+    2, 
     0
 );
 
@@ -60,14 +60,14 @@ lemlib::Drivetrain drivetrain(
 
 //setting definitions
 lemlib::ControllerSettings lateralController(
-    kP, //6
+    kP,
     0,
-    kD, //30
+    kD,
     3,
-    0.2, //range to exit within
-    500, //stay within range for this time
-    3, 
-    INT_MAX, //large disabled
+    0.1, //range to exit within
+    250, //stay within range for this time
+    0, //large disabled
+    std::numeric_limits<float>::max(), //large disabled
     slew
 );
 
@@ -78,8 +78,8 @@ lemlib::ControllerSettings angularController(
     3,
     0.5, //within .5 deg
     250,
-    3,
-    INT_MAX, //large disabled
+    0, //large disabled
+    std::numeric_limits<float>::max(), //large disabled
     0
 );
 

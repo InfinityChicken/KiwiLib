@@ -9,7 +9,7 @@
 void motorInit() {
     bottomRoller.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     topRoller.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 }
 
 void sensorInit() {
@@ -39,6 +39,10 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 1, "x pos: %.3f", pose.x);
         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "y pos: %.3f", pose.y);
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "heading: %.3f", pose.theta);
+        
+        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "kP: %.3f", kP);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "kD: %.3f", kD);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "slew: %.3f", slew);
         // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topRoller.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomRoller.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "Left Color: %.3f", colorLeft.get_hue());

@@ -73,15 +73,12 @@ void updatePistons() {
 }
 
 void runPistons() {
-
     while(true) {
         //little will
         if(littleWillState == 0) {
             littleWill.set_value(false);
-            //velValue = 12000;
         } else if(littleWillState == 1) {
             littleWill.set_value(true);
-            //velValue = 12000 * 0.6;
         } 
         
         //descore

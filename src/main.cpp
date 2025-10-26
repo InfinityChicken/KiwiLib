@@ -65,19 +65,19 @@ void opcontrol() {
 				switch(selectionMode) {
 					case 1: {
 						kP = kP + 0.1;
-						std::cout<<kP<<"\n";
+						std::cout<<"kP: "<<kP<<"\n";
 						break;
 					}
 
 					case 2: {
 						kD = kD + 0.1;
-						std::cout<<kD<<"\n";
+						std::cout<<"kD: "<<kD<<"\n";
 						break;
 					}
 
 					case 3: {
 						slew = slew + 0.1;
-						std::cout<<slew<<"\n";
+						std::cout<<"slew: "<<slew<<"\n";
 						break;
 					}
 
@@ -94,19 +94,19 @@ void opcontrol() {
 				switch(selectionMode) {
 					case 1: {
 						kP = kP - 0.1;
-						std::cout<<kP<<"\n";
+						std::cout<<"kP: "<<kP<<"\n";
 						break;
 					}
 
 					case 2: {
 						kD = kD - 0.1;
-						std::cout<<kD<<"\n";
+						std::cout<<"kD: "<<kD<<"\n";
 						break;
 					}
 
 					case 3: {
 						slew = slew - 0.1;
-						std::cout<<slew<<"\n";
+						std::cout<<"slew: "<<slew<<"\n";
 						break;
 					}
 
@@ -190,6 +190,8 @@ void opcontrol() {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		chassis.arcade(throttle, turn);
+
+		controller.set_text(0, 0, std::to_string(selectionMode));
 		
 		//delay
 		pros::delay(10);
