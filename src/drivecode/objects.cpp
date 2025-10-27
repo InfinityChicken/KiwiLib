@@ -7,7 +7,9 @@ float kD_lat = 0;
 float slew_lat = 6;
 
 float kP_ang = 3;
-float kD_ang = 0;
+// kp = 3
+float kD_ang = 17.3;
+// kd = 17.4
 float slew_ang = 6;
 
 //motor definitions

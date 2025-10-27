@@ -242,7 +242,7 @@ if(pidmode == 1){
             r1Pressed = true;
 
             chassis.setPose(0, 0, 0);
-            chassis.turnToHeading(180, 2000);
+            chassis.turnToHeading(180, 2000, {.maxSpeed = 50});
             std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
         }
     } else {
