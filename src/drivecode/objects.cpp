@@ -2,9 +2,13 @@
 #include <climits>
 
 //gains for easy tuning
-float kP = 15;
-float kD = 0;
-float slew = 6;
+float kP_lat = 5;
+float kD_lat = 0;
+float slew_lat = 6;
+
+float kP_ang = 3;
+float kD_ang = 0;
+float slew_ang = 6;
 
 //motor definitions
 pros::Motor bottomRoller(20, pros::MotorGearset::blue);
@@ -60,27 +64,27 @@ lemlib::Drivetrain drivetrain(
 
 //setting definitions
 lemlib::ControllerSettings lateralController(
-    kP,
+    kP_lat,
     0,
-    kD,
+    kD_lat,
     3,
     0.1, //range to exit within
     250, //stay within range for this time
     0, //large disabled
     std::numeric_limits<float>::max(), //large disabled
-    slew
+    slew_lat
 );
 
 lemlib::ControllerSettings angularController(
-    0, 
+    kP_ang, 
     0,
-    0, 
+    kD_ang, 
     3,
     0.5, //within .5 deg
     250,
     0, //large disabled
     std::numeric_limits<float>::max(), //large disabled
-    0
+    slew_ang
 );
 
 lemlib::Chassis chassis(

@@ -40,9 +40,13 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "y pos: %.3f", pose.y);
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "heading: %.3f", pose.theta);
         
-        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "kP: %.3f", kP);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "kD: %.3f", kD);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "slew: %.3f", slew);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "kP lat: %.3f", kP_lat);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "kD lat: %.3f", kD_lat);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "slew lat: %.3f", slew_lat);
+
+        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "kP ang: %.3f", kP_ang);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 8, "kD ang: %.3f", kD_ang);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 9, "slew ang: %.3f", slew_ang);
         // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topRoller.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomRoller.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "Left Color: %.3f", colorLeft.get_hue());

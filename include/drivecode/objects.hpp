@@ -2,9 +2,13 @@
 #include "pros/adi.hpp"
 
 //kP, kD, and slew for tuning easy
-extern float kP;
-extern float kD;
-extern float slew;
+extern float kP_lat;
+extern float kD_lat;
+extern float slew_lat;
+
+extern float kP_ang;
+extern float kD_ang;
+extern float slew_ang;
 
 //motor declarations
 extern pros::Motor bottomRoller;
