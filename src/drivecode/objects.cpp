@@ -2,7 +2,7 @@
 #include <climits>
 
 //gains: DO NOT CHANGE WHEN CHANGED IN FUNCTIONS BRUU
-float kP_lat = 5;
+float kP_lat = 7;
 float kD_lat = 0;
 float slew_lat = 6;
 

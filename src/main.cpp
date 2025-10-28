@@ -52,7 +52,8 @@ void opcontrol() {
 		// updateIntake();
 		// updatePistons();
 
-		//TODO: movements
+		//TODO: angular movements
+		/*
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) { //45
             if(!l1Pressed) {
                 l1Pressed = true;
@@ -87,6 +88,59 @@ void opcontrol() {
             }
         } else {
             r1Pressed = false;
+        }
+		*/
+
+		//l1: 12 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            if(!l1Pressed) {
+                l1Pressed = true;
+
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 12,3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            l1Pressed = false;
+        }
+
+        //l2: 24 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            if(!l2Pressed) {
+                l2Pressed = true;
+
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 24, 3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            l2Pressed = false;
+        }
+
+        //r1: 36 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            if(!r1Pressed) {
+                r1Pressed = true;
+
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 36, 3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            r1Pressed = false;
+        }
+
+        //r2: 48 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            if(!r2Pressed) {
+                r2Pressed = true;
+
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 48, 3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            r2Pressed = false;
         }
 
 		//drive

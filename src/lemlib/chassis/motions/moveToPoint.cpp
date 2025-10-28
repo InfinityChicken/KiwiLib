@@ -79,7 +79,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         float lateralOut = lateralPID.update(lateralError);
         float angularOut = angularPID.update(radToDeg(angularError));
 
-        if (distTarget < 2.5) { //TODO: tune this value
+        if (distTarget < 5) { //TODO: tune this value
             angularOut = 0;
         }
 
