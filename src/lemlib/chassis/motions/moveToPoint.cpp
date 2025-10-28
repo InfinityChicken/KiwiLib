@@ -28,17 +28,17 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     Pose lastPose = getPose();
     distTraveled = 0;
     Timer timer(timeout);
-    // bool close = false; //TODO: close removed
+    // bool close = false; //close removed
     float prevLateralOut = 0; // previous lateral power
     float prevAngularOut = 0; // previous angular power //* used for slew
     const int compState = pros::competition::get_status();
     std::optional<bool> prevSide = std::nullopt;
 
     // calculate target pose in standard form
-    Pose target(x, y); //TODO: no target theta used
+    Pose target(x, y);
 
     // main loop; will exit if timer finishes, exit conditions are met, or motion isn't running
-    while (!timer.isDone() && !lateralSmallExit.getExit() && !lateralLargeExit.getExit() && this->motionRunning) { //TODO: close condition removed
+    while (!timer.isDone() && !lateralSmallExit.getExit() && !lateralLargeExit.getExit() && this->motionRunning) { //close condition removed
         // update position
         const Pose pose = getPose(true, true);
 
@@ -49,7 +49,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // calculate distance to the target point
         const float distTarget = pose.distance(target);
 
-        // check if the robot is close enough to the target to start settling //TODO: settling removed
+        // check if the robot is close enough to the target to start settling //settling removed
         // if (distTarget < 7.5 && close == false) {
         //     close = true;
         //     params.maxSpeed = fmax(fabs(prevLateralOut), 60);
@@ -66,9 +66,10 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
 
         // calculate error
         const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI;
-        const float angularError = angleError(pose.angle(target), adjustedRobotTheta);
-            // const float angularError = angleError(adjustedRobotTheta, pose.angle(target)); //TODO: previous code, is negated and doesn't make sense
-        const float lateralError = pose.distance(target) * cos(angularError); 
+        const float angularErrorRad = angleError(pose.angle(target), adjustedRobotTheta, true);
+        const float angularErrorDeg = radToDeg(angularErrorRad);
+            // const float angularError = angleError(adjustedRobotTheta, pose.angle(target)); //previous code, is negated and doesn't make sense
+        const float lateralError = pose.distance(target) * cos(angularErrorRad); 
             //*longitudinal error, technically
 
         // update exit conditions
@@ -77,13 +78,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError);
-        float angularOut = angularPID.update(radToDeg(angularError));
+        float angularOut = angularPID.update(angularErrorDeg);
 
         if (distTarget < 5) { //TODO: tune this value
             angularOut = 0;
         }
-
-        // if (close) angularOut = 0; 
 
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
@@ -93,10 +92,10 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
         // constrain lateral output by max accel
         // but not for decelerating, since that would interfere with settling
-        lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: CHECK OUT SLEW.
+        lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: check slew and make sure it doesn't interfere w settling
 
         // prevent moving in the wrong direction
-        if (params.forwards && distTarget < 5) lateralOut = std::fmax(lateralOut, 0);
+        if (params.forwards && distTarget < 5) lateralOut = std::fmax(lateralOut, 0); //TODO: check
         else if (!params.forwards && distTarget < 5) lateralOut = std::fmin(lateralOut, 0);
 
         // constrain lateral output by the minimum speed
