@@ -189,7 +189,7 @@ struct TurnToPointParams {
         /** the direction the robot should turn in. AUTO by default */
         AngularDirection direction = AngularDirection::AUTO;
         /** the maximum speed the robot can turn at. Value between 0-127. 127 by default */
-        int maxSpeed = 100;
+        int maxSpeed = 90;
         //TODO: max speed change
         /** the minimum speed the robot can turn at. If set to a non-zero value, the `it conditions will switch to less
          * accurate but smoother ones. Value between 0-127. 0 by default */
@@ -211,7 +211,7 @@ struct TurnToHeadingParams {
         /** the direction the robot should turn in. AUTO by default */
         AngularDirection direction = AngularDirection::AUTO;
         /** the maximum speed the robot can turn at. Value between 0-127. 127 by default */
-        int maxSpeed = 100;
+        int maxSpeed = 90;
         //TODO: max speed change
         /** the minimum speed the robot can turn at. If set to a non-zero value, the `it conditions will switch to less
          * accurate but smoother ones. Value between 0-127. 0 by default */

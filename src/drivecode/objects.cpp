@@ -1,16 +1,14 @@
 #include "main.h"
 #include <climits>
 
-//gains for easy tuning
+//gains: DO NOT CHANGE WHEN CHANGED IN FUNCTIONS BRUU
 float kP_lat = 5;
 float kD_lat = 0;
 float slew_lat = 6;
 
-float kP_ang = 3;
-// kp = 3
-float kD_ang = 17.3;
-// kd = 17.4
-float slew_ang = 6;
+float kP_ang = 9;
+float kD_ang = 68;
+float slew_ang = 0;
 
 //motor definitions
 pros::Motor bottomRoller(20, pros::MotorGearset::blue);
@@ -27,11 +25,11 @@ pros::adi::DigitalOut hood('A');
 //pros::ADIDigitalOut colorPiston ('D');
 
 //sensor definitions
-pros::Optical colorLeft(0); //TODO: THIS IS THE ONE THAT'S WIRED // was 10
-pros::Optical colorRight(0); //TODO: fix port //3
+pros::Optical colorLeft(-1); //TODO: broken
+pros::Optical colorRight(10); //TODO: working
 pros::Distance distance(1);
 pros::Imu imu(16);
-pros::Rotation horizRotation(4);
+pros::Rotation horizRotation(-4);
 pros::Rotation vertRotation(-11);
 
 //drivetrain definitions
@@ -82,8 +80,8 @@ lemlib::ControllerSettings angularController(
     0,
     kD_ang, 
     3,
-    0.5, //within .5 deg
-    250,
+    1, //within +- 1 deg
+    100,
     0, //large disabled
     std::numeric_limits<float>::max(), //large disabled
     slew_ang

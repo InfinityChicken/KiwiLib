@@ -77,10 +77,13 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError);
-        float angularOut = angularPID.update(radToDeg(angularError)); 
-            //TODO: angular error might get really really high close to the endpoint; check that behavior
-            //TODO: may need to add a clamp to angular error because of this
-        // if (close) angularOut = 0; //TODO: removed
+        float angularOut = angularPID.update(radToDeg(angularError));
+
+        if (distTarget < 2.5) { //TODO: tune this value
+            angularOut = 0;
+        }
+
+        // if (close) angularOut = 0; 
 
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
@@ -92,10 +95,9 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // but not for decelerating, since that would interfere with settling
         lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: CHECK OUT SLEW.
 
-        //TODO: moving in the wrong direction code disabled, check that that's fine
         // prevent moving in the wrong direction
-        // if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
-        // else if (!params.forwards && !close) lateralOut = std::fmin(lateralOut, 0);
+        if (params.forwards && distTarget < 5) lateralOut = std::fmax(lateralOut, 0);
+        else if (!params.forwards && distTarget < 5) lateralOut = std::fmin(lateralOut, 0);
 
         // constrain lateral output by the minimum speed
         if (params.forwards && lateralOut < fabs(params.minSpeed) && lateralOut > 0) lateralOut = fabs(params.minSpeed);

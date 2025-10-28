@@ -18,17 +18,17 @@ bool r2Pressed = false;
 
 int selectionMode = 0; //1 is kP, 2 is kD, 3 is slew
 int pidmode = 1; //1 is lateral, 2 is angular
-float multiplier = 1;
+float multiplier = 1.0;
 
-float kP = kP_lat;
-float kD = kD_lat;
-float slew = slew_lat;
+float kP = kP_ang;
+float kD = kD_ang;
+float slew = slew_ang;
 
 void pidTuning() {
     //PID updates
 
-    // pidmode == 2 means angular
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+    // x: cycle between lateral and angular testing
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
         if(!xPressed) {
             xPressed = true;
             if(pidmode == 1) {
@@ -44,11 +44,12 @@ void pidTuning() {
                 kD = kD_lat;
                 slew = slew_lat;
             }
-        } else {
-            xPressed = false;
-        }
+        } 
+    } else {
+        xPressed = false;
     }
 
+    //left: 
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
         if(!leftPressed) {
             leftPressed = true;
@@ -56,33 +57,33 @@ void pidTuning() {
                 multiplier = 10;
             } else if(multiplier == 10) {
                 multiplier = 0.1;
-            } else if(multiplier == 0.1) {
+            } else {
                 multiplier = 1;
             }
-        } else {
-            xPressed = false;
-        }
+        } 
+    } else {
+        leftPressed = false;
     }
     
-    //increment
+    //up: increment
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
         if(!upPressed) {
             upPressed = true;
             switch(selectionMode) {
                 case 1: {
-                    kP = kP + multiplier * 0.1;
+                    kP = kP + multiplier;
                     std::cout<<"kP: "<<kP<<"\n";
                     break;
                 }
 
                 case 2: {
-                    kD = kD + multiplier * 0.1;
+                    kD = kD + multiplier;
                     std::cout<<"kD: "<<kD<<"\n";
                     break;
                 }
 
                 case 3: {
-                    slew = slew + multiplier * 0.1;
+                    slew = slew + multiplier;
                     std::cout<<"slew: "<<slew<<"\n";
                     break;
                 }
@@ -93,25 +94,25 @@ void pidTuning() {
         upPressed = false;
     }
 
-    //decrement
+    //up: decrement
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
         if(!downPressed) {
             downPressed = true;
             switch(selectionMode) {
                 case 1: {
-                    kP = kP - multiplier * 0.1;
+                    kP = kP - multiplier;
                     std::cout<<"kP: "<<kP<<"\n";
                     break;
                 }
 
                 case 2: {
-                    kD = kD - multiplier * 0.1;
+                    kD = kD - multiplier;
                     std::cout<<"kD: "<<kD<<"\n";
                     break;
                 }
 
                 case 3: {
-                    slew = slew - multiplier * 0.1;
+                    slew = slew - multiplier;
                     std::cout<<"slew: "<<slew<<"\n";
                     break;
                 }
@@ -123,7 +124,7 @@ void pidTuning() {
         downPressed = false;
     }
 
-    //cycle tune value
+    //right: cycle value being tuned
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         if(!rightPressed) {
             rightPressed = true;
@@ -139,131 +140,130 @@ void pidTuning() {
         rightPressed = false;
     }
 
-    //move 12 inches
-if(pidmode == 1){
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) { //l1, long goal (indexer outtake), state 1
-        if(!l1Pressed) {
-            l1Pressed = true;
+    //FOR LATERAL:
+    if(pidmode == 1) {
 
-            chassis.setPose(0, 0, 0);
-            chassis.moveToPoint(0, 12, 10000);
-            std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+        //l1: 12 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            if(!l1Pressed) {
+                l1Pressed = true;
+
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 12,3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            l1Pressed = false;
         }
-    } else {
-        l1Pressed = false;
-    }
 
-    //move 24 inches
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { //l1, long goal (indexer outtake), state 1
-        if(!l2Pressed) {
-            l2Pressed = true;
+        //l2: 24 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            if(!l2Pressed) {
+                l2Pressed = true;
 
-            chassis.setPose(0, 0, 0);
-            chassis.moveToPoint(0, 24, 10000);
-            std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 24, 3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            l2Pressed = false;
         }
-    } else {
-        l2Pressed = false;
-    }
 
+        //r1: 36 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            if(!r1Pressed) {
+                r1Pressed = true;
 
-    //move 36 inches
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //l1, long goal (indexer outtake), state 1
-        if(!r1Pressed) {
-            r1Pressed = true;
-
-            chassis.setPose(0, 0, 0);
-            chassis.moveToPoint(0, 36, 10000);
-            std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 36, 3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            r1Pressed = false;
         }
-    } else {
-        r1Pressed = false;
-    }
 
-    //move 48 inches
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) { //l1, long goal (indexer outtake), state 1
-        if(!r2Pressed) {
-            r2Pressed = true;
+        //r2: 48 inches forward
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            if(!r2Pressed) {
+                r2Pressed = true;
 
-            chassis.setPose(0, 0, 0);
-            chassis.moveToPoint(0, 48, 10000);
-            std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 48, 3000);
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            r2Pressed = false;
         }
-    } else {
-        r2Pressed = false;
-    }
 
-    // --------- Move back ---------
-// move back to start 
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) { //l1, long goal (indexer outtake), state 1
-        if(!aPressed) {
-            aPressed = true;
+        //a: move to (0, 0)
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) { //move to start
+            if(!aPressed) {
+                aPressed = true;
 
-            chassis.setPose(0, 0, 0);
-            chassis.moveToPoint(0, 0, 10000, {.forwards = false});
-            std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.moveToPoint(0, 0, 3000, {.forwards = false});
+                std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
+            }
+        } else {
+            aPressed = false;
         }
-    } else {
-        aPressed = false;
-    }
+    } 
 
+    //FOR ANGULAR:
+    else if(pidmode == 2) {
+        //l1: turn 45
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) { //45
+            if(!l1Pressed) {
+                l1Pressed = true;
 
-} else if(pidmode == 2) {
-    // turn 45
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) { //l1, long goal (indexer outtake), state 1
-        if(!l1Pressed) {
-            l1Pressed = true;
-
-            chassis.setPose(0, 0, 0);
-            chassis.turnToHeading(45, 1000);
-            std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.turnToHeading(45, 3000);
+                std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+            }
+        } else {
+            l1Pressed = false;
         }
-    } else {
-        l1Pressed = false;
-    }
 
-    //turn 90
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { //l1, long goal (indexer outtake), state 1
-        if(!l2Pressed) {
-            l2Pressed = true;
+        //l2: turn 90
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { //90
+            if(!l2Pressed) {
+                l2Pressed = true;
 
-            chassis.setPose(0, 0, 0);
-            chassis.turnToHeading(90, 1000);
-            std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.turnToHeading(90, 3000);
+                std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+            }
+        } else {
+            l2Pressed = false;
         }
-    } else {
-        l2Pressed = false;
-    }
 
 
-    //turn 180
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //l1, long goal (indexer outtake), state 1
-        if(!r1Pressed) {
-            r1Pressed = true;
+        //r1: turn 180
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //180
+            if(!r1Pressed) {
+                r1Pressed = true;
 
-            chassis.setPose(0, 0, 0);
-            chassis.turnToHeading(180, 2000, {.maxSpeed = 50});
-            std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+                chassis.setPose(0, 0, 0);
+                chassis.turnToHeading(180, 3000);
+                std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+            }
+        } else {
+            r1Pressed = false;
         }
-    } else {
-        r1Pressed = false;
+
+        // //r2: does not do anything since it goes from 0 to 0
+        // if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) { //0
+        //     if(!yPressed) {
+        //         yPressed = true;
+
+        //         chassis.setPose(0, 0, 0);
+        //         chassis.turnToHeading(0, 2000);
+        //         std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
+        //     }
+        // } else {
+        //     yPressed = false;
+        // }
     }
-
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) { //l1, long goal (indexer outtake), state 1
-        if(!yPressed) {
-            yPressed = true;
-
-            chassis.setPose(0, 0, 0);
-            chassis.turnToHeading(0, 2000);
-            std::cout<<"Movement run, ending heading: "<<chassis.getPose().theta<<"\n";
-        }
-    } else {
-        yPressed = false;
-    }
-
-
-
-}
 
     if(pidmode == 1) {
         kP_lat = kP;
@@ -275,8 +275,5 @@ if(pidmode == 1){
         slew_ang = slew;
     }
 
-    
-
     controller.set_text(0, 0, "select: "+std::to_string(selectionMode)+", mode:"+std::to_string(pidmode));
-    
 }
