@@ -2,12 +2,12 @@
 #include <climits>
 
 //gains: DO NOT CHANGE WHEN CHANGED IN FUNCTIONS BRUU
-float kP_lat = 7;
-float kD_lat = 0;
-float slew_lat = 6;
+float kP_lat = 10;
+float kD_lat = 35;
+float slew_lat = 0; //2.2
 
 float kP_ang = 9;
-float kD_ang = 68;
+float kD_ang = 60;
 float slew_ang = 0;
 
 //motor definitions
@@ -68,10 +68,10 @@ lemlib::ControllerSettings lateralController(
     0,
     kD_lat,
     3,
-    0.1, //range to exit within
-    250, //stay within range for this time
+    0.25, //range to exit within
+    100, //stay within range for this time
     0, //large disabled
-    std::numeric_limits<float>::max(), //large disabled
+    0, //large disabled
     slew_lat
 );
 
@@ -83,7 +83,7 @@ lemlib::ControllerSettings angularController(
     1, //within +- 1 deg
     100,
     0, //large disabled
-    std::numeric_limits<float>::max(), //large disabled
+    0, //large disabled
     slew_ang
 );
 

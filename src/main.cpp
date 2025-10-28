@@ -28,11 +28,11 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	// chassis.setPose(0, 0, 0);
 
-	chassis.moveToPoint(0, 36, 100000);
-	intakeState = 1;
+	leftMotors.move_velocity(600);
+	rightMotors.move_velocity(600);
 	// chassis.turnToPoint(0, 0, 10000);
 	// chassis.moveToPoint(0, 0, 10000);
 }
@@ -51,8 +51,6 @@ void opcontrol() {
 		//subsystem updates //TODO: add these back
 		// updateIntake();
 		// updatePistons();
-
-		//TODO: angular movements
 		/*
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) { //45
             if(!l1Pressed) {
@@ -97,7 +95,7 @@ void opcontrol() {
                 l1Pressed = true;
 
                 chassis.setPose(0, 0, 0);
-                chassis.moveToPoint(0, 12,3000);
+                chassis.moveToPoint(0, 24,5000, {.maxSpeed = 90});
                 std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
             }
         } else {
@@ -110,7 +108,7 @@ void opcontrol() {
                 l2Pressed = true;
 
                 chassis.setPose(0, 0, 0);
-                chassis.moveToPoint(0, 24, 3000);
+                chassis.moveToPoint(0, 48, 5000, {.maxSpeed = 90});
                 std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
             }
         } else {
@@ -123,7 +121,7 @@ void opcontrol() {
                 r1Pressed = true;
 
                 chassis.setPose(0, 0, 0);
-                chassis.moveToPoint(0, 36, 3000);
+                chassis.turnToHeading(90, 3000, {.maxSpeed = 90});
                 std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
             }
         } else {
@@ -136,7 +134,7 @@ void opcontrol() {
                 r2Pressed = true;
 
                 chassis.setPose(0, 0, 0);
-                chassis.moveToPoint(0, 48, 3000);
+                chassis.turnToHeading(180, 3000, {.maxSpeed = 90});
                 std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
             }
         } else {
@@ -147,7 +145,7 @@ void opcontrol() {
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		chassis.arcade(throttle, turn);
-			
+
 		//delay
 		pros::delay(10);
 	}

@@ -66,7 +66,7 @@ void Chassis::curvature(int throttle, int turn, bool disableDriveCurve) {
         leftPower /= max;
         rightPower /= max;
     }
-    drivetrain.leftMotors->move(leftPower);
+    drivetrain.leftMotors->move(leftPower * 0.82);
     drivetrain.rightMotors->move(rightPower);
 }
 } // namespace lemlib
