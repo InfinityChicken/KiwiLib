@@ -95,7 +95,7 @@ void opcontrol() {
                 l1Pressed = true;
 
                 chassis.setPose(0, 0, 0);
-                chassis.moveToPoint(0, 24,5000, {.maxSpeed = 90});
+                chassis.moveToPoint(0, 24,5000, {.maxSpeed = 80});
                 std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
             }
         } else {
@@ -108,7 +108,7 @@ void opcontrol() {
                 l2Pressed = true;
 
                 chassis.setPose(0, 0, 0);
-                chassis.moveToPoint(0, 48, 5000, {.maxSpeed = 90});
+                chassis.moveToPoint(0, 48, 5000, {.maxSpeed = 80});
                 std::cout<<"Movement run, ending coord: "<<chassis.getPose().y<<"\n";
             }
         } else {
