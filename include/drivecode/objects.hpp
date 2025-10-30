@@ -21,6 +21,7 @@ extern pros::adi::DigitalOut littleWill;
 extern pros::adi::DigitalOut descore;
 extern pros::adi::DigitalOut trapdoor;
 extern pros::adi::DigitalOut hood;
+extern pros::adi::DigitalOut odomLift;
 //extern pros::ADIDigitalOut colorPiston;
 
 //sensor declarations

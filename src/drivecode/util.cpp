@@ -4,7 +4,6 @@
 #include "drivecode/sensors.hpp"
 #include <iostream>
 
-
 //motor brake modes
 void motorInit() {
     bottomRoller.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
@@ -19,13 +18,13 @@ void sensorInit() {
 
 //begin all tasks
 void taskInit() {
-    // pros::Task intakeTask(runIntake, "intake task");
-    // pros::Task consoleTask(runConsole, "console task");
-    // pros::Task pistonTask(runPistons, "piston task");
+    pros::Task intakeTask(runIntake, "intake task");
+    pros::Task consoleTask(runConsole, "console task");
+    pros::Task pistonTask(runPistons, "piston task");
     // pros::Task colorTask(colorSortRumble, "color task");
     // pros::Task distanceTask(distIntakeStop, "distance task");
     pros::Task screenTask(runScreen, "screen task");
-    // pros::Task controllerTask(runController, "controller task");
+    pros::Task controllerTask(runController, "controller task");
     // pros::Task autonFunctTask(autonOneBlock, "auton task");
     //pros::Task antiJamTask(antiJam, "antijam task");
 
@@ -40,13 +39,13 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "y pos: %.3f", pose.y);
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "heading: %.3f", pose.theta);
         
-        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "kP lat: %.3f", kP_lat);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "kD lat: %.3f", kD_lat);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "slew lat: %.3f", slew_lat);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "kP lat: %.3f", kP_lat);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "kD lat: %.3f", kD_lat);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "slew lat: %.3f", slew_lat);
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "kP ang: %.3f", kP_ang);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 8, "kD ang: %.3f", kD_ang);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 9, "slew ang: %.3f", slew_ang);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 7, "kP ang: %.3f", kP_ang);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 8, "kD ang: %.3f", kD_ang);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 9, "slew ang: %.3f", slew_ang);
         // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topRoller.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomRoller.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "Left Color: %.3f", colorLeft.get_hue());
@@ -69,14 +68,12 @@ void runConsole() {
         // std::cout<<"distance: "<<distance.get_distance()<<"\n";
         // std::cout<<"block count: "<<blockCount<<"\n\n";
 
-        // std::cout<<"X: "<<std::to_string(pose.x)<<"\n";
-        // std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
-        // std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
+        std::cout<<"X: "<<std::to_string(pose.x)<<"\n";
+        std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
+        std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
         // std::cout<<"left color: "<<colorLeft.get_hue()<<"\n\n";
 
         pros::delay(500);
-
-        
     }
 }
 

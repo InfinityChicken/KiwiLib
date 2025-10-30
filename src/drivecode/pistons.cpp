@@ -5,11 +5,13 @@ int littleWillState = 0;
 int descoreState = 0;
 int trapdoorState = 0;
 int hoodState = 0;
+int odomLiftState = 0;
 
 bool littleWillPressed = false;
 bool descorePressed = false;
 bool trapPressed = false;
 bool hoodPressed = false;
+bool odomLiftPressed = false;
 
 void updatePistons() {
     //little will
@@ -70,6 +72,20 @@ void updatePistons() {
     } else {
         trapPressed = false;
     }
+
+    //trapdoor
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) { //right
+        if(!odomLiftPressed) {
+            odomLiftPressed = true;
+            if(odomLiftState == 0) {
+                odomLiftState = 1;
+            } else if (odomLiftState == 1){
+                odomLiftState = 0;
+            }
+        }
+    } else {
+        odomLiftPressed = false;
+    }
 }
 
 void runPistons() {
@@ -100,6 +116,12 @@ void runPistons() {
             trapdoor.set_value(false);
         } else if(trapdoorState == 1) {
             trapdoor.set_value(true);
+        }
+
+        if(odomLiftState == 0) {
+            odomLift.set_value(false);
+        } else if(odomLiftState == 1) {
+            odomLift.set_value(true);
         }
 
         pros::delay(10);

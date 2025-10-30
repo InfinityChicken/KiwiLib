@@ -22,6 +22,7 @@ pros::adi::DigitalOut littleWill ('B');
 pros::adi::DigitalOut descore ('D');
 pros::adi::DigitalOut trapdoor ('C');
 pros::adi::DigitalOut hood('A');
+pros::adi::DigitalOut odomLift('F');
 //pros::ADIDigitalOut colorPiston ('D');
 
 //sensor definitions

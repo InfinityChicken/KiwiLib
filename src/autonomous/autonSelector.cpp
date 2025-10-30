@@ -3,7 +3,6 @@
 #include "pros/screen.h"
 #include "pros/screen.hpp"
 #include "autonomous/autons.hpp"
-#include <iostream>
 
 bool optionSelected = false;
 char autonColor = ' ';

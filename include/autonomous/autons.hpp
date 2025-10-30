@@ -4,6 +4,7 @@
 #include "drivecode/intake.hpp"
 #include "drivecode/sensors.hpp"
 
+void leftNew();
 
 void longGoalRight();
 void longGoalLeft();
