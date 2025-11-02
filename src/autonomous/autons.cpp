@@ -1,6 +1,7 @@
 #include "autonomous/autons.hpp"
 #include "pros/rtos.hpp"
 #include <math.h>
+
 void leftNew() {
     //three blocks
     chassis.turnToPoint(-6.23, 22.3, 1000);
@@ -17,24 +18,73 @@ void leftNew() {
     intakeState = 0;
 
     //back up and go to match loader
-    chassis.moveToPoint(-31, 6.9, 2000, {.forwards = false});
-    chassis.turnToPoint(-30.5, -6.6, 1000);
+    chassis.moveToPoint(-32, 6.9, 2500, {.forwards = false});
+    chassis.turnToPoint(-30.75, -6.6, 1000);
     trapdoorState = 0;
     littleWillState = 1;
     intakeState = 3;
-    chassis.moveToPoint(-30.5, -9, 1000);
+    chassis.moveToPoint(-30.75, -9, 1000);
     pros::delay(750);
 
     //score long goal
-    chassis.moveToPoint(-31.4, 2.3, 1000, {.forwards = false});
+    chassis.moveToPoint(-30.75, 2.3, 1000, {.forwards = false});
     littleWillState = 0;
     hoodState = 1;
-    chassis.turnToPoint(-30.5, 13.8, 1000);
-    chassis.moveToPoint(-30.5, 13.8, 1000);
+    chassis.turnToPoint(-30.75, 13.8, 1000);
+    chassis.moveToPoint(-30.75, 13.8, 1000);
     trapdoorState = 1;
     intakeState = 1;
 
 }
+
+void rightNew() {
+    //three blocks
+    chassis.turnToPoint(6.23, 22.3, 1000);
+    intakeState = 3;
+    chassis.moveDistance(10, 1000, {.minSpeed = 80, .earlyExitRange = 3}); //motion chain for speed
+    chassis.moveToPoint(6.73, 25, 1000, {.maxSpeed = 25});
+
+    //mid goal
+    chassis.turnToPoint(-1.78, 35, 1000); //42 degrees
+    chassis.moveToPoint(-1.78, 35, 1000);
+    velValue = 12000*0.7;
+    intakeState = 2;
+    pros::delay(1750);
+    intakeState = 0;
+    velValue = 12000;
+
+    //back up and go to match loader
+    chassis.moveToPoint(32.5, 6.9, 2250, {.forwards = false});
+    chassis.turnToPoint(31, -6.6, 1000);
+    trapdoorState = 0;
+    littleWillState = 1;
+    intakeState = 3;
+    chassis.moveToPoint(30.8, -9, 1500, {.maxSpeed = 50});
+    pros::delay(250); //750
+
+    //score long goal
+    chassis.moveToPoint(30.8, 2.3, 1000, {.forwards = false, .maxSpeed = 80});
+    littleWillState = 0;
+    hoodState = 1;
+    chassis.turnToPoint(30.4, 13.8, 1000);
+    chassis.moveToPoint(30.4, 13.8, 1000);
+    trapdoorState = 1;
+    intakeState = 1;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // void longGoalLeft() {
 //    //go to 3 blocks
