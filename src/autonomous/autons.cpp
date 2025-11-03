@@ -77,22 +77,36 @@ void rightNew() {
 
 void sawpNew() {
     //go to matchloader
-    chassis.moveToPoint(0, 30, 1000);
+    chassis.moveToPoint(0, 28, 1000);
     littleWillState = 1;
     intakeState = 3;
-    chassis.turnToPoint(4.3, 30.7, 1000);
-    chassis.moveToPoint(4.3, 30.7, 1000);
-    chassis.moveToPoint(8, 30.7, 1500, {.maxSpeed = 25});
-
-    //back up and score long goal
+    chassis.turnToPoint(6.2, 31, 1000);
+    chassis.moveToPoint(6.2, 31, 1000);
+    chassis.moveToPoint(8, 31, 1000, {.maxSpeed = 25});
+    // //back up and score long goal
     chassis.moveToPoint(-4.78, 30.7, 1000, {.forwards = false});
-    chassis.turnToPoint(-16.03, 30.15, 1000);
+    chassis.turnToPoint(-16.2, 30.59, 1000);
     littleWillState = 0;
     hoodState = 1;
-    chassis.moveToPoint(-16.03, 30.15, 1000);
+    chassis.moveToPoint(-16.2, 30.59, 1000);
     trapdoorState = 1;
     intakeState = 1;
+    pros::delay(500);
+    intakeState = 0;
 
+    //move back to turn to face three 
+    chassis.moveToPoint(-2.32, 30, 1000, {.forwards = false});
+     intakeState = 3;
+    chassis.turnToPoint(-26.396, 7.9486, 1000);
+    chassis.moveToPoint(-26.396, 7.9486, 1000, {.maxSpeed = 50});
+     chassis.moveToPoint(-37.59, -3.798, 2000);
+    velValue = 12000*0.8;
+    intakeState = 2;
+    velValue = 12000;
+    pros::delay(1000);
+ 
+
+   
 }
 
 
