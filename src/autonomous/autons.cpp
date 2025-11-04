@@ -121,9 +121,9 @@ void sawpNew() {
 
     //mid goal
     chassis.turnToPoint(-34.5, -35.25, 1000);
+    chassis.moveToPoint(-34.5, -35.25, 500);
     trapdoorState = 1;
     intakeState = 1;
-    chassis.moveToPoint(-34.5, -35.25, 500);
    
 }
 
