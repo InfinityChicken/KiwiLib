@@ -77,16 +77,16 @@ void rightNew() {
 
 void sawpNew() {
     //go to matchloader
-    chassis.moveToPoint(0, 27, 1000);
+    chassis.moveToPoint(0, 26.5, 1000);
     littleWillState = 1;
     intakeState = 3;
-    chassis.turnToPoint(6.2, 30.35, 1000);
-    chassis.moveToPoint(6.2, 30.35, 500);
-    chassis.moveToPoint(8, 30.35, 500, {.maxSpeed = 25});
+    chassis.turnToPoint(6.2, 30.15, 1000);
+    chassis.moveToPoint(6.2, 30.15, 500);
+    chassis.moveToPoint(8, 30.15, 500, {.maxSpeed = 25});
     pros::delay(100);
 
     //back up and score long goal
-    chassis.moveToPoint(-4.78, 30.35, 500, {.forwards = false});
+    chassis.moveToPoint(-4.78, 30.15, 500, {.forwards = false});
     littleWillState = 0;
     hoodState = 1; 
     chassis.turnToPoint(-15.5, 31.5, 1000); //TODO: tune perchance
@@ -94,7 +94,7 @@ void sawpNew() {
     chassis.turnToHeading(-90, 500);
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(1250); //750 -> 1250 3:29 tues nov 4
+    pros::delay(750); //750 -> 1250 3:29 tues nov 4
     intakeState = 0;
     
     //move back, turn
@@ -105,8 +105,8 @@ void sawpNew() {
     //move to three
     chassis.moveDistance(10, 1000, {.maxSpeed = 127, .minSpeed = 90, .earlyExitRange = 1}, false);
     chassis.moveDistance(5, 1000, {.maxSpeed = 40, .minSpeed = 20, .earlyExitRange = 1}, false);
-    chassis.moveToPoint(-34, 0, 1000, {.maxSpeed = 40});
-    pros::delay(200); //TODO: required so that the weird intake thing doesn't happen idk why...
+    chassis.moveToPoint(-34, 0, 1000, {.maxSpeed = 40}, true);
+    pros::delay(1300); //TODO: required so that the weird intake thing doesn't happen idk why...
     intakeState = 2;
     pros::delay(1000);
  
@@ -114,14 +114,15 @@ void sawpNew() {
     intakeState = 3;
     hoodState = 0;
     trapdoorState = 0;
-    chassis.moveToPoint(-26.5, 5.22, 750, {.forwards = false});
+    chassis.moveToPoint(-28.4, 5.9, 750, {.forwards = false});
     chassis.turnToPoint(-28.34, -21.13, 1000);
-    chassis.moveToPoint(-28.34, -21.13, 1000, {.minSpeed = 40, .earlyExitRange = 2}); //TODO: early exit range
-    chassis.moveToPoint(-28.34, -36.71, 500, {.maxSpeed = 40});
+    chassis.moveToPoint(-28.34, -21.13, 750, {.minSpeed = 40, .earlyExitRange = 3}); //TODO: early exit range
+    chassis.moveToPoint(-28.34, -31.8, 500, {.maxSpeed = 35});
 
     //mid goal
-    chassis.turnToPoint(-34.5, -35.25, 1000);
-    chassis.moveToPoint(-34.5, -35.25, 500);
+    chassis.turnToPoint(-34.9,-31.1, 1000);
+    chassis.moveToPoint(-34.9, -31.1, 1000, {}, true);    // trapdoorState = 1;
+    pros::delay(100);
     trapdoorState = 1;
     intakeState = 1;
 }
