@@ -82,32 +82,32 @@ void sawpNew() {
     intakeState = 3;
     chassis.turnToPoint(6.2, 30.35, 1000);
     chassis.moveToPoint(6.2, 30.35, 500);
-    chassis.moveToPoint(8, 30.35, 600, {.maxSpeed = 25});
+    chassis.moveToPoint(8, 30.35, 500, {.maxSpeed = 25});
+    pros::delay(100);
 
-    // //back up and score long goal
+    //back up and score long goal
     chassis.moveToPoint(-4.78, 30.35, 500, {.forwards = false});
     littleWillState = 0;
-    hoodState = 1;
-    chassis.turnToPoint(-16.2, 30, 1000);
-    chassis.moveToPoint(-16.2, 30, 500);
+    hoodState = 1; 
+    chassis.turnToPoint(-15.5, 31.5, 1000); //TODO: tune perchance
+    chassis.moveToPoint(-15.5, 31.5, 500);
+    chassis.turnToHeading(-90, 500);
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(750); //1250 perf
+    pros::delay(1250); //750 -> 1250 3:29 tues nov 4
     intakeState = 0;
-
-    //move back to turn to face three + score low
-    chassis.moveToPoint(-4, 30, 750, {.forwards = false});
+    
+    //move back, turn
+    chassis.moveDistance(-15, 1000, {.forwards = false});
+    chassis.turnToPoint(-35.6, -1.3, 1000);
     intakeState = 3;
-    chassis.turnToPoint(-39, -5, 1000);
-    chassis.moveToPoint(-19.36, 15, 750);
-    chassis.moveToPoint(-30.57, 2.76, 750, {.maxSpeed = 40});
-    // chassis.moveDistance(4.5, 1000, {.minSpeed = 80});
-    // pros::delay(1000);
-    // chassis.moveDistance(5, 2000, {.maxSpeed = 40});
+
+    //move to three
+    chassis.moveDistance(10, 1000, {.maxSpeed = 127, .minSpeed = 90, .earlyExitRange = 1}, false);
+    chassis.moveDistance(5, 1000, {.maxSpeed = 40, .minSpeed = 20, .earlyExitRange = 1}, false);
+    chassis.moveToPoint(-34, 0, 1000, {.maxSpeed = 40});
+    pros::delay(200); //TODO: required so that the weird intake thing doesn't happen idk why...
     intakeState = 2;
-    chassis.moveToPoint(-38.69, -6.7, 500);
-    velValue = 12000*0.8;
-    velValue = 12000;
     pros::delay(1000);
  
     //go to other blocks
@@ -116,7 +116,7 @@ void sawpNew() {
     trapdoorState = 0;
     chassis.moveToPoint(-26.5, 5.22, 750, {.forwards = false});
     chassis.turnToPoint(-28.34, -21.13, 1000);
-    chassis.moveToPoint(-28.34, -21.13, 1000, {.minSpeed = 40});
+    chassis.moveToPoint(-28.34, -21.13, 1000, {.minSpeed = 40, .earlyExitRange = 2}); //TODO: early exit range
     chassis.moveToPoint(-28.34, -36.71, 500, {.maxSpeed = 40});
 
     //mid goal
@@ -124,19 +124,7 @@ void sawpNew() {
     chassis.moveToPoint(-34.5, -35.25, 500);
     trapdoorState = 1;
     intakeState = 1;
-   
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // void longGoalLeft() {
 //    //go to 3 blocks
