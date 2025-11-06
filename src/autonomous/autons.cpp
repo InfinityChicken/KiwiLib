@@ -101,21 +101,22 @@ void sawpNew() {
     intakeState = 0;
     
     //move back, turn
-    chassis.moveDistance(-14, 850, {.forwards = false});
-    chassis.turnToPoint(-37, -3.2, 650);
+    chassis.moveDistance(-13.5, 850, {.forwards = false});
+    chassis.turnToPoint(-37.2, -3.2, 650);
     intakeState = 3;
 
     //move to three
     chassis.moveDistance(10, 1000, {.maxSpeed = 127, .minSpeed = 90, .earlyExitRange = 1}, false);
     chassis.moveDistance(5, 1000, {.maxSpeed = 40, .minSpeed = 20, .earlyExitRange = 1}, false);
-    chassis.moveToPoint(-37, -3.2, 1250, {.maxSpeed = 55}, true);
+    chassis.moveToPoint(-37.2, -3.2, 1250, {.maxSpeed = 55}, true);
     pros::delay(1200); //TODO: required so that the weird intake thing doesn't happen idk why...
     velValue = 12000*0.8;
     intakeState = 2;
     pros::delay(1000);
  
     //go to other blocks
-    intakeState = 3;
+    velValue = 12000;
+    intakeState = 1;
     hoodState = 0;
     trapdoorState = 0;
     chassis.moveToPoint(-28.4, 5.9, 500, {.forwards = false});
@@ -128,9 +129,8 @@ void sawpNew() {
     chassis.turnToHeading(-47, 1000);
     //chassis.moveToPoint(-36, -29.7, 1000, {}, true);    // trapdoorState = 1;
     chassis.moveDistance(5, 1000, {.minSpeed = 40});
-    //pros::delay(100);
+    // pros::delay(100);
     trapdoorState = 1;
-    intakeState = 1;
 }
 
 // void longGoalLeft() {
