@@ -77,60 +77,64 @@ void rightNew() {
 
 void sawpNew() {
     //go to matchloader
-    chassis.moveToPoint(0, 27, 1000);
+    chassis.moveToPoint(0, 20, 1000, {.maxSpeed = 127, .minSpeed = 80, .earlyExitRange = 1});
+    chassis.moveToPoint(0, 30, 800, {.maxSpeed = 60});
+    intakeState = 1;
     littleWillState = 1;
-    intakeState = 1; //usually 3
-    chassis.turnToHeading(90, 850);
-    //chassis.turnToPoint(6.2, 30, 1000);
-    chassis.moveToPoint(6.2, 30, 500);
-    chassis.moveToPoint(8, 30, 500, {.maxSpeed = 25});
-    pros::delay(100);
+    chassis.turnToHeading(90, 800);
+    chassis.sendVoltage(27.0/127*12000, 1250);
 
     //back up and score long goal
-    chassis.moveToPoint(-4.78, 30, 500, {.forwards = false});
-    intakeState = 3;
+    chassis.moveToPoint(0, 30, 500, {.forwards = false});
     littleWillState = 0;
-    hoodState = 1; 
-    chassis.turnToPoint(-15.5, 31.65, 850); //TODO: tune perchance
-    chassis.moveToPoint(-15.5, 31.65, 500, {.minSpeed = 30}, true);
-    chassis.turnToHeading(-90, 500, {}, true);
-    pros::delay(150);
+    pros::delay(100); //to give time for hood raise???
+    hoodState = 1;
+    chassis.turnToPoint(-15.5, 31, 850);
+    chassis.moveToPoint(-15.5, 31, 1000); //minspeed = 50, async
+    chassis.turnToHeading(-90, 500);
     trapdoorState = 1;
-    intakeState = 1;
-    pros::delay(1250); //750 -> 1250 3:29 tues nov 4
+    pros::delay(1000);
     intakeState = 0;
     
     //move back, turn
     chassis.moveDistance(-13.5, 850, {.forwards = false});
-    chassis.turnToPoint(-37.2, -3.2, 650);
+    chassis.turnToPoint(-36.9, -1.8, 650);
     intakeState = 3;
+    velValue = 12000;
 
     //move to three
-    chassis.moveDistance(10, 1000, {.maxSpeed = 127, .minSpeed = 90, .earlyExitRange = 1}, false);
-    chassis.moveDistance(5, 1000, {.maxSpeed = 40, .minSpeed = 20, .earlyExitRange = 1}, false);
-    chassis.moveToPoint(-37.2, -3.2, 1250, {.maxSpeed = 55}, true);
-    pros::delay(1200); //TODO: required so that the weird intake thing doesn't happen idk why...
-    velValue = 12000*0.8;
+    // chassis.moveDistance(11, 1000, {.maxSpeed = 127, .minSpeed = 100, .earlyExitRange = 1}, false); //TODO: commented
+    // chassis.moveDistance(4, 1000, {.maxSpeed = 35, .minSpeed = 20, .earlyExitRange = 1}, false);
+    chassis.moveToPoint(-36.9, -1.8, 1250); //.minSpeed 50, async for the velvalue
+    // pros::delay(1200); //TODO: commented
+    velValue = 12000 * 0.8;
     intakeState = 2;
-    pros::delay(1000);
+    pros::delay(1500);
  
     //go to other blocks
     velValue = 12000;
     intakeState = 1;
     hoodState = 0;
     trapdoorState = 0;
-    chassis.moveToPoint(-28.4, 5.9, 500, {.forwards = false});
-    chassis.turnToPoint(-28.34, -21.13, 1000);
-    chassis.moveToPoint(-28.34, -21.13, 750, {.minSpeed = 60, .earlyExitRange = 3}); //TODO: early exit range
-    chassis.moveToPoint(-28.34, -31.8, 500, {.maxSpeed = 35});
+    chassis.moveToPoint(-28.34, 5.9, 500, {.forwards = false});
+    chassis.turnToPoint(-28.34, -32, 1000);
+    chassis.moveToPoint(-28.34, -32, 1000);
+    // chassis.moveToPoint(-28.34, -21.13, 750, {.minSpeed = 80, .earlyExitRange = 1}); //TODO: early exit range
+    // chassis.moveToPoint(-28.34, -32, 500, {.maxSpeed = 35});
 
     //mid goal
-    //chassis.turnToPoint(-34.9,-31.1, 1000);
-    chassis.turnToHeading(-47, 1000);
-    //chassis.moveToPoint(-36, -29.7, 1000, {}, true);    // trapdoorState = 1;
-    chassis.moveDistance(5, 1000, {.minSpeed = 40});
-    // pros::delay(100);
+    chassis.turnToPoint(-35, -32.37, 1000);
+    intakeState = 0;
+    chassis.moveToPoint(-35, -32.37, 1000);
+    intakeState = 1;
     trapdoorState = 1;
+
+    // //chassis.turnToPoint(-34.9,-31.1, 1000);
+    // chassis.turnToHeading(-47, 1000);
+    // //chassis.moveToPoint(-36, -29.7, 1000, {}, true);    // trapdoorState = 1;
+    // chassis.moveDistance(5, 1000, {.minSpeed = 40});
+    // pros::delay(100);
+    // trapdoorState = 1;
 }
 
 // void longGoalLeft() {
