@@ -77,54 +77,64 @@ void rightNew() {
 
 void sawpNew() {
     //go to matchloader 
-    chassis.moveToPoint(0, 20, 1000, {.maxSpeed = 127, .minSpeed = 80, .earlyExitRange = 1});
-    chassis.moveToPoint(0, 30, 800, {.maxSpeed = 60});
+    chassis.moveToPoint(0, 29, 1250); //TODO: way too much timeout
     intakeState = 3;
     littleWillState = 1;
-    chassis.turnToHeading(90, 800);
-    chassis.sendVoltage(27.0/127*12000, 1250);
+    chassis.turnToHeading(90, 1000);
+    chassis.sendVoltage(40.0/127*12000, 1000); //old: 27
 
-    //back up and score long goal
-    chassis.moveToPoint(0, 30, 500, {.forwards = false});
-    intakeState = 3;
+    //back up from matchloader
+    chassis.moveToPoint(0, 29, 1000, {.forwards = false, .maxSpeed = 127});
+
+    //turn and score long goal
+    intakeState = 3; 
     littleWillState = 0;
-    pros::delay(100); //to give time for hood raise???
+    pros::delay(100);
+    chassis.turnToPoint(-15.5, 31, 1000);
+    pros::delay(50);
     hoodState = 1;
-    chassis.turnToPoint(-15.5, 31, 850);
-    chassis.moveToPoint(-15.5, 31, 1000); 
-    chassis.turnToHeading(-90, 500);
+    pros::delay(50);
+    chassis.moveToPoint(-15.5, 31, 1000);
     intakeState = 1;
     trapdoorState = 1;
     pros::delay(1000);
     intakeState = 0;
     
-    //move back, turn
-    chassis.moveDistance(-13.5, 850, {.forwards = false});
-    chassis.turnToPoint(-33.5, -1, 650);
-    intakeState = 3;
-    velValue = 12000;
+    //back up from long goal
+    chassis.moveDistance(-10, 850, {.forwards = false, .maxSpeed = 127});
 
-    //COMMENTING BEFORE THIS 
-    chassis.moveToPoint(-21.5, 11, 800, {.maxSpeed = 95});
-    //comment before this ---> 
-    chassis.moveToPoint(-33.5, -1, 800); //.minSpeed 50, async for the velvalue
-    // pros::delay(1200); //TODO: commented
-    velValue = 12000;
+    //turn to and intake the three low goal blocks
+    //-32.98, -0.88
+    chassis.turnToPoint(-37.8, -2.3, 1000);
+    intakeState = 3;
+    chassis.moveDistance(24, 1000, {.maxSpeed = 100, .minSpeed = 50, .earlyExitRange = 1});
+    chassis.moveToPoint(-37.8, -2.3, 1000, {.maxSpeed = 50});
+
+    // chassis.moveToPoint(-37.8, -2.3, 1500, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 10});
+    // chassis.moveToPoint(-37.8, -2.3, 1500, {.maxSpeed = 50});
+
+    //score low goal
     intakeState = 2;
     pros::delay(1300);
+
+    return;
  
-    // //go to other blocks
+    //some mid goal thing
     velValue = 12000;
     intakeState = 3;
     hoodState = 0;
     trapdoorState = 0;
+
+    //back up from mid goal
     chassis.moveToPoint(-28.34, 5.9, 500, {.forwards = false});
+
+    //turn to three mid goal blocks
     chassis.turnToPoint(-28.34, -32, 1000);
-    //commenting out here --> HERE AGAIN
     chassis.moveToPoint(-29.3, -42, 1500);
     // // // chassis.moveToPoint(-28.34, -21.13, 750, {.minSpeed = 80, .earlyExitRange = 1}); //TODO: early exit range
     // // // chassis.moveToPoint(-28.34, -32, 500, {.maxSpeed = 35});
-    // // //mid goal
+
+    //mid goal
     chassis.turnToPoint(-36.9, -31.8, 800); 
     intakeState = 0;
      intakeState = 1;
