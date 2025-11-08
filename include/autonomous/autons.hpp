@@ -6,6 +6,13 @@
 
 void leftNew();
 void rightNew();
+
+void left_1_6();
+void left_2_5();
+void left_4_3();
+void right_1_6();
+void right_2_5();
+void right_4_3();
 void skillsNew();
 void sawpNew();
 

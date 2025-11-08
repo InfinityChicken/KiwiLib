@@ -116,7 +116,7 @@ void updateIntake() {
         twoPressed = false;
     }
     
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) { //r1, low goal (standard), state 3
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) { //r1, low goal (standard), state 3
         if(!threePressed) {
             threePressed = true;
             if (intakeState == 3) {
@@ -144,7 +144,7 @@ void updateIntake() {
     // }
         
 
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) { //toggle voltage
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) { //toggle voltage
         if(!velButtonPressed) {
             velButtonPressed = true;
             if(velState == 0) {
