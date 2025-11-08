@@ -133,6 +133,88 @@ void sawpNew() {
     intakeState = 1;
 }
 
+
+void skills() {
+    //go to matchloader
+    chassis.moveToPoint(0, 27, 1000);
+    littleWillState = 1;
+    intakeState = 3; //usually 3
+    chassis.turnToHeading(90, 1000);
+    chassis.moveToPoint(6.2, 30, 1000);
+    chassis.moveToPoint(8, 30, 3000, {.maxSpeed = 25});
+    pros::delay(100);
+
+    //back up and score long goal
+    chassis.moveToPoint(-4.78, 30, 1000, {.forwards = false});
+    littleWillState = 0; 
+    chassis.turnToPoint(-15.5, 31.35, 1000); //TODO: tune perchance
+    hoodState = 1;
+    chassis.moveToPoint(-15.5, 31.35, 1000, {.minSpeed = 30}, true);
+
+    chassis.turnToHeading(-90, 1000, {}, true);
+    intakeState = 2;
+    pros::delay(150);
+    intakeState = 1;
+    velValue = 12000*0.75;
+    trapdoorState = 1;
+    pros::delay(3500); //750 -> 1250 3:29 tues nov 4
+    intakeState = 0;
+
+    //ram long goal
+    chassis.moveDistance(-13, 1000, {.forwards = false});
+     trapdoorState = 0;
+    chassis.moveToPoint(-15.5, 31.35, 1000);
+
+    //move back, turn
+    chassis.moveDistance(-13, 1000, {.forwards = false}, true);
+    intakeState = 1;
+    chassis.turnToPoint(-34.8, -0.7, 1000);
+    intakeState = 3;
+
+    //move to three
+    chassis.moveToPoint(-34.8, -0.7, 6500, {.maxSpeed = 40}, true);
+    pros::delay(3000); //TODO: required so that the weird intake thing doesn't happen idk why...
+    velValue = 12000*0.75;
+    intakeState = 2;
+    pros::delay(2000);
+ 
+    //go to other blocks
+    velValue = 12000;
+    intakeState = 3;
+    hoodState = 0;
+    trapdoorState = 0;
+    chassis.moveToPoint(-28.4, 5.9, 1000, {.forwards = false});
+    chassis.turnToPoint(-28.34, -21.13, 2000); //TODO: early exit range
+    chassis.moveToPoint(-28.34, -37.8, 4500, {.maxSpeed = 40});
+
+    //mid goal
+    chassis.turnToHeading(-33.3, 3000);
+    chassis.moveDistance(9, 1200, {.maxSpeed = 90}, true);
+    chassis.turnToHeading(-47.2, 1000); 
+    trapdoorState = 1;
+    intakeState = 1;
+    descoreState = 1; 
+    pros::delay(2700);
+ 
+    chassis.moveToPoint(-6.5, -56.7, 2000, {.forwards = false, .maxSpeed = 35});
+    chassis.turnToHeading(63, 2000);
+    chassis.moveToPose(12.8, -37, 0, 4000);
+    chassis.waitUntilDone();
+    littleWillState = 1;
+    // chassis.turnToHeading(-180, 1000);
+    odomLiftState = 1;
+    pros::delay(100);
+    leftMotors.move_velocity(190);
+    rightMotors.move_velocity(190);
+    pros::delay(1500);
+    leftMotors.move_velocity(0);
+    rightMotors.move_velocity(0);
+
+
+
+
+}
+
 // void longGoalLeft() {
 //    //go to 3 blocks
 //    chassis.turnToHeading(-17, 1000);
