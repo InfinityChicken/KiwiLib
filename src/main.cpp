@@ -33,11 +33,11 @@ void autonomous() {
 	//sawpNew();
     //skills();
 	//right_1_6();
-	//right_2_5();
+	right_2_5();
 	//right_4_3();
 	//left_1_6();
 	//left_2_5();
-	left_4_3();
+	//left_4_3();
 }
 
 void opcontrol() {
