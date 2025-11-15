@@ -324,10 +324,12 @@ void skills() {
     chassis.moveToPoint(-81, 28.3, 1000);
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(2500);
+    pros::delay(3000);
+    chassis.moveToPoint(-93.3, 28.3, 1000, {.forwards = false});
 
     //go to second matchloader
-    chassis.moveToPoint(-93.3, 28.3, 1000, {.forwards = false});
+
+
     hoodState = 0;
     trapdoorState = 0;
     intakeState = 3;
@@ -348,6 +350,10 @@ void skills() {
     pros::delay(100);
     intakeState = 1;
     pros::delay(2000);
+    chassis.moveToPoint(-93.3, 28.3, 1000, {.forwards = false});
+    //hoodState = 0;
+    trapdoorState = 0;
+    chassis.moveToPoint(-81, 28.3, 1000);
 
     //go to other matchloader
     chassis.moveToPoint(-93.3, 29, 1000, {.forwards = false});
@@ -359,22 +365,83 @@ void skills() {
     chassis.turnToHeading(-90, 1000);
     chassis.moveDistance(7, 1000);
     chassis.moveToPoint(-105, -66.9, 1500, {.maxSpeed = 30});
+    pros::delay(1500); 
 
     //go to other matchloader
     chassis.moveToPoint(-91.1, -66.9, 1000, {.forwards = false});
-    littleWillState = 0;
-    intakeState = 0;
-    chassis.turnToHeading(90, 1000);
-    chassis.moveToPose(-67.4, -77, 90, 2000);
-    chassis.moveToPoint(-15.7, -77, 2000);
-    chassis.moveToPoint(3.7, -61.7, 2000);
-
-    //score long goal
-    chassis.turnToPoint(-8.8, -61.2, 1250);
     hoodState = 1;
-    chassis.moveToPoint(-10, -61.2, 1000);
-    trapdoorState = 1;
+    littleWillState = 0;
+    chassis.turnToPoint(-81.5, -67.1, 1000);
+    chassis.moveToPoint(-81.5, -67.1, 1000); 
+    intakeState = 2;
+    pros::delay(100);
     intakeState = 1;
+    trapdoorState = 1;
+    pros::delay(1500);
+    intakeState = 3;
+
+    chassis.moveToPoint(-91.1, -66.9, 1000, {.forwards = false});
+
+     chassis.turnToHeading(-314, 1000); 
+
+    chassis.moveDistance(12, 1000); 
+    chassis.moveToPose(-1.1, -45.9, 90, 4000);
+
+
+    chassis.moveToPose(17.5, -31.1, 0, 1500); 
+    littleWillState = 1;
+    odomLiftState = 1;
+
+     pros::delay(150);
+
+    leftMotors.move_velocity(310);
+    rightMotors.move_velocity(310);
+    pros::delay(1800);
+    leftMotors.move_velocity(0);
+    rightMotors.move_velocity(0);
+
+
+
+
+    
+    // //go to matchloader (ADD THIS BACK IF WE HAVE TIME)
+    // littleWillState = 0;
+    // intakeState = 0;
+    // chassis.turnToHeading(90, 1000);
+    // chassis.moveToPose(-67.4, -79, 90, 2000);
+    // chassis.moveToPoint(-15.7, -79, 2000);
+    // chassis.moveToPoint(3.7, -61.7, 2000);
+
+    // //score long goal
+    // chassis.turnToPoint(-8.8, -61.2, 1250);
+    // hoodState = 1;
+    // chassis.moveToPoint(-10, -61.2, 1000);
+    // trapdoorState = 1;
+    // intakeState = 1;
+    // pros::delay(2000); 
+
+    // chassis.moveToPoint(-1.88, -61, 2000, {.forwards = false});
+    // chassis.moveToPoint(-1.88, -61, 2000, {.forwards = false});
+    // chassis.turnToHeading(90, 1000);
+    // hoodState = 0;
+    // trapdoorState = 0;
+    // intakeState = 3;
+    // littleWillState = 1;
+    // chassis.moveToPoint(12.7, -61, 2000, {.maxSpeed = 30});
+    // pros::delay(1500);
+
+    // //going back to long goal 
+    // chassis.moveToPoint(-1.88, -61, 2000, {.forwards = false});
+    // littleWillState = 0;
+    // chassis.turnToPoint(-8.8, -61.2, 1250);
+    // hoodState = 1;
+    // chassis.moveToPoint(-10, -61.2, 1000);
+    // trapdoorState = 1;
+    // intakeState = 1;
+    // pros::delay(2000); 
+
+    
+
 
 
 }
