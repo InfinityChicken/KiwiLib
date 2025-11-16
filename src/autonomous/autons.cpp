@@ -311,12 +311,12 @@ void skills() {
     chassis.moveToPoint(-4.2, 29.7, 1000, {.forwards = false});
     littleWillState = 0;
     intakeState = 0;
-    descoreState = 1;
+    //descoreState = 1;
 
     //go around long goal
-    chassis.moveToPose(-26, 41.5, -90, 2000, {.maxSpeed = 70});
-    chassis.moveToPoint(-75, 42, 2000);
-    chassis.moveToPoint(-89, 29.3, 2500, {.maxSpeed = 40});
+    chassis.moveToPose(-26, 17, -90, 2000, {.forwards = false});
+    chassis.moveToPoint(-75, 17, 2000, {.forwards = false});
+    chassis.moveToPoint(-89, 29.3, 2500, {.forwards = false, .maxSpeed = 40});
 
     //score long goal
     hoodState = 1;
@@ -325,7 +325,7 @@ void skills() {
     trapdoorState = 1;
     intakeState = 1;
     pros::delay(3000);
-    chassis.moveToPoint(-93.3, 28.3, 1000, {.forwards = false});
+    chassis.moveToPoint(-93.3, 27.8, 1000, {.forwards = false});
 
     //go to second matchloader
 
@@ -336,7 +336,7 @@ void skills() {
     littleWillState = 1;
     chassis.turnToHeading(-90, 2000);
     chassis.moveDistance(7, 1000);
-    chassis.moveToPoint(-108, 28.3, 2500, {.maxSpeed = 30});
+    chassis.moveToPoint(-108, 27.8, 2500, {.maxSpeed = 30});
     pros::delay(100);
 
     //go back to score on long goal
@@ -368,11 +368,12 @@ void skills() {
     pros::delay(1500); 
 
     //go to other matchloader
-    chassis.moveToPoint(-91.1, -66.9, 1000, {.forwards = false});
+    chassis.moveToPoint(-91.1, -67.5, 1000, {.forwards = false});
     hoodState = 1;
     littleWillState = 0;
-    chassis.turnToPoint(-81.5, -67.1, 1000);
-    chassis.moveToPoint(-81.5, -67.1, 1000); 
+    chassis.turnToHeading(-90, 1000);
+    //chassis.turnToPoint(-81.5, -67.1, 1000);
+    chassis.moveToPoint(-81.5, -67.5, 1000); 
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
@@ -380,22 +381,19 @@ void skills() {
     pros::delay(1500);
     intakeState = 3;
 
+    //score long goal
     chassis.moveToPoint(-91.1, -66.9, 1000, {.forwards = false});
-
-     chassis.turnToHeading(-314, 1000); 
-
+    chassis.turnToHeading(-314, 1000); 
     chassis.moveDistance(12, 1000); 
     chassis.moveToPose(-1.1, -45.9, 90, 4000);
 
-
+    //park
     chassis.moveToPose(17.5, -31.1, 0, 1500); 
     littleWillState = 1;
     odomLiftState = 1;
-
-     pros::delay(150);
-
+    pros::delay(150);
     leftMotors.move_velocity(310);
-    rightMotors.move_velocity(310);
+    rightMotors.move_velocity(280);
     pros::delay(1800);
     leftMotors.move_velocity(0);
     rightMotors.move_velocity(0);
