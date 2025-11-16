@@ -314,30 +314,30 @@ void skills() {
     //descoreState = 1;
 
     //go around long goal
-    chassis.moveToPose(-26, 17, -90, 2000, {.forwards = false});
-    chassis.moveToPoint(-75, 17, 2000, {.forwards = false});
-    chassis.moveToPoint(-89, 29.3, 2500, {.forwards = false, .maxSpeed = 40});
+    chassis.turnToHeading(45, 1000);
+    chassis.moveDistance(-24, 1000, {.forwards = false});
+
+    // chassis.moveToPoint(-32, 8, 2000, {.forwards = false, .minSpeed = 10, .earlyExitRange = 1});
+    chassis.moveToPoint(-75, 12, 2000, {.forwards = false});
+    chassis.moveToPoint(-89, 31, 2000, {.forwards = false});
 
     //score long goal
     hoodState = 1;
-    chassis.turnToPoint(-83.7, 28.3, 1250);
-    chassis.moveToPoint(-81, 28.3, 1000);
+    chassis.turnToPoint(-70, 31, 1250); //TODO: believe in the dream
+    chassis.moveToPoint(-83, 31, 1250);
     trapdoorState = 1;
     intakeState = 1;
     pros::delay(3000);
-    chassis.moveToPoint(-93.3, 27.8, 1000, {.forwards = false});
+    chassis.moveDistance(-8, 1000, {.forwards = false});
 
     //go to second matchloader
-
-
     hoodState = 0;
     trapdoorState = 0;
     intakeState = 3;
     littleWillState = 1;
-    chassis.turnToHeading(-90, 2000);
-    chassis.moveDistance(7, 1000);
-    chassis.moveToPoint(-108, 27.8, 2500, {.maxSpeed = 30});
-    pros::delay(100);
+    chassis.turnToPoint(-112, 29.7, 1000);
+    chassis.moveToPoint(-112, 29.7, 1500, {.maxSpeed = 30});
+    pros::delay(1500);
 
     //go back to score on long goal
     chassis.moveToPoint(-95, 28.3, 1000, {.forwards = false});
