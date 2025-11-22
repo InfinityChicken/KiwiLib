@@ -1,4 +1,5 @@
 #include "autonomous/autons.hpp"
+#include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include <math.h>
 
@@ -196,6 +197,49 @@ void right_7() {
     descoreState = 1;
     chassis.turnToHeading(-45, 800);
     chassis.moveToPose(21.4, 30, 0, 1500, {.maxSpeed = 80});
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+}
+void left_7() {
+
+        //three blocks
+    chassis.turnToPoint(-6.73, 25, 1000);
+    intakeState = 3; 
+    chassis.moveDistance(10, 1000, {.minSpeed = 50, .earlyExitRange = 6}); //motion chain for speed
+    chassis.moveToPoint(-6.73, 25, 1000, {.maxSpeed = 50});
+
+    //move to ml area
+    chassis.turnToPoint(-32, 7.4, 1000);
+    chassis.moveToPoint(-32, 7.4, 1000, {.minSpeed = 20, .earlyExitRange = 6});
+    chassis.moveToPoint(-32, 7.4, 1350, {.maxSpeed = 20});
+
+    //acc do ml
+    chassis.turnToHeading(-180, 750);
+    trapdoorState = 0;
+    littleWillState = 1;
+    intakeState = 3;
+    chassis.moveToPoint(-32, -10, 1000, {.minSpeed = 1, .earlyExitRange = 8});
+    chassis.moveToPoint(-32, -10, 1000, {.maxSpeed = 1});
+    pros::delay(250);
+
+    //move back
+    chassis.moveToPoint(-32, 2.3, 1000, {.forwards = false});
+    littleWillState = 0;
+    hoodState = 1;
+
+    //SCOOOOOOOOORE MESSI MESSI ANKARA MESSI
+    chassis.turnToPoint(-33, 13.8, 1000);
+    trapdoorState = 1;
+    chassis.moveToPoint(-33, 13.8, 1000);
+    intakeState = 2;
+    pros::delay(200);
+    intakeState = 1;
+    pros::delay(1400);
+
+    //DEEEESCORE
+    chassis.moveToPoint(-33, 5, 1000, {.forwards = false});
+    descoreState = 1;
+    chassis.turnToHeading(-45, 1500);
+    chassis.moveToPose(-44.7, 31, 0, 1500, {.lead = 0.6, .maxSpeed = 100}); //aaaak
 }
 
 void right_2_5() {
@@ -238,6 +282,7 @@ void right_2_5() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 
 }
 
@@ -307,7 +352,7 @@ void sawpNew() {
     intakeState = 0;
 
     //move back, turn
-    chassis.moveDistance(-13, 850, {.forwards = false}, false);
+    chassis.moveDistance(-13, 650, {.forwards = false}, false);
     trapdoorState = 0;
     intakeState = 1;
     chassis.turnToPoint(-35, 0, 650);
@@ -317,7 +362,7 @@ void sawpNew() {
     chassis.moveToPoint(-35, -0, 1350, {.minSpeed = 30, .earlyExitRange = 10}, false);
     intakeState = 2;
     chassis.moveToPoint(-35, -0, 1350, {.maxSpeed = 30}, false);
-    pros::delay(750);
+    pros::delay(100);
  
     //go to other blocks
     intakeState = 3;
@@ -326,13 +371,13 @@ void sawpNew() {
     chassis.moveToPoint(-28.4, 5.9, 500, {.forwards = false});
     chassis.turnToPoint(-28.34, -36.8, 1000);
     chassis.moveToPoint(-28.34, -36.8, 1000, {.minSpeed = 30, .earlyExitRange = 5}); //TODO: early exit range
-    chassis.moveToPoint(-28.34, -36.8, 1000, {.maxSpeed = 30});
+    chassis.moveToPoint(-28.34, -36.8, 650, {.maxSpeed = 30});
 
     //TODO: all relative movements
     //mid goal
-    chassis.turnToHeading(-45, 1000);
-    chassis.moveDistance(5, 850);
-    pros::delay(500);
+    chassis.turnToHeading(-45, 850);
+    chassis.moveDistance(9, 850);
+    pros::delay(0);
     trapdoorState = 1;
     velValue = 12000 * 0.8;
     intakeState = 1;

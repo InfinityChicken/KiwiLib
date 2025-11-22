@@ -15,7 +15,7 @@ void right_2_5();
 void right_4_3();
 void skillsNew();
 void sawpNew();
-
+void left_7();
 void right_7();
 
 void longGoalRight();
