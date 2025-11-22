@@ -1,42 +1,29 @@
 #include "main.h"
-#include <climits>
+#include "objects.hpp"
 
-//gains: DO NOT CHANGE WHEN CHANGED IN FUNCTIONS BRUU
-float kP_lat = 8;
-float kD_lat = 6;
-float slew_lat = 0; //2.2
+float kP_lat = 0;
+float kD_lat = 0;
+float kI_lat = 0;
+float slew_lat = 0;
 
-float kP_ang = 9;
-float kD_ang = 60;
+float kP_ang = 0;
+float kD_ang = 0;
+float kI_ang = 0;
 float slew_ang = 0;
 
-//motor definitions
-pros::Motor bottomRoller(20, pros::MotorGearset::blue);
-pros::Motor topRoller(12, pros::MotorGearset::blue);
-
+//motors
 pros::MotorGroup leftMotors({-15, -13, -14}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({19, 3, 17}, pros::MotorGearset::blue);
 
-//piston definitions
-pros::adi::DigitalOut littleWill ('B'); 
-pros::adi::DigitalOut descore ('D');
-pros::adi::DigitalOut trapdoor ('C');
-pros::adi::DigitalOut hood('A');
-pros::adi::DigitalOut odomLift('F');
-//pros::ADIDigitalOut colorPiston ('D');
-
-//sensor definitions
-pros::Optical colorLeft(-1); //TODO: broken
-pros::Optical colorRight(10); //TODO: working
-pros::Distance distance(1);
+//sensors
 pros::Imu imu(16);
 pros::Rotation horizRotation(-4);
 pros::Rotation vertRotation(-11);
 
-//drivetrain definitions
+//odom objects
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
-    2,  //TODO: changed from 2.125
+    2,
     0
 );
 
@@ -47,13 +34,15 @@ lemlib::TrackingWheel vertOdom(
 );
 
 lemlib::OdomSensors odomSensorsDrive(
-    &vertOdom, //got rid of odom
+    &vertOdom,
     nullptr,
     &horizOdom,
     nullptr,
     &imu
 );
 
+
+//drivetrain
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
@@ -63,7 +52,7 @@ lemlib::Drivetrain drivetrain(
     8
 );
 
-//setting definitions
+//controller settings
 lemlib::ControllerSettings lateralController(
     kP_lat,
     0,
@@ -88,6 +77,7 @@ lemlib::ControllerSettings angularController(
     slew_ang
 );
 
+//chassis
 lemlib::Chassis chassis(
     drivetrain,
     lateralController,
@@ -95,5 +85,5 @@ lemlib::Chassis chassis(
     odomSensorsDrive
 );
 
-//control definitions
+//controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

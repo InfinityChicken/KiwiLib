@@ -1,7 +1,5 @@
 #include "main.h"
-#include "intake.hpp"
-#include "pistons.hpp"
-#include "sensors.hpp"
+#include "objects.hpp"
 
 //begin all tasks
 void taskInit();
