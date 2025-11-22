@@ -30,12 +30,13 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
-	//sawpNew();
-    skills();
-	//right_1_6();
+	// sawpNew();
+    //skills();
+	// right_1_6();
+	right_7();
 	//right_2_5();
 	//right_4_3();
-	//left_1_6();
+	// left_1_6();
 	//left_2_5();
 	//left_4_3();
 }
