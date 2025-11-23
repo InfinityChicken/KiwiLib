@@ -28,7 +28,7 @@ void left_1_6() {
     intakeState = 3;
     chassis.moveToPoint(-30.5, -2, 1000, {.minSpeed = 30, .earlyExitRange = 1});
     chassis.moveToPoint(-30.5, -15, 1000, {.maxSpeed = 30});
-    pros::delay(500); 
+    pros::delay(400); 
 
     //score long goal
     chassis.moveToPoint(-30.75, 2.3, 1000, {.forwards = false});
@@ -38,6 +38,12 @@ void left_1_6() {
     chassis.moveToPoint(-30.75, 13.8, 1000);
     trapdoorState = 1;
     intakeState = 1;
+    pros::delay(900); 
+
+    chassis.moveToPoint(-30.75, 2.3, 1000, {.forwards = false});
+
+    trapdoorState = 0; 
+    chassis.moveToPoint(-30.75, 13.8, 1000);
 
 }
 
@@ -53,7 +59,7 @@ void left_2_5() {
     chassis.moveToPoint(1.28, 32.5, 1000);
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(500);  
+    pros::delay(460);  
     intakeState = 0;
     //hoodState = 1;
     pros::delay(200);
@@ -61,10 +67,10 @@ void left_2_5() {
     //back up and go to match loader
     chassis.moveToPoint(-32, 6.4, 2000, {.forwards = false});
     trapdoorState = 0;
-    chassis.turnToPoint(-30.75, -6.6, 1000);
+    chassis.turnToPoint(-30.50, -6.6, 1000);
     littleWillState = 1;
     intakeState = 3;
-    chassis.moveToPoint(-30.75, -15, 1750, {.maxSpeed = 30});
+    chassis.moveToPoint(-30.50, -13.5, 1750, {.maxSpeed = 30});
     pros::delay(250); 
 
     //score long goal
@@ -138,7 +144,7 @@ void right_1_6() {
     trapdoorState = 0;
     littleWillState = 1;
     intakeState = 3;
-    chassis.moveToPoint(30.3, -9, 2000, {.maxSpeed = 25});
+    chassis.moveToPoint(30.3, -8.2, 2000, {.maxSpeed = 25});
     // pros::delay(100);
     // chassis.moveDistance(5, 750, {.maxSpeed = 25});
     pros::delay(250); //750
@@ -167,36 +173,36 @@ void right_7() {
     //move to ml area
     chassis.turnToPoint(32, 7.4, 1000);
     chassis.moveToPoint(32, 7.4, 1000, {.minSpeed = 20, .earlyExitRange = 6});
-    chassis.moveToPoint(32, 7.4, 2000, {.maxSpeed = 20});
+    chassis.moveToPoint(32, 7.4, 1200, {.maxSpeed = 40});
 
     //acc do ml
-    chassis.turnToHeading(-180, 1000);
+    chassis.turnToHeading(-180, 725);
     trapdoorState = 0;
     littleWillState = 1;
     intakeState = 3;
-    chassis.moveToPoint(32, -10, 1000, {.minSpeed = 1, .earlyExitRange = 8});
-    chassis.moveToPoint(32, -10, 1000, {.maxSpeed = 1});
+    chassis.moveToPoint(32, -9.7, 1000, {.minSpeed = 1, .earlyExitRange = 7.8});
+    chassis.moveToPoint(32, -9.7, 1000, {.maxSpeed = 10});
     pros::delay(500);
 
     //move back
-    chassis.moveToPoint(32, 2.3, 1000, {.forwards = false});
+    chassis.moveToPoint(33.3, 2.3, 1000, {.forwards = false});
     littleWillState = 0;
     hoodState = 1;
 
     //SCOOOOOOOOORE MESSI MESSI ANKARA MESSI
-    chassis.turnToPoint(33, 13.8, 1000);
-    chassis.moveToPoint(33, 13.8, 1000);
+    chassis.turnToHeading(0, 1000); 
+    chassis.moveToPoint(32.9, 14, 1000);
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(170);
     intakeState = 1;
-    pros::delay(1000);
+    pros::delay(1200);
 
     //DEEEESCORE
-    chassis.moveToPoint(33, 5, 1000, {.forwards = false});
+    chassis.moveToPoint(32.9, 5, 800, {.forwards = false});
     descoreState = 1;
     chassis.turnToHeading(-45, 800);
-    chassis.moveToPose(21.4, 30, 0, 1500, {.maxSpeed = 80});
+    chassis.moveToPose(20.8, 30, 0, 1500, {.maxSpeed = 87});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 void left_7() {
