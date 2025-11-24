@@ -5,13 +5,6 @@
 #include "lemlib/util.hpp"
 #include "pros/misc.hpp"
 
-#include <cmath>
-#include "lemlib/chassis/chassis.hpp"
-#include "lemlib/logger/logger.hpp"
-#include "lemlib/timer.hpp"
-#include "lemlib/util.hpp"
-#include "pros/misc.hpp"
-
 void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointParams params, bool async) {
     params.earlyExitRange = fabs(params.earlyExitRange);
     this->requestMotionStart();

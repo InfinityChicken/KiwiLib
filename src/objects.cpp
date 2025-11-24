@@ -1,24 +1,14 @@
 #include "main.h"
 #include "objects.hpp"
 
-float kP_lat = 0;
-float kD_lat = 0;
-float kI_lat = 0;
-float slew_lat = 0;
-
-float kP_ang = 0;
-float kD_ang = 0;
-float kI_ang = 0;
-float slew_ang = 0;
-
 //motors
-pros::MotorGroup leftMotors({-15, -13, -14}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({19, 3, 17}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-1, -2, -3}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({4, 5, 6}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(16);
-pros::Rotation horizRotation(-4);
-pros::Rotation vertRotation(-11);
+pros::Imu imu(20);
+pros::Rotation horizRotation(-19);
+pros::Rotation vertRotation(-18);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -33,7 +23,7 @@ lemlib::TrackingWheel vertOdom(
     0
 );
 
-lemlib::OdomSensors odomSensorsDrive(
+lemlib::OdomSensors odomSensors(
     &vertOdom,
     nullptr,
     &horizOdom,
@@ -54,27 +44,27 @@ lemlib::Drivetrain drivetrain(
 
 //controller settings
 lemlib::ControllerSettings lateralController(
-    kP_lat,
     0,
-    kD_lat,
+    0,
+    0,
     3,
     0.25, //range to exit within
     100, //stay within range for this time
     0, //large disabled
     0, //large disabled
-    slew_lat
+    0
 );
 
 lemlib::ControllerSettings angularController(
-    kP_ang, 
+    0, 
     0,
-    kD_ang, 
+    0, 
     3,
-    1, //within +- 1 deg
+    0.5, //within +- 1 deg
     100,
     0, //large disabled
     0, //large disabled
-    slew_ang
+    0
 );
 
 //chassis
@@ -82,7 +72,7 @@ lemlib::Chassis chassis(
     drivetrain,
     lateralController,
     angularController,
-    odomSensorsDrive
+    odomSensors
 );
 
 //controller
