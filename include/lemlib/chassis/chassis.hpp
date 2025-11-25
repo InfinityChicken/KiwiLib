@@ -702,6 +702,10 @@ class Chassis {
          * @brief oops i deleted the descriptive paragraph for follow
          * @endcode
          */
+
+        //TODO: even MORE stupid
+        void moveToPointProfiled(float x, float y, float initVel, int timeout, MoveToPointParams params = {}, bool async = false);
+
         void follow(const asset& path, float lookahead, int timeout, bool forwards = true, bool async = false);
         /**
          * @brief Control the robot during the driver using the tank drive control scheme. In this control scheme one
@@ -930,6 +934,12 @@ class Chassis {
         ExitCondition lateralSmallExit;
         ExitCondition angularLargeExit;
         ExitCondition angularSmallExit;
+
+        //TODO: oh so dumb
+        double kV;
+        double kA;
+        double maxVel;
+        double maxAccel;
     private:
         pros::Mutex mutex;
 };

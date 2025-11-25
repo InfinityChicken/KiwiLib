@@ -1,11 +1,11 @@
-#include <cmath>
-#include "lemlib/chassis/chassis.hpp"
 #include "lemlib/logger/logger.hpp"
+#include "lemlib/motionProfile/motionProfile.hpp"
+#include "lemlib/chassis/chassis.hpp"
 #include "lemlib/timer.hpp"
 #include "lemlib/util.hpp"
-#include "pros/misc.hpp"
+#include <cmath>
 
-void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointParams params, bool async) {
+void lemlib::Chassis::moveToPointProfiled(float x, float y, float initVel, int timeout, MoveToPointParams params, bool async) {
     params.earlyExitRange = fabs(params.earlyExitRange);
     this->requestMotionStart();
     // were all motions cancelled?
@@ -38,10 +38,19 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     Pose target(x, y);
     target.theta = lastPose.angle(target);
 
+    //establish motion profiles
+    float distTotal = this->getPose().distance(target);
+    MotionProfile lateral(initVel, maxVel, maxAccel, distTotal);
+
     // main loop
     while (!timer.isDone() && ((!lateralSmallExit.getExit() && !lateralLargeExit.getExit()) || !close) &&
            this->motionRunning) {
         // update position
+        double time = timer.getTimePassed();
+        double targetPos = lateral.posAt(time);
+        double targetVel = lateral.velAt(time);
+        double targetAccel = lateral.accelAt(time);
+
         const Pose pose = getPose(true, true);
 
         // update distance traveled
@@ -69,7 +78,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // calculate error
         const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI;
         const float angularError = angleError(adjustedRobotTheta, pose.angle(target));
-        float lateralError = pose.distance(target) * cos(angleError(pose.theta, pose.angle(target)));
+        float lateralError = pose.distance(target) * cos(angleError(pose.theta, pose.angle(target))); //TODO: got up to here
 
         // update exit conditions
         lateralSmallExit.update(lateralError);
