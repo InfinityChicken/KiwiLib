@@ -23,7 +23,7 @@ lemlib::TrackingWheel vertOdom(
     0
 );
 
-lemlib::OdomSensors odomSensors(
+lemlib::OdomSensors odomSensorsDrive(
     &vertOdom,
     nullptr,
     &horizOdom,
@@ -72,7 +72,7 @@ lemlib::Chassis chassis(
     drivetrain,
     lateralController,
     angularController,
-    odomSensors
+    odomSensorsDrive
 );
 
 //controller
