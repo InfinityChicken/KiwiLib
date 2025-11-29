@@ -13,7 +13,7 @@ void lemlib::Chassis::moveDistance(float dist, int timeout, MoveToPointParams pa
     float x = current.x + (dist * sin(current.theta));
     float y = current.y + (dist * cos(current.theta));
 
-    //copy pasted moveToPoinnt code lmao
+    //straight copy pasted moveToPoint code
     params.earlyExitRange = fabs(params.earlyExitRange);
     this->requestMotionStart();
     // were all motions cancelled?
@@ -96,7 +96,7 @@ void lemlib::Chassis::moveDistance(float dist, int timeout, MoveToPointParams pa
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
         // constrain lateral output by max accel
         // but not for decelerating, since that would interfere with settling
-        lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew); //TODO: if(!close); also added custpom
+        if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
