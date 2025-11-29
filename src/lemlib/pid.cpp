@@ -15,8 +15,10 @@ float PID::update(const float error) {
     if (sgn(error) != sgn((prevError)) && signFlipReset) integral = 0;
     if (fabs(error) > windupRange && windupRange != 0) integral = 0;
 
+    //TODO: tune alpha value
     // calculate derivative
-    const float derivative = error - prevError;
+    const float derivative = alpha * derivative + (1-alpha) * prevDerivative;
+    prevDerivative = derivative;
     prevError = error;
 
     // calculate output

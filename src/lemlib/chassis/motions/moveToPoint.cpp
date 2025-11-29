@@ -41,6 +41,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     Pose target(x, y);
     target.theta = lastPose.angle(target);
 
+    //TODO: close check removed
     // main loop: will exit if timer exits OR EITHER exit condition is met OR motion running is false
     while (!timer.isDone() && (!lateralSmallExit.getExit() && !lateralLargeExit.getExit()) && this->motionRunning) {
         // update position

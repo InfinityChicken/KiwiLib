@@ -72,5 +72,8 @@ class PID {
 
         float integral = 0;
         float prevError = 0;
+        float prevDerivative = 0;
+
+        const float alpha = 0.15;
 };
 } // namespace lemlib
