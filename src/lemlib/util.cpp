@@ -27,11 +27,7 @@ float lemlib::angleError(float target, float position, bool radians, AngularDire
         case AngularDirection::CCW_COUNTERCLOCKWISE: // turn counter-clockwise
             return rawError > 0 ? rawError - max : rawError; // subtract max if sign does not match
         default: // choose the shortest path
-            float error = std::fmod(rawError + max / 2, max); //TODO: check this code
-            if (error < 0) error += max;
-            return error - max / 2;
-
-            // return std::remainder(rawError, max); //TODO: old code
+            return std::remainder(rawError, max);
     }
 }
 
