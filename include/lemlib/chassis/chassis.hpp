@@ -2,6 +2,7 @@
 
 #include "pros/rtos.hpp"
 #include "pros/imu.hpp"
+#include "pros/distance.hpp"
 #include "lemlib/asset.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "lemlib/pose.hpp"
@@ -10,6 +11,22 @@
 #include "lemlib/driveCurve.hpp"
 
 namespace lemlib {
+/**
+ * @brief distance sensors
+ */
+class DistanceSensors {
+    public: 
+        DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
+                        float frontOffset, float backOffset, float leftOffset, float rightOffset);
+        pros::Distance front;
+        pros::Distance back;
+        pros::Distance left;
+        pros::Distance right;
+        float frontOffset;
+        float backOffset;
+        float leftOffset;
+        float rightOffset;
+};
 
 /**
  * @brief class containing the sensors used for odometry
@@ -344,7 +361,7 @@ class Chassis {
          * @example main.cpp
          */
         Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
-                OdomSensors sensors, DriveCurve* throttleCurve = &defaultDriveCurve,
+                OdomSensors sensors, DistanceSensors distanceSensors, DriveCurve* throttleCurve = &defaultDriveCurve,
                 DriveCurve* steerCurve = &defaultDriveCurve);
         /**
          * @brief Calibrate the chassis sensors. THis should be called in the initialize function
@@ -923,6 +940,7 @@ class Chassis {
         ControllerSettings angularSettings;
         Drivetrain drivetrain;
         OdomSensors sensors;
+        DistanceSensors distanceSensors;
         DriveCurve* throttleCurve;
         DriveCurve* steerCurve;
 
