@@ -907,6 +907,15 @@ class Chassis {
          * @endcode
          */
         void resetLocalPosition();
+        
+        /**
+         * @brief Distance sensor resets.
+         *
+         * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
+         * the bottom of the graph is located at the skills starting wall. 
+         */
+        void distanceReset(int q);
+
         /**
          * PIDs are exposed so advanced users can implement things like gain scheduling
          * Changes are immediate and will affect a motion in progress
