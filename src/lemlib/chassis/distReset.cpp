@@ -45,6 +45,31 @@ void lemlib::Chassis::distanceReset(int q) {
         break;
     }
 
+    case 2: { //quadrant 2
+        if (heading > M_PI_2 && heading < 3*M_PI_4) {
+            float cosv = std::cos(heading - M_PI_2);
+            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.left.get()));
+            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.back.get()));
+        }
+         else if (heading > 3*M_PI_4 && heading < 5*M_PI_4) { 
+            float cosv = std::cos(heading - M_PI); 
+            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.back.get()));
+            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.left.get()));
+        }
+         else if (heading > 5*M_PI_4 && heading < 7*M_PI_4) { 
+            float cosv = std::cos(heading - (3*M_PI_2));
+            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.right.get()));
+            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.back.get()));
+        }
+         else if (heading > 7*M_PI_4 && heading < 2*M_PI) {
+            float cosv = std::cos(heading);
+            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.front.get()));
+            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.right.get()));
+        }
+        pose.theta = radToDeg(heading);
+        break;
+    }
+
     default: return; }
 
     if(pose.x == 0 || pose.y == 0 || pose.theta == 0) { //if anything failed and didn't move off zero, skip reset
