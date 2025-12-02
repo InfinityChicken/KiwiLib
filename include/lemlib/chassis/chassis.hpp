@@ -26,6 +26,7 @@ class DistanceSensors {
         float backOffset;
         float leftOffset;
         float rightOffset;
+        static const float width;
 };
 
 /**

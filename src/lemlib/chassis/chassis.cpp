@@ -9,6 +9,8 @@
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "pros/rtos.hpp"
 
+const float lemlib::DistanceSensors::width = 140.5;
+
 lemlib::DistanceSensors::DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
                                         float frontOffset, float backOffset, float leftOffset, float rightOffset)
                         : front(front),
