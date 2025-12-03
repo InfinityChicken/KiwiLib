@@ -16,56 +16,59 @@ void lemlib::Chassis::distanceReset(int q) {
     case 1: { //quadrant 1
 
         //handle x and y
-        if ((heading > 0 && heading < M_PI_4) || (heading > 3*M_PI_4)) { //angle range 315 to 360 and 0 to 45 deg
+        if ((heading > 0 && heading < M_PI_4) || (heading > 7*M_PI_4)) { //angle range 315 to 360 and 0 to 45 deg
             float cos = std::cos(heading); //no transform
             pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()));
             pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()));
         }
 
-        else if (heading > M_PI_4 && heading < 2*M_PI_4) { //angle range 45 to 135 deg
+        else if (heading > M_PI_4 && heading < 3*M_PI_4) { //angle range 45 to 135 deg
             float cos = std::cos(heading - M_PI_2); //rotate 90 deg to standard range
             pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()));
             pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()));
         }
 
-        else if (heading > 2*M_PI_4 && heading < 3*M_PI_4) { //angle range 135 to 225 deg
+        else if (heading > 3*M_PI_4 && heading < 5*M_PI_4) { //angle range 135 to 225 deg
             float cos = std::cos(heading - M_PI); //rotate 180 deg to standard range
             pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
             pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()));
         }
 
-        else if (heading > 3*M_PI_4 && heading < 4*M_PI_4) { //angle range 225 to 315 deg
+        else if (heading > 5*M_PI_4 && heading < 7*M_PI_4) { //angle range 225 to 315 deg
             float cos = std::cos(heading - M_PI_2 - M_PI); //rotate 270 deg to standard range
             pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()));
             pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
         }
 
         pose.theta = radToDeg(heading);
-
         break;
     }
 
     case 2: { //quadrant 2
-        if (heading > M_PI_2 && heading < 3*M_PI_4) {
-            float cosv = std::cos(heading - M_PI_2);
-            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.left.get()));
-            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.back.get()));
+        if ((heading > 0 && heading < M_PI_4) || (heading > 7*M_PI_4)) {
+            float cos = std::cos(heading - M_PI_2);
+            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()) + this->distanceSensors.leftOffset);
+            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
         }
-         else if (heading > 3*M_PI_4 && heading < 5*M_PI_4) { 
-            float cosv = std::cos(heading - M_PI); 
-            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.back.get()));
-            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.left.get()));
+
+        else if (heading > 3*M_PI_4 && heading < 5*M_PI_4) { 
+            float cos = std::cos(heading - M_PI); 
+            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
+            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()));
         }
-         else if (heading > 5*M_PI_4 && heading < 7*M_PI_4) { 
-            float cosv = std::cos(heading - (3*M_PI_2));
-            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.right.get()));
-            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.back.get()));
+
+        else if (heading > 5*M_PI_4 && heading < 7*M_PI_4) { 
+            float cos = std::cos(heading - (3*M_PI_2));
+            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()));
+            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
         }
-         else if (heading > 7*M_PI_4 && heading < 2*M_PI) {
-            float cosv = std::cos(heading);
-            pose.y = halfWidth - (cosv * mmToIn(this->distanceSensors.front.get()));
-            pose.x = halfWidth - (cosv * mmToIn(this->distanceSensors.right.get()));
+
+        else if (heading > 7*M_PI_4 && heading < 2*M_PI) {
+            float cos = std::cos(heading);
+            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()));
+            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()));
         }
+
         pose.theta = radToDeg(heading);
         break;
     }
