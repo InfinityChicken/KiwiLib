@@ -9,6 +9,7 @@
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "pros/rtos.hpp"
 
+/* //TODO: removed
 const float lemlib::DistanceSensors::width = 140.5;
 
 lemlib::DistanceSensors::DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
@@ -21,6 +22,7 @@ lemlib::DistanceSensors::DistanceSensors(pros::Distance front, pros::Distance ba
                           backOffset(backOffset),
                           leftOffset(leftOffset),
                           rightOffset(rightOffset) {}
+*/
 
 
 lemlib::OdomSensors::OdomSensors(TrackingWheel* vertical1, TrackingWheel* vertical2, TrackingWheel* horizontal1,
@@ -41,11 +43,10 @@ lemlib::Drivetrain::Drivetrain(pros::MotorGroup* leftMotors, pros::MotorGroup* r
       horizontalDrift(horizontalDrift) {}
 
 lemlib::Chassis::Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
-                         OdomSensors sensors, DistanceSensors distanceSensors, DriveCurve* throttleCurve, DriveCurve* steerCurve)
+                         OdomSensors sensors, DriveCurve* throttleCurve, DriveCurve* steerCurve)
     : drivetrain(drivetrain),
       lateralSettings(linearSettings),
       angularSettings(angularSettings),
-      distanceSensors(distanceSensors),
       sensors(sensors),
       throttleCurve(throttleCurve),
       steerCurve(steerCurve),

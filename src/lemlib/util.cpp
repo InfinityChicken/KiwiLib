@@ -2,6 +2,35 @@
 #include "lemlib/pose.hpp"
 #include "lemlib/util.hpp"
 
+float lemlib::refAngle(bool rad, float angle) {
+
+    angle = sanitizeAngle(angle, rad);
+
+    if(!rad) { //degrees
+        if(angle >= 0 && angle <= 90) {
+            return angle;
+        } else if(angle > 90 && angle <= 180) {
+            return 180.0 - angle;
+        } else if (angle > 180 && angle <= 270) {
+            return angle - 180.0;
+        } else if (angle > 270 && angle <= 360) {
+            return 360.0 - angle;
+        }
+    } else {
+        if(angle >= 0 && angle <= M_PI_2) {
+            return angle;
+        } else if(angle > M_PI_2 && angle <= M_PI) {
+            return M_PI - angle;
+        } else if (angle > M_PI && angle <= 3 * M_PI_2) {
+            return angle - M_PI;
+        } else if (angle > 3 * M_PI_2 && angle <= 2 * M_PI) {
+            return 2 * M_PI_2 - angle;
+        }
+    }
+
+    return -1;
+}
+
 float lemlib::slew(float target, float current, float maxChange) {
     float change = target - current;
     if (maxChange == 0) return target;

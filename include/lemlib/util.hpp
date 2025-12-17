@@ -6,6 +6,9 @@
 #include "lemlib/pose.hpp"
 
 namespace lemlib {
+    
+float refAngle(bool rad, float angle);
+
 /**
  * @brief Slew rate limiter
  *

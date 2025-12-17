@@ -11,9 +11,12 @@
 #include "lemlib/driveCurve.hpp"
 
 namespace lemlib {
-/**
- * @brief distance sensors
- */
+
+//field width measurements
+static const float width = 140.5;
+static const float halfWidth = width / 2;
+
+/** //TODO: removed
 class DistanceSensors {
     public: 
         DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
@@ -28,6 +31,7 @@ class DistanceSensors {
         float rightOffset;
         static const float width;
 };
+*/
 
 /**
  * @brief class containing the sensors used for odometry
@@ -362,7 +366,7 @@ class Chassis {
          * @example main.cpp
          */
         Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
-                OdomSensors sensors, DistanceSensors distanceSensors, DriveCurve* throttleCurve = &defaultDriveCurve,
+                OdomSensors sensors, DriveCurve* throttleCurve = &defaultDriveCurve,
                 DriveCurve* steerCurve = &defaultDriveCurve);
         /**
          * @brief Calibrate the chassis sensors. THis should be called in the initialize function
@@ -915,7 +919,7 @@ class Chassis {
          * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
          * the bottom of the graph is located at the skills starting wall. 
          */
-        void distanceReset(int q);
+        void distanceReset(pros::Distance xSensor, pros::Distance ySensor, float xOffset, float yOffset);
 
         /**
          * PIDs are exposed so advanced users can implement things like gain scheduling
@@ -950,7 +954,7 @@ class Chassis {
         ControllerSettings angularSettings;
         Drivetrain drivetrain;
         OdomSensors sensors;
-        DistanceSensors distanceSensors;
+        // DistanceSensors distanceSensors; //TODO: removed
         DriveCurve* throttleCurve;
         DriveCurve* steerCurve;
 
