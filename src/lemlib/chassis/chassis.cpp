@@ -42,16 +42,26 @@ lemlib::Drivetrain::Drivetrain(pros::MotorGroup* leftMotors, pros::MotorGroup* r
       rpm(rpm),
       horizontalDrift(horizontalDrift) {}
 
-lemlib::Chassis::Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
-                         OdomSensors sensors, DriveCurve* throttleCurve, DriveCurve* steerCurve)
+lemlib::Chassis::Chassis(Drivetrain drivetrain,
+                         OdomSensors sensors, DriveCurve* throttleCurve, DriveCurve* steerCurve,
+                         ControllerSettings linearSettings1, ControllerSettings angularSettings1,
+                         ControllerSettings linearSettings2, ControllerSettings angularSettings2,
+                         ControllerSettings linearSettings3, ControllerSettings angularSettings3,
+                         ControllerSettings linearSettings4, ControllerSettings angularSettings4)
     : drivetrain(drivetrain),
-      lateralSettings(linearSettings),
-      angularSettings(angularSettings),
+      lateralSettings(linearSettings1), //todo: add separate lateral and angular settings? check if its only used for slew
+      angularSettings(angularSettings1),
       sensors(sensors),
       throttleCurve(throttleCurve),
       steerCurve(steerCurve),
-      lateralPID(linearSettings.kP, linearSettings.kI, linearSettings.kD, linearSettings.windupRange, true),
-      angularPID(angularSettings.kP, angularSettings.kI, angularSettings.kD, angularSettings.windupRange, true),
+      lateralPID1(linearSettings1.kP, linearSettings1.kI, linearSettings1.kD, linearSettings1.windupRange, true),
+      lateralPID2(linearSettings2.kP, linearSettings2.kI, linearSettings2.kD, linearSettings2.windupRange, true),
+      lateralPID3(linearSettings3.kP, linearSettings3.kI, linearSettings3.kD, linearSettings3.windupRange, true),
+      lateralPID4(linearSettings1.kP, linearSettings1.kI, linearSettings1.kD, linearSettings1.windupRange, true),
+      angularPID1(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
+      angularPID2(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
+      angularPID3(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
+      angularPID4(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
       lateralLargeExit(lateralSettings.largeError, lateralSettings.largeErrorTimeout),
       lateralSmallExit(lateralSettings.smallError, lateralSettings.smallErrorTimeout),
       angularLargeExit(angularSettings.largeError, angularSettings.largeErrorTimeout),
