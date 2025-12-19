@@ -6,16 +6,30 @@ float mmToIn(float mm) {
 }
 
 void lemlib::Chassis::distanceReset(pros::Distance xSensor, pros::Distance ySensor, float xOffset, float yOffset) {
-    const float refAngle = lemlib::refAngle(true, this->getPose(true).theta);
+    this->waitUntilDone(); //TODO: check
 
     lemlib::Pose currentPose = this->getPose(true);
-    lemlib::Pose pose(0, 0);
+    lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    // x reset
-    // 
-    if(currentPose.x > 0) {
+    const float refAngle = lemlib::refAngle(true, currentPose.theta);
+
+    //x reset
+    if(currentPose.x > 0){ //pos
         pose.x = lemlib::halfWidth - (cos(refAngle) * (mmToIn(xSensor.get()) + xOffset));
+    } else if(currentPose.x < 0) { //neg
+        pose.x = cos(refAngle) * (mmToIn(xSensor.get()) + xOffset) - lemlib::halfWidth;
     }
+
+    //y reset
+    if(currentPose.y > 0){ //pos
+        pose.y = lemlib::halfWidth - (cos(refAngle) * (mmToIn(ySensor.get()) + yOffset));
+    } else if(currentPose.x < 0){ //neg
+        pose.y = cos(refAngle) * (mmToIn(ySensor.get()) + yOffset) - lemlib::halfWidth;
+    }
+
+    this->setPose(pose);
+    return;
+    
 }
 
 /*
