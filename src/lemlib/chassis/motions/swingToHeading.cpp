@@ -7,6 +7,23 @@
 
 void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int timeout, SwingToHeadingParams params,
                                      bool async) {
+    //pointers to pids
+    PID* activeAngular;
+
+    //inital errors to determine what to use
+    float initialAngularError = fabs(angleError(fmod(getPose().theta, 360), theta, false));
+
+     //assign reference of angular pid to pointer
+    if(initialAngularError<45)
+        activeAngular = &angularPID1;
+    else if(initialAngularError<90)
+        activeAngular = &angularPID2;
+    else if(initialAngularError<180) //todo: tune these angles
+        activeAngular = &angularPID3;
+    else 
+        activeAngular = &angularPID4;
+
+
     params.minSpeed = fabs(params.minSpeed);
     this->requestMotionStart();
     // were all motions cancelled?
@@ -32,7 +49,7 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
     angularLargeExit.reset();
     angularSmallExit.reset();
     //todo: add conditions for diff angles and distances
-    angularPID.reset();
+    activeAngular->reset();
     // get original braking mode of that side of the drivetrain so we can set it back to it after this motion ends
     pros::MotorBrake brakeMode = (lockedSide == DriveSide::LEFT)
                                      ? this->drivetrain.leftMotors->get_brake_mode_all().at(0)
@@ -68,7 +85,7 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
 
         // calculate the speed
         //todo: add conditions for diff angles and distances
-        motorPower = angularPID.update(deltaTheta);
+        motorPower = activeAngular->update(deltaTheta);
         angularLargeExit.update(deltaTheta);
         angularSmallExit.update(deltaTheta);
 

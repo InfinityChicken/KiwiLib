@@ -7,6 +7,23 @@
 
 void lemlib::Chassis::swingToPoint(float x, float y, DriveSide lockedSide, int timeout, SwingToPointParams params,
                                    bool async) {
+    //pointers to pids
+    PID* activeAngular;
+
+    //inital errors to determine what to use
+    float initialAngularError = fabs(angleError(fmod(getPose().theta, 360), getPose().theta, false));
+
+     //assign reference of angular pid to pointer
+    if(initialAngularError<45)
+        activeAngular = &angularPID1;
+    else if(initialAngularError<90)
+        activeAngular = &angularPID2;
+    else if(initialAngularError<180) //todo: tune these angles
+        activeAngular = &angularPID3;
+    else 
+        activeAngular = &angularPID4;
+
+                                    
     params.minSpeed = fabs(params.minSpeed);
     this->requestMotionStart();
     // were all motions cancelled?
