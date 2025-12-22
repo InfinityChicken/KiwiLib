@@ -949,6 +949,9 @@ class Chassis {
         PID angularPID2;
         PID angularPID3;
         PID angularPID4;
+
+        PID lateralPID;
+        PID angularPID;
     protected:
         /**
          * @brief Indicates that this motion is queued and blocks current task until this motion reaches front of queue

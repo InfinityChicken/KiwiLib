@@ -2,13 +2,12 @@
 #include "objects.hpp"
 
 //motors
-pros::MotorGroup leftMotors({-1, -2, -3}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({4, 5, 6}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({11, -12, -13}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-19, 18, 17}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(20);
-pros::Rotation horizRotation(-19);
-pros::Rotation vertRotation(-18);
+pros::Rotation horizRotation(16);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -36,9 +35,9 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    29,
-    lemlib::Omniwheel::NEW_325,
-    450,   
+    0,
+    lemlib::Omniwheel::NEW_275,
+    600,   
     8
 );
 
