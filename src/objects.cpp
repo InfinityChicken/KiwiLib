@@ -16,14 +16,8 @@ lemlib::TrackingWheel horizOdom(
     0
 );
 
-lemlib::TrackingWheel vertOdom(
-    &vertRotation, 
-    2, 
-    0
-);
-
 lemlib::OdomSensors odomSensorsDrive(
-    &vertOdom,
+    nullptr,
     nullptr,
     &horizOdom,
     nullptr,
