@@ -18,7 +18,6 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         return;
     }
 
-    //todo: add conditions for diff angles and distances
     // reset PIDs and exit conditions
     lateralPID.reset();
     lateralLargeExit.reset();
@@ -99,7 +98,6 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         angularSmallExit.update(radToDeg(angularError));
         angularLargeExit.update(radToDeg(angularError));
 
-        //todo: add conditions for diff angles and distances
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError);
         float angularOut = angularPID.update(radToDeg(angularError));

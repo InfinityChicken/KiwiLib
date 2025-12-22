@@ -31,7 +31,6 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
     Timer timer(timeout);
     angularLargeExit.reset();
     angularSmallExit.reset();
-    //todo: add conditions for diff angles and distances
     angularPID.reset();
     // get original braking mode of that side of the drivetrain so we can set it back to it after this motion ends
     pros::MotorBrake brakeMode = (lockedSide == DriveSide::LEFT)
@@ -67,7 +66,6 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
         if (params.minSpeed != 0 && sgn(deltaTheta) != sgn(prevDeltaTheta)) break;
 
         // calculate the speed
-        //todo: add conditions for diff angles and distances
         motorPower = angularPID.update(deltaTheta);
         angularLargeExit.update(deltaTheta);
         angularSmallExit.update(deltaTheta);

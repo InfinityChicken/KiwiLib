@@ -357,7 +357,7 @@ class Chassis {
          * @brief Chassis constructor
          *
          * @param drivetrain drivetrain to be used for the chassis
-         * @param lateralSettings settings for the lateral controller //todo: add separate lateral/angular settings?
+         * @param lateralSettings settings for the lateral controller
          * @param angularSettings settings for the angular controller
          * @param sensors sensors to be used for odometry
          * @param throttleCurve curve applied to throttle input during driver control
@@ -365,17 +365,9 @@ class Chassis {
          *
          * @example main.cpp
          */
-        Chassis(Drivetrain drivetrain,
+        Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
                 OdomSensors sensors, DriveCurve* throttleCurve = &defaultDriveCurve,
-                DriveCurve* steerCurve = &defaultDriveCurve, 
-                ControllerSettings linearSettings1 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings1 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5),
-                ControllerSettings linearSettings2 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings2 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5),
-                ControllerSettings linearSettings3 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings3 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5),
-                ControllerSettings linearSettings4 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings4 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5));
+                DriveCurve* steerCurve = &defaultDriveCurve);
         /**
          * @brief Calibrate the chassis sensors. THis should be called in the initialize function
          *
@@ -935,22 +927,13 @@ class Chassis {
          *
          * @warning Do not interact with these unless you know what you are doing
          */
-        PID lateralPID1;
-        PID lateralPID2;
-        PID lateralPID3;
-        PID lateralPID4;
+        PID lateralPID;
         /**
          * PIDs are exposed so advanced users can implement things like gain scheduling
          * Changes are immediate and will affect a motion in progress
          *
          * @warning Do not interact with these unless you know what you are doing
          */
-        PID angularPID1;
-        PID angularPID2;
-        PID angularPID3;
-        PID angularPID4;
-
-        PID lateralPID;
         PID angularPID;
     protected:
         /**
@@ -967,7 +950,7 @@ class Chassis {
 
         float distTraveled = 0;
 
-        ControllerSettings lateralSettings; //todo: add separate lateral/angular?
+        ControllerSettings lateralSettings;
         ControllerSettings angularSettings;
         Drivetrain drivetrain;
         OdomSensors sensors;
