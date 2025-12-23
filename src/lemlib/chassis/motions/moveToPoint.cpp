@@ -70,12 +70,6 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         if (!sameSide && params.minSpeed != 0) break;
         prevSide = side;
 
-        // //TODO: vel based exit but it's kinda stupid so i'm ignoring it
-        // const int curTime = pros::millis();
-        // if (std::fabs(prevLateralOut) < 10) startTime = -1; //if power is less than 10/127
-        // else if (startTime == -1) startTime = curTime;
-        // else if (curTime >= startTime + 200) return; //for 200ms, exit
-
         //TODO: CHECK THIS STUFF!!!
         // calculate error
         const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI;

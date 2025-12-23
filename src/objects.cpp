@@ -40,11 +40,11 @@ lemlib::ControllerSettings lateralController(
     0,
     0,
     0,
-    3,
-    0.25, //range to exit within
+    6,
+    0.1, //range to exit within
     100, //stay within range for this time
-    0, //large disabled
-    0, //large disabled
+    0.5,
+    500,
     0
 );
 
@@ -55,8 +55,8 @@ lemlib::ControllerSettings angularController(
     3,
     0.5, //within +- 1 deg
     100,
-    0, //large disabled
-    0, //large disabled
+    2,
+    500,
     0
 );
 
