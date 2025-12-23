@@ -52,7 +52,7 @@ lemlib::ControllerSettings angularController(
     0, 
     0,
     0, 
-    3,
+    10,
     0.5, //within +- 1 deg
     100,
     2,

@@ -29,13 +29,9 @@ void runConsole() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        // std::cout<<"distance: "<<distance.get_distance()<<"\n";
-        // std::cout<<"block count: "<<blockCount<<"\n\n";
-
         std::cout<<"X: "<<std::to_string(pose.x)<<"\n";
         std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
         std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
-        // std::cout<<"left color: "<<colorLeft.get_hue()<<"\n\n";
 
         pros::delay(500);
     }
