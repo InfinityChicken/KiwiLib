@@ -8,7 +8,9 @@ void motorInit() {}
 void sensorInit() {}
 
 //begin all tasks
-void taskInit() {}
+void taskInit() {
+    
+}
 
 //brain task
 void runScreen() {

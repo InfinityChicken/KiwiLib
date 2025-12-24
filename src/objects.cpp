@@ -60,5 +60,12 @@ lemlib::ControllerSettings angularController(
     0
 );
 
+lemlib::Chassis chassis(
+    drivetrain,
+    lateralController,
+    angularController,
+    odomSensorsDrive
+);
+
 //controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
