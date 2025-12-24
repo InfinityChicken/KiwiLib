@@ -11,3 +11,7 @@ extern lemlib::Chassis chassis;
 
 //controller
 extern pros::Controller controller;
+
+extern lemlib::Drivetrain drivetrain;
+extern lemlib::Chassis chassis;
+

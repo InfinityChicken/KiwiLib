@@ -2,7 +2,7 @@
 #include "drivecode/intake.hpp"
 #include "drivecode/objects.hpp"
 #include "drivecode/pistons.hpp"
-#include "drivecode/pistons.cpp"
+
 
 int intakeState = 0;
 int velValue = 12000;
@@ -46,21 +46,21 @@ void runIntake() {
 
 void updateIntake() {
 
-    // L1 to intake
+    // L1 to intake -- intake speed 75% (intakeState == 3) if midTrapState == 1
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         if (!onePressed) {
             onePressed = true;
-            if (longTrapState == 1) {
-                intakeState = 1;
-            } else if (longTrapState == 0) {
+            if (midTrapState == 1) {
                 intakeState = 3;
+            } else {
+                intakeState = 1;
             }
-
-        } else {
-            onePressed = false;
-            intakeState = 0;
         }
+    } else {
+        onePressed = false;
+        intakeState = 0;
     }
+
 
     // L2 Outtake
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
