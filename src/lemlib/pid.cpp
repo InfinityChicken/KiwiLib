@@ -1,5 +1,6 @@
 #include "lemlib/pid.hpp"
 #include "lemlib/util.hpp"
+#include "pros/screen.hpp"
 
 namespace lemlib {
 PID::PID(float kP, float kI, float kD, float windupRange, bool signFlipReset)
@@ -12,14 +13,21 @@ PID::PID(float kP, float kI, float kD, float windupRange, bool signFlipReset)
 float PID::update(const float error) {
     // calculate integral
     integral += error;
-    if (sgn(error) != sgn((prevError)) && signFlipReset) integral = 0;
-    if (fabs(error) > windupRange && windupRange != 0) integral = 0;
 
-    //TODO: tune alpha value
+    // if sign changes, reset integral
+    if ((error < 0 && prevError > 0) || (error > 0 && prevError < 0)) integral = 0;
+
+    // if integral is outside windup range when winduprange exists, set to 0
+    if (std::abs(error) > windupRange) integral = 0;
+
     // calculate derivative
-    const float derivative = alpha * derivative + (1-alpha) * prevDerivative;
-    prevDerivative = derivative;
+    float currDerivative = error - prevError;
+    float derivative = alpha * currDerivative + (1-alpha) * prevDerivative;
+    prevDerivative = currDerivative;
     prevError = error;
+
+    pros::screen::print(pros::E_TEXT_MEDIUM, 5, "integral: %.3f", integral);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 6, "termed integral: %.3f", integral * kI);
 
     // calculate output
     return error * kP + integral * kI + derivative * kD;

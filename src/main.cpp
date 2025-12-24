@@ -1,5 +1,6 @@
 #include "main.h"
 #include "objects.hpp"
+#include "pros/motors.h"
 #include "util.hpp"
 #include "pros/misc.h"
 
@@ -9,6 +10,8 @@ void initialize() {
 	taskInit();
 	motorInit();
 	sensorInit();
+
+	chassis.calibrate();
 }
 
 void disabled() {}
@@ -19,6 +22,7 @@ void autonomous() {
 }
 
 void opcontrol() {
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
 	bool l1Pressed = false;
 	while (true) {
@@ -31,7 +35,7 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 			if(!l1Pressed) {
 				chassis.setPose(0, 0, 0);
-				chassis.turnToHeading(90, 2000);
+				chassis.turnToHeading(90, 10000);
 				l1Pressed = true;
 			}
 		} else {

@@ -9,10 +9,11 @@ void sensorInit() {}
 
 //begin all tasks
 void taskInit() {
-    
+    pros::Task screenTask(runScreen, "screen task");
+    // pros::Task consoleTask(runConsole, "console task");
 }
 
-//brain task
+//brain task put the doohickey in the doh
 void runScreen() {
 
     while(true) {
@@ -40,5 +41,4 @@ void runConsole() {
 }
 
 void runController() {
-    while (true) {}
 }

@@ -9,6 +9,7 @@
 #include "lemlib/chassis/odom.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
+#include "pros/screen.hpp"
 
 // tracking thread
 pros::Task* trackingTask = nullptr;
@@ -21,11 +22,7 @@ lemlib::Pose odomSpeed(0, 0, 0); // the speed of the robot
 lemlib::Pose odomLocalSpeed(0, 0, 0); // the local speed of the robot
 
 float prevVertical = 0;
-float prevVertical1 = 0;
-float prevVertical2 = 0;
 float prevHorizontal = 0;
-float prevHorizontal1 = 0;
-float prevHorizontal2 = 0;
 float prevImu = 0;
 
 void lemlib::setSensors(lemlib::OdomSensors sensors, lemlib::Drivetrain drivetrain) {
@@ -87,33 +84,19 @@ void lemlib::update() {
     if (odomSensors.horizontal2 != nullptr) horizontal2Raw = odomSensors.horizontal2->getDistanceTraveled();
     if (odomSensors.imu != nullptr) imuRaw = degToRad(odomSensors.imu->get_rotation());
 
-    // calculate the change in sensor values
-    float deltaVertical1 = vertical1Raw - prevVertical1;
-    float deltaVertical2 = vertical2Raw - prevVertical2;
-    float deltaHorizontal1 = horizontal1Raw - prevHorizontal1;
-    float deltaHorizontal2 = horizontal2Raw - prevHorizontal2;
+    // calculate the change in imu
     float deltaImu = imuRaw - prevImu;
-
-    // update the previous sensor values
-    prevVertical1 = vertical1Raw;
-    prevVertical2 = vertical2Raw;
-    prevHorizontal1 = horizontal1Raw;
-    prevHorizontal2 = horizontal2Raw;
     prevImu = imuRaw;
 
-    //TODO: new code
+    //TODO: no imu fail fallback
     //*changes: imu and tracking wheels only
     float heading = odomPose.theta;
     // use imu for heading
     if (odomSensors.imu != nullptr) heading += deltaImu;
-    // or use substituted tracking wheels
-    else
-        heading -= (deltaVertical1 - deltaVertical2) /
-                   (odomSensors.vertical1->getOffset() - odomSensors.vertical2->getOffset());
     float deltaHeading = heading - odomPose.theta;
     float avgHeading = odomPose.theta + deltaHeading / 2;
 
-    //TODO: old code
+    //*old heading code
     // // calculate the heading of the robot
     // // Priority:
     // // 1. Horizontal tracking wheels
@@ -167,7 +150,7 @@ void lemlib::update() {
 
     //if vertical wheel not found, use the averages of both sides of drive
     else {
-        rawVertical = (driveSide1->getDistanceTraveled() + driveSide2->getDistanceTraveled() / 2);
+        rawVertical = ((driveSide1->getDistanceTraveled() + driveSide2->getDistanceTraveled()) / 2);
     }
 
     if (horizontalWheel != nullptr) rawHorizontal = horizontalWheel->getDistanceTraveled();
@@ -184,12 +167,11 @@ void lemlib::update() {
     // calculate change in x and y
     float deltaX = 0;
     float deltaY = 0;
-    if (verticalWheel != nullptr) deltaY = rawVertical - prevVertical;
+    if (verticalWheel != nullptr || driveSide1 != nullptr || driveSide2 != nullptr) deltaY = rawVertical - prevVertical;
     if (horizontalWheel != nullptr) deltaX = rawHorizontal - prevHorizontal;
     prevVertical = rawVertical;
     prevHorizontal = rawHorizontal;
 
-    //TODO: only thing modified by vert offset so it really doesn't matter
     // calculate local x and y
     float localX = 0;
     float localY = 0;

@@ -3,10 +3,10 @@
 
 //motors
 pros::MotorGroup leftMotors({11, -12, -13}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({-19, 18, 17}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-19, 20, 17}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(20);
+pros::Imu imu(4);
 pros::Rotation horizRotation(16);
 
 //odom objects
@@ -49,13 +49,13 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    0, 
-    0,
-    0, 
-    10,
+    1.5, 
+    0.4,
+    7, 
+    2,
     0.5, //within +- 1 deg
     100,
-    2,
+    0,
     500,
     0
 );
