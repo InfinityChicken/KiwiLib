@@ -35,7 +35,7 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 			if(!l1Pressed) {
 				chassis.setPose(0, 0, 0);
-				chassis.turnToHeading(90, 10000);
+				chassis.moveToPoint(0, 24, 2000);
 				l1Pressed = true;
 			}
 		} else {

@@ -37,14 +37,14 @@ lemlib::Drivetrain drivetrain(
 
 //controller settings
 lemlib::ControllerSettings lateralController(
+    8,
     0,
     0,
-    0,
-    6,
-    0.1, //range to exit within
+    2,
+    0.25, //range to exit within
     100, //stay within range for this time
-    0.5,
-    500,
+    0,
+    0,
     0
 );
 
@@ -55,8 +55,8 @@ lemlib::ControllerSettings angularController(
     2,
     0.5, //within +- 1 deg
     100,
-    0,
-    500,
+    3,
+    500, //test
     0
 );
 

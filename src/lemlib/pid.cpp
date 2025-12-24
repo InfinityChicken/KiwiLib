@@ -11,13 +11,14 @@ PID::PID(float kP, float kI, float kD, float windupRange, bool signFlipReset)
       signFlipReset(signFlipReset) {}
 
 float PID::update(const float error) {
+    //TODO: useWindup
     // calculate integral
     integral += error;
 
-    // if sign changes, reset integral
+    // if sign changes, reset integral and stop windup
     if ((error < 0 && prevError > 0) || (error > 0 && prevError < 0)) integral = 0;
 
-    // if integral is outside windup range when winduprange exists, set to 0
+    // if integral is outside windup range and windup is active, set to 0
     if (std::abs(error) > windupRange) integral = 0;
 
     // calculate derivative
@@ -25,9 +26,6 @@ float PID::update(const float error) {
     float derivative = alpha * currDerivative + (1-alpha) * prevDerivative;
     prevDerivative = currDerivative;
     prevError = error;
-
-    pros::screen::print(pros::E_TEXT_MEDIUM, 5, "integral: %.3f", integral);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 6, "termed integral: %.3f", integral * kI);
 
     // calculate output
     return error * kP + integral * kI + derivative * kD;
