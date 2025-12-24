@@ -12,20 +12,20 @@ void runIntake() {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
         switch(intakeState) {
             case 0: { // intake off
-                roller1.move_velocity(0);
-                roller2.move_velocity(0);
+                leftIntake.move_velocity(0);
+                rightIntake.move_velocity(0);
                 break;
             }
             
             case 1: { // intake 100%
-                roller1.move_velocity(velValue);
-                roller2.move_velocity(velValue);
+                leftIntake.move_velocity(velValue);
+                rightIntake.move_velocity(velValue);
                 break;
             }
 
             case 2: { // outtake 75%
-                roller1.move_velocity(-velValue);
-                roller2.move_velocity(-velValue);
+                leftIntake.move_velocity(-velValue);
+                rightIntake.move_velocity(-velValue);
                 break;
             }
         }

@@ -5,8 +5,8 @@
 //motor settings
 
 void motorInit() {
-    roller1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    roller2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    leftIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rightIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
 
 //sensor settings

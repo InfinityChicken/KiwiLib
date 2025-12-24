@@ -11,16 +11,16 @@ pros::adi::DigitalOut midGoal('D');
 pros::adi::DigitalOut odomLift('F');
 
 //intake
-pros::Motor roller1(7, pros::MotorGearset::blue);
-pros::Motor roller2(8, pros::MotorGearset::blue);
+pros::Motor leftIntake(-7, pros::MotorGearset::blue);
+pros::Motor rightIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({1, -2, 3}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-1, 2, -3}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({4, -5, 6}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(10);
-pros::Rotation horizRotation(11);
+pros::Rotation horizRotation(-11);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -43,7 +43,7 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    0,
+    8,
     lemlib::Omniwheel::NEW_4,
     (48.0/84.0)*600.0,   
     8

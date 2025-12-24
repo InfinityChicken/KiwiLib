@@ -2,8 +2,8 @@
 #include "pros/adi.hpp"
 
 //motor declarations
-extern pros::Motor roller1;
-extern pros::Motor roller2;
+extern pros::Motor leftIntake;
+extern pros::Motor rightIntake;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
