@@ -3,38 +3,24 @@
 #include "objects.hpp"
 #include "drivecode/util.hpp"
 
-
-int ROLLER1_PORT = 0;
-int ROLLER2_PORT = 0;
-
-float kP_lat = 0;
-float slew_lat = 0;
-float kD_lat = 0;
-
-float kP_ang = 0;
-float kD_ang = 0;
-float slew_ang = 0;
-
-// MOTORS
-pros::Motor roller1(ROLLER1_PORT, pros::MotorGearset::blue);
-pros::Motor roller2(ROLLER2_PORT, pros::MotorGearset::blue);
-
-// PISTONS
-pros::adi::DigitalOut will('A');
+//pistons
+pros::adi::DigitalOut scraper('A');
 pros::adi::DigitalOut wing('B');
-pros::adi::DigitalOut longTrap('C');
-pros::adi::DigitalOut midTrap('D');
+pros::adi::DigitalOut trapdoor('C');
+pros::adi::DigitalOut midGoal('D');
 pros::adi::DigitalOut odomLift('F');
 
+//intake
+pros::Motor roller1(7, pros::MotorGearset::blue);
+pros::Motor roller2(8, pros::MotorGearset::blue);
 
-//motors
-pros::MotorGroup leftMotors({11, 12, -13}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({18, 20, -17}, pros::MotorGearset::blue);
+//drive motors
+pros::MotorGroup leftMotors({1, -2, 3}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(20);
-pros::Rotation horizRotation(16);
-pros::Rotation vertRotation(15);
+pros::Imu imu(10);
+pros::Rotation horizRotation(11);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -43,12 +29,7 @@ lemlib::TrackingWheel horizOdom(
     0
 );
 
-lemlib::TrackingWheel vertOdom(
-    &vertRotation,
-    2,
-    90
-);
-
+//odom sensors
 lemlib::OdomSensors odomSensorsDrive(
     nullptr,
     nullptr,
@@ -63,8 +44,8 @@ lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
     0,
-    lemlib::Omniwheel::NEW_2,
-    450,   
+    lemlib::Omniwheel::NEW_4,
+    (48.0/84.0)*600.0,   
     8
 );
 
@@ -97,5 +78,9 @@ lemlib::ControllerSettings angularController(
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // chassis
-
-lemlib::Chassis chassis(drivetrain, sensors, lemlib::default and custom settings here...); 
+lemlib::Chassis chassis(
+    drivetrain,
+    lateralController,
+    angularController,
+    odomSensorsDrive
+);

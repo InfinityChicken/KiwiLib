@@ -1,19 +1,15 @@
 #include "main.h"
 #include "drivecode/intake.hpp"
-#include "drivecode/objects.hpp"
-#include "drivecode/pistons.hpp"
-
 
 int intakeState = 0;
 int velValue = 12000;
 
-bool onePressed = false;
-bool twoPressed = false;
-bool threePressed = false;
-bool fourPressed = false;
+bool intakePressed = false;
+bool outtakePressed = false;
 
 void runIntake() {
     while (true) {
+        //MUST CHANGE VELVALUE TO CHANGE SPEED
         switch(intakeState) {
             case 0: { // intake off
                 roller1.move_velocity(0);
@@ -28,48 +24,55 @@ void runIntake() {
             }
 
             case 2: { // outtake 75%
-                roller1.move_velocity(-velValue * 0.75);
-                roller2.move_velocity(-velValue * 0.75);
+                roller1.move_velocity(-velValue);
+                roller2.move_velocity(-velValue);
                 break;
             }
+        }
 
-            case 3: { // intake 75%
-                roller1.move_velocity(velValue * 0.75);
-                roller2.move_velocity(velValue * 0.75);
-                break;
-            }
-
-
-        };
-    };
-};
+        pros::delay(10);
+    }
+}
 
 void updateIntake() {
-
-    // L1 to intake -- intake speed 75% (intakeState == 3) if midTrapState == 1
+    //l1 intake
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-        if (!onePressed) {
-            onePressed = true;
-            if (midTrapState == 1) {
-                intakeState = 3;
+        if (!intakePressed) {
+
+            if(intakeState == 1) { //state changes
+                intakeState = 0;
             } else {
                 intakeState = 1;
             }
+
+            if (midGoalState == 1) { //vel change
+                velValue = 12000 * 0.75;
+            } else {
+                velValue = 12000;
+            }
+
         }
+        intakePressed = true;
     } else {
-        onePressed = false;
-        intakeState = 0;
+        intakePressed = false;
     }
 
 
-    // L2 Outtake
+    //l2 outtake
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-        if (!twoPressed) {
-            twoPressed = true;
-            intakeState = 2;
-        } else {
-            twoPressed = false;
-            intakeState = 0;
+        if (!outtakePressed) {
+
+            if(intakeState == 2) { //state changes
+                intakeState = 0;
+            } else {
+                intakeState = 2;
+            }
+
+            velValue = 12000 * 0.75;
+
         }
+        outtakePressed = true;
+    } else {
+        outtakePressed = false;
     }
 }

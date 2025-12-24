@@ -1,12 +1,11 @@
 #include "main.h"
 #include "objects.hpp"
 
-extern int longTrapState;
-extern int midTrapState;
-extern int willState;
+extern int trapdoorState;
+extern int midGoalState;
+extern int scraperState;
 extern int wingState;
-extern int odomLiftState;
-
+extern int odomState;
 
 void updatePistons();
 void runPistons();

@@ -1,119 +1,99 @@
 #include "main.h"
-#include "drivecode/objects.hpp"
 #include "drivecode/pistons.hpp"
 
-int longTrapState = 0;
-int midTrapState = 0;
-int willState = 0;
-int wingState = 0;
-int odomLiftState = 0;
+int trapdoorState = 0; //0 closed
+int midGoalState = 0; //0 closed
+int scraperState = 0; //0 up
+int wingState = 0; //0 down
+int odomState = 0; //0 down
 
-bool longPressed = false;
-bool midPressed = false;
-bool willPressed = false;
+bool trapdoorPressed = false;
+bool midGoalPressed = false;
+bool scraperPressed = false;
 bool wingPressed = false;
 bool odomPressed = false;
 
 void updatePistons() {
-
-    // R1 -- toggle wing
+    //r1 wing
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         if (!wingPressed) {
-            wingPressed = true;
-            if (wingState == 0) {
+            if(wingState == 0) {
                 wingState = 1;
-            } else if (wingState == 1) {
+            } else {
                 wingState = 0;
             }
         }
+        wingPressed = true;
     } else {
         wingPressed = false;
     }
 
-    // R2 -- long trapdoor
+    //r2 trapdoor
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        if (!longPressed) {
-            longPressed = true;
-            if (longTrapState == 0) {
-                longTrapState = 1;
-            } else if (longTrapState == 1) {
-                longTrapState = 0;
+        if (!trapdoorPressed) {
+            if(trapdoorState == 0) {
+                trapdoorState = 1;
+            } else {
+                trapdoorState = 0;
             }
         }
+        trapdoorPressed = true;
     } else {
-        longPressed = false;
+        trapdoorPressed = false;
     }
 
-    // down -- odom lift
+    //down odom lift
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
         if (!odomPressed) {
-            odomPressed = true;
-            if (odomLiftState == 0) {
-                odomLiftState = 1;
-            } else if (odomLiftState == 1) {
-                odomLiftState = 0;
+            if(odomState == 0) {
+                odomState = 1;
+            } else {
+                odomState = 0;
             }
         }
+        odomPressed = true;
     } else {
         odomPressed = false;
     }
 
-    // right -- will (matchloader)
-    // idk if this still grants manual control -- when will goes down trapdoor closes
+    //right matchloader
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-        if (!willPressed) {
-            willPressed = true;
-            if (willState == 0) {
-                willState = 1;
-                longTrapState = 0;
-                midTrapState = 0;
-            } else if (willState == 1) {
-                willState = 0;
+        if (!scraperPressed) {
+            if (scraperState == 0) {
+                scraperState = 1;
+                trapdoorState = 0;
+                midGoalState = 0;
+            } else if (scraperState == 1) {
+                scraperState = 0;
             }
         }
+        scraperPressed = true;
     } else {
-        willPressed = false;
+        scraperPressed = false;
     }
 
-    // y -- mid trapdoor
+    //y mid goal
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-        if (!midPressed) {
-            midPressed = true;
-            if (midTrapState == 0) {
-                midTrapState = 1;
-            } else if (midTrapState == 1) {
-                midTrapState = 0;
+        if (!midGoalPressed) {
+            if (midGoalState == 0) {
+                midGoalState = 1;
+            } else {
+                midGoalState = 0;
             }
         }
+        midGoalPressed = true;
     } else {
-        midPressed = false;
+        midGoalPressed = false;
     }
-
-    // down -- odom lift
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-        if (!odomPressed) {
-            odomPressed = true;
-            if (odomLiftState == 0) {
-                odomLiftState = 1;
-            } else if (odomLiftState == 1) {
-                odomLiftState = 0;
-            }
-        }
-    } else {
-        odomPressed = false;
-    }
-    
-};
-
+}
 
 void runPistons() {
     while (true) {
-       
         // matchload
-        if(willState == 0) {
-            will.set_value(false);
-        } else if (willState == 1) {
-            will.set_value(true);
+        if(scraperState == 0) {
+            scraper.set_value(false);
+        } else if (scraperState == 1) {
+            scraper.set_value(true);
         }
 
         // wings
@@ -124,25 +104,27 @@ void runPistons() {
         }
 
         // long trapdoor
-        if(longTrapState == 0) {
-            longTrap.set_value(false);
-        } else if (longTrapState == 1) {
-            longTrap.set_value(true);
+        if(trapdoorState == 0) {
+            trapdoor.set_value(false);
+        } else if (trapdoorState == 1) {
+            trapdoor.set_value(true);
         }
 
-        // mid trapdoor -- 0 is open, 1 is closed for this (rest vs active)
-        if(midTrapState == 0) {
-            midTrap.set_value(true);
-        } else if (midTrapState == 1) {
-            midTrap.set_value(false);
+        // mid trapdoor
+        if(midGoalState == 0) {
+            midGoal.set_value(false);
+        } else if (midGoalState == 1) {
+            midGoal.set_value(true);
         }
 
         // odom lift
-        if(odomLiftState == 0) {
+        if(odomState == 0) {
             odomLift.set_value(false);
-        } else if (odomLiftState == 1) {
+        } else if (odomState == 1) {
             odomLift.set_value(true);
 
         }
-    };
+
+        pros::delay(10);
+    }
 };

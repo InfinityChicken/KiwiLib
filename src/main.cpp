@@ -9,10 +9,9 @@ void on_center_button() {}
 
 void initialize() {
 	chassis.calibrate();
-	chassis.setPose(0, 0, 0);
+
 	taskInit();
 	motorInit();
-	sensorInit();
 }
 
 void disabled() {}
