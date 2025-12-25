@@ -1,6 +1,5 @@
 #include "lemlib/pid.hpp"
 #include "lemlib/util.hpp"
-#include "pros/screen.hpp"
 
 namespace lemlib {
 PID::PID(float kP, float kI, float kD, float windupRange, bool signFlipReset)
@@ -21,7 +20,7 @@ float PID::update(const float error) {
     }
 
     // if integral is outside windup range and windup is active, set to 0
-    if (std::abs(error) > windupRange && useWindup == true) integral = 0;
+    if (std::fabs(error) > windupRange && useWindup == true) integral = 0;
 
     // calculate derivative
     float currDerivative = error - prevError;

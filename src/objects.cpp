@@ -32,7 +32,7 @@ lemlib::Drivetrain drivetrain(
     0,
     lemlib::Omniwheel::NEW_275,
     600,   
-    8
+    0 //horizontal drift doesn't matter isn't used anywhere
 );
 
 //controller settings
