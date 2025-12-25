@@ -25,6 +25,9 @@ void opcontrol() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
 	bool l1Pressed = false;
+	bool l2Pressed = false;
+	bool r1Pressed = false;
+
 	while (true) {
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -35,11 +38,31 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 			if(!l1Pressed) {
 				chassis.setPose(0, 0, 0);
-				chassis.moveToPoint(0, 24, 2000);
+				chassis.turnToHeading(90, 2000);
 				l1Pressed = true;
 			}
 		} else {
 			l1Pressed = false;
+		}
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+			if(!l2Pressed) {
+				chassis.setPose(0, 0, 0);
+				chassis.turnToHeading(180, 2000);
+				l2Pressed = true;
+			}
+		} else {
+			l2Pressed = false;
+		}
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			if(!r1Pressed) {
+				chassis.setPose(0, 0, 0);
+				chassis.turnToHeading(45, 2000);
+				r1Pressed = true;
+			}
+		} else {
+			r1Pressed = false;
 		}
 
 		//delay

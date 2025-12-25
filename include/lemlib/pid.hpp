@@ -70,6 +70,8 @@ class PID {
         const float windupRange;
         const bool signFlipReset;
 
+        bool useWindup = true;
+
         float integral = 0;
         float prevError = 0;
         float prevDerivative = 0;
