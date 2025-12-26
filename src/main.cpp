@@ -1,4 +1,5 @@
 #include "main.h"
+#include "lemlib/chassis/chassis.hpp"
 #include "objects.hpp"
 #include "pros/motors.h"
 #include "util.hpp"
@@ -38,7 +39,7 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 			if(!l1Pressed) {
 				chassis.setPose(0, 0, 0);
-				chassis.turnToHeading(90, 2000);
+				chassis.turnToHeading(90,5000);
 				l1Pressed = true;
 			}
 		} else {
@@ -48,7 +49,7 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			if(!l2Pressed) {
 				chassis.setPose(0, 0, 0);
-				chassis.turnToHeading(180, 2000);
+				chassis.turnToHeading(180, 5000, {lemlib::AngularDirection::CW_CLOCKWISE});
 				l2Pressed = true;
 			}
 		} else {
@@ -58,7 +59,7 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 			if(!r1Pressed) {
 				chassis.setPose(0, 0, 0);
-				chassis.turnToHeading(45, 2000);
+				chassis.turnToHeading(45, 5000);
 				r1Pressed = true;
 			}
 		} else {
