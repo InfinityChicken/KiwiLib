@@ -50,7 +50,7 @@ lemlib::ControllerSettings lateralController(
 
 lemlib::ControllerSettings angularController(
     2, 
-    0.24,
+    0.32,
     13, 
     4,
     1, //within +- 1 deg
