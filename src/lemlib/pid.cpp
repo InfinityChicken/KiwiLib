@@ -29,8 +29,8 @@ float PID::update(const float error) {
     prevDerivative = currDerivative;
     prevError = error;
 
-    pros::screen::print(pros::E_TEXT_MEDIUM, 5, "integral raw: %.3f", integral);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 6, "integral adjusted: %.3f", integral * kI);
+    // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "integral raw: %.3f", integral);
+    // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "integral adjusted: %.3f", integral * kI);
 
     // calculate output
     return error * kP + integral * kI + derivative * kD;
