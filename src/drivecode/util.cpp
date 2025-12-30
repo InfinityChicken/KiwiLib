@@ -24,6 +24,9 @@ void taskInit() {
 //brain task
 void runScreen() {
     while(true) {
+
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "left wattage: %.3f", leftIntake.get_power());
+        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "right wattage: %.3f", rightIntake.get_power());
         
         pros::delay(50);
     }
