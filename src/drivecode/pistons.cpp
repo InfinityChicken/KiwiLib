@@ -1,5 +1,6 @@
 #include "main.h"
 #include "drivecode/pistons.hpp"
+#include "drivecode/intake.hpp"
 
 int trapdoorState = 0; //0 closed
 int midGoalState = 0; //0 closed
@@ -10,22 +11,15 @@ int odomState = 0; //0 down
 bool trapdoorPressed = false;
 bool midGoalPressed = false;
 bool scraperPressed = false;
-bool wingPressed = false;
+//bool wingPressed = false;
 bool odomPressed = false;
 
 void updatePistons() {
     //r1 wing
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        if (!wingPressed) {
-            if(wingState == 0) {
-                wingState = 1;
-            } else {
-                wingState = 0;
-            }
-        }
-        wingPressed = true;
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //toggle not hold
+        wingState = 1;
     } else {
-        wingPressed = false;
+        wingState = 0;
     }
 
     //r2 trapdoor
@@ -33,8 +27,10 @@ void updatePistons() {
         if (!trapdoorPressed) {
             if(trapdoorState == 0) {
                 trapdoorState = 1;
+                velValue = 12000;
             } else {
                 trapdoorState = 0;
+                velValue = 12000 * 0.75;
             }
         }
         trapdoorPressed = true;
@@ -43,18 +39,9 @@ void updatePistons() {
     }
 
     //down odom lift
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-        if (!odomPressed) {
-            if(odomState == 0) {
-                odomState = 1;
-            } else {
-                odomState = 0;
-            }
-        }
-        odomPressed = true;
-    } else {
-        odomPressed = false;
-    }
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) { //only goes once for driver
+        odomState = 1;
+    } 
 
     //right matchloader
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
@@ -77,8 +64,10 @@ void updatePistons() {
         if (!midGoalPressed) {
             if (midGoalState == 0) {
                 midGoalState = 1;
+                velValue = 12000 * 0.75;
             } else {
                 midGoalState = 0;
+                trapdoorState = 0;
             }
         }
         midGoalPressed = true;

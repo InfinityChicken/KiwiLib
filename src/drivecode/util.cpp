@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/rtos.hpp"
+#include <string>
 #include "drivecode/util.hpp"
 
 //motor settings
@@ -16,8 +17,8 @@ void sensorInit() {}
 void taskInit() {
     pros::Task intakeTask(runIntake, "intake task");
     pros::Task pistonTask(runPistons, "piston task");
-    pros::Task screenTask(runIntake, "screen task");
-    pros::Task controllerTask(runIntake, "controller task");
+    pros::Task screenTask(runScreen, "screen task");
+    pros::Task controllerTask(runController, "controller task");
     // pros::Task consoleTask(runConsole, "console task");
 }
 
@@ -48,11 +49,7 @@ void runConsole() {
 //controller text task
 void runController() {
     while (true) {
-        if(velValue == 12000)
-            controller.set_text(0, 0, "100%");
-        else if(velValue == 12000 * 0.75)
-            controller.set_text(0, 0, "75%");
-
+        controller.set_text(0, 0, std::to_string(velValue/12000.0*100)+"%");
         pros::delay(50);
     }
 }

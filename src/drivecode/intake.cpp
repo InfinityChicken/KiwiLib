@@ -6,26 +6,27 @@ int velValue = 12000;
 
 bool intakePressed = false;
 bool outtakePressed = false;
+bool speedPressed = false;
 
 void runIntake() {
     while (true) {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
         switch(intakeState) {
             case 0: { // intake off
-                leftIntake.move_velocity(0);
-                rightIntake.move_velocity(0);
+                leftIntake.move_voltage(0);
+                rightIntake.move_voltage(0);
                 break;
             }
             
             case 1: { // intake 100%
-                leftIntake.move_velocity(velValue);
-                rightIntake.move_velocity(velValue);
+                leftIntake.move_voltage(velValue);
+                rightIntake.move_voltage(velValue);
                 break;
             }
 
             case 2: { // outtake 75%
-                leftIntake.move_velocity(-velValue);
-                rightIntake.move_velocity(-velValue);
+                leftIntake.move_voltage(-velValue);
+                rightIntake.move_voltage(-velValue);
                 break;
             }
         }
@@ -45,11 +46,7 @@ void updateIntake() {
                 intakeState = 1;
             }
 
-            if (midGoalState == 1) { //vel change
-                velValue = 12000 * 0.75;
-            } else {
-                velValue = 12000;
-            }
+            //moved vel change to pistons.cpp
 
         }
         intakePressed = true;
@@ -74,5 +71,21 @@ void updateIntake() {
         outtakePressed = true;
     } else {
         outtakePressed = false;
+    }
+
+
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+        if (!speedPressed) {
+
+            if(velValue == 12000) { //state changes
+                velValue = 12000 * 0.4;
+            } else {
+                velValue = 12000;
+            }
+
+        }
+        speedPressed = true;
+    } else {
+        speedPressed = false;
     }
 }
