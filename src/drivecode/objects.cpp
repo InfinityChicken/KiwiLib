@@ -1,3 +1,4 @@
+#include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 #include <climits>
 #include "objects.hpp"
@@ -24,9 +25,9 @@ pros::MotorGroup rightMotors({4, -5, 6}, pros::MotorGearset::blue);
 pros::Imu imu(10);
 pros::Rotation horizRotation(-11);
 pros::adi::DigitalIn limitSwitch('G');
-pros::Distance distanceRight(0);
-pros::Distance distanceLeft(0);
-pros::Distance distanceFront(0);
+pros::Distance distRight(0);
+pros::Distance distLeft(0);
+pros::Distance distFront(0);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -80,6 +81,11 @@ lemlib::ControllerSettings angularController(
     0
 );
 
+//distance sensors
+lemlib::DistanceSensors distSensors(distFront, 0, 0,
+                                    distLeft, 0, 0,
+                                    distRight, 0, 0);
+
 //controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -88,5 +94,6 @@ lemlib::Chassis chassis(
     drivetrain,
     lateralController,
     angularController,
-    odomSensorsDrive
+    odomSensorsDrive,
+    distSensors
 );

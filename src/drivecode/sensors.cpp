@@ -10,7 +10,7 @@ void updateSensors() {
 
 void runAutoScore() {
     while(autoScore) {
-        if(limitSwitch.get_value() == 0 && distanceFront.get()/25.4 < 36) { //if limit switch pressed and perimeter detected
+        if(limitSwitch.get_value() == 0 && distFront.get()/25.4 < 36) { //if limit switch pressed and perimeter detected
             trapdoorState = 1; //open trapdoor
             intakeState = 1; //activate intake
         }

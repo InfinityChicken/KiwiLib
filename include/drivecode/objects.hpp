@@ -19,9 +19,9 @@ extern pros::adi::DigitalOut odomLift;
 extern pros::Imu imu;
 extern pros::Rotation horizRotation;
 extern pros::adi::DigitalIn limitSwitch;
-extern pros::Distance distanceRight;
-extern pros::Distance distanceLeft;
-extern pros::Distance distanceFront;
+extern pros::Distance distRight;
+extern pros::Distance distLeft;
+extern pros::Distance distFront;
 
 //drivetrain declarations
 extern lemlib::TrackingWheel horizOdom;

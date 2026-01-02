@@ -16,22 +16,27 @@ namespace lemlib {
 static const float width = 140.5;
 static const float halfWidth = width / 2;
 
-/** //TODO: removed
+struct DistResetSensors {
+        pros::Distance distance;
+        float offsetX; //offset of plane of dist sensor from center of robot in inches
+        float offsetY; //offset of dist sensor from projected plane of center (dist from the center of the side it is on) in inches
+        
+        DistResetSensors(pros::Distance dist, float x, float y) 
+                : distance(dist), offsetX(x), offsetY(y) {}
+
+};
+
+
 class DistanceSensors {
     public: 
-        DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
-                        float frontOffset, float backOffset, float leftOffset, float rightOffset);
-        pros::Distance front;
-        pros::Distance back;
-        pros::Distance left;
-        pros::Distance right;
-        float frontOffset;
-        float backOffset;
-        float leftOffset;
-        float rightOffset;
-        static const float width;
+        DistanceSensors(pros::Distance front, float frontOffsetX, float frontOffsetY, 
+                        pros::Distance left, float leftOffsetX, float leftOffsetY, 
+                        pros::Distance right, float rightOffsetX, float rightOffsetY);
+        DistResetSensors front;
+        DistResetSensors left;
+        DistResetSensors right;
 };
-*/
+
 
 /**
  * @brief class containing the sensors used for odometry
@@ -366,7 +371,7 @@ class Chassis {
          * @example main.cpp
          */
         Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
-                OdomSensors sensors, DriveCurve* throttleCurve = &defaultDriveCurve,
+                OdomSensors sensors, DistanceSensors distSensors, DriveCurve* throttleCurve = &defaultDriveCurve,
                 DriveCurve* steerCurve = &defaultDriveCurve);
         /**
          * @brief Calibrate the chassis sensors. THis should be called in the initialize function
@@ -919,7 +924,9 @@ class Chassis {
          * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
          * the bottom of the graph is located at the skills starting wall. 
          */
-        void distanceReset(pros::Distance xSensor, pros::Distance ySensor, float xOffset, float yOffset);
+        void distanceReset(char direction);
+
+        DistanceSensors distSensors;
 
         /**
          * PIDs are exposed so advanced users can implement things like gain scheduling
