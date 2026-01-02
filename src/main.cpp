@@ -4,6 +4,7 @@
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 #include "drivecode/pistons.hpp"
+#include "drivecode/sensors.hpp"
 
 void on_center_button() {}
 
@@ -31,6 +32,7 @@ void opcontrol() {
 		//subsystem updates
 		updateIntake();
 		updatePistons();
+		updateSensors();
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

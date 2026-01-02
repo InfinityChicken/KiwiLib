@@ -2,6 +2,7 @@
 #include <climits>
 #include "objects.hpp"
 #include "drivecode/util.hpp"
+#include "pros/distance.hpp"
 
 //pistons
 pros::adi::DigitalOut scraper('A');
@@ -9,6 +10,7 @@ pros::adi::DigitalOut wing('B');
 pros::adi::DigitalOut trapdoor('C');
 pros::adi::DigitalOut midGoal('D');
 pros::adi::DigitalOut odomLift('F');
+
 
 //intake
 pros::Motor leftIntake(-7, pros::MotorGearset::blue);
@@ -21,6 +23,10 @@ pros::MotorGroup rightMotors({4, -5, 6}, pros::MotorGearset::blue);
 //sensors
 pros::Imu imu(10);
 pros::Rotation horizRotation(-11);
+pros::adi::DigitalIn limitSwitch('G');
+pros::Distance distanceRight(0);
+pros::Distance distanceLeft(0);
+pros::Distance distanceFront(0);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(

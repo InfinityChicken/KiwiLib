@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/adi.hpp"
+#include "pros/distance.hpp"
 
 //motor declarations
 extern pros::Motor leftIntake;
@@ -14,10 +15,13 @@ extern pros::adi::DigitalOut trapdoor;
 extern pros::adi::DigitalOut midGoal;
 extern pros::adi::DigitalOut odomLift;
 
-
 //sensor declarations
 extern pros::Imu imu;
 extern pros::Rotation horizRotation;
+extern pros::adi::DigitalIn limitSwitch;
+extern pros::Distance distanceRight;
+extern pros::Distance distanceLeft;
+extern pros::Distance distanceFront;
 
 //drivetrain declarations
 extern lemlib::TrackingWheel horizOdom;
