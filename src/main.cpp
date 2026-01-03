@@ -25,14 +25,14 @@ void autonomous() {
 
 void opcontrol() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	velValue = 12000;
 	intakeState = 0;
+	velValue = 12000;
 
 	while (true) {
 		//subsystem updates
 		updateIntake();
 		updatePistons();
-		updateSensors();
+		//updateSensors();
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

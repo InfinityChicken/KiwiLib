@@ -1,6 +1,7 @@
 #include "main.h"
 #include "drivecode/pistons.hpp"
 #include "drivecode/intake.hpp"
+#include "pros/misc.h"
 
 int trapdoorState = 0; //0 closed
 int midGoalState = 0; //0 closed
@@ -11,19 +12,28 @@ int odomState = 0; //0 down
 bool trapdoorPressed = false;
 bool midGoalPressed = false;
 bool scraperPressed = false;
-//bool wingPressed = false;
+bool wingPressed = false;
 bool odomPressed = false;
 
 void updatePistons() {
-    //r1 wing
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //toggle not hold
-        wingState = 1;
+    //R2 wing
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) { // going back to toggle 
+        if (!wingPressed) {
+            if(wingState == 0) {
+                wingState = 1;
+                velValue = 12000;
+            } else {
+                wingState = 0;
+                velValue = 12000 * 0.75;
+            }
+        }
+        wingState = true;
     } else {
-        wingState = 0;
+        wingState = false;
     }
 
-    //r2 trapdoor
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    //R1 trapdoor long 
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         if (!trapdoorPressed) {
             if(trapdoorState == 0) {
                 trapdoorState = 1;
@@ -59,7 +69,7 @@ void updatePistons() {
         scraperPressed = false;
     }
 
-    //y mid goal
+    //Y mid goal
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
         if (!midGoalPressed) {
             if (midGoalState == 0) {
