@@ -17,3 +17,6 @@ void runConsole();
 
 //controller screen print function
 void runController();
+
+//pid tuning function
+void PIDTuning(int mode, float amount);

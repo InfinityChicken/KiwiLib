@@ -50,7 +50,7 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    8,
+    11,
     lemlib::Omniwheel::NEW_4,
     (48.0/84.0)*600.0,   
     8
@@ -58,28 +58,43 @@ lemlib::Drivetrain drivetrain(
 
 //controller settings
 lemlib::ControllerSettings lateralController(
-    0,
+    1,
     0,
     0,
     6,
-    0.1, //range to exit within
+    0.01, //range to exit within
     100, //stay within range for this time
     0.5,
     500,
     0
 );
 
+
 lemlib::ControllerSettings angularController(
-    0, 
+    3.5, 
     0,
-    0, 
-    10,
-    0.5, //within +- 1 deg
+    48, 
+    4,
+    0.01, //within +- 1 deg
     100,
-    2,
+    0,
     500,
     0
 );
+
+/*
+
+kP | output     kD | output
+1  | low        1  | low
+2  | low        2  | low
+4  | high       4  | low
+3  | low        8  | low
+3.5| good       16 | low
+                32 | low
+                64 | high
+                48 | 
+
+*/ 
 
 //distance sensors
 lemlib::DistanceSensors distSensors(distFront, 0, 0,

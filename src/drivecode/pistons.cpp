@@ -17,7 +17,7 @@ bool odomPressed = false;
 
 void updatePistons() {
     //R2 wing
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) { // going back to toggle 
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         if (!wingPressed) {
             if(wingState == 0) {
                 wingState = 1;
@@ -25,9 +25,9 @@ void updatePistons() {
                 wingState = 0;
             }
         }
-        wingState = true;
+        wingPressed = true;
     } else {
-        wingState = false;
+        wingPressed = false;
     }
 
     //R1 trapdoor long 
@@ -73,7 +73,7 @@ void updatePistons() {
             if (midGoalState == 0) {
                 midGoalState = 1;
                 trapdoorState = 1;
-                velValue = 12000 * 0.75;
+                velValue = 12000 * 0.60;
             } else {
                 midGoalState = 0;
                 trapdoorState = 0;

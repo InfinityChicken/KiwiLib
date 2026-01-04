@@ -29,9 +29,9 @@ void lemlib::Chassis::distanceReset(char direction) {
 
     //y reset
     if(currentPose.y > 0){ //pos
-        pose.y = lemlib::halfWidth - (cos(refAngle) * (mmToIn(distSensors.front.distance.get()) + tan(refAngle) * side->offsetX + distSensors.front.offsetY));
+        pose.y = lemlib::halfWidth - (cos(refAngle) * (mmToIn(distSensors.front.distance.get()) + tan(refAngle) * distSensors.front.offsetX + distSensors.front.offsetY));
     } else if(currentPose.y < 0){ //neg
-        pose.y = cos(refAngle) * (mmToIn(distSensors.front.distance.get()) + tan(refAngle) * side->offsetX + distSensors.front.offsetY) - lemlib::halfWidth;
+        pose.y = cos(refAngle) * (mmToIn(distSensors.front.distance.get()) + tan(refAngle) * distSensors.front.offsetX + distSensors.front.offsetY) - lemlib::halfWidth;
     }
 
     this->setPose(pose);
