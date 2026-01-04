@@ -59,9 +59,9 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         const float distTarget = pose.distance(target);
 
         // check if the robot is close enough to the target to start settling
-        if (distTarget < 7.5 && close == false) {
+        if (distTarget < 3 && close == false) { //TODO: changed from 7.5 to 3
             close = true;
-            params.maxSpeed = fmax(fabs(prevLateralOut), 60);
+            // params.maxSpeed = fmax(fabs(prevLateralOut), 60); //TODO: changed
         }
 
         // check if the lateral controller has settled
@@ -77,7 +77,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         const bool carrotSide = (carrot.y - target.y) * -sin(target.theta) <=
                                 (carrot.x - target.x) * cos(target.theta) + params.earlyExitRange;
         const bool sameSide = robotSide == carrotSide;
-        // exit if close
+        // exit if close for motion chain
         if (!sameSide && prevSameSide && close && params.minSpeed != 0) break;
         prevSameSide = sameSide;
 
@@ -89,7 +89,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // only use cos when settling
         // otherwise just multiply by the sign of cos
         // maxSlipSpeed takes care of lateralOut
-        if (close) lateralError *= cos(angleError(pose.theta, pose.angle(carrot)));
+        if (close) lateralError *= cos(angleError(pose.theta, pose.angle(carrot))); //TODO: does this make sense
         else lateralError *= sgn(cos(angleError(pose.theta, pose.angle(carrot))));
 
         // update exit conditions
@@ -111,14 +111,15 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // constrain lateral output by max accel
         if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
-        // constrain lateral output by the max speed it can travel at without
-        // slipping
-        const float radius = 1 / fabs(getCurvature(pose, carrot));
-        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius * 9.8));
-        lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
-        // prioritize angular movement over lateral movement
-        const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
-        if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
+        //TODO: what is this bro i'm taking it out
+        // // constrain lateral output by the max speed it can travel at without
+        // // slipping
+        // const float radius = 1 / fabs(getCurvature(pose, carrot));
+        // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius * 9.8));
+        // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
+        // // prioritize angular movement over lateral movement
+        // const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
+        // if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
 
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
