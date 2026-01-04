@@ -18,7 +18,7 @@ pros::Motor leftIntake(-7, pros::MotorGearset::blue);
 pros::Motor rightIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({-18, 19, -20}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-18, 19, -10}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({3, -2, 1}, pros::MotorGearset::blue);
 
 //sensors
@@ -26,7 +26,7 @@ pros::Imu imu(6);
 pros::Rotation horizRotation(-15);
 pros::adi::DigitalIn limitSwitch('H');
 pros::Distance distRight(11);
-pros::Distance distLeft(17);
+pros::Distance distLeft(16);
 pros::Distance distFront(9);
 
 //odom objects

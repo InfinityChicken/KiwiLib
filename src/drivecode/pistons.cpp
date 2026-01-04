@@ -21,10 +21,8 @@ void updatePistons() {
         if (!wingPressed) {
             if(wingState == 0) {
                 wingState = 1;
-                velValue = 12000;
             } else {
                 wingState = 0;
-                velValue = 12000 * 0.75;
             }
         }
         wingState = true;
@@ -74,6 +72,7 @@ void updatePistons() {
         if (!midGoalPressed) {
             if (midGoalState == 0) {
                 midGoalState = 1;
+                trapdoorState = 1;
                 velValue = 12000 * 0.75;
             } else {
                 midGoalState = 0;
