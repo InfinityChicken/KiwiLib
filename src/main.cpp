@@ -27,7 +27,7 @@ void autonomous() {
 
 void opcontrol() {
 	//pid
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
 	//driver
 	//chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
@@ -36,7 +36,7 @@ void opcontrol() {
 
 	while (true) {
 		// //pid
-		PIDTuning(0,180);
+		PIDTuning(1,36);
 
 		//subsystem updates
 		updateIntake();

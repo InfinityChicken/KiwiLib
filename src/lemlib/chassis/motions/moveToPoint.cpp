@@ -4,6 +4,7 @@
 #include "lemlib/timer.hpp"
 #include "lemlib/util.hpp"
 #include "pros/misc.hpp"
+#include "pros/screen.h"
 
 void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointParams params, bool async) {
     params.earlyExitRange = fabs(params.earlyExitRange);
@@ -52,9 +53,9 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         const float distTarget = pose.distance(target);
 
         // check if the robot is close enough to the target to start settling
-        if (distTarget < 4 && close == false) { //TODO: changed from 7.5 to 3
+        if (distTarget < 7.5 && close == false) { //TODO: changed from 7.5 to 3
             close = true;
-            // params.maxSpeed = fmax(fabs(prevLateralOut), 60); //TODO: changed
+            params.maxSpeed = fmax(fabs(prevLateralOut), 60); //TODO: changed back, commented by zach
         }
 
         // motion chaining

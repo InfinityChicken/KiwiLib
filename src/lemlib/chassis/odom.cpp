@@ -150,7 +150,8 @@ void lemlib::update() {
 
     //if vertical wheel not found, use the averages of both sides of drive
     else {
-        rawVertical = ((driveSide1->getDistanceTraveled() + driveSide2->getDistanceTraveled()) / 2);
+        //rawVertical = ((driveSide1->getDistanceTraveled() + driveSide2->getDistanceTraveled()) / 2);
+        rawVertical = driveSide1->getDistanceTraveled();
     }
 
     if (horizontalWheel != nullptr) rawHorizontal = horizontalWheel->getDistanceTraveled();
