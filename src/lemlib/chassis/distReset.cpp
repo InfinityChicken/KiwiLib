@@ -5,15 +5,21 @@ float mmToIn(float mm) {
     return mm / 25.4;
 }
 
-void lemlib::Chassis::distanceReset(char direction) {
+void lemlib::Chassis::distanceReset(char frontBack, char leftRight) {
     this->waitUntilDone(); //TODO: check
 
     //pick active dist sensor for side
     DistResetSensors* side;
-    if(direction == 'R')
+    DistResetSensors* front;
+    if(leftRight == 'R')
         side = &distSensors.right;
-    else if(direction == 'L')
+    else if(leftRight == 'L')
         side = &distSensors.left;
+
+    if(frontBack == 'F')
+        side = &distSensors.front;
+    else if(frontBack == 'B')
+        side = &distSensors.back;
 
     lemlib::Pose currentPose = this->getPose(true);
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
@@ -29,9 +35,9 @@ void lemlib::Chassis::distanceReset(char direction) {
 
     //y reset
     if(currentPose.y > 0){ //pos
-        pose.y = lemlib::halfWidth - (cos(refAngle) * (mmToIn(distSensors.front.distance.get()) + tan(refAngle) * distSensors.front.offsetX + distSensors.front.offsetY));
+        pose.y = lemlib::halfWidth - (cos(refAngle) * (mmToIn(front->distance.get()) + tan(refAngle) * front->offsetX + front->offsetY));
     } else if(currentPose.y < 0){ //neg
-        pose.y = cos(refAngle) * (mmToIn(distSensors.front.distance.get()) + tan(refAngle) * distSensors.front.offsetX + distSensors.front.offsetY) - lemlib::halfWidth;
+        pose.y = cos(refAngle) * (mmToIn(front->distance.get()) + tan(refAngle) * front->offsetX + front->offsetY) - lemlib::halfWidth;
     }
 
     this->setPose(pose);

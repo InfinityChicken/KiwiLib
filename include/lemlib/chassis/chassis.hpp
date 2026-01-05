@@ -30,9 +30,11 @@ struct DistResetSensors {
 class DistanceSensors {
     public: 
         DistanceSensors(pros::Distance front, float frontOffsetX, float frontOffsetY, 
+                        pros::Distance back, float backOffsetX, float backOffsetY, 
                         pros::Distance left, float leftOffsetX, float leftOffsetY, 
                         pros::Distance right, float rightOffsetX, float rightOffsetY);
         DistResetSensors front;
+        DistResetSensors back;
         DistResetSensors left;
         DistResetSensors right;
 };
@@ -924,7 +926,7 @@ class Chassis {
          * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
          * the bottom of the graph is located at the skills starting wall. 
          */
-        void distanceReset(char direction);
+        void distanceReset(char frontBack, char leftRight);
 
         DistanceSensors distSensors;
 

@@ -28,6 +28,7 @@ pros::adi::DigitalIn limitSwitch('H');
 pros::Distance distRight(11);
 pros::Distance distLeft(16);
 pros::Distance distFront(9);
+pros::Distance distBack(5);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -62,7 +63,7 @@ lemlib::ControllerSettings lateralController(
     0.32,
     48,
     6,
-    0.01, //range to exit within
+    0.1, //range to exit within
     100, //stay within range for this time
     0.5,
     500,
@@ -92,7 +93,7 @@ lemlib::ControllerSettings angularController(
     5,
     1, //within +- 1 deg
     100,
-    0,
+    2,
     500,
     0
 );
@@ -114,6 +115,7 @@ kP | output     kD  | output            kI      | output
 
 //distance sensors
 lemlib::DistanceSensors distSensors(distFront, 0, 0,
+                                    distBack, 0, 0,
                                     distLeft, 0, 0,
                                     distRight, 0, 0);
 

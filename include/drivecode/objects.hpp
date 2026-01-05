@@ -22,6 +22,7 @@ extern pros::adi::DigitalIn limitSwitch;
 extern pros::Distance distRight;
 extern pros::Distance distLeft;
 extern pros::Distance distFront;
+extern pros::Distance distBack;
 
 //drivetrain declarations
 extern lemlib::TrackingWheel horizOdom;

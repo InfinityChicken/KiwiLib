@@ -5,6 +5,7 @@
 #include "drivecode/intake.hpp"
 #include "drivecode/pistons.hpp"
 #include "drivecode/sensors.hpp"
+#include "autonomous/autonomous.hpp"
 
 void on_center_button() {}
 
@@ -22,21 +23,21 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	chassis.turnToHeading(90,10000);
+	sevenBlockLow();
 }
 
 void opcontrol() {
 	//pid
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	//chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	//driver
-	//chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000 * 0.75;
 
 	while (true) {
 		// //pid
-		PIDTuning(1,36);
+		//PIDTuning(1,24);
 
 		//subsystem updates
 		updateIntake();
