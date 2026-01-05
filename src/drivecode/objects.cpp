@@ -69,30 +69,37 @@ lemlib::ControllerSettings lateralController(
     0
 );
 
+/*
+kP | output     kD  | output            kI      | output
+1  | 
+
+*/
+
 
 lemlib::ControllerSettings angularController(
-    3.5, 
-    0,
-    48, 
-    4,
-    0.01, //within +- 1 deg
+    3.25, 
+    0.16,
+    14, 
+    5,
+    1, //within +- 1 deg
     100,
     0,
     500,
     0
 );
 
+
+
 /*
 
-kP | output     kD | output
-1  | low        1  | low
-2  | low        2  | low
-4  | high       4  | low
-3  | low        8  | low
-3.5| good       16 | low
-                32 | low
-                64 | high
-                48 | 
+kP | output     kD  | output            kI      | output
+1  | low        1   | low               0.01    | low
+2  | low        2   | low               0.02    | low
+4  | high       4   | low               0.04    | low
+3  | low        8   | low               0.08    | low
+3.5| high       16  | high              0.16    | good
+3.25| good      12  | low
+                14  | good
 
 */ 
 

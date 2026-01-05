@@ -36,7 +36,7 @@ void opcontrol() {
 
 	while (true) {
 		// //pid
-		PIDTuning(0,90);
+		PIDTuning(0,180);
 
 		//subsystem updates
 		updateIntake();
