@@ -23,12 +23,12 @@ pros::MotorGroup rightMotors({3, -2, 1}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(6);
-pros::Rotation horizRotation(-15);
+pros::Rotation horizRotation(-12);
 pros::adi::DigitalIn limitSwitch('H');
 pros::Distance distRight(11);
 pros::Distance distLeft(16);
 pros::Distance distFront(9);
-pros::Distance distBack(5);
+pros::Distance distBack(15);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -87,13 +87,13 @@ kP | output     kD  | output            kI      | output
 
 
 lemlib::ControllerSettings angularController(
-    3.25, 
-    0.16,
-    14, 
+    3.125, 
+    0.32,
+    24, 
     5,
     1, //within +- 1 deg
-    100,
-    2,
+    50,
+    0,
     500,
     0
 );
@@ -107,9 +107,13 @@ kP | output     kD  | output            kI      | output
 2  | low        2   | low               0.02    | low
 4  | high       4   | low               0.04    | low
 3  | low        8   | low               0.08    | low
-3.5| high       16  | high              0.16    | good
-3.25| good      12  | low
-                14  | good
+3.5| high       16  | low               0.16    | low
+3.25| high      32  | high              0.32    |
+3.125|good      24  | high
+                20  | low
+                22  | low
+                23  | perf
+                24  | perf w/ 
 
 */ 
 
