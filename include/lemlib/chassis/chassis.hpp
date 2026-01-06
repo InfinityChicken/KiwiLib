@@ -17,9 +17,15 @@ static const float width = 140.5;
 static const float halfWidth = width / 2;
 
 struct DistResetSensors {
+        /**
+         * @param distance stores distance sensor
+         * @param offsetX offset of dist sensor from projected plane of center (dist from the center of the side it is on) in inches
+         * @param offsetY offset of plane of dist sensor from center of robot in inches
+        **/
+
         pros::Distance distance;
-        float offsetX; //offset of plane of dist sensor from center of robot in inches
-        float offsetY; //offset of dist sensor from projected plane of center (dist from the center of the side it is on) in inches
+        float offsetX; //offset of dist sensor from projected plane of center (dist from the center of the side it is on) in inches
+        float offsetY; //offset of plane of dist sensor from center of robot in inches
         
         DistResetSensors(pros::Distance dist, float x, float y) 
                 : distance(dist), offsetX(x), offsetY(y) {}

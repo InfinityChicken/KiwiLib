@@ -1,30 +1,47 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/util.hpp"
+#include <cmath>
+#include <iostream>
 
 float mmToIn(float mm) {
     return mm / 25.4;
 }
 
-void lemlib::Chassis::distanceReset(char frontBack, char leftRight) {
-    this->waitUntilDone(); //TODO: check
+void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
+    std::cout<<"distance reset started\n";
+    //treat as lemlib motion so doesnt interfere with motions in progress
+    this->requestMotionStart();
 
     //pick active dist sensor for side
     DistResetSensors* side;
     DistResetSensors* front;
-    if(leftRight == 'R')
+
+    if(xDirection == 'F')
+        side = &distSensors.front;
+    else if(xDirection == 'B')
+        side = &distSensors.back;
+    else if(xDirection == 'R')
         side = &distSensors.right;
-    else if(leftRight == 'L')
+    else if(xDirection == 'L')
         side = &distSensors.left;
 
-    if(frontBack == 'F')
-        side = &distSensors.front;
-    else if(frontBack == 'B')
-        side = &distSensors.back;
+    if(yDirection == 'F')
+        front = &distSensors.front;
+    else if(yDirection == 'B')
+        front = &distSensors.back;
+    else if(yDirection == 'R')
+        front = &distSensors.right;
+    else if(yDirection == 'L')
+        front = &distSensors.left;
+    
+    std::cout<<"distance sensors chosen\n";
 
     lemlib::Pose currentPose = this->getPose(true);
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    const float refAngle = lemlib::refAngle(true, currentPose.theta);
+    const float refAngle = std::fmod(lemlib::sanitizeAngle(currentPose.theta, true),M_PI_2); //NOT reference angle, acute angle from axis (same side always)
+    std::cout<<"refAngle: "<<refAngle<<"\n";
+    std::cout<<"side dist: "<<mmToIn(side->distance.get())<<"\n";
 
     //x reset
     if(currentPose.x > 0){ //pos
@@ -32,6 +49,7 @@ void lemlib::Chassis::distanceReset(char frontBack, char leftRight) {
     } else if(currentPose.x < 0) { //neg
         pose.x = cos(refAngle) * (mmToIn(side->distance.get()) + tan(refAngle) * side->offsetX + side->offsetY) - lemlib::halfWidth;
     }
+    std::cout<<"x position reset\n";
 
     //y reset
     if(currentPose.y > 0){ //pos
@@ -39,8 +57,13 @@ void lemlib::Chassis::distanceReset(char frontBack, char leftRight) {
     } else if(currentPose.y < 0){ //neg
         pose.y = cos(refAngle) * (mmToIn(front->distance.get()) + tan(refAngle) * front->offsetX + front->offsetY) - lemlib::halfWidth;
     }
+    std::cout<<"y position reset\n";
+
+    std::cout<<pose.x<<", "<<pose.y<<", "<<pose.theta<<"\n";
+    std::cout<<"distance reset finished\n";
 
     this->setPose(pose);
+    this->endMotion();
     return;
     
 }

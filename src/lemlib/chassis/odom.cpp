@@ -128,41 +128,41 @@ void lemlib::update() {
     lemlib::TrackingWheel* horizontalWheel = nullptr;
 
     //if a vertical tracking wheel exists, use it
-    if (!odomSensors.vertical1->getType()) verticalWheel = odomSensors.vertical1;
-    else if (!odomSensors.vertical2->getType()) verticalWheel = odomSensors.vertical2;
+    // if (!odomSensors.vertical1->getType()) verticalWheel = odomSensors.vertical1;
+    // else if (!odomSensors.vertical2->getType()) verticalWheel = odomSensors.vertical2;
 
-    //if a vertical tracking wheel does not exist, use drivetrain
-    else {
-        driveSide1 = odomSensors.vertical1; 
-        driveSide2 = odomSensors.vertical2;
-    }
+    // //if a vertical tracking wheel does not exist, use drivetrain
+    // else {
+    driveSide1 = odomSensors.vertical1; 
+    driveSide2 = odomSensors.vertical2;
+    // }
 
     //if a horizontal tracking wheel exists, use it --- if not, ball
-    if (odomSensors.horizontal1 != nullptr) horizontalWheel = odomSensors.horizontal1;
-    else if (odomSensors.horizontal2 != nullptr) horizontalWheel = odomSensors.horizontal2;
+    horizontalWheel = odomSensors.horizontal1;
+    // if (odomSensors.horizontal1 != nullptr) horizontalWheel = odomSensors.horizontal1;
+    // else if (odomSensors.horizontal2 != nullptr) horizontalWheel = odomSensors.horizontal2;
     float rawVertical = 0;
     float rawHorizontal = 0;
 
     //get raw distance values using the tracking wheels decided above
 
     //if vertical wheel found, use that value
-    if (verticalWheel != nullptr) rawVertical = verticalWheel->getDistanceTraveled();
+    // if (verticalWheel != nullptr) rawVertical = verticalWheel->getDistanceTraveled();
 
     //if vertical wheel not found, use the averages of both sides of drive
-    else {
-        //rawVertical = ((driveSide1->getDistanceTraveled() + driveSide2->getDistanceTraveled()) / 2);
-        rawVertical = driveSide1->getDistanceTraveled();
-    }
+    // else {
+    //rawVertical = ((driveSide1->getDistanceTraveled() + driveSide2->getDistanceTraveled()) / 2); // averaging
+    rawVertical = driveSide1->getDistanceTraveled(); //not averaging
+    // }
 
-    if (horizontalWheel != nullptr) rawHorizontal = horizontalWheel->getDistanceTraveled();
+    rawHorizontal = horizontalWheel->getDistanceTraveled();
 
     //fetch offsets
     float horizontalOffset = 0;
     float verticalOffset = 0;
 
     //if vert wheel, use that offset
-    if (verticalWheel != nullptr) verticalOffset = verticalWheel->getOffset();
-    else verticalOffset = 0; //if taking drivetrain, the average should be 0
+    verticalOffset = 0; //if taking drivetrain, the average should be 0
     if (horizontalWheel != nullptr) horizontalOffset = horizontalWheel->getOffset();
 
     // calculate change in x and y

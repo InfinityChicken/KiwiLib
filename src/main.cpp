@@ -23,18 +23,22 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	sevenBlockLow();
+	//SAWP();
+	//sevenBlockLow();
 }
 
 void opcontrol() {
+	chassis.setPose(-1,-1,90);
+    chassis.distanceReset('F','R');
+
 	//driver
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000 * 0.75;
 
 	while (true) {
 		// //pid
-		PIDTuning(0,90);
+		//PIDTuning(1,24);
 
 		//subsystem updates
 		updateIntake();

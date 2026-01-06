@@ -23,7 +23,7 @@ pros::MotorGroup rightMotors({3, -2, 1}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(6);
-pros::Rotation horizRotation(-12);
+pros::Rotation horizRotation(21);
 pros::adi::DigitalIn limitSwitch('H');
 pros::Distance distRight(11);
 pros::Distance distLeft(16);
@@ -60,12 +60,12 @@ lemlib::Drivetrain drivetrain(
 //controller settings
 lemlib::ControllerSettings lateralController(
     10,
-    0.32,
-    48,
+    0,
+    64,
     6,
-    0.1, //range to exit within
+    0.3, //range to exit within
     100, //stay within range for this time
-    0.5,
+    0,
     500,
     0
 );
@@ -93,7 +93,7 @@ lemlib::ControllerSettings angularController(
     5,
     1, //within +- 1 deg
     50,
-    0,
+    3,
     500,
     0
 );
@@ -118,10 +118,10 @@ kP | output     kD  | output            kI      | output
 */ 
 
 //distance sensors
-lemlib::DistanceSensors distSensors(distFront, 0, 0,
-                                    distBack, 0, 0,
-                                    distLeft, 0, 0,
-                                    distRight, 0, 0);
+lemlib::DistanceSensors distSensors(distFront, 5.25, 7,
+                                    distBack, 3, 6,
+                                    distLeft, 2.5, 5.25,
+                                    distRight, 2.5, 5.25);
 
 //controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
