@@ -1,4 +1,5 @@
 #include "autonomous/autonomous.hpp"
+#include "lemlib/chassis/chassis.hpp"
 
 void sevenBlockLow() {
     chassis.setPose(-1,-1,0);
@@ -7,6 +8,57 @@ void sevenBlockLow() {
 }
 
 void SAWP() {
-    chassis.setPose(-1,-1,90);
-    chassis.distanceReset('F','R');
+    chassis.setPose(0,0,90);
+    //go to matchloader
+    scraperState = 1;
+    intakeState = 1;
+    chassis.moveDistance(31,1000);
+    chassis.turnToHeading(180, 1250);
+
+    //reset pose
+    chassis.setPose(10,-10,chassis.getPose().theta); //set quadrant and angle
+    chassis.waitUntilDone();
+    chassis.distanceReset('L','F');
+    //if(chassis.getPose().y <= -60) chassis.setPose(46, -46, chassis.getPose().theta);
+
+    //go into matchloader
+    //chassis.moveToPose(47, -58, 180, 1000);
+    chassis.moveDistance(14, 1000);
+    pros::delay(250);
+    
+    //score long goal
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 80});
+    trapdoorState = 1;
+    //chassis.moveToPoint(48, -25, 250, {.forwards = false, .maxSpeed = 60});
+    chassis.distanceReset('L', 'F');
+    pros::delay(800);
+    scraperState = 0;
+
+    //go back and get blocks before mid goal
+    chassis.moveToPoint(48, -48, 1000, {.earlyExitRange = 2});
+    trapdoorState = 0;
+    chassis.turnToPoint(23, -25, 1000);
+    chassis.moveToPoint(23, -25, 1250, {.maxSpeed = 90});
+    //pros::delay(500);
+    chassis.turnToHeading(-90, 1000);
+    chassis.moveToPoint(-17, -24.5, 1500, {.maxSpeed = 90});
+    pros::delay(250);
+
+    // score mid goal
+    chassis.turnToPoint(-8,-10, 1000, {.forwards = false});
+    chassis.moveToPoint(-8, -10, 1000, {.forwards = false});
+    midGoalState = 1;
+    trapdoorState = 1;
+    pros::delay(500);
+    trapdoorState = 0;
+
+    // score other long goal
+    chassis.moveToPoint(-48, -47, 2000);
+    midGoalState = 0;
+    chassis.turnToHeading(180, 1000);
+    chassis.distanceReset('R', 'F');
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false});
+    trapdoorState = 1;
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false});
+    pros::delay(2000);
 }

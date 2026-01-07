@@ -2,6 +2,8 @@
 #include "lemlib/util.hpp"
 #include <cmath>
 #include <iostream>
+#include "main.h"
+#include <string>
 
 float mmToIn(float mm) {
     return mm / 25.4;
@@ -39,27 +41,41 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     lemlib::Pose currentPose = this->getPose(true);
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    const float refAngle = std::fmod(lemlib::sanitizeAngle(currentPose.theta, true),M_PI_2); //NOT reference angle, acute angle from axis (same side always)
-    std::cout<<"refAngle: "<<refAngle<<"\n";
-    std::cout<<"side dist: "<<mmToIn(side->distance.get())<<"\n";
+    //acute angle from axis (from same direction always)
+    const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta, true)); 
+
+    std::cout<<"correctedAngle: "<<correctedAngle<<"        front dist: "<<mmToIn(side->distance.get())<<"\n";
+    
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "correctedAngle: %.3f", correctedAngle);
+    char buf[64];
+    snprintf(buf, sizeof(buf), "%.3f, %.3f, %.3f",
+            currentPose.x, currentPose.y, currentPose.theta);
+    std::string printPos(buf);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
 
     //x reset
     if(currentPose.x > 0){ //pos
-        pose.x = lemlib::halfWidth - (cos(refAngle) * (mmToIn(side->distance.get()) + tan(refAngle) * side->offsetX + side->offsetY));
+        pose.x = lemlib::halfWidth - (cos(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY));
     } else if(currentPose.x < 0) { //neg
-        pose.x = cos(refAngle) * (mmToIn(side->distance.get()) + tan(refAngle) * side->offsetX + side->offsetY) - lemlib::halfWidth;
+        pose.x = cos(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY) - lemlib::halfWidth;
     }
     std::cout<<"x position reset\n";
 
     //y reset
     if(currentPose.y > 0){ //pos
-        pose.y = lemlib::halfWidth - (cos(refAngle) * (mmToIn(front->distance.get()) + tan(refAngle) * front->offsetX + front->offsetY));
+        pose.y = lemlib::halfWidth - (cos(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY)); //TODO: part with tanget should have sign changes based on angle
     } else if(currentPose.y < 0){ //neg
-        pose.y = cos(refAngle) * (mmToIn(front->distance.get()) + tan(refAngle) * front->offsetX + front->offsetY) - lemlib::halfWidth;
+        pose.y = cos(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY) - lemlib::halfWidth;
     }
     std::cout<<"y position reset\n";
 
-    std::cout<<pose.x<<", "<<pose.y<<", "<<pose.theta<<"\n";
+
+    char buf1[64];
+    snprintf(buf, sizeof(buf), "%.3f, %.3f, %.3f",
+            pose.x, pose.y, pose.theta);
+    std::string printPos1(buf);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "Distance Reset: %s", printPos.c_str());
+    std::cout<<printPos<<"\n";
     std::cout<<"distance reset finished\n";
 
     this->setPose(pose);

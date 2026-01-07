@@ -13,7 +13,7 @@
 namespace lemlib {
 
 //field width measurements
-static const float width = 140.5;
+static const float width = 141;
 static const float halfWidth = width / 2;
 
 struct DistResetSensors {
