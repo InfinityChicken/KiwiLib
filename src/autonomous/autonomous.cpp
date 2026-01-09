@@ -43,7 +43,7 @@ void SAWP() {
     chassis.turnToPoint(-17, -24, 1000);
     scraperState = 0;
     chassis.moveToPoint(-17, -24, 1500, {}, true);
-    pros::delay(550);
+    pros::delay(580);
     scraperState = 1;
 
     // score mid goal
