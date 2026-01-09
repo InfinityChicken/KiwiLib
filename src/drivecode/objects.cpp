@@ -65,7 +65,7 @@ lemlib::ControllerSettings lateralController(
     4,      //windup range
     0.25,   //small error
     50,     //small error timeout
-    0,      //large error
+    1.5,      //large error
     500,    //large error timeout
     0       //slew
 );
@@ -89,11 +89,11 @@ kP | output     kD  | output            kI      | output
 lemlib::ControllerSettings angularController(
     3.125, 
     0.32,
-    24, 
+    23, 
     5,
     1, //within +- 1 deg
     50,
-    3,
+    0,
     500,
     0
 );
