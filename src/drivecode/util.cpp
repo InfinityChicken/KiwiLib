@@ -92,6 +92,7 @@ void PIDTuning(int mode, float amount) {
             if (!buttonPressed) {
                 chassis.setPose(0,0,0);
                 chassis.moveToPoint(0,amount,5000);
+                chassis.turnToHeading(90, 1000);
             }
             buttonPressed = true;
         } else {

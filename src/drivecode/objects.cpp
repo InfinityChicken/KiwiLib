@@ -60,11 +60,11 @@ lemlib::Drivetrain drivetrain(
 //controller settings
 lemlib::ControllerSettings lateralController(
     10,
-    0,
+    0.16,
     64,
-    6,
-    0.3, //range to exit within
-    100, //stay within range for this time
+    4,
+    0.25, //range to exit within
+    50, //stay within range for this time
     0,
     500,
     0

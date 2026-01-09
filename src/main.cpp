@@ -23,7 +23,9 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	SAWP();
+	chassis.setPose(1,-1,90);
+	chassis.distanceReset('F', 'R');
+	//SAWP();
 	//sevenBlockLow();
 }
 
@@ -32,18 +34,18 @@ void opcontrol() {
 	//SAWP();
 
 	//driver
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	intakeState = 0;
-	velValue = 12000 * 0.75;
+	velValue = 12000;
 
 	while (true) {
 		// //pid
-		//PIDTuning(1,24);
+		PIDTuning(0, 90);
 
 		//subsystem updates
-		updateIntake();
-		updatePistons();
-		updateSensors();
+		// updateIntake();
+		// updatePistons();
+		// updateSensors();
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

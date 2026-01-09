@@ -99,8 +99,8 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         angularLargeExit.update(radToDeg(angularError));
 
         // get output from PIDs
-        float lateralOut = lateralPID.update(lateralError);
-        float angularOut = angularPID.update(radToDeg(angularError));
+        float lateralOut = lateralPID.update(lateralError, true);
+        float angularOut = angularPID.update(radToDeg(angularError), false);
 
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);

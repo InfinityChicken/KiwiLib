@@ -14,27 +14,40 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     //treat as lemlib motion so doesnt interfere with motions in progress
     this->requestMotionStart();
 
+    bool rotated;
+
     //pick active dist sensor for side
     DistResetSensors* side;
     DistResetSensors* front;
 
-    if(xDirection == 'F')
+    if(xDirection == 'F') {
         side = &distSensors.front;
-    else if(xDirection == 'B')
+        rotated = true;
+    } else if(xDirection == 'B') {
         side = &distSensors.back;
-    else if(xDirection == 'R')
+        rotated = true;
+    } else if(xDirection == 'R') {
         side = &distSensors.right;
-    else if(xDirection == 'L')
+        rotated = false;
+    } else if(xDirection == 'L') {
         side = &distSensors.left;
+        rotated = false;
+    }
+        
 
-    if(yDirection == 'F')
+    if(yDirection == 'F') {
         front = &distSensors.front;
-    else if(yDirection == 'B')
+        rotated = false;
+    } else if(yDirection == 'B') {
         front = &distSensors.back;
-    else if(yDirection == 'R')
+        rotated = false;
+    } else if(yDirection == 'R') {
         front = &distSensors.right;
-    else if(yDirection == 'L')
+        rotated = true;
+    } else if(yDirection == 'L') {
         front = &distSensors.left;
+        rotated = true;
+    }
     
     std::cout<<"distance sensors chosen\n";
 
@@ -53,19 +66,31 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::string printPos(buf);
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
 
+    //calculate perpendicular distance from center to perimeter
+    float xPerpDistance = 0;
+    float yPerpDistance = 0;
+    if(!rotated) {
+        xPerpDistance = cos(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY);
+        yPerpDistance = cos(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY);
+    } else {
+        xPerpDistance = sin(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY);
+        yPerpDistance = sin(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY);
+    }
+    
+
     //x reset
     if(currentPose.x > 0){ //pos
-        pose.x = lemlib::halfWidth - (cos(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY));
+        pose.x = lemlib::halfWidth - xPerpDistance;
     } else if(currentPose.x < 0) { //neg
-        pose.x = cos(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY) - lemlib::halfWidth;
+        pose.x = xPerpDistance - lemlib::halfWidth;
     }
     std::cout<<"x position reset\n";
 
     //y reset
     if(currentPose.y > 0){ //pos
-        pose.y = lemlib::halfWidth - (cos(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY)); //TODO: part with tanget should have sign changes based on angle
+        pose.y = lemlib::halfWidth - yPerpDistance; //TODO: part with tanget should have sign changes based on angle
     } else if(currentPose.y < 0){ //neg
-        pose.y = cos(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY) - lemlib::halfWidth;
+        pose.y = yPerpDistance - lemlib::halfWidth;
     }
     std::cout<<"y position reset\n";
 

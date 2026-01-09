@@ -41,7 +41,7 @@ class PID {
          * }
          * @endcode
          */
-        float update(float error);
+        float update(float error, bool useIntegral);
 
         /**
          * @brief reset integral, derivative, and prevTime

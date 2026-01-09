@@ -10,7 +10,7 @@ PID::PID(float kP, float kI, float kD, float windupRange, bool signFlipReset)
       windupRange(windupRange),
       signFlipReset(signFlipReset) {}
 
-float PID::update(const float error) {
+float PID::update(const float error, bool useIntegral) {
     // calculate integral
     integral += error;
 
@@ -29,13 +29,12 @@ float PID::update(const float error) {
     prevDerivative = currDerivative;
     prevError = error;
 
-    // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "integral raw: %.3f", integral);
-    // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "integral adjusted: %.3f", integral * kI);
-
-    //std::cout<<error * kP + integral * kI + derivative * kD<<"\n";
-
     // calculate output
-    return error * kP + integral * kI + derivative * kD;
+    if(useIntegral) { //use integral
+        return error * kP + integral * kI + derivative * kD;
+    } else { //don't use integral
+        return error * kP + derivative * kD;
+    }
 }
 
 void PID::reset() {

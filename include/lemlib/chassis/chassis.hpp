@@ -932,7 +932,7 @@ class Chassis {
          * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
          * the bottom of the graph is located at the skills starting wall. 
          */
-        void distanceReset(char frontBack, char leftRight);
+        void distanceReset(char xDirection, char yDirection);
 
         DistanceSensors distSensors;
 

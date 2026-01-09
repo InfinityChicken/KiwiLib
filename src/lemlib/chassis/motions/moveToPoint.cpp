@@ -76,10 +76,10 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         lateralLargeExit.update(lateralError);
 
         // get output from PIDs
-        float lateralOut = lateralPID.update(lateralError);
-        float angularOut = angularPID.update(radToDeg(angularError));
+        float lateralOut = lateralPID.update(lateralError, true);
+        float angularOut = angularPID.update(radToDeg(angularError), false);
         if (close) angularOut = 0;
-
+        
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
         angularOut = slew(angularOut, prevAngularOut, angularSettings.slew);

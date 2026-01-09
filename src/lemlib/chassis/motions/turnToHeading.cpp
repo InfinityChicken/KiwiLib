@@ -58,7 +58,7 @@ void lemlib::Chassis::turnToHeading(float theta, int timeout, TurnToHeadingParam
         if (params.minSpeed != 0 && sgn(deltaTheta) != sgn(prevDeltaTheta)) break;
 
         // calculate the speed
-        motorPower = angularPID.update(deltaTheta);
+        motorPower = angularPID.update(deltaTheta, true);
         angularLargeExit.update(deltaTheta);
         angularSmallExit.update(deltaTheta);
 
