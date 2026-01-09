@@ -14,7 +14,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     //treat as lemlib motion so doesnt interfere with motions in progress
     this->requestMotionStart();
 
-    bool rotated;
+    float rotated = 0;
 
     //pick active dist sensor for side
     DistResetSensors* side;
@@ -22,31 +22,27 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     if(xDirection == 'F') {
         side = &distSensors.front;
-        rotated = true;
+        rotated = M_PI_2;
     } else if(xDirection == 'B') {
         side = &distSensors.back;
-        rotated = true;
+        rotated = M_PI_2;
     } else if(xDirection == 'R') {
         side = &distSensors.right;
-        rotated = false;
     } else if(xDirection == 'L') {
         side = &distSensors.left;
-        rotated = false;
     }
         
 
     if(yDirection == 'F') {
         front = &distSensors.front;
-        rotated = false;
     } else if(yDirection == 'B') {
         front = &distSensors.back;
-        rotated = false;
     } else if(yDirection == 'R') {
         front = &distSensors.right;
-        rotated = true;
+        rotated = M_PI_2;
     } else if(yDirection == 'L') {
         front = &distSensors.left;
-        rotated = true;
+        rotated = M_PI_2;
     }
     
     std::cout<<"distance sensors chosen\n";
@@ -54,9 +50,11 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     lemlib::Pose currentPose = this->getPose(true);
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    //acute angle from axis (from same direction always)
-    const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta, true)); 
-
+    //acute angle from axis
+    const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta-rotated, true)); 
+    const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
+    
+    std::cout<<"offsetMultiplier: "<<offsetMultiplier<<"\n";
     std::cout<<"correctedAngle: "<<correctedAngle<<"        front dist: "<<mmToIn(side->distance.get())<<"\n";
     
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "correctedAngle: %.3f", correctedAngle);
@@ -67,15 +65,8 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
 
     //calculate perpendicular distance from center to perimeter
-    float xPerpDistance = 0;
-    float yPerpDistance = 0;
-    if(!rotated) {
-        xPerpDistance = cos(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY);
-        yPerpDistance = cos(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY);
-    } else {
-        xPerpDistance = sin(correctedAngle) * (mmToIn(side->distance.get()) + side->offsetY);
-        yPerpDistance = sin(correctedAngle) * (mmToIn(front->distance.get()) + front->offsetY);
-    }
+    float xPerpDistance = cos(correctedAngle) * (mmToIn(side->distance.get()) + tan(correctedAngle) * side->offsetX * offsetMultiplier + side->offsetY);
+    float yPerpDistance = cos(correctedAngle) * (mmToIn(front->distance.get()) + tan(correctedAngle) * front->offsetX * offsetMultiplier + front->offsetY);
     
 
     //x reset
@@ -96,11 +87,11 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
 
     char buf1[64];
-    snprintf(buf, sizeof(buf), "%.3f, %.3f, %.3f",
+    snprintf(buf1, sizeof(buf1), "%.3f, %.3f, %.3f",
             pose.x, pose.y, pose.theta);
-    std::string printPos1(buf);
+    std::string printPos1(buf1);
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "Distance Reset: %s", printPos.c_str());
-    std::cout<<printPos<<"\n";
+    std::cout<<printPos1<<"\n";
     std::cout<<"distance reset finished\n";
 
     this->setPose(pose);

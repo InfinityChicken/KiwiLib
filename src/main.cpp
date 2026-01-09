@@ -24,6 +24,7 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	chassis.setPose(1,-1,90);
+	chassis.turnToHeading(70, 1000);
 	chassis.distanceReset('F', 'R');
 	//SAWP();
 	//sevenBlockLow();
@@ -42,6 +43,7 @@ void opcontrol() {
 		// //pid
 		PIDTuning(0, 90);
 
+		
 		//subsystem updates
 		// updateIntake();
 		// updatePistons();

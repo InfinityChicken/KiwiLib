@@ -59,15 +59,15 @@ lemlib::Drivetrain drivetrain(
 
 //controller settings
 lemlib::ControllerSettings lateralController(
-    10,
-    0.16,
-    64,
-    4,
-    0.25, //range to exit within
-    50, //stay within range for this time
-    0,
-    500,
-    0
+    10,     //kP
+    0.16,   //kI
+    64,     //kD    
+    4,      //windup range
+    0.25,   //small error
+    50,     //small error timeout
+    0,      //large error
+    500,    //large error timeout
+    0       //slew
 );
 
 /*
