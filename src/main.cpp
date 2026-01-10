@@ -23,15 +23,15 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	//chassis.setPose(1,-1,-90);
-	//chassis.distanceReset('L', 'B');
+	// chassis.setPose(1,-1,-90);
+	// chassis.distanceReset('B', 'L');
 	SAWP();
 	//sevenBlockLow();
 }
 
 void opcontrol() {
-	//chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	//SAWP();
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	SAWP();
 
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);

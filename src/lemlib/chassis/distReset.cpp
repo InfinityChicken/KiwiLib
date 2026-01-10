@@ -53,9 +53,10 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     //acute angle from axis
     const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta-rotated, true)); 
     const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
-    
-    std::cout<<"offsetMultiplier: "<<offsetMultiplier<<"\n";
-    std::cout<<"correctedAngle: "<<correctedAngle<<"        front dist: "<<mmToIn(side->distance.get())<<"\n";
+
+    std::cout<<"offsetMultiplier: "<<offsetMultiplier<<"        rotated: "<<rotated<<"\n";
+    std::cout<<"correctedAngle: "<<correctedAngle<<"\n";
+    std::cout<<"sanitized angle: "<<lemlib::sanitizeAngle(currentPose.theta-rotated)*180/M_PI<<"\n";
     
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "correctedAngle: %.3f", correctedAngle);
     char buf[64];
