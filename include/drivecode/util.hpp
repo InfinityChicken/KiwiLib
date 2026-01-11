@@ -3,6 +3,7 @@
 #include "pistons.hpp"
 #include "sensors.hpp"
 #include "objects.hpp"
+#include "velocity.hpp"
 
 //begin all tasks
 void taskInit();

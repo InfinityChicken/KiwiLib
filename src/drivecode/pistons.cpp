@@ -35,10 +35,10 @@ void updatePistons() {
         if (!trapdoorPressed) {
             if(trapdoorState == 0) {
                 trapdoorState = 1;
-                velValue = 12000;
+                //velValue = 12000;
             } else {
                 trapdoorState = 0;
-                velValue = 12000 * 0.75;
+                //velValue = 12000 * 0.75;
             }
         }
         trapdoorPressed = true;
@@ -73,7 +73,7 @@ void updatePistons() {
             if (midGoalState == 0) {
                 midGoalState = 1;
                 trapdoorState = 1;
-                velValue = 12000 * 0.60;
+                //velValue = 12000 * 0.60;
             } else {
                 midGoalState = 0;
                 trapdoorState = 0;

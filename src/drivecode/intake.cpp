@@ -4,8 +4,7 @@
 // trapdoor closed 75 - open - 100, scoring midgoal - 75
 
 int intakeState = 0;
-int velValue = 12000;
-int tempVelValue = 12000 * 0.75;
+//int tempVelValue = 12000 * 0.75;
 
 bool intakePressed = false;
 bool outtakePressed = false;
@@ -80,11 +79,10 @@ void updateIntake() {
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
         if (!speedPressed) {
 
-            if(velValue != 12000 * 0.4) { //state changes
-                tempVelValue = velValue;
-                velValue = 12000 * 0.4;
+            if(!lowGoalVel) { //state changes
+                lowGoalVel = true;
             } else {
-                velValue = tempVelValue;
+                lowGoalVel = false;
             }
 
         }

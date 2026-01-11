@@ -18,6 +18,7 @@ void sensorInit() {}
 void taskInit() {
     pros::Task intakeTask(runIntake, "intake task");
     pros::Task pistonTask(runPistons, "piston task");
+    pros::Task velocityTask(runVelocity, "velocity task");
     pros::Task screenTask(runScreen, "screen task");
     pros::Task controllerTask(runController, "controller task");
     pros::Task autoScoreTask(runAutoScore, "autoscore task");
