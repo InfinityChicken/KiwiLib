@@ -54,7 +54,8 @@ lemlib::Drivetrain drivetrain(
     11,
     lemlib::Omniwheel::NEW_4,
     (48.0/84.0)*600.0,   
-    8
+    8       //what speed you attempt to take around turns during move to pose
+                            //, as a percentage --- this is 80% lateral around turns
 );
 
 //controller settings
@@ -64,13 +65,27 @@ lemlib::ControllerSettings lateralController(
     64,     //kD    
     4,      //windup range
     0.25,   //small error
-    50,     //small error timeout
-    1.5,      //large error
-    500,    //large error timeout
+    40,     //small error timeout //TODO: test this
+    0,      //large error 
+    500,    //large error timeout //TODO: large disabled asw
     0       //slew
 );
 
-/*
+lemlib::ControllerSettings angularController(
+    3.125, 
+    0.32,
+    23,
+    5,
+    1, //within +- 1 deg
+    40, //TODO: test this
+    0, //TODO: large disabled...
+    500,
+    0
+);
+
+
+
+/* linear table
 kP | output     kD  | output            kI      | output
 1  | low        1   | low               0.01    | low
 2  | low        2   | low               0.02    | low
@@ -85,23 +100,7 @@ kP | output     kD  | output            kI      | output
 
 */
 
-
-lemlib::ControllerSettings angularController(
-    3.125, 
-    0.32,
-    23, 
-    5,
-    1, //within +- 1 deg
-    50,
-    0,
-    500,
-    0
-);
-
-
-
-/*
-
+/* angular table
 kP | output     kD  | output            kI      | output
 1  | low        1   | low               0.01    | low
 2  | low        2   | low               0.02    | low

@@ -26,24 +26,31 @@ void autonomous() {
 	// chassis.setPose(1,-1,-90);
 	// chassis.distanceReset('B', 'L');
 	SAWP();
-	//sevenBlockLow();
 }
 
 void opcontrol() {
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	SAWP();
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);\
 
 	//driver
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	// chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	intakeState = 0;
 	velValue = 12000;
 
-	while (true) {
-		// //pid
-		//PIDTuning(0, 90);
+	bool buttonPressed = false;
 
+	while (true) {
+		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+		// 	chassis.setPose(0, 0, 0);
+		// 	chassis.turnToHeading(90, 1000);
+		// 	chassis.turnToHeading(180, 1000);
+		// 	chassis.turnToHeading(270, 1000);
+		// 	chassis.turnToHeading(0, 1000);
+		// }
+
+		// //pid
+		// PIDTuning(0, 90);
 		
-		//subsystem updates
+		// //subsystem updates
 		updateIntake();
 		updatePistons();
 		updateSensors();

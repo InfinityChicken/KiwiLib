@@ -4,7 +4,7 @@
 // trapdoor closed 75 - open - 100, scoring midgoal - 75
 
 int intakeState = 0;
-int velValue = 12000 * 0.75;
+int velValue = 12000;
 int tempVelValue = 12000 * 0.75;
 
 bool intakePressed = false;
@@ -27,7 +27,7 @@ void runIntake() {
                 break;
             }
 
-            case 2: { // outtake 75%
+            case 2: { // outtake
                 leftIntake.move_voltage(-velValue);
                 rightIntake.move_voltage(-velValue);
                 break;

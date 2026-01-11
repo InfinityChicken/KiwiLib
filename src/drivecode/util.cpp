@@ -21,7 +21,7 @@ void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     pros::Task controllerTask(runController, "controller task");
     pros::Task autoScoreTask(runAutoScore, "autoscore task");
-    //pros::Task consoleTask(runConsole, "console task");
+    // pros::Task consoleTask(runConsole, "console task");
 }
 
 //brain task
@@ -57,9 +57,14 @@ void runConsole() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        std::cout<<"X: "<<std::to_string(pose.x)<<"\n";
-        std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
-        std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
+        // std::cout<<"X: "<<std::to_string(pose.x)<<"\n";
+        // std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
+        // std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
+
+        std::cout<<drivetrain.leftMotors->get_actual_velocity()<<"\n";
+        std::cout<<drivetrain.rightMotors->get_actual_velocity()<<"\n\n";
+
+
         // std::cout<<"limit switch: "<<std::to_string(limitSwitch.get_value())<<"\n";
         // std::cout<<"front dist: "<<std::to_string(distFront.get_distance()/25.4)<<"\n";
 

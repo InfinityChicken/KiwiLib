@@ -101,143 +101,75 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     
 }
 
-/*
-void lemlib::Chassis::distanceReset(int q) {
-    const float heading = sanitizeAngle(this->getPose(true).theta, true);
-    const float halfWidth = DistanceSensors::width / 2;
+// void lemlib::Chassis::distanceReset(char xWall, char yWall) {
+//     std::cout << "distance reset started\n";
+//     requestMotionStart();
 
-    lemlib::Pose pose(0, 0, 0);
+//     const lemlib::Pose current = getPose(true);
+//     lemlib::Pose newPose = current; // preserve theta
 
-    switch(q) {
+//     /* ---------------- Wall normals ----------------
+//        Wall normal points INTO the field
+//     */
+//     auto wallNormal = [](char dir) -> float {
+//         switch (dir) {
+//             case 'F': return 0.0f;          // +Y
+//             case 'B': return M_PI;          // -Y
+//             case 'R': return M_PI_2;        // +X
+//             case 'L': return -M_PI_2;       // -X
+//             default:  return 0.0f;
+//         }
+//     };
 
-    case 1: { //quadrant 1
+//     auto sensorFor = [&](char dir) -> DistResetSensors* {
+//         switch (dir) {
+//             case 'F': return &distSensors.front;
+//             case 'B': return &distSensors.back;
+//             case 'R': return &distSensors.right;
+//             case 'L': return &distSensors.left;
+//             default:  return nullptr;
+//         }
+//     };
 
-        //handle x and y
-        if ((heading > 0 && heading < M_PI_4) || (heading > 7*M_PI_4)) { //angle range 315 to 360 and 0 to 45 deg
-            float cos = std::cos(heading); //no transform
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()));
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()));
-        }
+//     /* ---------------- Reset X ---------------- */
+//     if (DistResetSensors* s = sensorFor(xWall)) {
+//         float wallAngle = wallNormal(xWall);
+//         float relAngle  = lemlib::sanitizeAngle(current.theta - wallAngle);
 
-        else if (heading > M_PI_4 && heading < 3*M_PI_4) { //angle range 45 to 135 deg
-            float cos = std::cos(heading - M_PI_2); //rotate 90 deg to standard range
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()));
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()));
-        }
+//         float d = mmToIn(s->distance.get());
 
-        else if (heading > 3*M_PI_4 && heading < 5*M_PI_4) { //angle range 135 to 225 deg
-            float cos = std::cos(heading - M_PI); //rotate 180 deg to standard range
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()));
-        }
+//         // perpendicular distance from robot center to wall
+//         float perp =
+//             d * std::cos(relAngle)
+//           + s->offsetX * std::sin(relAngle)
+//           + s->offsetY * std::cos(relAngle);
 
-        else if (heading > 5*M_PI_4 && heading < 7*M_PI_4) { //angle range 225 to 315 deg
-            float cos = std::cos(heading - M_PI_2 - M_PI); //rotate 270 deg to standard range
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()));
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()));
-        }
+//         if (xWall == 'R')
+//             newPose.x =  lemlib::halfWidth - perp;
+//         else if (xWall == 'L')
+//             newPose.x = -lemlib::halfWidth + perp;
+//     }
 
-        pose.theta = radToDeg(heading);
-        break;
-    }
+//     /* ---------------- Reset Y ---------------- */
+//     if (DistResetSensors* s = sensorFor(yWall)) {
+//         float wallAngle = wallNormal(yWall);
+//         float relAngle  = lemlib::sanitizeAngle(current.theta - wallAngle);
 
-    case 2: { //quadrant 2
-        if ((heading > 0 && heading < M_PI_4) || (heading > 7*M_PI_4)) {
-            float cos = std::cos(heading - M_PI_2);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()) + this->distanceSensors.leftOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()) + this->distanceSensors.backOffset);
-        }
+//         float d = mmToIn(s->distance.get());
 
-        else if (heading > 3*M_PI_4 && heading < 5*M_PI_4) { 
-            float cos = std::cos(heading - M_PI); 
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.back.get())+  this->distanceSensors.backOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.left.get())+  this->distanceSensors.leftOffset);
-        }
+//         float perp =
+//             d * std::cos(relAngle)
+//           + s->offsetX * std::sin(relAngle)
+//           + s->offsetY * std::cos(relAngle);
 
-        else if (heading > 5*M_PI_4 && heading < 7*M_PI_4) { 
-            float cos = std::cos(heading - (3*M_PI_2));
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.right.get())+  this->distanceSensors.rightOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get())+  this->distanceSensors.backOffset);
-        }
+//         if (yWall == 'F')
+//             newPose.y =  lemlib::halfWidth - perp;
+//         else if (yWall == 'B')
+//             newPose.y = -lemlib::halfWidth + perp;
+//     }
 
-        else if (heading > 7*M_PI_4 && heading < 2*M_PI) {
-            float cos = std::cos(heading);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.front.get())+  this->distanceSensors.frontOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()) + this->distanceSensors.rightOffset);
-        }
+//     setPose(newPose);
+//     endMotion();
 
-        pose.theta = radToDeg(heading);
-        break;
-    }
-
-    case 3: { //quadrant 3
-
-        if ((heading > 0 && heading < M_PI_4) || (heading > 3*M_PI_4)) {
-            float cos = std::cos(heading);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()) + this->distanceSensors.backOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()) + this->distanceSensors.leftOffset);
-        }
-        else if (heading > M_PI_4 && heading < 2*M_PI_4) {
-            float cos = std::cos(heading - M_PI_2);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()) + this->distanceSensors.rightOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()) + this->distanceSensors.backOffset);
-        }
-        else if (heading > 2*M_PI_4 && heading < 3*M_PI_4) {
-            float cos = std::cos(heading - M_PI);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()) + this->distanceSensors.leftOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.right.get()) + this->distanceSensors.rightOffset);
-        }
-        else if (heading > 3*M_PI_4 && heading < M_PI) {
-            float cos = std::cos(heading - (3*M_PI_2));
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.left.get()) + this->distanceSensors.leftOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.front.get()) + this->distanceSensors.frontOffset); 
-        }
-        }
-
-    case 4: { //quadrant 4
-
-        // slice 1 (0–45° and 315–360°)
-        if ((heading > 0 && heading < M_PI_4) || (heading > 3*M_PI_4)) {
-            float cos = std::cos(heading);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.right.get())+ this->distanceSensors.rightOffset); 
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.front.get())+ this->distanceSensors.frontOffset);
-        }
-
-        // slice 2 (45–135°)
-        else if (heading > M_PI_4 && heading < 2*M_PI_4) {
-            float cos = std::cos(heading - M_PI_2);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()) + this->distanceSensors.backOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.right.get())+ this->distanceSensors.rightOffset); 
-        }
-
-        // slice 3 (135–225°)
-        else if (heading > 2*M_PI_4 && heading < 3*M_PI_4) {
-            float cos = std::cos(heading - M_PI);
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.left.get())+ this->distanceSensors.leftOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.back.get()) + this->distanceSensors.backOffset); 
-        }
-
-        // slice 4 (225–315°)
-        else if (heading > 3*M_PI_4 && heading < 4*M_PI_4) {
-            float cos = std::cos(heading - (M_PI + M_PI_2));
-            pose.y = halfWidth - (cos * mmToIn(this->distanceSensors.front.get())+ this->distanceSensors.frontOffset);
-            pose.x = halfWidth - (cos * mmToIn(this->distanceSensors.left.get())+ this->distanceSensors.leftOffset); 
-        }
-
-        pose.theta = radToDeg(heading);
-        break;
-
-    default: return; 
-    }
-
-    if(pose.x == 0 || pose.y == 0 || pose.theta == 0) { //if anything failed and didn't move off zero, skip reset
-        return;
-    } else {
-        this->setPose(pose); //if successful reset, reset pose
-    }
-
-    return;
-
-    }
-}
-*/
+//     std::cout << "distance reset finished\n";
+// }
