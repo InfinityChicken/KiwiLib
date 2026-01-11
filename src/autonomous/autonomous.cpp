@@ -12,8 +12,9 @@ void SAWP() {
 
     //go to matchloader 
     scraperState = 1;
-    chassis.moveDistance(31, 1000); //changed from 30
-    chassis.turnToHeading(180, 1000);
+    velValue = 12000 * 0.75;
+    chassis.moveDistance(30, 1000); //changed from 30
+    chassis.turnToHeading(180.5, 1000);
 
     //reset pose
     chassis.setPose(10, -10, chassis.getPose().theta); //set quadrant and angle
@@ -23,11 +24,12 @@ void SAWP() {
 
     //go into matchloader
     intakeState = 1;
-    chassis.moveDistance(11, 1000);
-    pros::delay(250);
+    chassis.moveDistance(11.25, 1000);
+    pros::delay(150);
     
     //move to long goal and reset
     chassis.moveToPoint(48, -25, 1000, {.forwards = false}); //max speed 80 then 100 prev
+    velValue = 12000;
     trapdoorState = 1;
     intakeState = 1;
     // float tempY = chassis.getPose().y;
@@ -35,10 +37,11 @@ void SAWP() {
     // if(chassis.getPose().y<=-32) chassis.setPose(chassis.getPose().x, tempY, chassis.getPose().theta);
 
     //score long goal
-    pros::delay(750); //TODO: decrease
+    pros::delay(800); //TODO: decrease
     scraperState = 0;
-    intakeState = 0;
+    //intakeState = 0;
     trapdoorState = 0;
+    velValue = 12000 * 0.75;
 
     //swing out right
     chassis.sendVoltage(4000, 250);
@@ -58,31 +61,38 @@ void SAWP() {
     // chassis.setPose(tempX, chassis.getPose().y, chassis.getPose().theta);
     // chassis.waitUntilDone();
     scraperState = 0;
-    chassis.moveToPoint(-24, -24, 1500, {}, true);
+    chassis.moveToPoint(-22, -24, 1500, {}, true);
     chassis.waitUntil(38);
     scraperState = 1;
 
     // score mid goal
     chassis.turnToPoint(-12, -12, 1500, {.forwards = false});
-    chassis.moveToPoint(-12, -12, 1000, {.forwards = false});
+    chassis.moveToPoint(-12, -12, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(200); //antijam
+    pros::delay(100); //antijam
     intakeState = 1;
-    pros::delay(750);
-    trapdoorState = 0;
+    pros::delay(600);
+    intakeState = 2; //outtake to avoid spewing balls
 
     // go to match loader
-    chassis.moveToPoint(-45, -45, 2000);
+    chassis.moveToPoint(-45, -45, 2000, {}, true);
+    pros::delay(250);
+    intakeState = 1;
+    trapdoorState = 0;
     midGoalState = 0;
     chassis.turnToHeading(180, 1000);
-    chassis.distanceReset('R', 'F');
+    //chassis.distanceReset('R', 'F');
 
-    chassis.moveDistance(11, 1000);
+    chassis.moveDistance(14, 1000);
     pros::delay(250);
 
     //score long goal
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .maxSpeed = 80});
+    velValue = 12000;
     trapdoorState = 1;
+    intakeState = 2;
+    pros::delay(100); //antijam
+    intakeState = 1;
 }

@@ -64,7 +64,7 @@ lemlib::ControllerSettings lateralController(
     0.16,   //kI
     64,     //kD    
     4,      //windup range
-    0.25,   //small error
+    0.75,   //small error
     40,     //small error timeout //TODO: test this
     0,      //large error 
     500,    //large error timeout //TODO: large disabled asw
@@ -76,7 +76,7 @@ lemlib::ControllerSettings angularController(
     0.32,
     23,
     5,
-    1, //within +- 1 deg
+    1.5, //within +- 1 deg
     40, //TODO: test this
     0, //TODO: large disabled...
     500,
