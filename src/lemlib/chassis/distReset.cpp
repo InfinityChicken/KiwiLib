@@ -20,6 +20,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     DistResetSensors* side;
     DistResetSensors* front;
 
+    //if using front or back as x direction, rotate angle by adding 90 degrees
     if(xDirection == 'F') {
         side = &distSensors.front;
         rotated = M_PI_2;
@@ -32,7 +33,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         side = &distSensors.left;
     }
         
-
+    //if using left or right as y direction, rotate angle by adding 90 degrees
     if(yDirection == 'F') {
         front = &distSensors.front;
     } else if(yDirection == 'B') {
@@ -47,17 +48,24 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     
     std::cout<<"distance sensors chosen\n";
 
+    //get current position
     lemlib::Pose currentPose = this->getPose(true);
+    //this is going to be the reset pose with theta in degrees
     lemlib::Pose pose(0, 0, this->getPose(false).theta);
 
-    //acute angle from axis
+    //gets acute angle from axis
+    //subtract rotated to either keep same angle or rotate by 90 degrees
+    //sanitizes rotated angle (if it ends up being rotated)
+    //gets reference angle from x axis (y axis becomes x axis if rotated)
     const float correctedAngle = lemlib::refAngle(true, lemlib::sanitizeAngle(currentPose.theta-rotated, true)); 
+    //determine if robot is to the left or right of closest axis (determines if you add or subtract offset distance calculated with tangent term)
+    //if to the left, subtract, if to the right, add
     const int offsetMultiplier = (std::sin(currentPose.theta-rotated) >= 0) ? -1 : 1;
 
     std::cout<<"offsetMultiplier: "<<offsetMultiplier<<"        rotated: "<<rotated<<"\n";
     std::cout<<"correctedAngle: "<<correctedAngle<<"\n";
     std::cout<<"sanitized angle: "<<lemlib::sanitizeAngle(currentPose.theta-rotated)*180/M_PI<<"\n";
-    
+    //print pose to brain screen
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "correctedAngle: %.3f", correctedAngle);
     char buf[64];
     snprintf(buf, sizeof(buf), "%.3f, %.3f, %.3f",
@@ -66,6 +74,8 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
 
     //calculate perpendicular distance from center to perimeter
+    //cosine of entire distance from center of bot to perimeter (not perpendicular)
+    //entire distance = distance sensor in inches + discrepancy from offset distance sensor + distance from center of bot
     float xPerpDistance = cos(correctedAngle) * (mmToIn(side->distance.get()) + tan(correctedAngle) * side->offsetX * offsetMultiplier + side->offsetY);
     float yPerpDistance = cos(correctedAngle) * (mmToIn(front->distance.get()) + tan(correctedAngle) * front->offsetX * offsetMultiplier + front->offsetY);
     
