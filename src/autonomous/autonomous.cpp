@@ -1,6 +1,32 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
+void sevenBlockPush() {
+    chassis.setPose(-1,-1,0);
+    chassis.distanceReset('B','R'); //dist reset to begin
+    
+    //go to 3 blocks
+    intakeState = 1;
+    chassis.moveToPose(21.6, -34, 35, 1000);
+    //go to matchloader
+    chassis.turnToPoint(45, -43, 1000);
+    chassis.moveToPoint(45, -43, 1000);
+    chassis.turnToHeading(180, 1000);
+    chassis.distanceReset('B','R'); //dist reset in front of matchlosder
+    chassis.moveDistance(15, 1000);
+    pros::delay(200);
+
+    //score long goal
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false});
+    trapdoorState = 1;
+
+    //wing
+    chassis.sendVoltage(6000,250);
+    wingState = 1;
+    chassis.moveToPose(60,-16,0,1000);
+    wingState = 0;
+    chassis.moveDistance(10, 1000);
+}
 void sevenBlockLow() {
     chassis.setPose(-1,-1,0);
     chassis.distanceReset('B','R'); //dist reset to begin
@@ -53,7 +79,7 @@ void SAWP() {
     //go into matchloader
     intakeState = 1;
     chassis.moveDistance(11.25, 1000);
-    pros::delay(250);
+    pros::delay(225);
     
     //do long goal
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -103,7 +129,7 @@ void SAWP() {
     chassis.turnToHeading(180, 1000);
     intakeState = 1;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(15.5, 1000);
+    chassis.moveDistance(15.4, 1000);
     pros::delay(200);
 
     //score long goal
