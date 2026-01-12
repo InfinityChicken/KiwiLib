@@ -23,7 +23,8 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	SAWP();
+	sevenBlockPush();
+	// SAWP();
 }
 
 void opcontrol() {
@@ -38,21 +39,22 @@ void opcontrol() {
 	bool buttonPressed = false;
 
 	while (true) {
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-		// 	chassis.setPose(0, 0, 0);
-		// 	chassis.turnToHeading(90, 1000);
-		// 	chassis.turnToHeading(180, 1000);
-		// 	chassis.turnToHeading(270, 1000);
-		// 	chassis.turnToHeading(0, 1000);
-		// }
-
 		// //pid
 		// PIDTuning(0, 90);
 		
-		// //subsystem updates
+		//subsystem updates
 		updateIntake();
 		updatePistons();
 		updateSensors();
+
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            if (!buttonPressed) {
+                chassis.distanceReset('L', 'F');
+            }
+            buttonPressed = true;
+        } else {
+            buttonPressed = false;
+        }
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
