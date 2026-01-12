@@ -80,7 +80,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     //y reset
     if(currentPose.y > 0){ //pos
-        pose.y = lemlib::halfWidth - yPerpDistance; //TODO: part with tanget should have sign changes based on angle
+        pose.y = lemlib::halfWidth - yPerpDistance;
     } else if(currentPose.y < 0){ //neg
         pose.y = yPerpDistance - lemlib::halfWidth;
     }
@@ -100,76 +100,3 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     return;
     
 }
-
-// void lemlib::Chassis::distanceReset(char xWall, char yWall) {
-//     std::cout << "distance reset started\n";
-//     requestMotionStart();
-
-//     const lemlib::Pose current = getPose(true);
-//     lemlib::Pose newPose = current; // preserve theta
-
-//     /* ---------------- Wall normals ----------------
-//        Wall normal points INTO the field
-//     */
-//     auto wallNormal = [](char dir) -> float {
-//         switch (dir) {
-//             case 'F': return 0.0f;          // +Y
-//             case 'B': return M_PI;          // -Y
-//             case 'R': return M_PI_2;        // +X
-//             case 'L': return -M_PI_2;       // -X
-//             default:  return 0.0f;
-//         }
-//     };
-
-//     auto sensorFor = [&](char dir) -> DistResetSensors* {
-//         switch (dir) {
-//             case 'F': return &distSensors.front;
-//             case 'B': return &distSensors.back;
-//             case 'R': return &distSensors.right;
-//             case 'L': return &distSensors.left;
-//             default:  return nullptr;
-//         }
-//     };
-
-//     /* ---------------- Reset X ---------------- */
-//     if (DistResetSensors* s = sensorFor(xWall)) {
-//         float wallAngle = wallNormal(xWall);
-//         float relAngle  = lemlib::sanitizeAngle(current.theta - wallAngle);
-
-//         float d = mmToIn(s->distance.get());
-
-//         // perpendicular distance from robot center to wall
-//         float perp =
-//             d * std::cos(relAngle)
-//           + s->offsetX * std::sin(relAngle)
-//           + s->offsetY * std::cos(relAngle);
-
-//         if (xWall == 'R')
-//             newPose.x =  lemlib::halfWidth - perp;
-//         else if (xWall == 'L')
-//             newPose.x = -lemlib::halfWidth + perp;
-//     }
-
-//     /* ---------------- Reset Y ---------------- */
-//     if (DistResetSensors* s = sensorFor(yWall)) {
-//         float wallAngle = wallNormal(yWall);
-//         float relAngle  = lemlib::sanitizeAngle(current.theta - wallAngle);
-
-//         float d = mmToIn(s->distance.get());
-
-//         float perp =
-//             d * std::cos(relAngle)
-//           + s->offsetX * std::sin(relAngle)
-//           + s->offsetY * std::cos(relAngle);
-
-//         if (yWall == 'F')
-//             newPose.y =  lemlib::halfWidth - perp;
-//         else if (yWall == 'B')
-//             newPose.y = -lemlib::halfWidth + perp;
-//     }
-
-//     setPose(newPose);
-//     endMotion();
-
-//     std::cout << "distance reset finished\n";
-// }
