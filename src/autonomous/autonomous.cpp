@@ -1,7 +1,7 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
-void sevenBlockPush() {
+void sevenBlockPushRight() {
     chassis.setPose(-1,-1,0);
     chassis.distanceReset('B','R'); //dist reset to begin
     
@@ -68,7 +68,7 @@ void SAWP() {
 
     //go to matchloader 
     scraperState = 1;
-    chassis.moveDistance(30.5, 1000); 
+    chassis.moveDistance(31, 1000); 
     chassis.turnToHeading(180, 1000);
 
     //reset pose
@@ -97,20 +97,21 @@ void SAWP() {
 
     //move to first mid blocks
     chassis.moveToPoint(24, -24, 1250, {}, true);
-    chassis.waitUntil(6);
+    chassis.waitUntil(7);
     scraperState = 1;
 
     //turn and get second blocks
     //chassis.waitUntilDone();
     chassis.turnToPoint(-24, -24, 1000);
     scraperState = 0;
-    chassis.moveToPoint(-24, -24, 1500, {}, true);
-    chassis.waitUntil(42); //TODO: tune coord
+    chassis.moveToPoint(-19, -24, 1500, {}, true);
+    chassis.waitUntil(37); //TODO: tune coord
     scraperState = 1;
 
     // score mid goal
     chassis.waitUntilDone();
-    chassis.turnToPoint(-12, -12, 1000, {.forwards = false});
+    //chassis.turnToPoint(-12, -12, 1000, {.forwards = false});
+    chassis.turnToHeading(225,1000);
     chassis.moveToPoint(-12, -12, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
@@ -121,15 +122,16 @@ void SAWP() {
     intakeState = 2; //outtake to avoid spewing balls
 
     // do ml
-    chassis.moveToPoint(-44, -44, 2000, {}, true);
+    chassis.moveToPoint(-45, (-45-chassis.getPose().x*tan(chassis.getPose(true).theta)), 2000, {}, true); //go straight back but make sure x is -45
+    //chassis.moveToPoint(-43, -45, 2000, {}, true);
     pros::delay(200);
     intakeState = 0;
     trapdoorState = 0;
     midGoalState = 0;
-    chassis.turnToHeading(180, 1000);
+    chassis.turnToHeading(180.5, 1000);
     intakeState = 1;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(15.4, 1000);
+    chassis.moveDistance(18, 1000);
     pros::delay(200);
 
     //score long goal

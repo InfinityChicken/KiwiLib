@@ -9,4 +9,5 @@ void sevenBlockMid();
 void SAWP();
 void sevenTwoBlock();
 void skills();
-void sevenBlockPush();
+void sevenBlockPushRight();
+void sevenBlockPushLeft();
