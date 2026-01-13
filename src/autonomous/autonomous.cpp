@@ -2,31 +2,36 @@
 #include "lemlib/chassis/chassis.hpp"
 
 void sevenBlockPushRight() {
-    chassis.setPose(-1,-1,0);
-    chassis.distanceReset('B','R'); //dist reset to begin
-    
+    chassis.setPose(1,-1,0);
+    chassis.distanceReset('R','B'); //dist reset to begin
+
     //go to 3 blocks
     intakeState = 1;
-    chassis.moveToPose(21.6, -34, 35, 1000);
-    //go to matchloader
-    chassis.turnToPoint(45, -43, 1000);
-    chassis.moveToPoint(45, -43, 1000);
-    chassis.turnToHeading(180, 1000);
-    chassis.distanceReset('B','R'); //dist reset in front of matchlosder
-    chassis.moveDistance(15, 1000);
-    pros::delay(200);
+    chassis.turnToPoint(22.1, -23, 1000);
+    chassis.moveToPoint(22.1, -23, 1000, {asy});
+    scraperState = 1;
 
-    //score long goal
+    //go to matchloader
+    chassis.turnToPoint(48, -45, 1000);
+    chassis.moveToPoint(48, -45, 1000);
+    chassis.turnToHeading(180, 1000);
+
+    // go into matchloader
+    chassis.distanceReset('L', 'F');
+    chassis.moveToPoint(48, -58.5, 1000);
+    pros::delay(650);
+
+    //back into long goal and score
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
     trapdoorState = 1;
 
-    //wing
-    chassis.sendVoltage(6000,250);
-    wingState = 1;
-    chassis.moveToPose(60,-16,0,1000);
-    wingState = 0;
-    chassis.moveDistance(10, 1000);
-}
+    
+
+
+
+
+};
+
 void sevenBlockLow() {
     chassis.setPose(-1,-1,0);
     chassis.distanceReset('B','R'); //dist reset to begin

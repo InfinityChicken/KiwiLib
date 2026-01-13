@@ -23,8 +23,10 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	//sevenBlockPushRight();
-	SAWP();
+
+    
+
+	sevenBlockPushRight();
 }
 
 void opcontrol() {
