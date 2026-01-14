@@ -27,7 +27,7 @@ void autonomous() {
     // chassis.distanceReset('R','B'); //dist reset to begin
     
 
-	sevenBlockPushRight();
+	sevenBlockPushLeft();
 }
 
 void opcontrol() {
