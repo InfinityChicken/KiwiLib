@@ -6,41 +6,32 @@ void sevenBlockPushRight() {
     chassis.distanceReset('R','B'); //dist reset to begin
 
     //go to 3 blocks
-    wingState = 1;
     intakeState = 1;
-    //chassis.turnToPoint(22.1, -23, 1000);
-    chassis.moveToPoint(22.1, -23, 1000, {});
-    scraperState = 1; //asynch this please
+    chassis.moveToPoint(24, -21, 1000, {.earlyExitRange = 6}, true);
+    chassis.waitUntil(16);
+    scraperState = 1;
 
-    //go to matchloader
-    chassis.turnToPoint(47, -45, 1000);
-    chassis.moveToPoint(47, -45, 1000);
-    chassis.turnToHeading(180, 1000);
-
-    // go into matchloader
+    //go to and into matchloader
+    chassis.moveToPose(48, -46.5, 180, 1500, {.lead = 0.3});
     chassis.distanceReset('L', 'F');
-    chassis.moveToPoint(47, -58.5, 1000);
+    chassis.moveToPoint(48, -57, 1000);
     pros::delay(200);
 
     //back into long goal and score
-    chassis.moveToPoint(47, -25, 1000, {.forwards = false});
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false});
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100); //antijam
     intakeState = 1;
     pros::delay(1250); //lower if deadzones are gone
 
-    //curve out
+    //curve out and push
     scraperState = 0;
-    chassis.sendVoltage(4000, 250);
-    chassis.swingToPoint(41, -17, lemlib::DriveSide::RIGHT, 1000);
-    trapdoorState = 0;
-
-    //push
-    wingState = 0; //make this asynch pls
-    chassis.moveDistance(30, 1000);
-    chassis.turnToHeading(-25, 1000);
-
+    chassis.moveToPoint(38.25, -35, 1000);
+    chassis.turnToHeading(0, 1000);
+    chassis.moveDistance(22, 1000, {.minSpeed = 80});
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.turnToHeading(-38, 1000);
 
 
     
