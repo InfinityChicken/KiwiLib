@@ -726,6 +726,10 @@ class Chassis {
          */
         void moveDistance(float dist, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
+         * @brief im too lazy to write this one chat
+         */
+        void moveUntilDistance(float exitDist, float x, float y, float timeout, MoveToPointParams = {});
+        /**
          * @brief Send in a constant voltage to the chassis
          *
          * @param voltage voltage to send, in millivolts
