@@ -5,34 +5,33 @@ void sevenBlockPushRight() {
     chassis.setPose(1,-1,0);
     chassis.distanceReset('R','B'); //dist reset to begin
 
-    //go to 3 blocks don't touch this
+    //go to 3 blocks (tuned)
     intakeState = 1;
-    chassis.moveToPoint(24, -21, 1000, {.minSpeed = 50, .earlyExitRange = 6}, true);
+    chassis.moveToPoint(24, -21, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(16);
     scraperState = 1;
 
-    //go to and into matchloader don't touch this
+    //go to and into matchloader (tuned)
     chassis.moveToPose(47, -46.5, 180, 1500, {.lead = 0.3});
     chassis.distanceReset('L', 'F');
-    chassis.moveToPoint(47, -58, 1000);
-    pros::delay(215);
-    intakeState = 0;
+    chassis.moveToPoint(47, -57, 1000);
+    pros::delay(250);
 
-    //back into long goal and score PLEASE don't change anything here
-    trapdoorState = 1;
+    //back into long goal and score (tuned)
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
+    trapdoorState = 1;
     intakeState = 2;
     pros::delay(100); //antijam
     intakeState = 1;
     pros::delay(1150); //lower if deadzones are gone
 
-    //curve out and push
+    //curve out and push (tuned)
     scraperState = 0;
-    chassis.moveToPoint(40.25, -35, 700, {.minSpeed = 60, .earlyExitRange = 3});
-    chassis.turnToHeading(0, 825);
-    chassis.moveDistance(26, 1000, {.minSpeed = 100});
+    chassis.moveToPoint(37, -40, 775, {});
+    chassis.turnToHeading(0, 650);
+    chassis.moveDistance(33, 1000);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.turnToHeading(-30, 1000, {.maxSpeed = 30});
+    chassis.turnToHeading(-23, 1000, {.maxSpeed = 30});
     
 };
 
@@ -41,16 +40,17 @@ void sevenBlockPushLeft(){
     chassis.distanceReset('L','B'); //dist reset to begin
 
     //go to 3 blocks
+    wingState = 1;
     intakeState = 1;
     chassis.moveToPoint(-24, -21, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(16);
     scraperState = 1;
 
     //go to and into matchloader
-    chassis.moveToPose(-48, -46.5, 180, 1500, {.lead = 0.05});
+    chassis.moveToPose(-44.5, -46.5, 180, 1500, {.lead = 0.2});
     chassis.distanceReset('R', 'F');
-    chassis.moveToPoint(-48, -58, 1000);
-    pros::delay(200);
+    chassis.moveDistance(14.85, 1000);
+    pros::delay(250);
 
     //back into long goal and score
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false});
@@ -58,17 +58,16 @@ void sevenBlockPushLeft(){
     intakeState = 2;
     pros::delay(100); //antijam
     intakeState = 1;
-    pros::delay(1250); //lower if deadzones are gone
-    return;
-    //curve out and push
-    scraperState = 0;
-    chassis.moveToPoint(38.25, -35, 1000);
-    chassis.turnToHeading(0, 1000);
-    chassis.moveDistance(22, 1000, {.minSpeed = 80});
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.turnToHeading(30, 1000, {AngularDirection::CW_CLOCKWISE});
+    pros::delay(1150); //lower if deadzones are gone
 
-}
+    //curve out and push
+    wingState = 0;
+    scraperState = 0;
+    chassis.moveToPoint(-37, -40, 1000);
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(-37, -9, 1000, {.forwards = false});
+    // chassis.moveDistance(33, 1000, {.forwards = false});
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);}
 
 void sevenBlockLow() {
     chassis.setPose(-1,-1,0);
