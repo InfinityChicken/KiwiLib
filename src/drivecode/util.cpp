@@ -36,7 +36,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 4, "left wattage: %.3f", leftIntake.get_power());
         pros::screen::print(pros::E_TEXT_MEDIUM, 5, "right wattage: %.3f", rightIntake.get_power());
         pros::screen::print(pros::E_TEXT_MEDIUM, 6, "limit switch: %d", limitSwitch.get_value());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front dist: %.3f", distFront.get_distance()/25.4);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front dist: %.3f", distFrontRight.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 8, "back dist: %.3f", distBack.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 9, "left dist: %.3f", distLeft.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 10, "right dist: %.3f", distRight.get_distance()/25.4);

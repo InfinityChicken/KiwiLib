@@ -11,7 +11,8 @@ void updateSensors() {
 
 void runAutoScore() {
     while(autoScore) {
-        if(limitSwitch.get_value() == 1 && distFront.get()/25.4 < 36) { //if limit switch pressed and perimeter detected
+        //TODO: add function to choose dist sensor and add here
+        if(limitSwitch.get_value() == 1 && distFrontRight.get()/25.4 < 36) { //if limit switch pressed and perimeter detected 
             if(!autoScoreActive) { //if autoscore hasn't been activated yet
                 trapdoorState = 1; //open trapdoor
                 intakeState = 1; //activate intake

@@ -35,11 +35,13 @@ struct DistResetSensors {
 
 class DistanceSensors {
     public: 
-        DistanceSensors(pros::Distance front, float frontOffsetX, float frontOffsetY, 
+        DistanceSensors(pros::Distance frontLeft, float frontLeftOffsetX, float frontLeftOffsetY, 
+                        pros::Distance frontRight, float frontRightOffsetX, float frontRightOffsetY,
                         pros::Distance back, float backOffsetX, float backOffsetY, 
                         pros::Distance left, float leftOffsetX, float leftOffsetY, 
                         pros::Distance right, float rightOffsetX, float rightOffsetY);
-        DistResetSensors front;
+        DistResetSensors frontLeft;
+        DistResetSensors frontRight;
         DistResetSensors back;
         DistResetSensors left;
         DistResetSensors right;

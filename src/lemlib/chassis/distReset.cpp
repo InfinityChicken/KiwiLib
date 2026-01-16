@@ -9,6 +9,14 @@ float mmToIn(float mm) {
     return mm / 25.4;
 }
 
+float absMax(float x1, float x2) {
+    if(std::fabs(x1) > std::fabs(x2))
+        return x1;
+    else
+        return x2;
+}
+
+//TODO: janky code, need to turn front distance sensor choosing into function
 void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress
@@ -17,32 +25,36 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     float rotated = 0;
 
     //pick active dist sensor for side
-    DistResetSensors* side;
-    DistResetSensors* front;
+    DistResetSensors* side1 = nullptr;
+    DistResetSensors* side2 = nullptr;
+    DistResetSensors* front1 = nullptr;
+    DistResetSensors* front2 = nullptr;
 
     //if using front or back as x direction, rotate angle by adding 90 degrees
     if(xDirection == 'F') {
-        side = &distSensors.front;
+        side1 = &distSensors.frontLeft;
+        side2 = &distSensors.frontRight;
         rotated = M_PI_2;
     } else if(xDirection == 'B') {
-        side = &distSensors.back;
+        side1 = &distSensors.back;
         rotated = M_PI_2;
     } else if(xDirection == 'R') {
-        side = &distSensors.right;
+        side1 = &distSensors.right;
     } else if(xDirection == 'L') {
-        side = &distSensors.left;
+        side1 = &distSensors.left;
     }
         
     //if using left or right as y direction, rotate angle by adding 90 degrees
     if(yDirection == 'F') {
-        front = &distSensors.front;
+        front1 = &distSensors.frontLeft;
+        front2 = &distSensors.frontRight;
     } else if(yDirection == 'B') {
-        front = &distSensors.back;
+        front1 = &distSensors.back;
     } else if(yDirection == 'R') {
-        front = &distSensors.right;
+        front1 = &distSensors.right;
         rotated = M_PI_2;
     } else if(yDirection == 'L') {
-        front = &distSensors.left;
+        front1 = &distSensors.left;
         rotated = M_PI_2;
     }
     
@@ -76,9 +88,27 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     //calculate perpendicular distance from center to perimeter
     //cosine of entire distance from center of bot to perimeter (not perpendicular)
     //entire distance = distance sensor in inches + discrepancy from offset distance sensor + distance from center of bot
-    float xPerpDistance = cos(correctedAngle) * (mmToIn(side->distance.get()) + tan(correctedAngle) * side->offsetX * offsetMultiplier + side->offsetY);
-    float yPerpDistance = cos(correctedAngle) * (mmToIn(front->distance.get()) + tan(correctedAngle) * front->offsetX * offsetMultiplier + front->offsetY);
+    float xPerpDistance1 = cos(correctedAngle) * (mmToIn(side1->distance.get()) + tan(correctedAngle) * side1->offsetX * offsetMultiplier + side1->offsetY);
+    float yPerpDistance1 = cos(correctedAngle) * (mmToIn(front1->distance.get()) + tan(correctedAngle) * front1->offsetX * offsetMultiplier + front1->offsetY);
     
+    //back up calculations for other front dist sensor
+    float xPerpDistance2 = 0;
+    float yPerpDistance2 = 0;
+    if(side2 != nullptr) {
+        xPerpDistance2 = cos(correctedAngle) * (mmToIn(side2->distance.get()) + tan(correctedAngle) * side2->offsetX * offsetMultiplier + side2->offsetY);
+    } else if (front2 != nullptr) {
+        yPerpDistance2 = cos(correctedAngle) * (mmToIn(front2->distance.get()) + tan(correctedAngle) * front2->offsetX * offsetMultiplier + front2->offsetY);
+    }
+
+    //compare distances and choose further distance
+    float xPerpDistance, yPerpDistance;
+    if(xDirection == 'F') {
+        xPerpDistance = absMax(xPerpDistance1, xPerpDistance2);
+        yPerpDistance = yPerpDistance1;
+    } else if (yDirection == 'F') {
+        xPerpDistance = xPerpDistance1;
+        yPerpDistance = absMax(yPerpDistance1, yPerpDistance2);
+    }
 
     //x reset
     if(currentPose.x > 0){ //pos
