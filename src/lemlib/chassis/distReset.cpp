@@ -11,11 +11,11 @@ float mmToIn(float mm) {
 
 float absMax(float x1, float x2) {
     if(std::fabs(x1) > std::fabs(x2)) {
-        return x1;
         pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "left front chosen");
+        return x1;
     } else {
-        return x2;
         pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "right front chosen");
+        return x2;
     }
 }
 
@@ -60,6 +60,29 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         front1 = &distSensors.left;
         rotated = M_PI_2;
     }
+
+    if(side1 != nullptr && mmToIn(side1->distance.get())>300) {
+        side1 = nullptr;
+        std::cout<<"side1 bad\n";
+    } 
+    if(side2 != nullptr && mmToIn(side2->distance.get())>300) {
+        side2 = nullptr;
+        std::cout<<"side2 bad\n";
+    }
+    if(front1 != nullptr && mmToIn(front1->distance.get())>300) {
+        front1 = nullptr;
+        std::cout<<"front1 bad\n";
+    } 
+    if(front2 != nullptr && mmToIn(front2->distance.get())>300) {
+        front2 = nullptr;
+        std::cout<<"front2 bad\n";
+    }
+
+    //if both/essential distance sensors are bad, don't reset
+    if(side1 == nullptr && side2 == nullptr || front1 == nullptr && front2 == nullptr) {
+        this->endMotion();
+        return;
+    }
     
     std::cout<<"distance sensors chosen\n";
 
@@ -91,8 +114,12 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     //calculate perpendicular distance from center to perimeter
     //cosine of entire distance from center of bot to perimeter (not perpendicular)
     //entire distance = distance sensor in inches + discrepancy from offset distance sensor + distance from center of bot
-    float xPerpDistance1 = cos(correctedAngle) * (mmToIn(side1->distance.get()) + tan(correctedAngle) * side1->offsetX * offsetMultiplier + side1->offsetY);
-    float yPerpDistance1 = cos(correctedAngle) * (mmToIn(front1->distance.get()) + tan(correctedAngle) * front1->offsetX * offsetMultiplier + front1->offsetY);
+    float xPerpDistance1 = 0;
+    float yPerpDistance1 = 0;
+    if(side1 != nullptr)
+        xPerpDistance1 = cos(correctedAngle) * (mmToIn(side1->distance.get()) + tan(correctedAngle) * side1->offsetX * offsetMultiplier + side1->offsetY);
+    if(front1 != nullptr)
+        yPerpDistance1 = cos(correctedAngle) * (mmToIn(front1->distance.get()) + tan(correctedAngle) * front1->offsetX * offsetMultiplier + front1->offsetY);
     
     //back up calculations for other front dist sensor
     float xPerpDistance2 = 0;

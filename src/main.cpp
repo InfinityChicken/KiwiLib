@@ -23,8 +23,10 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	// chassis.setPose(1,-1,90);
+	// chassis.distanceReset('F', 'R');
 
-	sevenBlockPushLeft();
+	sevenBlockPushRight();
 }
 
 void opcontrol() {
