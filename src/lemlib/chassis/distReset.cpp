@@ -9,7 +9,7 @@ float mmToIn(float mm) {
     return mm / 25.4;
 }
 
-void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
+void lemlib::Chassis::distanceReset(char xDirection, char yDirection, char frontSide) { //frontSide true is 
     std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress
     this->requestMotionStart();
@@ -22,7 +22,11 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
 
     //if using front or back as x direction, rotate angle by adding 90 degrees
     if(xDirection == 'F') {
-        side = &distSensors.front;
+        if(frontSide == 'L') {
+            side = &distSensors.frontLeft;
+        } else if (frontSide == 'R') {
+            side = &distSensors.frontRight;
+        }
         rotated = M_PI_2;
     } else if(xDirection == 'B') {
         side = &distSensors.back;
@@ -35,7 +39,11 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         
     //if using left or right as y direction, rotate angle by adding 90 degrees
     if(yDirection == 'F') {
-        front = &distSensors.front;
+        if(frontSide == 'L') {
+            front = &distSensors.frontLeft;
+        } else if (frontSide == 'R') {
+            front = &distSensors.frontRight;
+        }
     } else if(yDirection == 'B') {
         front = &distSensors.back;
     } else if(yDirection == 'R') {

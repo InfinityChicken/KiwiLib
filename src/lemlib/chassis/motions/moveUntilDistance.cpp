@@ -10,7 +10,7 @@ float mmToIn2(float mm) {
 void lemlib::Chassis::moveUntilDistance(float exitDist, float x, float y, float timeout, MoveToPointParams params) {
     this->moveToPoint(x, y, timeout, params, true); 
 
-    while(mmToIn2(this->distSensors.front.distance.get()) > exitDist && this->isInMotion()) {
+    while(mmToIn2(this->distSensors.frontRight.distance.get()) > exitDist && this->isInMotion()) {
         pros::delay(10);
     }
 

@@ -27,8 +27,9 @@ pros::Rotation horizRotation(21);
 pros::adi::DigitalIn limitSwitch('H');
 pros::Distance distRight(11);
 pros::Distance distLeft(16);
-pros::Distance distFront(9);
+pros::Distance distFrontLeft(9);
 pros::Distance distBack(14);
+pros::Distance distFrontRight(15);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -117,7 +118,8 @@ kP | output     kD  | output            kI      | output
 */ 
 
 //distance sensors
-lemlib::DistanceSensors distSensors(distFront, 5.25, 7,
+lemlib::DistanceSensors distSensors(distFrontLeft, 5.25, 7,
+                                    distFrontRight, -5.5, 6.25,
                                     distBack, -3, 6,
                                     distLeft, -2.5, 5.25,
                                     distRight, 2.5, 5.25);
