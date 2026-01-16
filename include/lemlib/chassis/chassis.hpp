@@ -937,7 +937,7 @@ class Chassis {
          *
          * 
          */
-        void distanceReset(char xDirection, char yDirection, char frontSide = 'R');
+        void distanceReset(char xDirection, char yDirection);
 
         DistanceSensors distSensors;
 

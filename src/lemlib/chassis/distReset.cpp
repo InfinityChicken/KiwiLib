@@ -10,10 +10,13 @@ float mmToIn(float mm) {
 }
 
 float absMax(float x1, float x2) {
-    if(std::fabs(x1) > std::fabs(x2))
+    if(std::fabs(x1) > std::fabs(x2)) {
         return x1;
-    else
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "left front chosen");
+    } else {
         return x2;
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "right front chosen");
+    }
 }
 
 //TODO: janky code, need to turn front distance sensor choosing into function
@@ -131,7 +134,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     snprintf(buf1, sizeof(buf1), "%.3f, %.3f, %.3f",
             pose.x, pose.y, pose.theta);
     std::string printPos1(buf1);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "Distance Reset: %s", printPos.c_str());
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 70, "Distance Reset: %s", printPos.c_str());
     std::cout<<printPos1<<"\n";
     std::cout<<"distance reset finished\n";
 
