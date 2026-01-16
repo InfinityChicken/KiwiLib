@@ -728,6 +728,10 @@ class Chassis {
          */
         void moveDistance(float dist, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
+         * @brief im too lazy to write this one chat
+         */
+        void moveUntilDistance(float exitDist, float x, float y, float timeout, MoveToPointParams = {});
+        /**
          * @brief Send in a constant voltage to the chassis
          *
          * @param voltage voltage to send, in millivolts
@@ -931,10 +935,9 @@ class Chassis {
         /**
          * @brief Distance sensor resets.
          *
-         * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
-         * the bottom of the graph is located at the skills starting wall. 
+         * 
          */
-        void distanceReset(char xDirection, char yDirection);
+        void distanceReset(char xDirection, char yDirection, char frontSide = 'R');
 
         DistanceSensors distSensors;
 

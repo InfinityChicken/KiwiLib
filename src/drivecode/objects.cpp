@@ -118,8 +118,8 @@ kP | output     kD  | output            kI      | output
 */ 
 
 //distance sensors
-lemlib::DistanceSensors distSensors(distFrontLeft, -0, 0,
-                                    distFrontRight, 5.25, 7,
+lemlib::DistanceSensors distSensors(distFrontLeft, 5.25, 7,
+                                    distFrontRight, -5.5, 6.25,
                                     distBack, -3, 6,
                                     distLeft, -2.5, 5.25,
                                     distRight, 2.5, 5.25);
