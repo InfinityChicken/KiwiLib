@@ -50,11 +50,11 @@ void sevenBlockPushLeft(){
     //go to and into matchloader
     chassis.moveToPose(-43.5, -46.5, 180, 1500, {.lead = 0.2});
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(14.65, 1000);
+    chassis.moveDistance(15.5, 1000, {.maxSpeed = 60});
     pros::delay(250);
 
     //back into long goal and score
-    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 100});
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 90});
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100); //antijam
