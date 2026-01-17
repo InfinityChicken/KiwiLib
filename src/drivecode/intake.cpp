@@ -66,9 +66,6 @@ void updateIntake() {
             } else {
                 intakeState = 2;
             }
-
-            velValue = 12000 * 0.75;
-
         }
         outtakePressed = true;
     } else {

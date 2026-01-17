@@ -7,13 +7,11 @@ int trapdoorState = 0; //0 closed
 int midGoalState = 0; //0 closed
 int scraperState = 0; //0 up
 int wingState = 0; //0 down
-int odomState = 0; //0 down
 
 bool trapdoorPressed = false;
 bool midGoalPressed = false;
 bool scraperPressed = false;
 bool wingPressed = false;
-bool odomPressed = false;
 
 void updatePistons() {
     //R2 wing
@@ -45,11 +43,6 @@ void updatePistons() {
     } else {
         trapdoorPressed = false;
     }
-
-    //down odom lift
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) { //only goes once for driver
-        odomState = 1;
-    } 
 
     //right matchloader
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
@@ -113,14 +106,6 @@ void runPistons() {
             midGoal.set_value(false);
         } else if (midGoalState == 1) {
             midGoal.set_value(true);
-        }
-
-        // odom lift
-        if(odomState == 0) {
-            odomLift.set_value(false);
-        } else if (odomState == 1) {
-            odomLift.set_value(true);
-
         }
 
         pros::delay(10);
