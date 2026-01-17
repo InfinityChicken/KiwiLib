@@ -7,7 +7,7 @@ void sevenBlockPushRight() {
 
     //go to 3 blocks (tuned)
     intakeState = 1;
-    chassis.moveToPoint(24, -24, 1000, {.minSpeed = 40, .earlyExitRange = 6}, true);
+    chassis.moveToPoint(24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
 
@@ -19,7 +19,7 @@ void sevenBlockPushRight() {
     pros::delay(250);
 
     //back into long goal and score (tuned)
-    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 90});
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 70});
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100); //antijam
@@ -43,18 +43,18 @@ void sevenBlockPushLeft(){
     //go to 3 blocks
     wingState = 1;
     intakeState = 1;
-    chassis.moveToPoint(-24, -24, 1000, {.minSpeed = 40, .earlyExitRange = 6}, true);
+    chassis.moveToPoint(-24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
 
     //go to and into matchloader
     chassis.moveToPose(-43.5, -46.5, 180, 1500, {.lead = 0.2});
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(15.5, 1000, {.maxSpeed = 60});
+    chassis.moveDistance(14, 1000, {.maxSpeed = 50});
     pros::delay(250);
 
     //back into long goal and score
-    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 90});
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100); //antijam
@@ -66,7 +66,7 @@ void sevenBlockPushLeft(){
     scraperState = 0;
     chassis.moveToPoint(-38.5, -36, 1000);
     chassis.turnToHeading(180, 1000, {.earlyExitRange = 10});
-    chassis.moveToPoint(-35, -6, 1000, {.forwards = false, .minSpeed = 40});
+    chassis.moveToPoint(-35, -6, 1000, {.forwards = false, .minSpeed = 10});
     // chassis.moveDistance(33, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
@@ -128,9 +128,9 @@ void SAWP() {
     //do long goal
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
     trapdoorState = 1;
-    intakeState = 2;
-    pros::delay(100); //antijam
-    intakeState = 1;
+    // intakeState = 2;
+    // pros::delay(100); //antijam
+    // intakeState = 1;
     pros::delay(750);
     scraperState = 0;
     trapdoorState = 0;
@@ -159,9 +159,9 @@ void SAWP() {
     chassis.moveToPoint(-12, -12, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
-    intakeState = 2;
-    pros::delay(100); //antijam
-    intakeState = 1;
+    // intakeState = 2;
+    // pros::delay(100); //antijam
+    // intakeState = 1;
     pros::delay(500);
     midGoalSpeed = 12000 * 0.8;
     pros::delay(100);
@@ -180,13 +180,13 @@ void SAWP() {
     chassis.turnToHeading(180.5, 1000);
     intakeState = 1;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(12, 1000);
+    chassis.moveDistance(13, 1000);
     pros::delay(200);
 
     //score long goal
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false});
-    intakeState = 2;
-    pros::delay(100); //antijam
-    intakeState = 1;
+    // intakeState = 2;
+    // pros::delay(100); //antijam
+    // intakeState = 1;
     trapdoorState = 1;
 }
