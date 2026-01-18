@@ -28,8 +28,8 @@ void updatePistons() {
         wingPressed = false;
     }
 
-    //R1 trapdoor long 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    //Y trapdoor long 
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
         if (!trapdoorPressed) {
             if(trapdoorState == 0) {
                 trapdoorState = 1;
@@ -60,8 +60,8 @@ void updatePistons() {
         scraperPressed = false;
     }
 
-    //Y mid goal
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+    //R1 mid goal
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         if (!midGoalPressed) {
             if (midGoalState == 0) {
                 midGoalState = 1;

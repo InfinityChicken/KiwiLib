@@ -40,7 +40,7 @@ void opcontrol() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000;
-	midGoalSpeed = 12000 * 0.6;
+	midGoalSpeed = 12000 * 0.55;
 
 	bool buttonPressed = false;
 
