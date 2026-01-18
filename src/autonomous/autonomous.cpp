@@ -8,39 +8,43 @@ void skills() {
 
     //curve to four blocks + intake
     intakeState = 1;
-    chassis.moveToPoint(-24, -24, 1000);
-    chassis.waitUntil(12); //TODO: TUNETUNETUNE
+    chassis.moveToPoint(-24, -24, 1500, {}, true);
+    chassis.waitUntil(12);
+    scraperState = 1;
+    chassis.waitUntilDone();
 
     //turn + move toward mid goal
-    chassis.turnToPoint(-12, -12, 1000, {.forwards = false});
-    chassis.moveToPoint(-12, -12, 1000, {.forwards = false});
+    chassis.turnToPoint(-9, -9, 1000, {.forwards = false});
+    chassis.moveToPoint(-9, -9, 1000, {.forwards = false});
     
     //score mid goal
     midGoalState = 1;
-    midGoalSpeed = 12000;
     trapdoorState = 1;
-    pros::delay(750); //tune
+    pros::delay(1250); //tune
     midGoalState = 0;
-    midGoalSpeed = 12000 * 0.6;
     trapdoorState = 0;
     scraperState = 1;
     
     //move to and do first  ml (copy from sawp)
-    chassis.moveToPoint(-46, -46, 2000);
+    chassis.moveToPose(-45.5, -46.5, 225, 2000);
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(14, 1000);
+    chassis.moveDistance(13, 1000);
+    pros::delay(500);
 
     //go thru alley
-    chassis.moveToPose(-60, 0, 1000, 0, {.forwards = false, .minSpeed = 30}); //minspeed
-    chassis.moveToPose(-48, 36, 180, 1000, {.forwards = false});
+    chassis.moveDistance(-6, 1000);
+    chassis.moveToPose(-60, 0, 0, 1000, {.forwards = false}); //minspeed
+    chassis.moveToPose(-48, 36, 0, 1000, {.forwards = false});
+
+    return;
 
     //score long
     chassis.turnToHeading(180, 1000);
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
 
     //move to and do second ml
-    chassis.moveToPose(-46, 46, 180, 1000, {.minSpeed = 20});
+    chassis.moveToPose(-46, 46, 180, 1000, {.lead = 0.8, .minSpeed = 20});
     chassis.moveToPoint(-46, 60, 1000);
     
 
@@ -48,7 +52,7 @@ void skills() {
 
 void sevenBlockPushRight() {
     chassis.setPose(1,-1,0);
-    chassis.distanceReset('R','B'); //dist reset to begin
+    chassis.distanceReset('R', 'B'); //dist reset to begin
 
     //go to 3 blocks (tuned)
     intakeState = 1;
@@ -57,10 +61,10 @@ void sevenBlockPushRight() {
     scraperState = 1;
 
     //go to and into matchloader (tuned)
-    chassis.moveToPose(45, -46.5, 180, 1500, {.lead = 0.3});
+    chassis.moveToPose(46.5, -46.5, 180, 1500, {.lead = 0.3});
     chassis.distanceReset('L', 'F');
     //chassis.moveToPoint(47, -57, 1000);
-    chassis.moveDistance(14.55, 1000);
+    chassis.moveDistance(13, 1000);
     pros::delay(250);
 
     //back into long goal and score (tuned)
@@ -93,7 +97,7 @@ void sevenBlockPushLeft(){
     scraperState = 1;
 
     //go to and into matchloader
-    chassis.moveToPose(-43.5, -46.5, 180, 1500, {.lead = 0.2});
+    chassis.moveToPose(-42.5, -46.5, 180, 1500, {.lead = 0.2});
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(14, 1000, {.maxSpeed = 50});
     pros::delay(250);

@@ -26,9 +26,10 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
-	SAWP();
-	//sevenBlockPushLeft();
-	//sevenBlockPushRight();
+	skills();
+	// SAWP();
+	// sevenBlockPushLeft();
+	// sevenBlockPushRight();
 }
 
 void opcontrol() {
