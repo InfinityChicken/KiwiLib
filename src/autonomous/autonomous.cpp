@@ -32,7 +32,7 @@ void skills() {
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(13, 1000);
     pros::delay(600);
-    intakeState = 0;
+    intakeState = 0; //this + rest u can prob delete js tune ml distance
     pros::delay(75);
     intakeState = 1;
     pros::delay(200);
@@ -43,6 +43,7 @@ void skills() {
     chassis.moveToPoint(-60, -26, 1000, {.forwards = false});
     chassis.turnToHeading(180, 1000);
     chassis.moveToPoint(-60, 26, 2000, {.forwards = false});
+    
     // chassis.moveToPose(-61, -28, 0, 2000, {.forwards = false, .lead = 1});
     // chassis.moveToPoint(-61, 24, 1000,{.forwards=false});
     // chassis.moveToPose(-48, 36, 0, 1000, {.forwards = false}); go back if need more time but wasn't working
@@ -51,7 +52,7 @@ void skills() {
     chassis.turnToPoint(-47, 41, 1000, {.forwards = false});
     chassis.moveToPoint(-47, 41, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
-    chassis.distanceReset('L', 'F');
+    chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(-47, 25, 1000, {.forwards = false});
     trapdoorState = 1;
     return;
