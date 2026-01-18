@@ -8,6 +8,7 @@ void skills() {
 
     //curve to four blocks + intake
     intakeState = 1;
+    wingState = 1;
     chassis.moveToPoint(-24, -24, 1500, {}, true);
     chassis.waitUntil(12);
     scraperState = 1;
@@ -20,34 +21,44 @@ void skills() {
     //score mid goal
     midGoalState = 1;
     trapdoorState = 1;
-    pros::delay(1250); //tune
+    pros::delay(1500); //inconsistent deadzones rn
+    
+
+    //move to and do first  ml
+    chassis.moveToPose(-45.5, -46.5, 225, 2000);
     midGoalState = 0;
     trapdoorState = 0;
-    scraperState = 1;
-    
-    //move to and do first  ml (copy from sawp)
-    chassis.moveToPose(-45.5, -46.5, 225, 2000);
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(13, 1000);
-    pros::delay(500);
+    pros::delay(600);
+    intakeState = 0;
+    pros::delay(75);
+    intakeState = 1;
+    pros::delay(200);
 
     //go thru alley
     chassis.moveDistance(-6, 1000);
-    chassis.moveToPose(-60, 0, 0, 1000, {.forwards = false}); //minspeed
-    chassis.moveToPose(-48, 36, 0, 1000, {.forwards = false});
+    chassis.turnToPoint(-60, -26, 1000, {.forwards = false});
+    chassis.moveToPoint(-60, -26, 1000, {.forwards = false});
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(-60, 26, 2000, {.forwards = false});
+    // chassis.moveToPose(-61, -28, 0, 2000, {.forwards = false, .lead = 1});
+    // chassis.moveToPoint(-61, 24, 1000,{.forwards=false});
+    // chassis.moveToPose(-48, 36, 0, 1000, {.forwards = false}); go back if need more time but wasn't working
 
+    //exit alley and score
+    chassis.turnToPoint(-47, 41, 1000, {.forwards = false});
+    chassis.moveToPoint(-47, 41, 1000, {.forwards = false});
+    chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
+    chassis.distanceReset('L', 'F');
+    chassis.moveToPoint(-47, 25, 1000, {.forwards = false});
+    trapdoorState = 1;
     return;
 
-    //score long
-    chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
-
-    //move to and do second ml
-    chassis.moveToPose(-46, 46, 180, 1000, {.lead = 0.8, .minSpeed = 20});
-    chassis.moveToPoint(-46, 60, 1000);
-    
-
+    //move to ml
+    chassis.moveDistance(45, 1000);
+    pros::delay(600);
 }
 
 void sevenBlockPushRight() {
