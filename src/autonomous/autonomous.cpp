@@ -16,7 +16,7 @@ void skills() {
     //chassis.moveToPoint(-20, -25, 1000, {.forwards = false});
 
     //turn + move toward mid goal
-    chassis.turnToHeading(225, 1000);
+    chassis.turnToHeading(-135, 1000);
     chassis.moveToPoint(-8.5, -11.5, 1000, {.forwards = false});
     
     //score mid goal
@@ -36,7 +36,11 @@ void skills() {
     chassis.distanceReset('R', 'F');
     chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
     //chassis.moveDistance(16.5, 1000);
-    pros::delay(1500);
+    pros::delay(1000);
+    intakeState = 2;
+    pros::delay(100);
+    intakeState = 1;
+    pros::delay(400);
 
     //go thru alley
     intakeState = 0;
@@ -57,13 +61,18 @@ void skills() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(1500);
+    pros::delay(2000);
 
     //move to ml
     trapdoorState = 0;
     chassis.moveToPoint(-47.5, 46, 1000);
-    chassis.moveDistance(12.5, 1000);
-    pros::delay(1500);
+    chassis.moveDistance(12.25, 1000);
+    pros::delay(1000);
+    chassis.moveDistance(0.25, 500);
+    intakeState = 2;
+    pros::delay(100);
+    intakeState = 1;
+    pros::delay(650);
 
     //score long
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
@@ -76,27 +85,32 @@ void skills() {
     //go to third matchloader
     chassis.moveDistance(16, 1000);
     chassis.turnToPoint(47, 43, 1000);
-    chassis.moveToPoint(48, 43, 2500);
+    chassis.moveToPoint(47, 43, 2500);
     chassis.turnToHeading(0,1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(12.75, 1000);
-    pros::delay(1500);
+    chassis.moveDistance(13.5, 1000);
+    pros::delay(1000);
+    chassis.moveDistance(0.25, 500);
+    intakeState = 2;
+    pros::delay(100);
+    intakeState = 1;
+    pros::delay(400);
 
     //go around long goal in alley
     intakeState = 0;
     chassis.moveToPoint(48, 45, 1000, {.forwards = false});
-    chassis.turnToPoint(60, 29, 1000, {.forwards = false});
-    chassis.moveToPoint(60, 29, 1000, {.forwards = false});
+    chassis.turnToPoint(61, 29, 1000, {.forwards = false}); // boosted by 1 x 
+    chassis.moveToPoint(61, 29, 1000, {.forwards = false}); // booster by 1 x
     chassis.turnToHeading(0, 1000);
-    chassis.moveToPoint(57.5, -28, 1500, {.forwards = false});
+    chassis.moveToPoint(59, -28, 1500, {.forwards = false}); // booster by 1 x
 
     //score long goal after alley
-    chassis.moveToPoint(43.5, -45, 1000, {.forwards = false});
+    chassis.moveToPoint(44, -45, 1000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
-    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
+    // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
@@ -106,9 +120,14 @@ void skills() {
 
     //move to ml
     trapdoorState = 0;
-    chassis.moveToPoint(47, -46, 1000);
-    chassis.moveDistance(12.75, 1000);
-    pros::delay(1500);
+    chassis.moveToPoint(48, -46, 1000);
+    chassis.moveDistance(13.5, 1000);
+    pros::delay(1000);
+    chassis.moveDistance(0.25, 500);
+    intakeState = 2;
+    pros::delay(100);
+    intakeState = 1;
+    pros::delay(400);
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -117,14 +136,20 @@ void skills() {
     pros::delay(100);
     intakeState = 1;
     pros::delay(1500);
+    scraperState = 0;
+    intakeState = 2;
 
     //park
-    scraperState = 0;
-    chassis.moveToPose(17, -61, 250, 2000, {.lead = 0.65}); 
-    chassis.sendVoltage(2000, 1000);
-    scraperState = 1;
-    chassis.moveDistance(12, 1000);
-}
+    // scraperState = 0;
+    // chassis.moveToPose(17, -61, 250, 2000, {.lead = 0.65}); 
+    // coords
+    chassis.moveToPoint(48.1, -46.5, 1000);
+    // 245 (theta to turn to)
+    chassis.turnToPoint(20, -59, 1000);
+    chassis.moveToPoint(20, -62, 1000);
+    chassis.turnToHeading(270, 1000);
+    chassis.moveDistance(25, 1000);
+};
 
 void sevenBlockPushRight() {
     chassis.setPose(1,-1,0);
