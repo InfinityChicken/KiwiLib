@@ -27,22 +27,20 @@ void skills() {
     pros::delay(2000);
     
     //first ml
-    chassis.moveToPoint(-42.25, -40.5, 1000); //-43
-    //chassis.moveToPose(-42.5, -40, -131, 2000);
+    chassis.moveToPoint(-43, -40.5, 2000); //move in front of ml
     midGoalState = 0;
     trapdoorState = 0;
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
-    chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
+    // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
+    chassis.moveDistance(18.25, 1000); //move into ml
     pros::delay(1000);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    // pros::delay(400);
-    chassis.moveDistance(-6, 1000);
+    chassis.moveDistance(-6, 1000); //rock back
     chassis.moveDistance(6.5, 1000);
-    pros::delay(200);
-
+    pros::delay(500);
 
     //go thru alley
     intakeState = 0;
@@ -57,7 +55,7 @@ void skills() {
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
-    chassis.moveToPoint(-48, 20, 1000, {.forwards = false, .maxSpeed = 60}, true);
+    // chassis.moveToPoint(-48, 20, 1000, {.forwards = false, .maxSpeed = 60}, true); //TODO: why is this thing here
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
@@ -67,18 +65,17 @@ void skills() {
 
     //second ml
     trapdoorState = 0;
-    chassis.moveToPoint(-47.5, 46, 1000);
+    chassis.moveToPoint(-47, 46, 1000);
     chassis.turnToHeading(0, 1000); 
-    chassis.moveDistance(12.25, 1000);
+    chassis.moveDistance(12.75, 1000);
     pros::delay(1000);
-    chassis.moveDistance(0.25, 500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
     pros::delay(650);
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(6.5, 1000);
-    pros::delay(300);
+    pros::delay(500);
 
     //score long
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
@@ -87,26 +84,22 @@ void skills() {
     pros::delay(100);
     intakeState = 1;
     pros::delay(1500);
-
-    return;
     
     //third ml
     chassis.moveDistance(16, 1000);
-    chassis.turnToPoint(47, 43, 1000);
-    chassis.moveToPoint(47, 43, 2500);
-    chassis.turnToHeading(0,1000);
+    chassis.turnToPoint(49, 43, 1000);
+    chassis.moveToPoint(49, 43, 3000);
+    chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(13, 1000); //TODO: prev 13.5
+    chassis.moveDistance(13, 1000);
     pros::delay(1000);
-    chassis.moveDistance(0.25, 500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(400);
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(6.5, 1000);
-    pros::delay(300);
+    pros::delay(500);
 
     //go around long goal in alley
     intakeState = 0;
@@ -117,7 +110,7 @@ void skills() {
     chassis.moveToPoint(59, -28, 1500, {.forwards = false}); // booster by 1 x
 
     //score long goal after alley
-    chassis.moveToPoint(43.5, -45, 1000, {.forwards = false});
+    chassis.moveToPoint(43.5, -45, 2000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -131,18 +124,17 @@ void skills() {
 
     //fourth ml
     trapdoorState = 0;
-    chassis.moveToPoint(48, -46, 1000);
+    chassis.moveToPoint(47, -46, 1000);
     chassis.turnToHeading(180, 1000);
     chassis.moveDistance(13.5, 1000);
     pros::delay(1000);
-    chassis.moveDistance(0.25, 500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
     pros::delay(400);
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(6.5, 1000);
-    pros::delay(300);
+    pros::delay(500);
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
