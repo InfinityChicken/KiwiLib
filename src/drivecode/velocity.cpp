@@ -8,7 +8,7 @@ void runVelocity() {
     while(true) {
         if(!lowGoalVel) {
             if(trapdoorState == 0) {
-                velValue = 12000 * 0.8;
+                velValue = 12000 * 1;
             } else if(trapdoorState == 1) {
                 if(midGoalState == 1) {
                     velValue = midGoalSpeed;

@@ -10,7 +10,7 @@ void skills() {
     intakeState = 1;
     wingState = 1;
     chassis.moveToPoint(-20, -25, 1500, {}, true); //-21, -24
-    chassis.waitUntil(13);
+    chassis.waitUntil(14);
     scraperState = 1;
     chassis.waitUntilDone();
 
@@ -27,19 +27,19 @@ void skills() {
     pros::delay(2000);
     
     //first ml
-    chassis.moveToPoint(-42, -39.5, 2000); //move in front of ml
+    chassis.moveToPoint(-43, -39.5, 2000); //move in front of ml
     midGoalState = 0;
     trapdoorState = 0;
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
-    chassis.moveDistance(18.25, 1000); //move into ml
+    chassis.moveDistance(19, 1000); //move into ml
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
     chassis.moveDistance(-6, 1000); //rock back
-    chassis.moveDistance(6.5, 1000);
+    chassis.moveDistance(7, 1000);
     pros::delay(500);
 
     //go thru alley
@@ -74,8 +74,8 @@ void skills() {
     intakeState = 1;
     //pros::delay(650);
     chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(6.5, 1000);
-    pros::delay(250);
+    chassis.moveDistance(7, 1000);
+    pros::delay(500);
 
     //score long
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
@@ -87,8 +87,8 @@ void skills() {
     
     //third ml
     chassis.moveDistance(16, 1000);
-    chassis.turnToPoint(48.5, 43, 1000);
-    chassis.moveToPoint(48.5, 43, 3000);
+    chassis.turnToPoint(47.5, 43, 1000);
+    chassis.moveToPoint(47.5, 43, 3000);
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
@@ -98,8 +98,8 @@ void skills() {
     pros::delay(100);
     intakeState = 1;
     chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(6.75, 1000);
-    pros::delay(250);
+    chassis.moveDistance(7, 1000);
+    pros::delay(500);
 
     //go around long goal in alley
     intakeState = 0;
@@ -133,8 +133,8 @@ void skills() {
     intakeState = 1;
     //pros::delay(400);
     chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(6.5, 1000);
-    pros::delay(250);
+    chassis.moveDistance(7, 1000);
+    pros::delay(500);
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -154,9 +154,9 @@ void skills() {
     chassis.turnToHeading(270, 1000);
     chassis.moveDistance(4, 500, {.minSpeed = 40});
     scraperState = 1;
-    chassis.sendVoltage(8000, 1000);
+    chassis.sendVoltage(8000, 1800); //TODO: changed from 1000ms
     scraperState = 0;
-    chassis.sendVoltage(4000, 500);
+    chassis.sendVoltage(12000, 500);
 }
 
 void sevenBlockPushRight() {
