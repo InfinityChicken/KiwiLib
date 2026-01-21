@@ -27,14 +27,14 @@ void skills() {
     pros::delay(2000);
     
     //first ml
-    chassis.moveToPoint(-43, -40.5, 2000); //move in front of ml
+    chassis.moveToPoint(-42, -39.5, 2000); //move in front of ml
     midGoalState = 0;
     trapdoorState = 0;
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
     chassis.moveDistance(18.25, 1000); //move into ml
-    pros::delay(1000);
+    pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
@@ -51,31 +51,31 @@ void skills() {
     chassis.moveToPoint(-57.25, 26, 2000, {.forwards = false});
     
     //exit alley and score
-    chassis.moveToPoint(-42, 45, 1000, {.forwards = false});
+    chassis.moveToPoint(-42.5, 45, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
-    // chassis.moveToPoint(-48, 20, 1000, {.forwards = false, .maxSpeed = 60}, true); //TODO: why is this thing here
+    chassis.moveToPoint(-48, 20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(2000);
+    pros::delay(2500);
 
     //second ml
     trapdoorState = 0;
-    chassis.moveToPoint(-47, 46, 1000);
+    chassis.moveToPoint(-47.5, 46, 1000);
     chassis.turnToHeading(0, 1000); 
     chassis.moveDistance(12.75, 1000);
-    pros::delay(1000);
+    pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(650);
+    //pros::delay(650);
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(6.5, 1000);
-    pros::delay(500);
+    pros::delay(250);
 
     //score long
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
@@ -83,23 +83,23 @@ void skills() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(1500);
+    pros::delay(2000);
     
     //third ml
     chassis.moveDistance(16, 1000);
-    chassis.turnToPoint(49, 43, 1000);
-    chassis.moveToPoint(49, 43, 3000);
+    chassis.turnToPoint(48.5, 43, 1000);
+    chassis.moveToPoint(48.5, 43, 3000);
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(13, 1000);
-    pros::delay(1000);
+    pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
     chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(6.5, 1000);
-    pros::delay(500);
+    chassis.moveDistance(6.75, 1000);
+    pros::delay(250);
 
     //go around long goal in alley
     intakeState = 0;
@@ -107,34 +107,34 @@ void skills() {
     chassis.turnToPoint(61, 29, 1000, {.forwards = false}); // boosted by 1 x 
     chassis.moveToPoint(61, 29, 1000, {.forwards = false}); // booster by 1 x
     chassis.turnToHeading(0, 1000);
-    chassis.moveToPoint(59, -28, 1500, {.forwards = false}); // booster by 1 x
+    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false}); // booster by 1 x
 
     //score long goal after alley
-    chassis.moveToPoint(43.5, -45, 2000, {.forwards = false});
+    chassis.moveToPoint(44, -45, 2000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
-    // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
+    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(1500);
+    pros::delay(2000);
 
     //fourth ml
     trapdoorState = 0;
     chassis.moveToPoint(47, -46, 1000);
     chassis.turnToHeading(180, 1000);
     chassis.moveDistance(13.5, 1000);
-    pros::delay(1000);
+    pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(400);
+    //pros::delay(400);
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(6.5, 1000);
-    pros::delay(500);
+    pros::delay(250);
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -142,18 +142,22 @@ void skills() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(1500);
+    pros::delay(2000);
     scraperState = 0;
-    intakeState = 2;
 
     //park
-    chassis.moveToPoint(48.1, -46.5, 1000);
-    chassis.turnToPoint(20, -59, 1000);
-    chassis.moveToPoint(20, -62, 1000);
+    chassis.moveToPose(13.5, -62, 270, 2000, {.lead = 0.675, .maxSpeed = 60}); 
+    intakeState = 2;
+    // chassis.moveToPoint(48.1, -46.5, 1000);
+    // chassis.turnToPoint(20, -59, 1000);
+    // chassis.moveToPoint(20, -62, 1000);
     chassis.turnToHeading(270, 1000);
+    chassis.moveDistance(4, 500, {.minSpeed = 40});
     scraperState = 1;
-    chassis.sendVoltage(8000, 3000);
-};
+    chassis.sendVoltage(8000, 1000);
+    scraperState = 0;
+    chassis.sendVoltage(4000, 500);
+}
 
 void sevenBlockPushRight() {
     chassis.setPose(1,-1,0);
@@ -188,7 +192,7 @@ void sevenBlockPushRight() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.turnToHeading(-23, 1000, {.minSpeed = 40});
     
-};
+}
 
 void sevenBlockPushLeft(){
     chassis.setPose(-1,-1,0);
