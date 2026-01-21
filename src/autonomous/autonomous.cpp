@@ -1,5 +1,8 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
+#include "pros/distance.hpp"
+#include "main.h"
+
 
 void skills() {
     //beginning dist reset
@@ -10,7 +13,7 @@ void skills() {
     intakeState = 1;
     wingState = 1;
     chassis.moveToPoint(-20, -25, 1500, {}, true); //-21, -24
-    chassis.waitUntil(14);
+    chassis.waitUntil(14.25);
     scraperState = 1;
     chassis.waitUntilDone();
 
@@ -27,13 +30,14 @@ void skills() {
     pros::delay(2000);
     
     //first ml
-    chassis.moveToPoint(-43, -39.5, 2000); //move in front of ml
+    velValue = 12000*80;
+    chassis.moveToPoint(-43.5, -39.5, 2000); //move in front of ml
     midGoalState = 0;
     trapdoorState = 0;
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
-    chassis.moveDistance(19, 1000); //move into ml
+    chassis.moveDistance(19.25, 1000); //move into ml
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
@@ -41,6 +45,8 @@ void skills() {
     chassis.moveDistance(-6, 1000); //rock back
     chassis.moveDistance(7, 1000);
     pros::delay(500);
+    velValue = 12000;
+
 
     //go thru alley
     intakeState = 0;
@@ -64,10 +70,11 @@ void skills() {
     pros::delay(2500);
 
     //second ml
+    velValue = 12000*80;
     trapdoorState = 0;
     chassis.moveToPoint(-47.5, 46, 1000);
     chassis.turnToHeading(0, 1000); 
-    chassis.moveDistance(12.75, 1000);
+    chassis.moveDistance(13, 1000);
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
@@ -76,6 +83,8 @@ void skills() {
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(7, 1000);
     pros::delay(500);
+    velValue = 12000;
+
 
     //score long
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
@@ -86,13 +95,14 @@ void skills() {
     pros::delay(2000);
     
     //third ml
+    velValue = 12000*80;
     chassis.moveDistance(16, 1000);
     chassis.turnToPoint(47.5, 43, 1000);
     chassis.moveToPoint(47.5, 43, 3000);
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(13, 1000);
+    chassis.moveDistance(13.1, 1000);
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
@@ -100,6 +110,8 @@ void skills() {
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(7, 1000);
     pros::delay(500);
+    velValue = 12000;
+
 
     //go around long goal in alley
     intakeState = 0;
@@ -123,10 +135,11 @@ void skills() {
     pros::delay(2000);
 
     //fourth ml
+    velValue = 12000*80;
     trapdoorState = 0;
     chassis.moveToPoint(47, -46, 1000);
     chassis.turnToHeading(180, 1000);
-    chassis.moveDistance(13.5, 1000);
+    chassis.moveDistance(13.75, 1000);
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
@@ -135,6 +148,8 @@ void skills() {
     chassis.moveDistance(-6, 1000);
     chassis.moveDistance(7, 1000);
     pros::delay(500);
+    velValue = 12000;
+
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -147,16 +162,25 @@ void skills() {
 
     //park
     chassis.moveToPose(13.5, -62, 270, 2000, {.lead = 0.675, .maxSpeed = 60}); 
-    intakeState = 2;
     // chassis.moveToPoint(48.1, -46.5, 1000);
     // chassis.turnToPoint(20, -59, 1000);
     // chassis.moveToPoint(20, -62, 1000);
     chassis.turnToHeading(270, 1000);
-    chassis.moveDistance(4, 500, {.minSpeed = 40});
+    chassis.moveDistance(4, 500, {.minSpeed = 40});        pros::delay(100);
     scraperState = 1;
+    intakeState = 2;
     chassis.sendVoltage(8000, 1800); //TODO: changed from 1000ms
     scraperState = 0;
-    chassis.sendVoltage(12000, 500);
+    chassis.sendVoltage(12000,500);
+    while (true) {
+        if (distBack.get_distance() >= 57) {
+            chassis.sendVoltage(0, 0);
+            break;
+        }
+        chassis.sendVoltage(12000, 0);
+    };
+    
+
 }
 
 void sevenBlockPushRight() {
