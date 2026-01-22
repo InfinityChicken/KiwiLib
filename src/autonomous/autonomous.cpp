@@ -161,24 +161,29 @@ void skills() {
     scraperState = 0;
 
     //park
-    chassis.moveToPose(13.5, -62, 270, 2000, {.lead = 0.675, .maxSpeed = 60}); 
+    chassis.moveToPose(13.5, -62.5, 270, 2000, {.lead = 0.675, .maxSpeed = 60}); 
     // chassis.moveToPoint(48.1, -46.5, 1000);
     // chassis.turnToPoint(20, -59, 1000);
     // chassis.moveToPoint(20, -62, 1000);
     chassis.turnToHeading(270, 1000);
-    chassis.moveDistance(4, 500, {.minSpeed = 40});        pros::delay(100);
+    chassis.moveDistance(6, 1000, {.minSpeed = 40});
+    pros::delay(100);
     scraperState = 1;
     intakeState = 2;
-    chassis.sendVoltage(8000, 1800); //TODO: changed from 1000ms
+    chassis.sendVoltage(6000, 250); //TODO: changed from 1000ms
     scraperState = 0;
-    chassis.sendVoltage(12000,500);
+    //chassis.sendVoltage(12000,500);
     while (true) {
-        if (distBack.get_distance() >= 57) {
-            chassis.sendVoltage(0, 0);
-            break;
-        }
-        chassis.sendVoltage(12000, 0);
-    };
+        if (distBack.get_distance() / 25.4 >= 68) {
+            leftMotors.move_voltage(0);
+			rightMotors.move_voltage(0);
+			break;
+        } else {
+			leftMotors.move_voltage(12000);
+			rightMotors.move_voltage(12000);
+		}
+        pros::delay(10);
+    }
     
 
 }
