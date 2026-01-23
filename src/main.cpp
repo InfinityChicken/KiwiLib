@@ -25,28 +25,28 @@ void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
-
-	chassis.moveDistance(6, 1000, {.minSpeed = 40});
-    scraperState = 1;
-    intakeState = 0;
-    chassis.sendVoltage(6000, 250); //TODO: changed from 1000ms
-    scraperState = 0;
-	pros::delay(100);
-    //chassis.sendVoltage(12000,500);
-    while (true) {
-        if (distBack.get_distance() / 25.4 >= 68) {
-            leftMotors.move_voltage(0);
-			rightMotors.move_voltage(0);
-			break;
-        } else {
-			leftMotors.move_voltage(10000);
-			rightMotors.move_voltage(10000);
-		}
-        pros::delay(10);
-    }
+	//parking block
+	// chassis.moveDistance(6, 1000, {.minSpeed = 40});
+    // scraperState = 1;
+    // intakeState = 0;
+    // chassis.sendVoltage(6000, 250); //TODO: changed from 1000ms
+    // scraperState = 0;
+	// pros::delay(100);
+    // //chassis.sendVoltage(12000,500);
+    // while (true) {
+    //     if (distBack.get_distance() / 25.4 >= 68) {
+    //         leftMotors.move_voltage(0);
+	// 		rightMotors.move_voltage(0);
+	// 		break;
+    //     } else {
+	// 		leftMotors.move_voltage(10000);
+	// 		rightMotors.move_voltage(10000);
+	// 	}
+    //     pros::delay(10);
+    // }
 
 	//skills();
-	// SAWP();
+	SAWP();
 	// sevenBlockPushLeft();
 	// sevenBlockPushRight();
 }
