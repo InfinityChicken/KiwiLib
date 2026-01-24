@@ -12,14 +12,16 @@ void skills() {
     //intake first four blocks
     intakeState = 1;
     wingState = 1;
-    chassis.moveToPoint(-20, -25, 1500, {}, true); //-21, -24
-    chassis.waitUntil(14.25);
+    // chassis.moveToPoint(-20, -25, 1500, {.maxSpeed = 40});
+    chassis.moveToPoint(-20, -25, 1500, {.maxSpeed = 60}, true); //-21, -24
+    chassis.waitUntil(15); //prev 14.25
     scraperState = 1;
     chassis.waitUntilDone();
 
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
-    chassis.moveToPoint(-8.5, -11.5, 1000, {.forwards = false});
+    chassis.moveToPoint(-8, -11, 1000, {.forwards = false}); //prev -8.5 -11.5
+    scraperState = 1;
     
     //score mid goal
     midGoalSpeed = 12000 * 0.65;
@@ -183,8 +185,8 @@ void skills() {
 			rightMotors.move_voltage(0);
 			break;
         } else {
-			leftMotors.move_voltage(10000);
-			rightMotors.move_voltage(10000);
+			leftMotors.move_voltage(8000);
+			rightMotors.move_voltage(8000); //prev 10000
 		}
         pros::delay(10);
     }  
