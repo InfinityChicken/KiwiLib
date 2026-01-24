@@ -592,7 +592,8 @@
       }
     },
     "upload_options": {
-      "description": "one-eighty"
+      "description": "one-eighty",
+      "icon": "pizza"
     },
     "use_early_access": false
   }

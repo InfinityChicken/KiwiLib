@@ -24,7 +24,6 @@ void skills() {
     scraperState = 1;
     
     //score mid goal
-    midGoalSpeed = 12000 * 0.65;
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
@@ -33,7 +32,7 @@ void skills() {
     pros::delay(2000);
     
     //first ml
-    velValue = 12000*80;
+    // velValue = 12000*80;
     chassis.moveToPoint(-43.5, -39.5, 2000); //move in front of ml
     midGoalState = 0;
     trapdoorState = 0;
@@ -48,7 +47,7 @@ void skills() {
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 1000);
     pros::delay(400);
-    velValue = 12000;
+    // velValue = 12000;
 
 
     //go thru alley
@@ -73,7 +72,7 @@ void skills() {
     pros::delay(2500);
 
     //second ml
-    velValue = 12000*80;
+    // velValue = 12000*80;
     trapdoorState = 0;
     chassis.moveToPoint(-47.5, 46, 1000);
     chassis.turnToHeading(0, 1000); 
@@ -86,7 +85,7 @@ void skills() {
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 1000);
     pros::delay(400);
-    velValue = 12000;
+    // velValue = 12000;
     intakeState = 0;
 
 
@@ -100,7 +99,7 @@ void skills() {
 
     
     //third ml
-    velValue = 12000*80;
+    // velValue = 12000*80;
     chassis.moveDistance(16, 1000);
     chassis.turnToPoint(47.5, 43, 1000);
     chassis.moveToPoint(47.5, 43, 3000);
@@ -115,7 +114,7 @@ void skills() {
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 1000);
     pros::delay(400);
-    velValue = 12000;
+    // velValue = 12000;
 
 
     //go around long goal in alley
@@ -140,7 +139,7 @@ void skills() {
     pros::delay(2000);
 
     //fourth ml
-    velValue = 12000*80;
+    // velValue = 12000*80;
     trapdoorState = 0;
     chassis.moveToPoint(47, -46, 1000);
     chassis.turnToHeading(180, 1000);
@@ -153,7 +152,7 @@ void skills() {
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 1000);
     pros::delay(400);
-    velValue = 12000;
+    // velValue = 12000;
     intakeState = 0;
 
 
@@ -325,7 +324,7 @@ void SAWP() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    midGoalSpeed = 12000;
+    // midGoalSpeed = 12000; //add back if necessary, default is 65%
     pros::delay(550);
     chassis.moveToPose(-46.5, -46.5, 225, 1500, {}, true); //move to ml
     intakeState = 2; //outtake to bring blocks farther down intake
