@@ -20,7 +20,7 @@ void skills() {
 
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
-    chassis.moveToPoint(-8, -11, 1000, {.forwards = false}); //prev -8.5 -11.5
+    chassis.moveToPoint(-9, -12, 1000, {.forwards = false}); //prev -8.5 -11.5
     scraperState = 1;
     
     //score mid goal
@@ -40,14 +40,14 @@ void skills() {
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
-    chassis.moveDistance(19.25, 1000); //move into ml
+    chassis.moveDistance(19.75, 1000); //move into ml
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    chassis.moveDistance(-6, 1000); //rock back
-    chassis.moveDistance(7, 1000);
-    pros::delay(500);
+    chassis.moveDistance(-6, 100);
+    chassis.moveDistance(7.5, 1000);
+    pros::delay(400);
     velValue = 12000;
 
 
@@ -83,9 +83,9 @@ void skills() {
     pros::delay(100);
     intakeState = 1;
     //pros::delay(650);
-    chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(7, 1000);
-    pros::delay(500);
+    chassis.moveDistance(-6, 100);
+    chassis.moveDistance(7.5, 1000);
+    pros::delay(400);
     velValue = 12000;
     intakeState = 0;
 
@@ -97,6 +97,7 @@ void skills() {
     pros::delay(100);
     intakeState = 1;
     pros::delay(2000);
+
     
     //third ml
     velValue = 12000*80;
@@ -106,14 +107,14 @@ void skills() {
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(13.6, 1000);
+    chassis.moveDistance(14.5, 1000);
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    chassis.moveDistance(-6, 1000);
+    chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 1000);
-    pros::delay(500);
+    pros::delay(400);
     velValue = 12000;
 
 
@@ -143,15 +144,15 @@ void skills() {
     trapdoorState = 0;
     chassis.moveToPoint(47, -46, 1000);
     chassis.turnToHeading(180, 1000);
-    chassis.moveDistance(13.75, 1000);
+    chassis.moveDistance(14.25, 1000);
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
     //pros::delay(400);
-    chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(7, 1000);
-    pros::delay(500);
+    chassis.moveDistance(-6, 100);
+    chassis.moveDistance(7.5, 1000);
+    pros::delay(400);
     velValue = 12000;
     intakeState = 0;
 
@@ -167,29 +168,34 @@ void skills() {
     scraperState = 0;
 
     //park
-    chassis.moveToPose(13.5, -62.5, 270, 2000, {.lead = 0.675, .maxSpeed = 60}); 
+    chassis.moveToPose(13.5, -64, 270, 2000, {.lead = 0.675, .maxSpeed = 60}); 
     // chassis.moveToPoint(48.1, -46.5, 1000);
     // chassis.turnToPoint(20, -59, 1000);
     // chassis.moveToPoint(20, -62, 1000);
-    chassis.turnToHeading(270, 1000);
+    chassis.turnToHeading(275, 1000);
     chassis.moveDistance(5, 1000, {.minSpeed = 40});
     scraperState = 1;
     intakeState = 2;
-    chassis.sendVoltage(6000, 250); //TODO: changed from 1000ms
+    chassis.sendVoltage(12000, 150); //TODO: changed from 1000ms
     scraperState = 0;
-	pros::delay(100);
-    chassis.sendVoltage(10000,500);
-    while (true) {
-        if (distBack.get_distance() / 25.4 >= 68) {
-            leftMotors.move_voltage(0);
-			rightMotors.move_voltage(0);
-			break;
-        } else {
-			leftMotors.move_voltage(8000);
-			rightMotors.move_voltage(8000); //prev 10000
-		}
-        pros::delay(10);
-    }  
+    chassis.sendVoltage(-12000, 150);
+    chassis.sendVoltage(12000, 500);
+
+    // while (true) {
+    //     if (distBack.get_distance() / 25.4 >= 63 && distBack.get_distance() / 25.4 <= 71) {
+    //         leftMotors.move_voltage(0);
+    //         rightMotors.move_voltage(0); // prev move_voltage both sides
+	// 		break;
+    //     } else if (distBack.get_distance() / 25.4 >= 75) {
+    //         leftMotors.move_voltage(-12000);
+    //         rightMotors.move_voltage(-12000);
+	// 	}
+    //     else {
+    //         leftMotors.move_voltage(12000);
+    //         rightMotors.move_voltage(12000);
+    //     }
+    //     pros::delay(10);
+    // }  
 
 }
 

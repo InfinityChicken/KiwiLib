@@ -3,6 +3,7 @@
 int velValue = 12000;
 bool lowGoalVel = false;
 int midGoalSpeed = 12000 * 0.6;
+bool secondLong = false;
 
 void runVelocity() {
     while(true) {
@@ -13,6 +14,9 @@ void runVelocity() {
                 if(midGoalState == 1) {
                     velValue = midGoalSpeed;
                 } else {
+                    if (secondLong) {
+                        velValue = 12000 * 0.85;
+                    }
                     velValue = 12000;
                 }
             }

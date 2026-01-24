@@ -5,5 +5,6 @@
 extern int velValue;
 extern bool lowGoalVel;
 extern int midGoalSpeed;
+extern bool secondLong;
 
 void runVelocity();
