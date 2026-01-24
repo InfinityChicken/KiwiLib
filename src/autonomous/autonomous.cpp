@@ -22,6 +22,7 @@ void skills() {
     chassis.moveToPoint(-8.5, -11.5, 1000, {.forwards = false});
     
     //score mid goal
+    midGoalSpeed = 12000 * 0.65;
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
@@ -84,6 +85,7 @@ void skills() {
     chassis.moveDistance(7, 1000);
     pros::delay(500);
     velValue = 12000;
+    intakeState = 0;
 
 
     //score long
@@ -102,13 +104,13 @@ void skills() {
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(13.1, 1000);
+    chassis.moveDistance(13.6, 1000);
     pros::delay(1500);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
     chassis.moveDistance(-6, 1000);
-    chassis.moveDistance(7, 1000);
+    chassis.moveDistance(7.5, 1000);
     pros::delay(500);
     velValue = 12000;
 
@@ -149,10 +151,12 @@ void skills() {
     chassis.moveDistance(7, 1000);
     pros::delay(500);
     velValue = 12000;
+    intakeState = 0;
 
 
     //score long
-    chassis.moveToPoint(48, -25, 1000, {.forwards = false});
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 100});
+    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(100);
@@ -166,25 +170,24 @@ void skills() {
     // chassis.turnToPoint(20, -59, 1000);
     // chassis.moveToPoint(20, -62, 1000);
     chassis.turnToHeading(270, 1000);
-    chassis.moveDistance(6, 1000, {.minSpeed = 40});
-    pros::delay(100);
+    chassis.moveDistance(5, 1000, {.minSpeed = 40});
     scraperState = 1;
     intakeState = 2;
     chassis.sendVoltage(6000, 250); //TODO: changed from 1000ms
     scraperState = 0;
-    //chassis.sendVoltage(12000,500);
+	pros::delay(100);
+    chassis.sendVoltage(10000,500);
     while (true) {
         if (distBack.get_distance() / 25.4 >= 68) {
             leftMotors.move_voltage(0);
 			rightMotors.move_voltage(0);
 			break;
         } else {
-			leftMotors.move_voltage(12000);
-			rightMotors.move_voltage(12000);
+			leftMotors.move_voltage(10000);
+			rightMotors.move_voltage(10000);
 		}
         pros::delay(10);
-    }
-    
+    }  
 
 }
 
@@ -204,6 +207,7 @@ void sevenBlockPushRight() {
     //chassis.moveToPoint(47, -57, 1000);
     chassis.moveDistance(13.5, 1000);
     pros::delay(250);
+    intakeState = 0;
 
     //back into long goal and score (tuned)
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 70});
@@ -233,16 +237,17 @@ void sevenBlockPushLeft(){
     scraperState = 1;
 
     //go to and into matchloader
-    chassis.moveToPose(-42.5, -46.5, 180, 1875, {.lead = 0.2});
+    chassis.moveToPose(-42.5, -46.5, 180, 1500, {.lead = 0.2});
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(14, 1000, {.maxSpeed = 50});
     pros::delay(250);
+    intakeState = 0;
 
     //back into long goal and score
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(1500);
+    pros::delay(1600);
 
     //curve out and push
     wingState = 0;
@@ -250,7 +255,7 @@ void sevenBlockPushLeft(){
     chassis.moveToPoint(-38.15, -36, 1000);
     chassis.turnToHeading(180, 1000);
     trapdoorState = 0;
-    chassis.moveToPoint(-35, -6, 1000, {.forwards = false, .minSpeed = 10});
+    chassis.moveToPoint(-35, -6, 1000, {.forwards = false, .maxSpeed = 100});
     // chassis.moveDistance(33, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
@@ -275,6 +280,7 @@ void SAWP() {
     intakeState = 1;
     chassis.moveDistance(12.5, 1000);
     pros::delay(115);
+    intakeState = 0;
     
     //do long goal
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
@@ -328,6 +334,7 @@ void SAWP() {
     intakeState = 1;
     chassis.moveDistance(13, 1000);
     pros::delay(100);
+    intakeState = 0;
 
     //score long goal
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false});
