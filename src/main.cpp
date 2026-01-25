@@ -26,10 +26,10 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
-	skills();
-	//SAWP();
+	// skills();
+	SAWP();
 	// sevenBlockPushLeft();
-	//sevenBlockPushRight();
+	// sevenBlockPushRight();
 
 	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 100, "auton done!");
 }
@@ -40,7 +40,7 @@ void opcontrol() {
 	intakeState = 0;
 	velValue = 12000;
 
-	//mid goal alwasy 65%
+	//mid goal always 65%
 
 	bool buttonPressed = false;
 

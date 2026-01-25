@@ -21,7 +21,7 @@ void taskInit() {
     pros::Task velocityTask(runVelocity, "velocity task");
     pros::Task screenTask(runScreen, "screen task");
     pros::Task controllerTask(runController, "controller task");
-    pros::Task autoScoreTask(runAutoScore, "autoscore task");
+    // pros::Task autoScoreTask(runAutoScore, "autoscore task"); //TODO: disabled
     // pros::Task consoleTask(runConsole, "console task");
 }
 
@@ -63,8 +63,8 @@ void runConsole() {
         // std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
         // std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
 
-        std::cout<<drivetrain.leftMotors->get_actual_velocity()<<"\n";
-        std::cout<<drivetrain.rightMotors->get_actual_velocity()<<"\n\n";
+        std::cout<<drivetrain.leftMotors->get_voltage()<<"\n";
+        std::cout<<drivetrain.rightMotors->get_voltage()<<"\n\n";
 
 
         // std::cout<<"limit switch: "<<std::to_string(limitSwitch.get_value())<<"\n";

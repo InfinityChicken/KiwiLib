@@ -286,7 +286,7 @@ void SAWP() {
     //go into matchloader
     intakeState = 1;
     chassis.moveDistance(12.5, 1000);
-    pros::delay(115);
+    pros::delay(80); //prev 100
     intakeState = 0;
     
     //do long goal
@@ -305,11 +305,11 @@ void SAWP() {
     //move to first mid blocks
     intakeState = 1;
     chassis.moveToPoint(22.5, -24, 1500, {}, true); 
-    chassis.waitUntil(8);
+    chassis.waitUntil(9); //prev 8
     scraperState = 1;
 
     //turn and get second blocks
-    chassis.turnToPoint(-24, -24, 1000); //if no work then change ttp to same as mtp //TODO: this shouldn't work but it does so wtv
+    chassis.turnToPoint(-24, -24, 1000); //if no work then change ttp to same as mtp
     scraperState = 0;
     chassis.moveToPoint(-19, -22, 1500, {}, true);
     chassis.waitUntil(31);
@@ -321,17 +321,18 @@ void SAWP() {
     chassis.moveToPoint(-11.25, -11.25, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
-    intakeState = 2;
-    pros::delay(100);
+    // intakeState = 2;
+    // pros::delay(100);
     intakeState = 1;
-    // midGoalSpeed = 12000; //add back if necessary, default is 65%
+    midGoalSpeed = 12000;
     pros::delay(550);
-    chassis.moveToPose(-46.5, -46.5, 225, 1500, {}, true); //move to ml
+    chassis.moveToPose(-46.5, -46.5, 230, 1400, {}, true); //move to ml //TODO: prev 225 heading
     intakeState = 2; //outtake to bring blocks farther down intake
     pros::delay(200);
     intakeState = 0;
     trapdoorState = 0;
     midGoalState = 0;
+    midGoalSpeed = 12000 * 0.8; //TODO: mid goal 80% reset for driver
 
     // turn and reset
     chassis.turnToHeading(180, 1000);
@@ -339,12 +340,12 @@ void SAWP() {
 
     //do ml
     intakeState = 1;
-    chassis.moveDistance(13, 1000);
-    pros::delay(100);
+    chassis.moveDistance(13.25, 1000);
+    pros::delay(80); //prev 100
     intakeState = 0;
 
     //score long goal
-    chassis.moveToPoint(-48, -25, 1000, {.forwards = false});
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 60});
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(50);
