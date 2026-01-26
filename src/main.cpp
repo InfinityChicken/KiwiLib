@@ -26,15 +26,16 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
-	 skills();
-	//SAWP();
+	skills(); 
+	//AWP();
 	// sevenBlockPushLeft();
-	// sevenBlockPushRight();
+	//sevenBlockPushRight();
 
-	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 100, "auton done!");
+	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
 }
 
 void opcontrol() {
+	//popros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "%s", auton);
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
