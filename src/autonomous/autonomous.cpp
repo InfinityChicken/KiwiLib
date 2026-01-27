@@ -20,7 +20,7 @@ void skills() {
 
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
-    chassis.moveToPoint(-9, -12, 1000, {.forwards = false}); //prev -8.5 -11.5
+    chassis.moveToPoint(-8.5, -11.5, 1000, {.forwards = false}); //prev -8.5 -11.5
     scraperState = 1;
     
     //score mid goal
@@ -33,7 +33,13 @@ void skills() {
     
     //first ml
     // velValue = 12000*80;
-    chassis.moveToPoint(-43.5, -39.5, 2000); //move in front of ml
+    //chassis.moveToPose(-48, chassis.getPose().y+(-48-chassis.getPose().x)*tan(chassis.getPose(true).theta), chassis.getPose().theta, 2000);
+    //chassis.moveToPoint(-43.5, -39.5, 2000); //move in front of ml
+    chassis.moveDistance(40, 1000);
+    chassis.turnToHeading(-90, 1000);
+    chassis.waitUntilDone();
+    chassis.distanceReset('F', 'L');
+    chassis.moveToPoint(-43.5, chassis.getPose().y, 1000);
     midGoalState = 0;
     trapdoorState = 0;
     chassis.turnToHeading(180, 1000);
@@ -48,7 +54,6 @@ void skills() {
     chassis.moveDistance(7.5, 1000);
     pros::delay(400);
     // velValue = 12000;
-
 
     //go thru alley
     intakeState = 0;
@@ -97,7 +102,6 @@ void skills() {
     intakeState = 1;
     pros::delay(2000);
 
-    
     //third ml
     // velValue = 12000*80;
     chassis.moveDistance(16, 1000);
@@ -323,8 +327,8 @@ void SAWP() {
     intakeState = 1;
     midGoalSpeed = 12000;
     pros::delay(550);
-    //chassis.moveToPose(-48, chassis.getPose().y+(-48-chassis.getPose().x)*tan(chassis.getPose(true).theta), chassis.getPose().theta, 1000, {.minSpeed = 80});
-    chassis.moveDistance(49.5, 1000, {.minSpeed = 100}, true);
+    chassis.moveToPose(-48, chassis.getPose().y+(-48-chassis.getPose().x)*tan(chassis.getPose(true).theta), chassis.getPose().theta, 2000);
+    //chassis.moveDistance(49.5, 1000, {.minSpeed = 100}, true);
     //chassis.moveToPose(-48, -48, 225, 1400, {}, true); //move to ml //TODO: prev 225 heading
     
     intakeState = 2; //outtake to bring blocks farther down intake
