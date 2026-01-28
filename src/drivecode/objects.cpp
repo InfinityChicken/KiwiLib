@@ -26,9 +26,9 @@ pros::Rotation horizRotation(21);
 pros::adi::DigitalIn limitSwitch('H');
 pros::Distance distRight(11);
 pros::Distance distLeft(16);
-pros::Distance distFrontLeft(15);
+pros::Distance distFrontLeft(14);
 pros::Distance distFrontRight(9);
-pros::Distance distBack(14);
+pros::Distance distBack(13);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(

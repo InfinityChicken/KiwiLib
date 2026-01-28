@@ -267,10 +267,11 @@ void sevenBlockPushLeft(){
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
-void SAWP() {
-    // intakeState = 2;
+ // intakeState = 2;
     // pros::delay(100); //antijam
     // intakeState = 1;
+
+void SAWP() {
     chassis.setPose(0,0,90);
 
     //go to matchloader 
@@ -294,7 +295,7 @@ void SAWP() {
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(750);
+    pros::delay(700);
     scraperState = 0;
     //intakeState = 0;
 
@@ -310,32 +311,32 @@ void SAWP() {
     scraperState = 1;
 
     //turn and get second blocks
-    chassis.turnToPoint(-24, -24, 1000); //if no work then change ttp to same as mtp
+    chassis.turnToPoint(-19, -20.5, 1000); //if no work then change ttp to same as mtp
     scraperState = 0;
-    chassis.moveToPoint(-19, -22, 1500, {.minSpeed = 40}, true);
+    chassis.moveToPoint(-19, -20.5, 1500, {.minSpeed = 40}, true); //TODO: remove minSpeed
     chassis.waitUntil(31);
     scraperState = 1;
 
     // score mid goal and move to ml
     chassis.waitUntilDone();
-    chassis.turnToHeading(225,1000);
-    chassis.moveToPoint(-10, -10, 1000, {.forwards = false, .minSpeed = 80});
+    chassis.turnToPoint(-9.5, -9.5, 1000, {.forwards = false});
+    chassis.moveToPoint(-9.5, -9.5, 1000, {.forwards = false, .minSpeed = 80});
     midGoalState = 1;
     trapdoorState = 1;
     // intakeState = 2; 
     intakeState = 1;
     midGoalSpeed = 12000;
-    pros::delay(550);//prev 550
+    pros::delay(550);
     // chassis.moveToPose(-48, chassis.getPose().y+(-48-chassis.getPose().x)*tan(chassis.getPose(true).theta), chassis.getPose().theta, 2000);
     //chassis.moveDistance(49.5, 1000, {.minSpeed = 100}, true);
-    chassis.moveToPose(-46, -46, 225, 1500, {}, true); //move to ml //TODO: prev 225 heading // prev -48, -48  (but ts buns)
+    chassis.moveToPose(-45, -46, 230, 1500, {}, true); //move to ml //TODO: prev 225 heading
     
     intakeState = 2; //outtake to bring blocks farther down intake
     pros::delay(25);
     intakeState = 0;
     trapdoorState = 0;
     midGoalState = 0;
-    midGoalSpeed = 12000 * 0.8; //TODO: mid goal 80% reset for driver
+    midGoalSpeed = 12000 * 0.8; // mid goal 80% reset for driver
 
     // turn and reset
     chassis.turnToHeading(180, 1000);
