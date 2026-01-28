@@ -319,8 +319,8 @@ void SAWP() {
 
     // score mid goal and move to ml
     chassis.waitUntilDone();
-    chassis.turnToPoint(-9.5, -9.5, 1000, {.forwards = false});
-    chassis.moveToPoint(-9.5, -9.5, 1000, {.forwards = false, .minSpeed = 80});
+    chassis.turnToPoint(-8.5, -8.5, 1000, {.forwards = false});
+    chassis.moveToPoint(-8.5, -8.5, 1000, {.forwards = false, .minSpeed = 80});
     midGoalState = 1;
     trapdoorState = 1;
     // intakeState = 2; 
@@ -343,7 +343,6 @@ void SAWP() {
     chassis.distanceReset('R', 'F');
 
     //do ml
-
     intakeState = 1;
     chassis.moveDistance(13.25, 1000);
     pros::delay(50); //prev 80, 100
