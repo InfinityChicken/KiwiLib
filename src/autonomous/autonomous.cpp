@@ -105,8 +105,8 @@ void skills() {
     //third ml
     // velValue = 12000*80;
     chassis.moveDistance(16, 1000);
-    chassis.turnToPoint(47.5, 43, 1000);
-    chassis.moveToPoint(47.5, 43, 3000);
+    chassis.turnToPoint(48.5, 43, 1000);
+    chassis.moveToPoint(48.5, 43, 3000);
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
@@ -319,8 +319,8 @@ void SAWP() {
 
     // score mid goal and move to ml
     chassis.waitUntilDone();
-    chassis.turnToPoint(-8.5, -8.5, 1000, {.forwards = false});
-    chassis.moveToPoint(-8.5, -8.5, 1000, {.forwards = false, .minSpeed = 80});
+    chassis.turnToPoint(-10, -7, 1000, {.forwards = false});
+    chassis.moveToPoint(-10, -7, 1000, {.forwards = false, .minSpeed = 80});
     midGoalState = 1;
     trapdoorState = 1;
     // intakeState = 2; 
