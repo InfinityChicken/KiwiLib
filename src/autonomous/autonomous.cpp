@@ -72,7 +72,7 @@ void skills() {
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(200);
     intakeState = 1;
     pros::delay(2500);
 
@@ -98,7 +98,7 @@ void skills() {
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
 
@@ -138,7 +138,7 @@ void skills() {
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
 
@@ -165,7 +165,7 @@ void skills() {
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
     scraperState = 0;
@@ -305,28 +305,27 @@ void SAWP() {
 
     //swing out right
     chassis.sendVoltage(4000, 250);
-    chassis.swingToPoint(23.5, -23, lemlib::DriveSide::RIGHT, 1000);
+    chassis.swingToPoint(23.5, -21, lemlib::DriveSide::RIGHT, 1000); //prev -23
     trapdoorState = 0;
 
     //move to first mid blocks
     intakeState = 1;
-    chassis.moveToPoint(23.5, -23, 1500, {.minSpeed = 40}, true); 
-    chassis.waitUntil(10); //matchloader stuff for first clump of blocks
-    scraperState = 1;
+    chassis.moveToPoint(23.5, -21, 1500, {}, true); //prev minspeed 40, prev -23
+    chassis.waitUntil(10);
+    // scraperState = 1;
 
     //turn and get second blocks
-    chassis.turnToPoint(-19, -19.5, 1000); //if no work then change ttp to same as mtp
-    //chassis.turnToHeading(-90, 1000);
+    chassis.turnToPoint(-24, -17.5, 1000); //if no work then change ttp to same as mtp
     scraperState = 0;
-    chassis.moveToPoint(-19, -19.5, 1500, {.minSpeed = 40}, true); //TODO: remove minSpeed
+    chassis.moveToPoint(-24, -17.5, 1500, {}, true); //prev -19.5 y, prev -19 x, prev minspeed 40
     chassis.waitUntil(31);
-    scraperState = 1;
+    // scraperState = 1;
 
-    // score mid goal and move to ml
+    // score mid goal
     chassis.waitUntilDone();
     midGoalState = 1;
-    chassis.turnToPoint(-9, -7, 1000, {.forwards = false});
-    chassis.moveToPoint(-9, -7, 1000, {.forwards = false, .minSpeed = 60}, true);
+    chassis.turnToPoint(0, 0, 1000, {.forwards = false});
+    chassis.moveToPoint(-10, -7, 1000, {.forwards = false}, true); //pre minspeed 60
     chassis.waitUntil(12);
     trapdoorState = 1;
     // intakeState = 2; 
@@ -336,10 +335,10 @@ void SAWP() {
     pros::delay(50);
     intakeState = 1;
     pros::delay(600);
-    // chassis.moveToPose(-48, chassis.getPose().y+(-48-chassis.getPose().x)*tan(chassis.getPose(true).theta), chassis.getPose().theta, 2000);
-    //chassis.moveDistance(49.5, 1000, {.minSpeed = 100}, true);
-    chassis.moveToPose(-46.5, -46, 225, 1500, {}, true); //move to ml //TODO: prev 225 heading
-    
+
+    //move to ml
+    scraperState = 1;
+    chassis.moveToPose(-48.5, -46, 230, 1500, {}, true); //prev theta 225
     intakeState = 2; //outtake to bring blocks farther down intake
     pros::delay(50); //spam midgoal
     intakeState = 0;
@@ -359,8 +358,8 @@ void SAWP() {
     //intakeState = 0;
 
     //score long goal
-    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 60});
-    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
+    chassis.moveToPoint(-49, -25, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(-49, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
     trapdoorState = 1;
     // intakeState = 2;
     // pros::delay(50);
