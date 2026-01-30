@@ -26,7 +26,9 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
-	skills(); 
+	chassis.moveDistance(4,2000);
+
+	//skills(); 
 	//SAWP();
 	//sevenBlockPushLeft();
 	//sevenBlockPushRight();
