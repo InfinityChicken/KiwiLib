@@ -315,17 +315,17 @@ void SAWP() {
     // scraperState = 1;
 
     //turn and get second blocks
-    chassis.turnToPoint(-24, -17.5, 1000); //if no work then change ttp to same as mtp
+    chassis.turnToPoint(-24, -17.75, 1000); //if no work then change ttp to same as mtp
     scraperState = 0;
-    chassis.moveToPoint(-24, -17.5, 1500, {}, true); //prev -19.5 y, prev -19 x, prev minspeed 40
+    chassis.moveToPoint(-24, -17.75, 1500, {}, true); //prev -19.5 y, prev -19 x, prev minspeed 40
     chassis.waitUntil(31);
-    // scraperState = 1;
+    scraperState = 1;
 
     // score mid goal
     chassis.waitUntilDone();
     midGoalState = 1;
-    chassis.turnToPoint(0, 0, 1000, {.forwards = false});
-    chassis.moveToPoint(-10, -7, 1000, {.forwards = false}, true); //pre minspeed 60
+    chassis.turnToPoint(-11, -5, 1000, {.forwards = false});
+    chassis.moveToPoint(-11, -5, 1000, {.forwards = false}, true); //pre minspeed 60
     chassis.waitUntil(12);
     trapdoorState = 1;
     // intakeState = 2; 
@@ -338,7 +338,7 @@ void SAWP() {
 
     //move to ml
     scraperState = 1;
-    chassis.moveToPose(-48.5, -46, 230, 1500, {}, true); //prev theta 225
+    chassis.moveToPose(-47.5, -46, 230, 1500, {}, true); //prev theta 225
     intakeState = 2; //outtake to bring blocks farther down intake
     pros::delay(50); //spam midgoal
     intakeState = 0;
@@ -358,8 +358,8 @@ void SAWP() {
     //intakeState = 0;
 
     //score long goal
-    chassis.moveToPoint(-49, -25, 1000, {.forwards = false, .minSpeed = 60});
-    chassis.moveToPoint(-49, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
     trapdoorState = 1;
     // intakeState = 2;
     // pros::delay(50);
