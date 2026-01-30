@@ -26,10 +26,10 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
-	chassis.moveDistance(4,2000);
+	//chassis.moveDistance(4,2000);
 
 	//skills(); 
-	//SAWP();
+	SAWP();
 	//sevenBlockPushLeft();
 	//sevenBlockPushRight();
 
@@ -37,7 +37,7 @@ void autonomous() {
 }
 
 void opcontrol() {
-	//popros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "%s", auton);
+	//popros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "%s", auton); 
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;

@@ -292,7 +292,7 @@ void SAWP() {
 
     //go into matchloader
     intakeState = 1;
-    chassis.moveDistance(12.5, 1000);
+    chassis.moveDistance(13.5, 1000);
     pros::delay(25); //prev 50, 100
     intakeState = 0;
     
@@ -314,7 +314,9 @@ void SAWP() {
     intakeState = 1;
     chassis.moveToPoint(23.5, -21, 1500, {}, true); //prev minspeed 40, prev -23
     chassis.waitUntil(10);
-    //scraperState = 1;
+    scraperState = 1;
+    chassis.waitUntilDone();
+    scraperState = 0;
 
     //turn and get second blocks
     chassis.turnToPoint(-24, -17.75, 1000); //if no work then change ttp to same as mtp
