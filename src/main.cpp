@@ -26,9 +26,9 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
-	skills(); 
-	//AWP();
-	// sevenBlockPushLeft();
+	//skills(); 
+	SAWP();
+	//sevenBlockPushLeft();
 	//sevenBlockPushRight();
 
 	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
@@ -40,6 +40,7 @@ void opcontrol() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000;
+	midGoalSpeed = 12000 * 0.8; // mid goal 80% reset for driver
 
 	//mid goal always 65%
 

@@ -64,7 +64,7 @@ void skills() {
     chassis.moveToPoint(-57.25, 26, 2000, {.forwards = false});
     
     //exit alley and score
-    chassis.moveToPoint(-42.5, 45, 1000, {.forwards = false});
+    chassis.moveToPoint(-44, 45, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
@@ -218,13 +218,15 @@ void sevenBlockPushRight() {
 
     //back into long goal and score (tuned)
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 70});
+    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
     trapdoorState = 1;
     intakeState = 1;
     pros::delay(1500);
 
     //curve out and push (tuned)
     scraperState = 0;
-    chassis.moveToPoint(37.5, -37, 1000, {});
+    chassis.sendVoltage(6000, 100);
+    chassis.moveToPoint(37.25, -38, 1000, {});
     chassis.turnToHeading(0, 1000);
     chassis.moveDistance(31, 1000);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
@@ -252,6 +254,7 @@ void sevenBlockPushLeft(){
 
     //back into long goal and score
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
+    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
     trapdoorState = 1;
     intakeState = 1;
     pros::delay(1600);
@@ -259,6 +262,7 @@ void sevenBlockPushLeft(){
     //curve out and push
     wingState = 0;
     scraperState = 0;
+    //chassis.sendVoltage(6000, 100);
     chassis.moveToPoint(-38.15, -36, 1000);
     chassis.turnToHeading(180, 1000);
     trapdoorState = 0;
@@ -292,7 +296,7 @@ void SAWP() {
     
     //do long goal
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 60});
-    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
+    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
     trapdoorState = 1;
     intakeState = 1;
     pros::delay(700);
@@ -307,36 +311,40 @@ void SAWP() {
     //move to first mid blocks
     intakeState = 1;
     chassis.moveToPoint(23.5, -23, 1500, {.minSpeed = 40}, true); 
-    chassis.waitUntil(9.5); //prev 8
+    chassis.waitUntil(10); //matchloader stuff for first clump of blocks
     scraperState = 1;
 
     //turn and get second blocks
-    chassis.turnToPoint(-19, -20.5, 1000); //if no work then change ttp to same as mtp
+    chassis.turnToPoint(-19, -19.5, 1000); //if no work then change ttp to same as mtp
+    //chassis.turnToHeading(-90, 1000);
     scraperState = 0;
-    chassis.moveToPoint(-19, -20.5, 1500, {.minSpeed = 40}, true); //TODO: remove minSpeed
+    chassis.moveToPoint(-19, -19.5, 1500, {.minSpeed = 40}, true); //TODO: remove minSpeed
     chassis.waitUntil(31);
     scraperState = 1;
 
     // score mid goal and move to ml
     chassis.waitUntilDone();
-    chassis.turnToPoint(-10, -7, 1000, {.forwards = false});
-    chassis.moveToPoint(-10, -7, 1000, {.forwards = false, .minSpeed = 80});
     midGoalState = 1;
+    chassis.turnToPoint(-9, -7, 1000, {.forwards = false});
+    chassis.moveToPoint(-9, -7, 1000, {.forwards = false, .minSpeed = 60}, true);
+    chassis.waitUntil(12);
     trapdoorState = 1;
     // intakeState = 2; 
     intakeState = 1;
     midGoalSpeed = 12000;
-    pros::delay(550);
+    intakeState = 2; //antijam
+    pros::delay(50);
+    intakeState = 1;
+    pros::delay(600);
     // chassis.moveToPose(-48, chassis.getPose().y+(-48-chassis.getPose().x)*tan(chassis.getPose(true).theta), chassis.getPose().theta, 2000);
     //chassis.moveDistance(49.5, 1000, {.minSpeed = 100}, true);
-    chassis.moveToPose(-45, -46, 230, 1500, {}, true); //move to ml //TODO: prev 225 heading
+    chassis.moveToPose(-46.5, -46, 225, 1500, {}, true); //move to ml //TODO: prev 225 heading
     
     intakeState = 2; //outtake to bring blocks farther down intake
-    pros::delay(25);
+    pros::delay(50); //spam midgoal
     intakeState = 0;
     trapdoorState = 0;
     midGoalState = 0;
-    midGoalSpeed = 12000 * 0.8; // mid goal 80% reset for driver
 
     // turn and reset
     chassis.turnToHeading(180, 1000);
@@ -344,12 +352,15 @@ void SAWP() {
 
     //do ml
     intakeState = 1;
+    midGoalState = 1;
     chassis.moveDistance(13.25, 1000);
     pros::delay(50); //prev 80, 100
-    intakeState = 0;
+    midGoalState = 0;
+    //intakeState = 0;
 
     //score long goal
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
     trapdoorState = 1;
     // intakeState = 2;
     // pros::delay(50);
