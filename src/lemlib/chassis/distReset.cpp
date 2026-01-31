@@ -19,7 +19,6 @@ float absMax(float x1, float x2) {
     }
 }
 
-//TODO: janky code, need to turn front distance sensor choosing into function
 void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress

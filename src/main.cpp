@@ -29,9 +29,9 @@ void autonomous() {
 	//chassis.moveDistance(4,2000);
 
 	//skills(); 
-	SAWP();
+	//SAWP();
 	//sevenBlockPushLeft();
-	//sevenBlockPushRight();
+	sevenBlockPushRight();
 
 	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
 }

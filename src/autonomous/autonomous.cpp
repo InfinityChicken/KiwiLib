@@ -224,11 +224,11 @@ void sevenBlockPushRight() {
     trapdoorState = 1;
     intakeState = 1;
     pros::delay(1500);
-
+    
     //curve out and push (tuned)
     scraperState = 0;
     chassis.sendVoltage(6000, 100);
-    chassis.moveToPoint(37.25, -38, 1000, {});
+    chassis.moveToPoint(38.75, -38, 1000, {});
     chassis.turnToHeading(0, 1000);
     chassis.moveDistance(31.75, 1000);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
