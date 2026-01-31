@@ -128,6 +128,18 @@ void lemlib::Chassis::waitUntil(float dist) {
     while (distTraveled <= dist && distTraveled != -1);
 }
 
+void lemlib::Chassis::waitUntilWithin(float dist, float x, float y) {
+    lemlib::Pose target(x, y);
+    float distTarget = this->getPose().distance(target);
+
+    while(distTarget > dist) {
+        distTarget = this->getPose().distance(target);
+        pros::delay(10);
+    }
+
+    return;
+}
+
 void lemlib::Chassis::waitUntilDone() {
     do pros::delay(10);
     while (distTraveled != -1);

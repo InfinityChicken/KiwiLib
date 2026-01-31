@@ -230,7 +230,7 @@ void sevenBlockPushRight() {
     chassis.sendVoltage(6000, 100);
     chassis.moveToPoint(37.25, -38, 1000, {});
     chassis.turnToHeading(0, 1000);
-    chassis.moveDistance(31, 1000);
+    chassis.moveDistance(31.75, 1000);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.turnToHeading(-17, 1000, {.minSpeed = 40});
     
@@ -282,7 +282,7 @@ void SAWP() {
 
     //go to matchloader 
     scraperState = 1;
-    chassis.moveDistance(31.5, 1000); 
+    chassis.moveDistance(31.25, 1000); 
     chassis.turnToHeading(180, 1000);
 
     //reset pose
@@ -313,7 +313,7 @@ void SAWP() {
     //move to first mid blocks
     intakeState = 1;
     chassis.moveToPoint(23.5, -21, 1500, {}, true); //prev minspeed 40, prev -23
-    chassis.waitUntil(10);
+    chassis.waitUntil(10.5);
     scraperState = 1;
     chassis.waitUntilDone();
     scraperState = 0;
@@ -338,13 +338,14 @@ void SAWP() {
     intakeState = 2; //antijam
     pros::delay(50);
     intakeState = 1;
-    pros::delay(600);
+    pros::delay(660);
 
     //move to ml
     scraperState = 1;
-    chassis.moveToPose(-47.5, -46, 230, 1500, {}, true); //prev theta 225
+    chassis.moveToPose(-49, -46, 230, 1500, {}, true); //prev theta 225
     intakeState = 2; //outtake to bring blocks farther down intake
     pros::delay(80); 
+    intakeState = 0;
     trapdoorState = 0;
     midGoalState = 0;
 

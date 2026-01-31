@@ -489,6 +489,9 @@ class Chassis {
          * @endcode
          */
         void waitUntil(float dist);
+
+        void waitUntilWithin(float dist, float x, float y);
+
         /**
          * @brief Wait until the robot has completed the path
          *
