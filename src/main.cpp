@@ -30,9 +30,11 @@ void autonomous() {
 
 	//skills(); 
 	//SAWP();
-	//sevenBlockPushLeft();
-	sevenBlockPushRight();
-
+	sevenBlockPushLeft();
+	//sevenBlockPushRight();
+	//fourBlockPushLeft();
+	// leftSplit();
+	// rightSplit();
 	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
 }
 

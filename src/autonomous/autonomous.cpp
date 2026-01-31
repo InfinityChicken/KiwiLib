@@ -248,11 +248,51 @@ void sevenBlockPushLeft(){
     scraperState = 1;
 
     //go to and into matchloader
-    chassis.moveToPose(-42.5, -46.5, 180, 1500, {.lead = 0.2});
+    chassis.moveToPose(-43.5, -46.5, 180, 1500, {.lead = 0.2});
+    chassis.waitUntilDone();
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(14, 1000);
+    chassis.moveDistance(16, 1000);
     pros::delay(250);
     intakeState = 0;
+
+    //back into long goal and score
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
+    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
+    trapdoorState = 1;
+    intakeState = 1;
+    pros::delay(1600);
+
+    //curve out and push
+    wingState = 0;
+    scraperState = 0;
+    //chassis.sendVoltage(6000, 100);
+    chassis.moveToPoint(-38.15, -36, 1000, {}, true);
+    intakeState = 2;
+    pros::delay(40);
+    intakeState = 0;
+    trapdoorState = 0;
+    chassis.turnToHeading(180, 1000);
+    trapdoorState = 0;
+    chassis.moveToPoint(-35, -5.5, 1000, {.forwards = false, .maxSpeed = 100});
+    // chassis.moveDistance(33, 1000, {.forwards = false});
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+}
+
+
+void fourBlockPushLeft() {
+    chassis.setPose(-1,-1,0);
+    chassis.distanceReset('L','B'); //dist reset to begin
+
+    //go to 3 blocks
+    wingState = 1;
+    intakeState = 1;
+    chassis.moveToPoint(-24, -24, 1000, {.earlyExitRange = 6}, true);
+    chassis.waitUntil(12);
+    scraperState = 1;
+
+    //go to and into matchloader
+    chassis.moveToPose(-43.5, -46.5, 180, 1500, {.lead = 0.2});
+    chassis.distanceReset('R', 'F');
 
     //back into long goal and score
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
