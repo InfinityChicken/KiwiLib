@@ -977,7 +977,6 @@ class Chassis {
         ControllerSettings angularSettings;
         Drivetrain drivetrain;
         OdomSensors sensors;
-        // DistanceSensors distanceSensors; //TODO: removed
         DriveCurve* throttleCurve;
         DriveCurve* steerCurve;
 

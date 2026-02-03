@@ -21,7 +21,7 @@ void taskInit() {
     pros::Task velocityTask(runVelocity, "velocity task");
     pros::Task screenTask(runScreen, "screen task");
     pros::Task controllerTask(runController, "controller task");
-    // pros::Task autoScoreTask(runAutoScore, "autoscore task"); //TODO: disabled
+    // pros::Task autoScoreTask(runAutoScore, "autoscore task");
     // pros::Task consoleTask(runConsole, "console task");
 }
 

@@ -181,7 +181,7 @@ void skills() {
     scraperState = 1;
     intakeState = 2;
     wingState = 1;
-    chassis.sendVoltage(6000, 250); //TODO: changed from 1000ms
+    chassis.sendVoltage(6000, 250);
     scraperState = 0;
 	pros::delay(100);
     chassis.sendVoltage(10000,500);

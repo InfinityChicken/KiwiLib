@@ -14,9 +14,6 @@ void runVelocity() {
                 if(midGoalState == 1) {
                     velValue = midGoalSpeed;
                 } else {
-                    // if (secondLong) { //TODO: mkiran pack it up bro
-                    //     velValue = 12000 * 0.85;
-                    // }
                     velValue = 12000; //low scoring 100%
                 }
             }

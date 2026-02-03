@@ -51,24 +51,23 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    11,
-    lemlib::Omniwheel::NEW_4,
+    11, //TODO: get accurate value
+    4,
     (48.0/84.0)*600.0,   
-    8       //what speed you attempt to take around turns during move to pose
-                            //, as a percentage --- this is 80% lateral around turns
+    0
 );
 
 //controller settings
 lemlib::ControllerSettings lateralController(
-    10,     //kP
-    0.16,   //kI
-    64,     //kD    
-    4,      //windup range
-    0.75,   //small error
-    40,     //small error timeout //TODO: test this
-    0,      //large error 
-    500,    //large error timeout //TODO: large disabled asw
-    0       //slew
+    10,                           //kP
+    0.16,                         //kI
+    64,                           //kD    
+    4,                   //windup range
+    1,                    //small error
+    100,           //small error timeout //TODO: prev 40ms
+    0,                    //large error 
+    500,           //large error timeout
+    0                           //slew
 );
 
 lemlib::ControllerSettings angularController(
@@ -76,47 +75,14 @@ lemlib::ControllerSettings angularController(
     0.32,
     23,
     5,
-    1.5, //within +- 1 deg
-    40, //TODO: test this
-    0, //TODO: large disabled...
+    1.5,
+    40,
+    0,
     500,
     0
 );
 
-
-
-/* linear table
-kP | output     kD  | output            kI      | output
-1  | low        1   | low               0.01    | low
-2  | low        2   | low               0.02    | low
-4  | low        4   | low               0.04    | low
-8  | low        8   | low               0.08    | low
-16 | high       16  | low               0.16    | low
-12 | good       32  | low               0.32    | high
-                64  | high
-                48
-                
-
-
-*/
-
-/* angular table
-kP | output     kD  | output            kI      | output
-1  | low        1   | low               0.01    | low
-2  | low        2   | low               0.02    | low
-4  | high       4   | low               0.04    | low
-3  | low        8   | low               0.08    | low
-3.5| high       16  | low               0.16    | low
-3.25| high      32  | high              0.32    |
-3.125|good      24  | high
-                20  | low
-                22  | low
-                23  | perf
-                24  | perf w/ 
-
-*/ 
-
-//distance sensors
+//distance sensors //TODO: find accurate offsets
 lemlib::DistanceSensors distSensors(distFrontLeft, 5.25, 7,
                                     distFrontRight, -5.5, 6.25,
                                     distBack, -3, 6,
