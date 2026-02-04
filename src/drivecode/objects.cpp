@@ -64,7 +64,7 @@ lemlib::ControllerSettings lateralController(
     64,                           //kD    
     4,                   //windup range
     1,                    //small error
-    100,           //small error timeout //TODO: prev 40ms
+    30,           //small error timeout //TODO: prev 40ms
     0,                    //large error 
     500,           //large error timeout
     0                           //slew
@@ -76,15 +76,15 @@ lemlib::ControllerSettings angularController(
     23,
     5,
     1.5,
-    40,
+    67,
     0,
     500,
     0
 );
 
 //distance sensors //TODO: find accurate offsets
-lemlib::DistanceSensors distSensors(distFrontLeft, 5.25, 7,
-                                    distFrontRight, -5.5, 6.25,
+lemlib::DistanceSensors distSensors(distFrontLeft, 5.75, 5.75, // prev 5.25, 7
+                                    distFrontRight, -5.25, 6.5, // prev -5.5, 6.25
                                     distBack, -3, 6,
                                     distLeft, -2.5, 5.25,
                                     distRight, 2.5, 5.25);

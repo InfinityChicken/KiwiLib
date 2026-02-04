@@ -27,15 +27,16 @@ void autonomous() {
 	// chassis.distanceReset('F', 'R');
 
 	//chassis.moveDistance(4,2000);
-
+	chassis.setPose(0,0,0);
+	chassis.turnToHeading(90, 1000);
 	//skills(); 
 	//SAWP();
-	sevenBlockPushLeft();
+	// sevenBlockPushLeft();
 	//sevenBlockPushRight();
 	//fourBlockPushLeft();
 	// leftSplit();
 	// rightSplit();
-	pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
+	// pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
 }
 
 void opcontrol() {
