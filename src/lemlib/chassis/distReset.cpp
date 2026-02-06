@@ -109,6 +109,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
             currentPose.x, currentPose.y, currentPose.theta);
     std::string printPos(buf);
     pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
+    std::cout<<printPos<<"\n";
 
     //calculate perpendicular distance from center to perimeter
     //cosine of entire distance from center of bot to perimeter (not perpendicular)
@@ -160,9 +161,9 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     snprintf(buf1, sizeof(buf1), "%.3f, %.3f, %.3f",
             pose.x, pose.y, pose.theta);
     std::string printPos1(buf1);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 70, "Distance Reset: %s", printPos.c_str());
+    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 70, "Distance Reset: %s", printPos1.c_str());
     std::cout<<printPos1<<"\n";
-    std::cout<<"distance reset finished\n";
+    std::cout<<"distance reset finished\n\n";
 
     this->setPose(pose);
     this->endMotion();

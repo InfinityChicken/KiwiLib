@@ -107,3 +107,17 @@ void PIDTuning(int mode, float amount) {
         }
     }
 }
+
+bool leftPressed = false;
+void distResetTesting(char xDir, char yDir) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+        if (!buttonPressed) {
+
+            chassis.distanceReset(xDir, yDir);
+
+        }
+        buttonPressed = true;
+    } else {
+        buttonPressed = false;
+    }
+}

@@ -27,9 +27,12 @@ void autonomous() {
 	// chassis.distanceReset('F', 'R');
 
 	//chassis.moveDistance(4,2000);
-	chassis.setPose(0,0,0);
-	chassis.turnToHeading(90, 1000);
-	//skills(); 
+	// chassis.setPose(0,0,0);
+	// chassis.turnToHeading(90, 1000);
+
+	//chassis.moveToPoint(0,24,1000);
+	skills97();
+	//skills79(); 
 	//SAWP();
 	// sevenBlockPushLeft();
 	//sevenBlockPushRight();
@@ -49,11 +52,15 @@ void opcontrol() {
 
 	//mid goal always 65%
 
-	bool buttonPressed = false;
+	//bool buttonPressed = false;
+
+	//chassis.setPose(1,1,0);
 
 	while (true) {
 		// //pid
 		// PIDTuning(0, 90);
+
+		//distResetTesting('R', 'F');
 		
 		//subsystem updates
 		updateIntake();

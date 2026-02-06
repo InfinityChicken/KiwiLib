@@ -20,3 +20,6 @@ void runController();
 
 //pid tuning function
 void PIDTuning(int mode, float amount);
+
+//dist reset testing function
+void distResetTesting(char xDir, char yDir);
