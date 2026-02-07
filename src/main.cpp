@@ -1,7 +1,7 @@
 #include "main.h"
-#include "objects.hpp"
+#include "drivecode/objects.hpp"
 #include "pros/motors.h"
-#include "util.hpp"
+#include "drivecode/util.hpp"
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 #include "drivecode/pistons.hpp"
@@ -28,7 +28,7 @@ void autonomous() {
 	// chassis.distanceReset('F', 'R');
 
 	// while(true) {
-	chassis.moveToPose(25, 40, 90, 5000);
+	// chassis.moveToPose(25, 40, 90, 5000);
 	// }
 
 	//chassis.moveDistance(4,2000);
@@ -36,7 +36,7 @@ void autonomous() {
 	// chassis.turnToHeading(90, 1000);
 
 	//chassis.moveToPoint(0,24,1000);
-	// skills97();
+	skills97();
 	//skills79(); 
 	//SAWP();
 	// sevenBlockPushLeft();
@@ -48,26 +48,16 @@ void autonomous() {
 }
 
 void opcontrol() {
-	//popros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "%s", auton); 
 	//driver
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	chassis.moveToPose(25, 40, 90, 5000);
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000;
 	midGoalSpeed = 12000 * 0.8; // mid goal 80% reset for driver
 
-	//mid goal always 65%
-
-	//bool buttonPressed = false;
-
-	//chassis.setPose(1,1,0);
-
+	chassis.setPose(1, 1, 0);
 	while (true) {
 		// //pid
 		// PIDTuning(0, 90);
-
-		//distResetTesting('R', 'F');
 		
 		//subsystem updates
 		updateIntake();
@@ -77,7 +67,7 @@ void opcontrol() {
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-		chassis.arcade(throttle, turn, true, 0.7);
+		chassis.arcade(throttle, turn, true, 0.6);
 
 		//delay
 		pros::delay(10);

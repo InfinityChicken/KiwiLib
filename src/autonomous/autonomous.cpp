@@ -3,8 +3,6 @@
 #include "pros/distance.hpp"
 #include "main.h"
 
-
-
 void skills79() {
     //beginning dist reset
     chassis.setPose(-1, -1, 0);
