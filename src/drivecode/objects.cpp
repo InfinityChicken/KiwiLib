@@ -51,11 +51,11 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    11, //TODO: get accurate value
+    11,
     4,
     (48.0/84.0)*600.0,   
-    2
-);
+    30 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
+); //good 45
 
 //controller settings
 lemlib::ControllerSettings lateralController(
@@ -64,7 +64,7 @@ lemlib::ControllerSettings lateralController(
     64,                           //kD    
     4,                   //windup range
     1,                    //small error
-    30,           //small error timeout //TODO: prev 40ms
+    50,           //small error timeout
     0,                    //large error 
     500,           //large error timeout
     0                           //slew
@@ -76,7 +76,7 @@ lemlib::ControllerSettings angularController(
     23,
     5,
     1.5,
-    67,
+    50,
     0,
     500,
     0

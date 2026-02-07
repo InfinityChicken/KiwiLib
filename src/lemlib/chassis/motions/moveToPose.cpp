@@ -111,11 +111,11 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // constrain lateral output by max accel
         if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
-        // // constrain lateral output by the max speed it can travel at without
-        // // slipping
-        // const float radius = 1 / fabs(getCurvature(pose, carrot));
-        // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius * 9.8));
-        // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
+        // constrain lateral output by the max speed it can travel at without
+        // slipping
+        const float radius = 1 / fabs(getCurvature(pose, carrot));
+        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
+        lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         // prioritize angular movement over lateral movement
         const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
         if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;

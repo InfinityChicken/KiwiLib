@@ -1,5 +1,6 @@
 #include "main.h"
 #include "objects.hpp"
+#include "pros/motors.h"
 #include "util.hpp"
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
@@ -26,12 +27,16 @@ void autonomous() {
 	// chassis.setPose(1,-1,90);
 	// chassis.distanceReset('F', 'R');
 
+	// while(true) {
+	chassis.moveToPose(25, 40, 90, 5000);
+	// }
+
 	//chassis.moveDistance(4,2000);
 	// chassis.setPose(0,0,0);
 	// chassis.turnToHeading(90, 1000);
 
 	//chassis.moveToPoint(0,24,1000);
-	skills97();
+	// skills97();
 	//skills79(); 
 	//SAWP();
 	// sevenBlockPushLeft();
@@ -45,6 +50,8 @@ void autonomous() {
 void opcontrol() {
 	//popros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "%s", auton); 
 	//driver
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	chassis.moveToPose(25, 40, 90, 5000);
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000;
@@ -70,7 +77,7 @@ void opcontrol() {
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-		chassis.arcade(throttle, turn);
+		chassis.arcade(throttle, turn, true, 0.7);
 
 		//delay
 		pros::delay(10);
