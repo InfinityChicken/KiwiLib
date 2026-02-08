@@ -24,19 +24,44 @@ void competition_initialize() {}
 
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	// chassis.setPose(1,-1,90);
-	// chassis.distanceReset('F', 'R');
 
-	// while(true) {
-	// chassis.moveToPose(25, 40, 90, 5000);
-	// }
+	chassis.setPose(-1,1,0);
+	scraperState = 1;
+	pros::delay(1000);
 
-	//chassis.moveDistance(4,2000);
-	// chassis.setPose(0,0,0);
-	// chassis.turnToHeading(90, 1000);
+	chassis.distanceReset('L', 'F');
+    intakeState = 1;
+    scraperState = 0;
 
-	//chassis.moveToPoint(0,24,1000);
-	skills97();
+	//first park zone
+	chassis.moveToPose(-19, 63, 83, 2000, {.lead = 0.55});    
+	odomState = 1; 
+	scraperState = 1;
+	chassis.sendVoltage(7000, 250);
+    scraperState = 0;
+	pros::delay(100);
+	leftMotors.move_voltage(7000);
+	rightMotors.move_voltage(7200);
+	pros::delay(1500);
+	scraperState = 1;
+    odomState = 1;
+    pros::delay(750);
+	chassis.sendVoltage(0, 100);
+	scraperState = 1;
+
+	//mid goal
+	chassis.turnToHeading(0,1000);
+	odomState = 0;
+	chassis.distanceReset('R', 'F');
+    chassis.moveToPose(8.9, 10.5, 45, 2000, {.forwards = false, .minSpeed = 60});
+    midGoalState = 1;
+    trapdoorState = 1;
+    intakeState = 2;
+    pros::delay(100);
+    intakeState = 1;
+    pros::delay(1000);
+
+	//skills97();
 	//skills79(); 
 	//SAWP();
 	// sevenBlockPushLeft();
@@ -54,7 +79,6 @@ void opcontrol() {
 	velValue = 12000;
 	midGoalSpeed = 12000 * 0.8; // mid goal 80% reset for driver
 
-	chassis.setPose(1, 1, 0);
 	while (true) {
 		// //pid
 		// PIDTuning(0, 90);
