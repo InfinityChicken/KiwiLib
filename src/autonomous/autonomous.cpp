@@ -297,11 +297,13 @@ void skills97() {
 	chassis.moveToPose(-19, 63, 83, 2000, {.lead = 0.55});    
 	odomState = 1; 
 	scraperState = 1;
-	chassis.sendVoltage(7000, 250);
+	chassis.sendVoltage(9000, 125);
+    pros::delay(200);
+    chassis.sendVoltage(9000, 125);
     scraperState = 0;
 	pros::delay(100);
-	leftMotors.move_voltage(7000);
-	rightMotors.move_voltage(7200);
+	leftMotors.move_voltage(10000);
+	rightMotors.move_voltage(10200);
 	pros::delay(1500);
 	scraperState = 1;
     odomState = 1;
