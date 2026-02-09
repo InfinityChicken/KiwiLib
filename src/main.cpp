@@ -34,26 +34,42 @@ void autonomous() {
     scraperState = 0;
 
 	//first park zone
-	chassis.moveToPose(-19, 63, 83, 2000, {.lead = 0.55});    
-	odomState = 1; 
-	scraperState = 1;
-	chassis.sendVoltage(7000, 250);
-    scraperState = 0;
+	chassis.moveToPose(-17, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
+	odomState = 1; //odom up
+	scraperState = 1; 
 	pros::delay(100);
-	leftMotors.move_voltage(7000);
-	rightMotors.move_voltage(7200);
-	pros::delay(1500);
-	scraperState = 1;
+	chassis.sendVoltage(7500, 250); //use scraper to push blocks
+    scraperState = 0;
+	pros::delay(350);
+	leftMotors.move_voltage(8000); //cross
+	rightMotors.move_voltage(8200);
+	pros::delay(550);
+	chassis.sendVoltage(0, 100); //stop for a bit to let it intake
+	pros::delay(500);
+	leftMotors.move_voltage(5000); //go slow out of park zone
+	rightMotors.move_voltage(5200);
+	pros::delay(1000);
     odomState = 1;
-    pros::delay(750);
-	chassis.sendVoltage(0, 100);
+    pros::delay(1400); //go all the way to matchloader to get blocks that rolled
+	chassis.moveDistance(-7, 1000); //back up and put down matchloader to dsr
 	scraperState = 1;
+	pros::delay(350);
 
 	//mid goal
-	chassis.turnToHeading(0,1000);
+	chassis.turnToHeading(180,1000);
 	odomState = 0;
 	chassis.distanceReset('R', 'F');
-    chassis.moveToPose(8.9, 10.5, 45, 2000, {.forwards = false, .minSpeed = 60});
+
+	//get one more block
+    chassis.moveToPoint(20.5, 27, 1500, {}, true); //-21, -24
+    chassis.waitUntil(17.5); //prev 14.25
+    intakeState = 0;
+    chassis.waitUntilDone();
+
+    //turn and move toward mid goal
+    chassis.turnToHeading(45, 1000);
+    intakeState = 1;
+    chassis.moveToPoint(6.7, 11.9, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
