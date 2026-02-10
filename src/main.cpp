@@ -34,7 +34,7 @@ void autonomous() {
     scraperState = 0;
 
 	//first park zone
-	chassis.moveToPose(-17, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
+	chassis.moveToPose(-15, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
 	odomState = 1; //odom up
 	scraperState = 1; 
 	pros::delay(100);
@@ -46,28 +46,27 @@ void autonomous() {
 	pros::delay(550);
 	chassis.sendVoltage(0, 100); //stop for a bit to let it intake
 	pros::delay(500);
-	leftMotors.move_voltage(5000); //go slow out of park zone
-	rightMotors.move_voltage(5200);
+	leftMotors.move_voltage(6000); //go slow out of park zone
+	rightMotors.move_voltage(6200);
 	pros::delay(1000);
-    odomState = 1;
-    pros::delay(1400); //go all the way to matchloader to get blocks that rolled
-	chassis.moveDistance(-7, 1000); //back up and put down matchloader to dsr
-	scraperState = 1;
-	pros::delay(350);
+    odomState = 0;
+	intakeState = 2;
+	pros::delay(100);
+	intakeState = 1;
+    pros::delay(500); //go all the way to matchloader to get blocks that rolled
+	chassis.sendVoltage(0,10);
+	pros::delay(300);
+	chassis.sendVoltage(-6000, 600); //back up and put down matchloader to dsr
 
 	//mid goal
 	chassis.turnToHeading(180,1000);
-	odomState = 0;
-	chassis.distanceReset('R', 'F');
+	chassis.distanceReset('L', 'B');
 
 	//get one more block
-    chassis.moveToPoint(20.5, 27, 1500, {}, true); //-21, -24
-    chassis.waitUntil(17.5); //prev 14.25
-    intakeState = 0;
-    chassis.waitUntilDone();
+    chassis.moveToPoint(17.83, 17.35, 1500, {}, true); //-21, -24
 
     //turn and move toward mid goal
-    chassis.turnToHeading(45, 1000);
+    chassis.turnToPoint(6.7, 11.9, 1000, {.forwards = false});
     intakeState = 1;
     chassis.moveToPoint(6.7, 11.9, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
@@ -76,6 +75,15 @@ void autonomous() {
     pros::delay(100);
     intakeState = 1;
     pros::delay(1000);
+	lowGoalVel = true;
+	pros::delay(750);
+	intakeState = 0;
+
+	//veryyyy slowly go out
+	chassis.moveDistance(5, 1000, {.maxSpeed = 20});
+	chassis.moveDistance(-5, 1000, {.maxSpeed = 20});
+
+
 
 	//skills97();
 	//skills79(); 
@@ -107,7 +115,7 @@ void opcontrol() {
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-		chassis.arcade(throttle, turn, true, 0.6);
+		chassis.arcade(throttle, turn, true);
 
 		//delay
 		pros::delay(10);
