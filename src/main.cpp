@@ -7,6 +7,7 @@
 #include "drivecode/pistons.hpp"
 #include "drivecode/sensors.hpp"
 #include "autonomous/autonomous.hpp"
+#include "lemlib/intersect.hpp"
 
 void on_center_button() {}
 
@@ -25,75 +26,85 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
+	//initial stuff for dist reset
 	chassis.setPose(-1,1,0);
 	scraperState = 1;
 	pros::delay(1000);
 
+	//dist reset
 	chassis.distanceReset('L', 'F');
     intakeState = 1;
     scraperState = 0;
 
-	//first park zone
+	//move to park
 	chassis.moveToPose(-15, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
 	odomState = 1; //odom up
 	scraperState = 1; 
 	pros::delay(100);
 
-	chassis.sendVoltage(7500, 300); //use scraper to push blocks, prev 250
+	//use scraper to push blocks
+	chassis.sendVoltage(7500, 300); //7500
     scraperState = 0;
 	pros::delay(350);
 
-	leftMotors.move_voltage(8000); //cross
-	rightMotors.move_voltage(8200);
-	pros::delay(550); //prev 550
+	//inital cross
+	leftMotors.move_voltage(9000); //prev 8k, needs a tiny bit more power
+	rightMotors.move_voltage(9200);
+	pros::delay(550);
 
-	chassis.sendVoltage(0, 1000); //stop for a bit to let it intake, prev 100
-	// pros::delay(500);
+	//pause in park zone
+	chassis.sendVoltage(0, 1000); 
+	scraperState = 1;
 
-	leftMotors.move_voltage(4000);//bring first wheel out of park zone
-	rightMotors.move_voltage(4200);
+	//lift front wheels out of park
+	leftMotors.move_voltage(2000);
+	rightMotors.move_voltage(2200);
 	pros::delay(250);
 
-	leftMotors.move_voltage(9000); //go slow out of park zone
-	rightMotors.move_voltage(9200); //prev 6200
-	pros::delay(675);
+	//exit park zone
+	leftMotors.move_voltage(8000); //go slow out of park zone
+	rightMotors.move_voltage(8200); //prev 6200
+	pros::delay(500);
+	scraperState = 0;
 
+	//antijam + odom down
     odomState = 0;
 	intakeState = 2;
 	pros::delay(100);
 	intakeState = 1;
-    pros::delay(500); //go all the way to matchloader to get blocks that rolled
-	chassis.sendVoltage(0,10);
+
+	//go to matchloader to intake all blocks
+	chassis.sendVoltage(4000, 500);
 	pros::delay(300);
-	chassis.sendVoltage(-6000, 600); //back up
+
+	//back up from matchloader
+	chassis.sendVoltage(-4000, 800); //-6k 600
 
 	//mid goal
 	chassis.turnToHeading(180, 1000);
 	chassis.distanceReset('L', 'B');
 
 	//get one more block
-    chassis.moveToPoint(17.83, 20, 1500); //y 17.35
-
-	return;
+    chassis.moveToPoint(18, 18, 1500);
 
     //turn and move toward mid goal
-    chassis.turnToPoint(6.7, 11.9, 1000, {.forwards = false});
+    chassis.turnToPoint(12, 12, 1000, {.forwards = false});
     intakeState = 1;
-    chassis.moveToPoint(6.7, 11.9, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(12, 12, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
+	midGoalSpeed = 12000 * 0.65; //TODO: check
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(100); //antijam time
     intakeState = 1;
-    pros::delay(1000);
+    pros::delay(1250); //score time
 	lowGoalVel = true;
-	pros::delay(750);
+	pros::delay(250); //40% score time
 	intakeState = 0;
 
 	//veryyyy slowly go out
 	chassis.moveDistance(5, 1000, {.maxSpeed = 20});
 	chassis.moveDistance(-5, 1000, {.maxSpeed = 20});
-
 
 
 	//skills97();
@@ -104,7 +115,6 @@ void autonomous() {
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
 	//leftSplitPush();
-	// pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
 }
 
 void opcontrol() {

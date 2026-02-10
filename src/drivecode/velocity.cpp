@@ -2,7 +2,7 @@
 
 int velValue = 12000;
 bool lowGoalVel = false;
-int midGoalSpeed = 12000 * 0.8; //always 65%
+int midGoalSpeed = 12000 * 0.8;
 // bool secondLong = false;
 
 void runVelocity() {
