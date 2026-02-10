@@ -599,6 +599,15 @@ void leftSplitPush() {
     pros::delay(500);
 
     //go to wing position and wing
+    chassis.moveToPoint(-38, -38, 1000, {}, true);
+    intakeState = 2;
+    pros::delay(40);
+    intakeState = 0;
+    trapdoorState = 0;
+    chassis.turnToHeading(180, 1000);
+    trapdoorState = 0;
+    chassis.moveDistance(33, 1000, {.forwards = false});
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     
 
 

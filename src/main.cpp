@@ -54,9 +54,9 @@ void autonomous() {
 	rightMotors.move_voltage(4200);
 	pros::delay(250);
 
-	leftMotors.move_voltage(8000); //go slow out of park zone
-	rightMotors.move_voltage(8200); //prev 6200
-	pros::delay(800);
+	leftMotors.move_voltage(9000); //go slow out of park zone
+	rightMotors.move_voltage(9200); //prev 6200
+	pros::delay(675);
 
     odomState = 0;
 	intakeState = 2;
