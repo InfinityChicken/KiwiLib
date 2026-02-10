@@ -38,17 +38,26 @@ void autonomous() {
 	odomState = 1; //odom up
 	scraperState = 1; 
 	pros::delay(100);
-	chassis.sendVoltage(7500, 250); //use scraper to push blocks
+
+	chassis.sendVoltage(7500, 300); //use scraper to push blocks, prev 250
     scraperState = 0;
 	pros::delay(350);
+
 	leftMotors.move_voltage(8000); //cross
 	rightMotors.move_voltage(8200);
-	pros::delay(550);
-	chassis.sendVoltage(0, 100); //stop for a bit to let it intake
-	pros::delay(500);
-	leftMotors.move_voltage(6000); //go slow out of park zone
-	rightMotors.move_voltage(6200);
-	pros::delay(1000);
+	pros::delay(550); //prev 550
+
+	chassis.sendVoltage(0, 1000); //stop for a bit to let it intake, prev 100
+	// pros::delay(500);
+
+	leftMotors.move_voltage(4000);//bring first wheel out of park zone
+	rightMotors.move_voltage(4200);
+	pros::delay(250);
+
+	leftMotors.move_voltage(8000); //go slow out of park zone
+	rightMotors.move_voltage(8200); //prev 6200
+	pros::delay(800);
+
     odomState = 0;
 	intakeState = 2;
 	pros::delay(100);
@@ -56,14 +65,16 @@ void autonomous() {
     pros::delay(500); //go all the way to matchloader to get blocks that rolled
 	chassis.sendVoltage(0,10);
 	pros::delay(300);
-	chassis.sendVoltage(-6000, 600); //back up and put down matchloader to dsr
+	chassis.sendVoltage(-6000, 600); //back up
 
 	//mid goal
-	chassis.turnToHeading(180,1000);
+	chassis.turnToHeading(180, 1000);
 	chassis.distanceReset('L', 'B');
 
 	//get one more block
-    chassis.moveToPoint(17.83, 17.35, 1500, {}, true); //-21, -24
+    chassis.moveToPoint(17.83, 20, 1500); //y 17.35
+
+	return;
 
     //turn and move toward mid goal
     chassis.turnToPoint(6.7, 11.9, 1000, {.forwards = false});
@@ -88,11 +99,11 @@ void autonomous() {
 	//skills97();
 	//skills79(); 
 	//SAWP();
-	// sevenBlockPushLeft();
+	//sevenBlockPushLeft();
 	//sevenBlockPushRight();
 	//fourBlockPushLeft();
-	// leftSplit();
-	// rightSplit();
+	//fourBlockPushRight();
+	//leftSplitPush();
 	// pros::screen::print(pros::E_TEXT_MEDIUM, 150, 120, "auton done!");
 }
 
