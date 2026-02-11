@@ -37,24 +37,24 @@ void autonomous() {
     scraperState = 0;
 
 	//move to park
-	chassis.moveToPose(-15, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
+	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
 	odomState = 1; //odom up
 	scraperState = 1; 
 	pros::delay(100);
 
 	//use scraper to push blocks
-	chassis.sendVoltage(7500, 300); //7500
+	chassis.sendVoltage(10000, 300); //7500
     scraperState = 0;
 	pros::delay(350);
 
 	//inital cross
-	leftMotors.move_voltage(9000); //prev 8k, needs a tiny bit more power
-	rightMotors.move_voltage(9200);
-	pros::delay(550);
+	leftMotors.move_voltage(10500); //prev 8k, needs a tiny bit more power
+	rightMotors.move_voltage(10700);
+	pros::delay(650);
 
 	//pause in park zone
 	chassis.sendVoltage(0, 1000); 
-	scraperState = 1;
+	//scraperState = 1;
 
 	//lift front wheels out of park
 	leftMotors.move_voltage(2000);
@@ -62,9 +62,9 @@ void autonomous() {
 	pros::delay(250);
 
 	//exit park zone
-	leftMotors.move_voltage(8000); //go slow out of park zone
-	rightMotors.move_voltage(8200); //prev 6200
-	pros::delay(500);
+	leftMotors.move_voltage(6000); //go slow out of park zone
+	rightMotors.move_voltage(6200); //prev 6200
+	pros::delay(1000);
 	scraperState = 0;
 
 	//antijam + odom down
@@ -72,37 +72,73 @@ void autonomous() {
 	intakeState = 2;
 	pros::delay(100);
 	intakeState = 1;
+	chassis.sendVoltage(0, 10);
 
 	//go to matchloader to intake all blocks
-	chassis.sendVoltage(4000, 1000);
+	while (true) {
+        if (distBack.get_distance() / 25.4 >= 98) {
+            leftMotors.move_voltage(0);
+			rightMotors.move_voltage(0);
+			break;
+        } else {
+			leftMotors.move_voltage(4500);
+			rightMotors.move_voltage(4700); //prev 10000
+		}
+        pros::delay(10);
+    } 
 	pros::delay(300);
 
 	//back up from matchloader
-	chassis.sendVoltage(-4000, 800); //-6k 600
+	// while (true) {
+    //     if (distBack.get_distance() / 25.4 <= 93.5) {
+    //         leftMotors.move_voltage(0);
+	// 		rightMotors.move_voltage(0);
+	// 		break;
+    //     } else {
+	// 		leftMotors.move_voltage(-4500);
+	// 		rightMotors.move_voltage(-4500); //prev 10000
+	// 	}
+    //     pros::delay(10);
+    // } 
+	chassis.moveDistance(-14, 1000, {.forwards = false});
 
 	//mid goal
 	chassis.turnToHeading(180, 1000);
 	chassis.distanceReset('L', 'B');
 
 	//get one more block
-    chassis.moveToPoint(18, 20, 1500);
+    chassis.moveToPoint(18, 19.5, 1500);
 
     //turn and move toward mid goal
     chassis.turnToHeading(45, 1000);
     intakeState = 1;
-	chassis.moveDistance(-8, 1000, {.forwards = false, .minSpeed = 60});
+	chassis.moveDistance(-10, 1000, {.forwards = false, .minSpeed = 60});
     // chassis.moveToPoint(12, 12, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100); //antijam time
+    pros::delay(250); //antijam time
+	midGoalSpeed = 12000 * 0.8;
     intakeState = 1;
-    pros::delay(1500); //score time
+    pros::delay(1250); //score time
+	lowGoalVel = true;
+	pros::delay(500);
 	intakeState = 0;
+	lowGoalVel = false;
 
 	//veryyyy slowly go out
-	chassis.moveDistance(5, 1000, {.maxSpeed = 20});
-	chassis.moveDistance(-5, 1000, {.maxSpeed = 20});
+	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
+	chassis.moveDistance(-3, 1000, {.maxSpeed = 5});
+
+	//go to third matchloader
+	scraperState = 1;
+	chassis.moveToPoint(47, 52.5, 1500, {}, true);
+	pros::delay(500);
+	midGoalState = 0;
+	intakeState = 1;
+	chassis.waitUntilDone();
+	trapdoorState = 1;
+	chassis.turnToHeading(0, 1000);
 
 	//skills97();
 	//skills79(); 
