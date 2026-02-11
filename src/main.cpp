@@ -74,7 +74,7 @@ void autonomous() {
 	intakeState = 1;
 
 	//go to matchloader to intake all blocks
-	chassis.sendVoltage(4000, 500);
+	chassis.sendVoltage(4000, 1000);
 	pros::delay(300);
 
 	//back up from matchloader
@@ -85,27 +85,24 @@ void autonomous() {
 	chassis.distanceReset('L', 'B');
 
 	//get one more block
-    chassis.moveToPoint(18, 18, 1500);
+    chassis.moveToPoint(18, 20, 1500);
 
     //turn and move toward mid goal
-    chassis.turnToPoint(12, 12, 1000, {.forwards = false});
+    chassis.turnToHeading(45, 1000);
     intakeState = 1;
-    chassis.moveToPoint(12, 12, 1000, {.forwards = false, .minSpeed = 60});
+	chassis.moveDistance(-8, 1000, {.forwards = false, .minSpeed = 60});
+    // chassis.moveToPoint(12, 12, 1000, {.forwards = false, .minSpeed = 60});
     midGoalState = 1;
     trapdoorState = 1;
-	midGoalSpeed = 12000 * 0.65; //TODO: check
     intakeState = 2;
     pros::delay(100); //antijam time
     intakeState = 1;
-    pros::delay(1250); //score time
-	lowGoalVel = true;
-	pros::delay(250); //40% score time
+    pros::delay(1500); //score time
 	intakeState = 0;
 
 	//veryyyy slowly go out
 	chassis.moveDistance(5, 1000, {.maxSpeed = 20});
 	chassis.moveDistance(-5, 1000, {.maxSpeed = 20});
-
 
 	//skills97();
 	//skills79(); 
