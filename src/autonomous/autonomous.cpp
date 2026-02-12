@@ -206,10 +206,8 @@ void skills97() {
 
     //intake first four blocks
     intakeState = 1;
-    //wingState = 1;
-    // chassis.moveToPoint(-20, -25, 1500, {.maxSpeed = 40});
-    chassis.moveToPoint(-20.5, -27, 1500, {}, true); //-21, -24
-    chassis.waitUntil(17.5); //prev 14.25
+    chassis.moveToPoint(-20.5, -27, 1500, {}, true);
+    chassis.waitUntil(17.5);
     intakeState = 0;
     chassis.waitUntilDone();
 
@@ -227,24 +225,32 @@ void skills97() {
     midGoalSpeed = 12000 * 0.75;
     pros::delay(1000);
     midGoalSpeed = 12000;
-    
-    //first ml
-    chassis.moveToPose(-47.5, -45.5, chassis.getPose().theta, 1500, {}, true); //prev theta 225
+
+    //move and dist reset before first ml
+    scraperState = 1; 
+    chassis.moveToPoint(-26, -43, 1000);
+    chassis.turnToHeading(270, 1000);
+    chassis.distanceReset('F', 'L');
+
+    //trapdoor up and mid goal down
     midGoalState = 0;
     trapdoorState = 0;
-    scraperState = 1;
+
+    //move forward and turn in front of first ml
+    chassis.moveToPoint(-44.5, -43, 1000);
     chassis.turnToHeading(180, 1000);
-    chassis.distanceReset('R', 'F');
-    // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
-    chassis.moveDistance(15.75, 1000); //move into ml // 13.75
+
+    //do first ml
+    chassis.moveDistance(14, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
+    
+    //jitter first ml
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7, 750);
     pros::delay(400);
-    // velValue = 12000;
 
     //go thru alley
     intakeState = 0;
@@ -252,37 +258,38 @@ void skills97() {
     chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 60});
     chassis.distanceReset('R', 'B');
     
-    //exit alley and score
-    //chassis.moveToPoint(-43, 45, 1000, {.forwards = false});
+    //exit alley and move into first long goal
     chassis.moveToPoint(-44, 45, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
-    chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
+    chassis.distanceReset('L', 'F');
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
     chassis.moveToPoint(-48, 20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
+    
+    //score long
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(200);
     intakeState = 1;
     pros::delay(2500);
-
-    //second ml
-    // velValue = 12000*80;
     trapdoorState = 0;
+
+    //move to second ml
     chassis.moveToPoint(-46.5, 46, 1000, {.earlyExitRange = 2});
-    chassis.turnToHeading(0,250);
+    chassis.turnToHeading(0,250); //TODO: no dist reset?
+
+    //do second ml
     chassis.moveDistance(13, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    //pros::delay(650);
+
+    //jitter second ml
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7, 750);
     pros::delay(400);
-    // velValue = 12000;
     intakeState = 0;
-
 
     //score long
     chassis.moveToPoint(-47, 25, 1000, {.forwards = false});
@@ -293,30 +300,26 @@ void skills97() {
     intakeState = 1;
     pros::delay(2000);
     scraperState = 0;
-
-    
 	
 	//move to park
     trapdoorState = 0;
-	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
-	odomState = 1; //odom up
+	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55});
+	odomState = 1;
 	scraperState = 1; 
 	pros::delay(100);
- 
 
 	//use scraper to push blocks
-	chassis.sendVoltage(10000, 200); //7500
+	chassis.sendVoltage(10000, 200);
     scraperState = 0;
 	pros::delay(175);
 
 	//inital cross
-	leftMotors.move_voltage(10500); //prev 8k, needs a tiny bit more power
+	leftMotors.move_voltage(10500);
 	rightMotors.move_voltage(10700);
 	pros::delay(615);
 
 	//pause in park zone
 	chassis.sendVoltage(0, 1100); 
-	//scraperState = 1;
 
 	//lift front wheels out of park
 	leftMotors.move_voltage(2000);
@@ -324,12 +327,12 @@ void skills97() {
 	pros::delay(250);
 
 	//exit park zone
-	leftMotors.move_voltage(6000); //go slow out of park zone
-	rightMotors.move_voltage(6200); //prev 6200
+	leftMotors.move_voltage(6000);
+	rightMotors.move_voltage(6200);
 	pros::delay(1000);
 	scraperState = 0;
 
-	//antijam + odom down
+	//antijam, odom down, pause bot
     odomState = 0;
 	intakeState = 2;
 	pros::delay(50);
@@ -350,18 +353,7 @@ void skills97() {
     } 
 	pros::delay(300);
 
-	//back up from matchloader
-	// while (true) {
-    //     if (distBack.get_distance() / 25.4 <= 93.5) {
-    //         leftMotors.move_voltage(0);
-	// 		rightMotors.move_voltage(0);
-	// 		break;
-    //     } else {
-	// 		leftMotors.move_voltage(-4500);
-	// 		rightMotors.move_voltage(-4500); //prev 10000
-	// 	}
-    //     pros::delay(10);
-    // } 
+    //back up from ml
 	chassis.moveDistance(-16, 1000, {.forwards = false});
 
 	//mid goal
@@ -371,14 +363,14 @@ void skills97() {
 	//get one more block
     chassis.turnToHeading(195, 1000); //187 before
 	chassis.moveToPoint(18, 19.5, 1500);
-	//chassis.moveToPose(22, 14.4, chassis.getPose().theta, 1000, {.lead = 0});
 
     //turn and move toward mid goal
     chassis.turnToPoint(5.3, 10.3, 1000, {.forwards = false});
-	//chassis.swingToPoint(5.3, 10.3, lemlib::DriveSide::LEFT, 2000, {.forwards = false, .direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 30});
     intakeState = 1;
 	chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60});
 	chassis.turnToHeading(45, 1000);
+
+    //do states + score mid goal
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
@@ -391,25 +383,28 @@ void skills97() {
 	intakeState = 0;
 	lowGoalVel = false;
 
-	//veryyyy slowly go out
+	//veryyyyyyýŷÿy slowly go out
 	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
 	chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
 
-	//go to third matchloader
+	//move and dist reset before third matchloader
 	scraperState = 1;
 	chassis.moveDistance(43, 2000, {.earlyExitRange = 5});
-	//chassis.moveToPose(34.6, 46.7, 90, 2000, {.lead = 0.62});
 	chassis.turnToHeading(90, 1000, {.minSpeed = 30});
 	chassis.distanceReset('F', 'L');
-	chassis.moveToPoint(46, chassis.getPose().y, 1500, {}, true);
+
+    //move to third matchloader
+	chassis.moveToPoint(46, chassis.getPose().y, 1500, {}, true); //TODO: get actual y value for this
 	pros::delay(500);
-	midGoalState = 0;
+	midGoalState = 0; //do states
 	intakeState = 1;
 	chassis.waitUntilDone();
 	trapdoorState = 0;
 	chassis.turnToHeading(0, 1000);
-    chassis.distanceReset('R', 'F');
-    chassis.moveDistance(11, 1000); // 6, then 8, then 10
+    chassis.distanceReset('R', 'F'); //TODO: why the second distance reset
+
+    //do third ml
+    chassis.moveDistance(11, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -417,44 +412,42 @@ void skills97() {
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 750);
     pros::delay(400);
-    // velValue = 12000;
-
+    intakeState = 0;
 
     //go around long goal in alley
-    intakeState = 0;
     chassis.moveToPose(61, 29, 0, 1000, {.forwards = false}); // booster by 1 x
     chassis.moveToPoint(58.5, -28, 1500, {.forwards = false, .minSpeed = 60}); // booster by 1 x
 
-    //score long goal after alley
+    //move to long goal
     chassis.moveToPoint(44, -45, 2000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
-    chassis.distanceReset('L', 'F'); //stop here next run and make sure the coords is good cuz its curving
+    chassis.distanceReset('L', 'F');
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
+    
+    //score long goal
     intakeState = 1;
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
-
-    //fourth ml
-    // velValue = 12000*80;
     trapdoorState = 0;
+
+    //move to fourth ml
     chassis.moveToPoint(46.5, -46, 1000);
     chassis.turnToHeading(180, 1000);
+
+    //do fourth ml
     chassis.moveDistance(14.25, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    //pros::delay(400);
     chassis.moveDistance(-6, 100);
     chassis.moveDistance(7.5, 750);
     pros::delay(400);
-    // velValue = 12000;
     intakeState = 0;
-
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 100});
