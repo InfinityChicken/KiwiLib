@@ -293,7 +293,7 @@ void skills97() {
     scraperState = 0;
 
     
-		//move to park
+	//move to park
 	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
 	odomState = 1; //odom up
 	scraperState = 1; 
@@ -405,11 +405,8 @@ void skills97() {
 
     //go around long goal in alley
     intakeState = 0;
-    chassis.moveToPoint(48, 45, 1000, {.forwards = false});
-    chassis.turnToPoint(61, 29, 1000, {.forwards = false}); // boosted by 1 x 
-    chassis.moveToPoint(61, 29, 1000, {.forwards = false}); // booster by 1 x
-    chassis.turnToHeading(0, 1000);
-    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false}); // booster by 1 x
+    chassis.moveToPose(61, 29, 0, 1000, {.forwards = false}); // booster by 1 x
+    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false, .minSpeed = 60}); // booster by 1 x
 
     //score long goal after alley
     chassis.moveToPoint(44, -45, 2000, {.forwards = false});
