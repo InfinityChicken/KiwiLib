@@ -293,6 +293,7 @@ void skills97() {
     scraperState = 0;
 
     
+	
 	//move to park
 	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
 	odomState = 1; //odom up
@@ -300,17 +301,17 @@ void skills97() {
 	pros::delay(100);
 
 	//use scraper to push blocks
-	chassis.sendVoltage(10000, 300); //7500
+	chassis.sendVoltage(10000, 200); //7500
     scraperState = 0;
-	pros::delay(350);
+	pros::delay(175);
 
 	//inital cross
 	leftMotors.move_voltage(10500); //prev 8k, needs a tiny bit more power
 	rightMotors.move_voltage(10700);
-	pros::delay(650);
+	pros::delay(615);
 
 	//pause in park zone
-	chassis.sendVoltage(0, 1000); 
+	chassis.sendVoltage(0, 1100); 
 	//scraperState = 1;
 
 	//lift front wheels out of park
@@ -327,7 +328,7 @@ void skills97() {
 	//antijam + odom down
     odomState = 0;
 	intakeState = 2;
-	pros::delay(100);
+	pros::delay(50);
 	intakeState = 1;
 	chassis.sendVoltage(0, 10);
 
@@ -346,54 +347,66 @@ void skills97() {
 	pros::delay(300);
 
 	//back up from matchloader
-	while (true) {
-        if (distBack.get_distance() / 25.4 <= 93.5) {
-            leftMotors.move_voltage(0);
-			rightMotors.move_voltage(0);
-			break;
-        } else {
-			leftMotors.move_voltage(-4500);
-			rightMotors.move_voltage(-4500); //prev 10000
-		}
-        pros::delay(10);
-    } 
+	// while (true) {
+    //     if (distBack.get_distance() / 25.4 <= 93.5) {
+    //         leftMotors.move_voltage(0);
+	// 		rightMotors.move_voltage(0);
+	// 		break;
+    //     } else {
+	// 		leftMotors.move_voltage(-4500);
+	// 		rightMotors.move_voltage(-4500); //prev 10000
+	// 	}
+    //     pros::delay(10);
+    // } 
+	chassis.moveDistance(-16, 1000, {.forwards = false});
 
 	//mid goal
-	chassis.turnToHeading(180, 1000);
+	chassis.swingToHeading(180, lemlib::DriveSide::RIGHT, 1000);
 	chassis.distanceReset('L', 'B');
 
 	//get one more block
-    chassis.moveToPoint(18, 19.5, 1500);
+    chassis.turnToHeading(195, 1000); //187 before
+	chassis.moveToPoint(18, 19.5, 1500);
+	//chassis.moveToPose(22, 14.4, chassis.getPose().theta, 1000, {.lead = 0});
 
     //turn and move toward mid goal
-    chassis.turnToHeading(45, 1000);
+    chassis.turnToPoint(5.3, 10.3, 1000, {.forwards = false});
+	//chassis.swingToPoint(5.3, 10.3, lemlib::DriveSide::LEFT, 2000, {.forwards = false, .direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 30});
     intakeState = 1;
-	chassis.moveDistance(-10, 1000, {.forwards = false, .minSpeed = 60});
-    // chassis.moveToPoint(12, 12, 1000, {.forwards = false, .minSpeed = 60});
+	chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60});
+	chassis.turnToHeading(45, 1000);
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(250); //antijam time
-	midGoalSpeed = 12000 * 0.8;
+    pros::delay(200); //antijam time
+	midGoalSpeed = 12000 * 0.7;
     intakeState = 1;
-    pros::delay(1250); //score time
+    pros::delay(1200); //score time
 	lowGoalVel = true;
-	pros::delay(1000);
+	pros::delay(600);
 	intakeState = 0;
 	lowGoalVel = false;
 
 	//veryyyy slowly go out
 	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
-	chassis.moveDistance(-3, 1000, {.maxSpeed = 10});
+	chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
 
 	//go to third matchloader
 	scraperState = 1;
+	chassis.moveDistance(43, 2000, {.earlyExitRange = 5});
+	//chassis.moveToPose(34.6, 46.7, 90, 2000, {.lead = 0.62});
+	chassis.turnToHeading(90, 1000, {.minSpeed = 30});
+	chassis.distanceReset('F', 'L');
+	chassis.moveToPoint(46, chassis.getPose().y, 1500, {}, true);
+	pros::delay(500);
+	midGoalState = 0;
+	intakeState = 1;
+	chassis.waitUntilDone();
 	trapdoorState = 0;
-	chassis.moveToPoint(44, 50.5, 1500);
 	chassis.turnToHeading(0, 1000);
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(6, 1000);
-    pros::delay(1250);
+    pros::delay(750);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
@@ -427,7 +440,7 @@ void skills97() {
     chassis.moveToPoint(46.5, -46, 1000);
     chassis.turnToHeading(180, 1000);
     chassis.moveDistance(14.25, 1000);
-    pros::delay(1250);
+    pros::delay(750);
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;

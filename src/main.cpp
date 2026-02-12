@@ -27,112 +27,112 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	//initial stuff for dist reset
-	chassis.setPose(-1,1,0);
-	scraperState = 1;
-	pros::delay(1000);
+	// //initial stuff for dist reset
+	// chassis.setPose(-1,1,0);
+	// scraperState = 1;
+	// pros::delay(1000);
 
-	//dist reset
-	chassis.distanceReset('L', 'F');
-    intakeState = 1;
-    scraperState = 0;
+	// //dist reset
+	// chassis.distanceReset('L', 'F');
+    // intakeState = 1;
+    // scraperState = 0;
 
-	//move to park
-	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
-	odomState = 1; //odom up
-	scraperState = 1; 
-	pros::delay(100);
+	// //move to park
+	// chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
+	// odomState = 1; //odom up
+	// scraperState = 1; 
+	// pros::delay(100);
 
-	//use scraper to push blocks
-	chassis.sendVoltage(10000, 200); //7500
-    scraperState = 0;
-	pros::delay(175);
+	// //use scraper to push blocks
+	// chassis.sendVoltage(10000, 200); //7500
+    // scraperState = 0;
+	// pros::delay(175);
 
-	//inital cross
-	leftMotors.move_voltage(10500); //prev 8k, needs a tiny bit more power
-	rightMotors.move_voltage(10700);
-	pros::delay(615);
+	// //inital cross
+	// leftMotors.move_voltage(10500); //prev 8k, needs a tiny bit more power
+	// rightMotors.move_voltage(10700);
+	// pros::delay(615);
 
-	//pause in park zone
-	chassis.sendVoltage(0, 1100); 
-	//scraperState = 1;
+	// //pause in park zone
+	// chassis.sendVoltage(0, 1100); 
+	// //scraperState = 1;
 
-	//lift front wheels out of park
-	leftMotors.move_voltage(2000);
-	rightMotors.move_voltage(2200);
-	pros::delay(250);
+	// //lift front wheels out of park
+	// leftMotors.move_voltage(2000);
+	// rightMotors.move_voltage(2200);
+	// pros::delay(250);
 
-	//exit park zone
-	leftMotors.move_voltage(6000); //go slow out of park zone
-	rightMotors.move_voltage(6200); //prev 6200
-	pros::delay(1000);
-	scraperState = 0;
+	// //exit park zone
+	// leftMotors.move_voltage(6000); //go slow out of park zone
+	// rightMotors.move_voltage(6200); //prev 6200
+	// pros::delay(1000);
+	// scraperState = 0;
 
-	//antijam + odom down
-    odomState = 0;
-	intakeState = 2;
-	pros::delay(50);
-	intakeState = 1;
-	chassis.sendVoltage(0, 10);
+	// //antijam + odom down
+    // odomState = 0;
+	// intakeState = 2;
+	// pros::delay(50);
+	// intakeState = 1;
+	// chassis.sendVoltage(0, 10);
 
-	//go to matchloader to intake all blocks
-	while (true) {
-        if (distBack.get_distance() / 25.4 >= 98) {
-            leftMotors.move_voltage(0);
-			rightMotors.move_voltage(0);
-			break;
-        } else {
-			leftMotors.move_voltage(4500);
-			rightMotors.move_voltage(4700); //prev 10000
-		}
-        pros::delay(10);
-    } 
-	pros::delay(300);
-
-	//back up from matchloader
+	// //go to matchloader to intake all blocks
 	// while (true) {
-    //     if (distBack.get_distance() / 25.4 <= 93.5) {
+    //     if (distBack.get_distance() / 25.4 >= 98) {
     //         leftMotors.move_voltage(0);
 	// 		rightMotors.move_voltage(0);
 	// 		break;
     //     } else {
-	// 		leftMotors.move_voltage(-4500);
-	// 		rightMotors.move_voltage(-4500); //prev 10000
+	// 		leftMotors.move_voltage(4500);
+	// 		rightMotors.move_voltage(4700); //prev 10000
 	// 	}
     //     pros::delay(10);
     // } 
-	chassis.moveDistance(-16, 1000, {.forwards = false});
+	// pros::delay(300);
 
-	//mid goal
-	chassis.swingToHeading(180, lemlib::DriveSide::RIGHT, 1000);
-	chassis.distanceReset('L', 'B');
+	// //back up from matchloader
+	// // while (true) {
+    // //     if (distBack.get_distance() / 25.4 <= 93.5) {
+    // //         leftMotors.move_voltage(0);
+	// // 		rightMotors.move_voltage(0);
+	// // 		break;
+    // //     } else {
+	// // 		leftMotors.move_voltage(-4500);
+	// // 		rightMotors.move_voltage(-4500); //prev 10000
+	// // 	}
+    // //     pros::delay(10);
+    // // } 
+	// chassis.moveDistance(-16, 1000, {.forwards = false});
 
-	//get one more block
-    chassis.turnToHeading(195, 1000); //187 before
-	chassis.moveToPoint(18, 19.5, 1500);
-	//chassis.moveToPose(22, 14.4, chassis.getPose().theta, 1000, {.lead = 0});
+	// //mid goal
+	// chassis.swingToHeading(180, lemlib::DriveSide::RIGHT, 1000);
+	// chassis.distanceReset('L', 'B');
 
-    //turn and move toward mid goal
-    chassis.turnToPoint(5.3, 10.3, 1000, {.forwards = false});
-	//chassis.swingToPoint(5.3, 10.3, lemlib::DriveSide::LEFT, 2000, {.forwards = false, .direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 30});
-    intakeState = 1;
-	chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60});
-	chassis.turnToHeading(45, 1000);
-    midGoalState = 1;
-    trapdoorState = 1;
-    intakeState = 2;
-    pros::delay(200); //antijam time
-	midGoalSpeed = 12000 * 0.7;
-    intakeState = 1;
-    pros::delay(1200); //score time
-	lowGoalVel = true;
-	pros::delay(600);
-	intakeState = 0;
-	lowGoalVel = false;
+	// //get one more block
+    // chassis.turnToHeading(195, 1000); //187 before
+	// chassis.moveToPoint(18, 19.5, 1500);
+	// //chassis.moveToPose(22, 14.4, chassis.getPose().theta, 1000, {.lead = 0});
 
-	//veryyyy slowly go out
-	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
-	chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
+    // //turn and move toward mid goal
+    // chassis.turnToPoint(5.3, 10.3, 1000, {.forwards = false});
+	// //chassis.swingToPoint(5.3, 10.3, lemlib::DriveSide::LEFT, 2000, {.forwards = false, .direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 30});
+    // intakeState = 1;
+	// chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60});
+	// chassis.turnToHeading(45, 1000);
+    // midGoalState = 1;
+    // trapdoorState = 1;
+    // intakeState = 2;
+    // pros::delay(200); //antijam time
+	// midGoalSpeed = 12000 * 0.7;
+    // intakeState = 1;
+    // pros::delay(1200); //score time
+	// lowGoalVel = true;
+	// pros::delay(600);
+	// intakeState = 0;
+	// lowGoalVel = false;
+
+	// //veryyyy slowly go out
+	// chassis.moveDistance(3, 1000, {.maxSpeed = 10});
+	// chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
 
 	// //go to third matchloader
 	// scraperState = 1;
@@ -148,7 +148,7 @@ void autonomous() {
 	// trapdoorState = 0;
 	// chassis.turnToHeading(0, 1000);
 
-	//skills97();
+	skills97();
 	//skills79(); 
 	//SAWP();
 	//sevenBlockPushLeft();
