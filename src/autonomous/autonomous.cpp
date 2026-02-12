@@ -44,7 +44,7 @@ void skills79() {
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
-    chassis.moveDistance(19.75, 1000); //move into ml
+    chassis.moveDistance(21, 1000); //move into ml (19.75)
     pros::delay(1250);
     intakeState = 2;
     pros::delay(100);
@@ -109,7 +109,7 @@ void skills79() {
     chassis.turnToHeading(0, 1000);
     trapdoorState = 0;
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(14.5, 1000);
+    chassis.moveDistance(15.75, 1000); // 14.5
     pros::delay(1250);
     intakeState = 2;
     pros::delay(100);
@@ -222,9 +222,11 @@ void skills97() {
     midGoalState = 1;
     trapdoorState = 1;
     intakeState = 2;
-    pros::delay(100);
+    pros::delay(75);
     intakeState = 1;
-    pros::delay(500);
+    midGoalSpeed = 12000 * 0.75;
+    pros::delay(1000);
+    midGoalSpeed = 12000;
     
     //first ml
     chassis.moveToPose(-47.5, -45.5, chassis.getPose().theta, 1500, {}, true); //prev theta 225
@@ -234,7 +236,7 @@ void skills97() {
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
     // chassis.moveToPoint(chassis.getPose().x, -57.5, 1500); //move in straight line
-    chassis.moveDistance(13.75, 1000); //move into ml
+    chassis.moveDistance(15.75, 1000); //move into ml // 13.75
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -295,10 +297,12 @@ void skills97() {
     
 	
 	//move to park
+    trapdoorState = 0;
 	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55}); //curve to park zone
 	odomState = 1; //odom up
 	scraperState = 1; 
 	pros::delay(100);
+ 
 
 	//use scraper to push blocks
 	chassis.sendVoltage(10000, 200); //7500
@@ -405,7 +409,7 @@ void skills97() {
 	trapdoorState = 0;
 	chassis.turnToHeading(0, 1000);
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(6, 1000);
+    chassis.moveDistance(11, 1000); // 6, then 8, then 10
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
