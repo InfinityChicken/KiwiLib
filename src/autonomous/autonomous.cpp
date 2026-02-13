@@ -211,6 +211,7 @@ void skills97() {
     intakeState = 0;
     scraperState = 1;
     chassis.waitUntilDone();
+    scraperState = 0;
 
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
@@ -378,19 +379,21 @@ void skills97() {
     //turn and move toward mid goal
     chassis.turnToPoint(5.3, 10.3, 1000, {.forwards = false});
     intakeState = 1;
+    scraperState = 1;
 	chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60});
+    intakeState = 2;
+    pros::delay(200);
 	chassis.turnToHeading(45, 1000);
 
     //do states + score mid goal
     midGoalState = 1;
     trapdoorState = 1;
-    intakeState = 2;
-    pros::delay(200); //antijam time
-	midGoalSpeed = 12000 * 0.7;
+     //antijam time
+	midGoalSpeed = 12000 * 0.80;
     intakeState = 1;
-    pros::delay(1200); //score time
+    pros::delay(1300); //score time
 	lowGoalVel = true;
-	pros::delay(600);
+	pros::delay(500);
 	intakeState = 0;
 	lowGoalVel = false;
 
@@ -399,7 +402,6 @@ void skills97() {
 	chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
 
 	//move and dist reset before third matchloader
-	scraperState = 1;
 	chassis.moveDistance(43, 2000, {.earlyExitRange = 5});
 	chassis.turnToHeading(90, 1000, {.minSpeed = 30});
 	chassis.distanceReset('F', 'L');
@@ -488,7 +490,7 @@ void skills97() {
     scraperState = 0;
 
     //park
-    chassis.moveToPose(15, -63, 270, 2000, {.lead = 0.68, .maxSpeed = 60});
+    chassis.moveToPose(15, -63, 270, 2000, {.lead = 0.68, .maxSpeed = 70});
     chassis.turnToHeading(270, 1000);
     chassis.moveDistance(7, 1000, {.minSpeed = 40});
     scraperState = 1;
