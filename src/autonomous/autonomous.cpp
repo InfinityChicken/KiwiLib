@@ -209,6 +209,7 @@ void skills97() {
     chassis.moveToPoint(-20.5, -27, 1500, {}, true);
     chassis.waitUntil(17.5);
     intakeState = 0;
+    scraperState = 1;
     chassis.waitUntilDone();
 
     //turn and move toward mid goal
@@ -261,12 +262,13 @@ void skills97() {
     chassis.distanceReset('R', 'B');
     
     //exit alley and move into first long goal
-    chassis.moveToPoint(-48, 42, 1000, {.forwards = false}); //prev 45
+    chassis.moveToPoint(-48, 42, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
-    // chassis.moveToPoint(-48, 20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
-    
+    leftMotors.move(-50); //push into long goal
+    rightMotors.move(-50);
+
     //score long
     intakeState = 1;
     trapdoorState = 1;
@@ -275,6 +277,8 @@ void skills97() {
     intakeState = 1;
     pros::delay(2500);
     trapdoorState = 0;
+    leftMotors.move(0);
+    leftMotors.move(0);
     chassis.distanceReset('L', 'F');
 
     //move to second ml
@@ -295,7 +299,7 @@ void skills97() {
 
     //score long
     intakeState = 0;
-    chassis.moveToPoint(-47, 25, 1000, {.forwards = false});
+    chassis.moveToPoint(-46, 25, 1000, {.forwards = false});
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
@@ -304,11 +308,13 @@ void skills97() {
     pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
+    leftMotors.move(0);
+    leftMotors.move(0);
     scraperState = 0;
 	
 	//move to park
     trapdoorState = 0;
-	chassis.moveToPose(-14, 63, 83, 2000, {.lead = 0.55});
+	chassis.moveToPose(-12, 62.5, 90, 2000, {.lead = 0.55}); //prev -13
 	odomState = 1;
 	scraperState = 1; 
 	pros::delay(100);
@@ -324,7 +330,7 @@ void skills97() {
 	pros::delay(615);
 
 	//pause in park zone
-	chassis.sendVoltage(0, 1100); 
+	chassis.sendVoltage(0, 500); //prev 1100 
 
 	//lift front wheels out of park
 	leftMotors.move_voltage(2000);
@@ -399,14 +405,14 @@ void skills97() {
 	chassis.distanceReset('F', 'L');
 
     //move to third matchloader
-	chassis.moveToPoint(46, chassis.getPose().y, 1500, {}, true); //TODO: get actual y value for this
+	chassis.moveToPoint(45, chassis.getPose().y, 1500, {}, true); 
 	pros::delay(500);
 	midGoalState = 0; //do states
 	intakeState = 1;
 	chassis.waitUntilDone();
 	trapdoorState = 0;
 	chassis.turnToHeading(0, 1000);
-    chassis.distanceReset('R', 'F'); //TODO: why the second distance reset
+    chassis.distanceReset('R', 'F');
 
     //do third ml
     chassis.moveDistance(13, 1000);
@@ -414,9 +420,13 @@ void skills97() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    chassis.moveDistance(-6, 100);
-    chassis.moveDistance(7.5, 750);
-    pros::delay(400);
+
+    //jitter third ml
+    // chassis.moveDistance(-6, 100);
+    // chassis.moveDistance(7.5, 750);
+    // pros::delay(400);
+    chassis.sendVoltage(-6000, 100);
+    chassis.sendVoltage(4000, 1000);
     intakeState = 0;
 
     //go around long goal in alley
@@ -428,8 +438,10 @@ void skills97() {
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
     chassis.moveToPoint(48, -25, 1000, {.forwards = false});
-    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
-    
+    leftMotors.move(-50); //push into long goal
+    rightMotors.move(-50);
+    // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
+
     //score long goal
     intakeState = 1;
     trapdoorState = 1;
@@ -437,10 +449,12 @@ void skills97() {
     pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
+    leftMotors.move(0);
+    rightMotors.move(0);
     trapdoorState = 0;
 
     //move to fourth ml
-    chassis.moveToPoint(46.5, -46, 1000);
+    chassis.moveToPoint(48, -46, 1000);
     chassis.turnToHeading(180, 1000);
 
     //do fourth ml
@@ -449,24 +463,32 @@ void skills97() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    chassis.moveDistance(-6, 100);
-    chassis.moveDistance(7.5, 750);
-    pros::delay(400);
+
+    //jitter fourth ml
+    // chassis.moveDistance(-6, 100);
+    // chassis.moveDistance(7.5, 750);
+    // pros::delay(400);
+    chassis.sendVoltage(-6000, 100);
+    chassis.sendVoltage(4000, 1000);
     intakeState = 0;
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 100});
     chassis.distanceReset('L', 'F');
-    chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
+    leftMotors.move(-50);
+    rightMotors.move(-50);
+    // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
     trapdoorState = 1;
     intakeState = 2;
     pros::delay(200);
     intakeState = 1;
     pros::delay(2000);
+    leftMotors.move(0);
+    rightMotors.move(0);
     scraperState = 0;
 
     //park
-    chassis.moveToPose(13.5, -62.25, 270, 2000, {.lead = 0.68, .maxSpeed = 60});
+    chassis.moveToPose(15, -63, 270, 2000, {.lead = 0.68, .maxSpeed = 60});
     chassis.turnToHeading(270, 1000);
     chassis.moveDistance(7, 1000, {.minSpeed = 40});
     scraperState = 1;
@@ -487,7 +509,6 @@ void skills97() {
         pros::delay(10);
     }  
     chassis.sendVoltage(-8000, 250);
-
 }
 
 
