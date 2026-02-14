@@ -18,56 +18,56 @@ bool odomPressed = false;
 // bool trapOverride = false;
 
 void updatePistons() {
-    //TODO: R2 wing hold
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        wingState = 1;
-    } else {
-        wingState = 0;
-    }
+    // //TODO: R2 wing hold
+    // if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    //     wingState = 1;
+    // } else {
+    //     wingState = 0;
+    // }
 
     // R2 wing toggle
-    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-    //     if (!wingPressed) {
-    //         if(wingState == 0) {
-    //             wingState = 1;
-    //         } else {
-    //             wingState = 0;
-    //         }
-    //     }
-    //     wingPressed = true;
-    // } else {
-    //     wingPressed = false;
-    // }
-
-    //TODO: R1 trapdoor hold
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        trapdoorState = 1;
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        if (!wingPressed) {
+            if(wingState == 0) {
+                wingState = 1;
+            } else {
+                wingState = 0;
+            }
+        }
+        wingPressed = true;
     } else {
-        trapdoorState = 0;
+        wingPressed = false;
     }
 
-    //R1 trapdoor long toggle
-    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-    //     if (!trapdoorPressed) {
-    //         if(trapdoorState == 0) {
-    //             trapdoorState = 1;
-    //             //velValue = 12000;
-    //         } else {
-    //             trapdoorState = 0;
-    //             //velValue = 12000 * 0.75;
-    //         }
-    //     }
-    //     trapdoorPressed = true;
+    // //TODO: R1 trapdoor hold
+    // if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    //     trapdoorState = 1;
     // } else {
-    //     trapdoorPressed = false;
+    //     trapdoorState = 0;
     // }
+
+    // R1 trapdoor long toggle
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        if (!trapdoorPressed) {
+            if(trapdoorState == 0) {
+                trapdoorState = 1;
+                //velValue = 12000;
+            } else {
+                trapdoorState = 0;
+                //velValue = 12000 * 0.75;
+            }
+        }
+        trapdoorPressed = true;
+    } else {
+        trapdoorPressed = false;
+    }
 
     //right matchloader
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         if (!scraperPressed) {
             if (scraperState == 0) {
                 scraperState = 1;
-                // trapdoorState =  0; //TODO: removed
+                trapdoorState =  0;
                 midGoalState = 0;
             } else if (scraperState == 1) {
                 scraperState = 0;
@@ -83,11 +83,11 @@ void updatePistons() {
         if (!midGoalPressed) {
             if (midGoalState == 0) {
                 midGoalState = 1;
-                // trapdoorState = 1; //TODO: removed
+                trapdoorState = 1;
                 //velValue = 12000 * 0.60;
             } else {
                 midGoalState = 0;
-                // trapdoorState = 0; //TODO: removed
+                trapdoorState = 0;
             }
         }
         midGoalPressed = true;
