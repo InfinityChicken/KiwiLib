@@ -13,3 +13,4 @@ void skills97();
 void sevenBlockPushRight();
 void sevenBlockPushLeft();
 void fourBlockPushLeft();
+void leftSplitPush();
