@@ -27,24 +27,24 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	//initial stuff for dist reset
-	chassis.setPose(-1,1,0); //-1, 1, 0
-	scraperState = 1;
-	pros::delay(1000);
+	// //initial stuff for dist reset
+	// chassis.setPose(-1,1,0); //-1, 1, 0
+	// scraperState = 1;
+	// pros::delay(1000);
 
-	//dist reset
-	chassis.distanceReset('L', 'F');
-    intakeState = 1;
-    scraperState = 0;
+	// //dist reset
+	// chassis.distanceReset('L', 'F');
+    // intakeState = 1;
+    // scraperState = 0;
 
 	//chassis.moveDistance(4,2000);
 
 
-	skills97();
+	//skills97();
 	//skills79(); 
 	//SAWP();
 	//sevenBlockPushLeft();
-	//sevenBlockPushRight(); 
+	sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
 	//leftSplitPush();
