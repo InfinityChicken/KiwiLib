@@ -1,10 +1,20 @@
 #include "main.h"
+#include "pros/misc.h"
 #include "pros/rtos.hpp"
 #include <string>
 #include "drivecode/util.hpp"
 #include <iomanip>
 
 //motor settings
+bool interrupt = false;
+
+void interruptSkills() {
+    while(true) {
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+            interrupt = true;
+        }
+    }
+}
 
 void motorInit() {
     leftIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -23,6 +33,7 @@ void taskInit() {
     pros::Task controllerTask(runController, "controller task");
     // pros::Task autoScoreTask(runAutoScore, "autoscore task");
     // pros::Task consoleTask(runConsole, "console task");
+    pros::Task interruptTask(interruptSkills, "interrupt task");
 }
 
 //brain task

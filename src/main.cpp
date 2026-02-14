@@ -38,22 +38,25 @@ void autonomous() {
     // scraperState = 0;
 
 
-	//skills97();
+	skills97();
 	//skills79(); 
 	//SAWP();
 	//sevenBlockPushLeft();
 	//sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
-	leftSplitPush();
+	//leftSplitPush();
 }
 
 void opcontrol() {
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	skills97();
+
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
 	velValue = 12000;
-	midGoalSpeed = 12000 * 0.8; // mid goal 80% reset for driver
+	midGoalSpeed = 12000 * 0.7; // mid goal 80% reset for driver
 
 	while (true) {
 		// //pid
