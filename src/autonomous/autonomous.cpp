@@ -260,7 +260,7 @@ void skills97() {
     //go thru alley
     intakeState = 0;
     chassis.moveToPose(-64, -24, 0, 1000, {.forwards = false});
-    chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 80});
     chassis.distanceReset('R', 'B');
     
     //exit alley and move into first long goal
@@ -284,8 +284,8 @@ void skills97() {
     chassis.distanceReset('L', 'F');
 
     //move to second ml
-    chassis.moveToPoint(-46.5, 46, 1000);
-    chassis.turnToHeading(0, 250);
+    chassis.moveToPoint(-46.5, 46, 1000, {.minSpeed = 60, .earlyExitRange = 5});
+    //chassis.turnToHeading(0, 250);
 
     //do second ml
     chassis.moveDistance(13, 1000, {.minSpeed = 40});
@@ -434,7 +434,7 @@ void skills97() {
 
     //go around long goal in alley
     chassis.moveToPose(61, 29, 0, 1000, {.forwards = false}); // booster by 1 x
-    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false, .minSpeed = 60}); // booster by 1 x
+    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false, .minSpeed = 80}); // booster by 1 x
 
     //move to long goal
     chassis.moveToPoint(44, -45, 2000, {.forwards = false});
@@ -457,8 +457,8 @@ void skills97() {
     trapdoorState = 0;
 
     //move to fourth ml
-    chassis.moveToPoint(48.25, -46, 1000);
-    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(48.25, -46, 1000, {.minSpeed = 60, .earlyExitRange = 5});
+    //chassis.turnToHeading(180, 1000);
 
     //do fourth ml
     chassis.moveDistance(14.25, 1000);
