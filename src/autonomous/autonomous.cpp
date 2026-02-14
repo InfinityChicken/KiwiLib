@@ -259,15 +259,15 @@ void skills97() {
 
     //go thru alley
     intakeState = 0;
-    chassis.moveToPose(-64, -24, 0, 1000, {.forwards = false});
-    chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 80});
+    chassis.moveToPose(-64, -24, 0, 1000, {.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 5});
     chassis.distanceReset('R', 'B');
     
     //exit alley and move into first long goal
     chassis.moveToPoint(-48, 40, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
-    chassis.moveToPoint(-48, 25, 1000, {.forwards = false});
+    chassis.moveToPoint(-48, 25, 1000, {.forwards = false, .minSpeed = 40});
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
 
@@ -301,7 +301,7 @@ void skills97() {
 
     //score long
     intakeState = 0;
-    chassis.moveToPoint(-46, 25, 1000, {.forwards = false});
+    chassis.moveToPoint(-46, 25, 1000, {.forwards = false, .minSpeed = 40});
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
@@ -433,14 +433,14 @@ void skills97() {
     intakeState = 0;
 
     //go around long goal in alley
-    chassis.moveToPose(61, 29, 0, 1000, {.forwards = false}); // booster by 1 x
-    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false, .minSpeed = 80}); // booster by 1 x
+    chassis.moveToPose(61, 29, 0, 1000, {.forwards = false, .earlyExitRange = 5}); // booster by 1 x
+    chassis.moveToPoint(58.5, -28, 1500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 5}); // booster by 1 x
 
     //move to long goal
     chassis.moveToPoint(44, -45, 2000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
-    chassis.moveToPoint(48, -25, 1000, {.forwards = false});
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 40});
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
@@ -491,7 +491,7 @@ void skills97() {
     scraperState = 0;
 
     //park
-    chassis.moveToPose(14, -63, 270, 2000, {.lead = 0.55});
+    chassis.moveToPose(14, -63, 263, 2000, {.lead = 0.55});
     //chassis.turnToHeading(270, 1000);
     //chassis.moveDistance(4, 1000, {.minSpeed = 40});
     scraperState = 1;
