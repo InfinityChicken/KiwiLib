@@ -403,7 +403,7 @@ void sevenBlockPushRight() {
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
     trapdoorState = 1;
     intakeState = 1;
-    pros::delay(1500);
+    pros::delay(2000); //prev 1500
     
     //curve out and push (tuned)
     scraperState = 0;
