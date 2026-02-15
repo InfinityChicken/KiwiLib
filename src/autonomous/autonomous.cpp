@@ -49,7 +49,7 @@ void skills97() {
     trapdoorState = 0;
 
     //move forward and turn in front of first ml
-    chassis.moveToPoint(-45, chassis.getPose().y, 1000);
+    chassis.moveToPoint(-45.5, chassis.getPose().y, 1000);
     chassis.turnToHeading(180, 1000);
 
     //do first ml
@@ -73,7 +73,7 @@ void skills97() {
     //go thru alley
     intakeState = 0;
     chassis.sendVoltage(6000,200);
-    chassis.moveToPose(-64, -27, 0, 1000, {.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPose(-64, -30, 0, 1000, {.forwards = false, .earlyExitRange = 5});
     chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 127, .earlyExitRange = 5});
     chassis.distanceReset('R', 'B');
     
@@ -106,7 +106,7 @@ void skills97() {
     //chassis.turnToHeading(0, 250);
 
     //do second ml
-    chassis.moveDistance(18, 1000, {.minSpeed = 30});
+    chassis.moveDistance(19, 1000, {.minSpeed = 30});
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -142,13 +142,11 @@ void skills97() {
 	scraperState = 1; 
 	pros::delay(100);
 
-	//use scraper to push blocks
-	chassis.sendVoltage(11000, 250); //7500
+    //use scraper to push blocks
+	chassis.sendVoltage(11000, 200); //7500
     scraperState = 0;
     trapdoorState = 0;
-    chassis.sendVoltage(-9000, 150);
-    pros::delay(25);
-	//pros::delay(175);
+	pros::delay(175);
 
 	//inital cross
 	leftMotors.move_voltage(10000); //prev 8k, needs a tiny bit more power
@@ -276,8 +274,7 @@ void skills97() {
     chassis.sendVoltage(-6000, 100);
     chassis.sendVoltage(4000, 1000);
     intakeState = 0;
-    return;
-
+    
     if(interrupt) {
         return;
     }
@@ -567,12 +564,12 @@ void leftSplitPush() {
     //score mid
     midGoalState = 1;
     chassis.turnToHeading(225, 1000);
-    chassis.moveDistance(-12, 1000, {.forwards = false});
+    chassis.moveDistance(-13.5, 1000, {.forwards = false});
     trapdoorState = 1;
     intakeState = 2; //antijam
     pros::delay(50);
     intakeState = 1;
-    pros::delay(660);
+    pros::delay(860);
 
     //go to wing position and wing
     chassis.moveToPoint(-35.5, -38, 1000, {}, true);

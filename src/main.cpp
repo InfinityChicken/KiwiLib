@@ -41,7 +41,6 @@ void autonomous() {
 
 
 	//skills97();
-	//skills79(); 
 	//SAWP();
 	//sevenBlockPushLeft();
 	sevenBlockPushRight(); 
