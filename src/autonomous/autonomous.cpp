@@ -157,7 +157,7 @@ void skills97() {
 	pros::delay(315);
 
 	//pause in park zone
-	chassis.sendVoltage(0, 600);  //1100 before
+	chassis.sendVoltage(0, 570);  //1100 before
 	//scraperState = 1;
 
     if(interrupt) {
@@ -222,7 +222,7 @@ void skills97() {
     //chassis.turnToHeading(45, 1000);
 	intakeState = 1;
 	//chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60}, true);
-    chassis.moveDistance(-8, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveDistance(-8.5, 1000, {.forwards = false, .minSpeed = 60});
 	pros::delay(500);
     midGoalState = 1;
     trapdoorState = 1;
@@ -362,6 +362,11 @@ void skills97() {
         return;
     }
 
+    // leftMotors.move_voltage(9000); //prev 9500
+	// rightMotors.move_voltage(10000); //prev 10000
+    // pros::delay(1500);
+    // chassis.sendVoltage(0, 10);
+
     while (true) {
         if (distBack.get_distance() / 25.4 >= 64 && distBack.get_distance() / 25.4 < 100) {
             leftMotors.move_voltage(0);
@@ -375,9 +380,6 @@ void skills97() {
     }  
     chassis.sendVoltage(-8000, 250);
 
-    if(interrupt) {
-        return;
-    }
 }
 
 void sevenBlockPushRight() {
