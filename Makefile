@@ -34,11 +34,7 @@ VERSION:=1.0.0
 # this line excludes opcontrol.c and similar files
 EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/main,$(foreach cext,$(CEXTS),$(file).$(cext)) $(foreach cxxext,$(CXXEXTS),$(file).$(cxxext)))
 EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/main.cpp
-EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/distReset.cpp
-EXCLUDE_SRC_FROM_LIB+=$(wildcard $(SRCDIR)/drivecode/*.$(CXXEXTS))
-EXCLUDE_SRC_FROM_LIB+=$(wildcard $(SRCDIR)/autonomous/*.$(CXXEXTS))
-EXCLUDE_INC_FROM_LIB+=$(wildcard $(INCDIR)/drivecode/*.hpp)
-EXCLUDE_INC_FROM_LIB+=$(wildcard $(INCDIR)/autonomous/*.hpp)
+EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/autonomous.cpp
 
 # files that get distributed to every user (beyond your source archive) - add
 # whatever files you want here. This line is configured to add all header files
