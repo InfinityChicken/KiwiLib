@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/misc.h"
 #include "drivecode/intake.hpp"
 
 // trapdoor closed 75 - open - 100, scoring midgoal - 75
@@ -9,6 +10,7 @@ int intakeState = 0;
 bool intakePressed = false;
 bool outtakePressed = false;
 bool speedPressed = false;
+bool buttonPressed = false;
 
 void runIntake() {
     while (true) {
@@ -29,6 +31,12 @@ void runIntake() {
             case 2: { // outtake
                 leftIntake.move_voltage(-velValue);
                 rightIntake.move_voltage(-velValue);
+                break;
+            }
+
+            case 3: {
+                leftIntake.move_voltage(-4000); // hi aakanksh tune left motor speed here
+                rightIntake.move_voltage(velValue);
                 break;
             }
         }
@@ -72,6 +80,21 @@ void updateIntake() {
         outtakePressed = false;
     }
 
+
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+        if (!buttonPressed) {
+
+            if(intakeState == 3) { //state changes
+                intakeState = 0;
+            } else {
+                intakeState = 3;
+            }
+
+        }
+        buttonPressed = true;
+    } else {
+        buttonPressed = false;
+    }
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
         if (!speedPressed) {
