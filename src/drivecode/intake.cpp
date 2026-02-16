@@ -35,8 +35,8 @@ void runIntake() {
             }
 
             case 3: {
-                leftIntake.move_voltage(-4000); // hi aakanksh tune left motor speed here
-                rightIntake.move_voltage(velValue);
+                rightIntake.move_voltage(-4000); // hi aakanksh tune left motor speed here
+                leftIntake.move_voltage(12000);
                 break;
             }
         }
