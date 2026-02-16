@@ -10,7 +10,7 @@ int intakeState = 0;
 bool intakePressed = false;
 bool outtakePressed = false;
 bool speedPressed = false;
-bool buttonPressed = false;
+bool testPressed = false;
 
 void runIntake() {
     while (true) {
@@ -82,7 +82,7 @@ void updateIntake() {
 
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
-        if (!buttonPressed) {
+        if (!testPressed) {
 
             if(intakeState == 3) { //state changes
                 intakeState = 0;
@@ -91,9 +91,9 @@ void updateIntake() {
             }
 
         }
-        buttonPressed = true;
+        testPressed = true;
     } else {
-        buttonPressed = false;
+        testPressed = false;
     }
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
