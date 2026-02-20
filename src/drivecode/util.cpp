@@ -17,8 +17,8 @@ void interruptSkills() {
 }
 
 void motorInit() {
-    leftIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    rightIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    topIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    bottomIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
 
 //sensor settings
@@ -44,8 +44,8 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "left wattage: %.3f", leftIntake.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "right wattage: %.3f", rightIntake.get_power());
+        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topIntake.get_power());
+        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomIntake.get_power());
        //pros::screen::print(pros::E_TEXT_MEDIUM, 6, "limit switch: %d", limitSwitch.get_value());
        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "front left dist: %.3f", distFrontLeft.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front right dist: %.3f", distFrontRight.get_distance()/25.4);

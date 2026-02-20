@@ -14,8 +14,8 @@ pros::adi::DigitalOut odomLift('E');
 
 
 //intake
-pros::Motor leftIntake(-7, pros::MotorGearset::blue);
-pros::Motor rightIntake(8, pros::MotorGearset::blue);
+pros::Motor topIntake(-7, pros::MotorGearset::blue);
+pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
 pros::MotorGroup leftMotors({-15, 19, -10}, pros::MotorGearset::blue);

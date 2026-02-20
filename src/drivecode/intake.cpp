@@ -17,26 +17,26 @@ void runIntake() {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
         switch(intakeState) {
             case 0: { // intake off
-                leftIntake.move_voltage(0);
-                rightIntake.move_voltage(0);
+                topIntake.move_voltage(0);
+                bottomIntake.move_voltage(0);
                 break;
             }
             
             case 1: { // intake 100%
-                leftIntake.move_voltage(velValue);
-                rightIntake.move_voltage(velValue);
+                topIntake.move_voltage(velValue);
+                bottomIntake.move_voltage(velValue);
                 break;
             }
 
             case 2: { // outtake
-                leftIntake.move_voltage(-velValue);
-                rightIntake.move_voltage(-velValue);
+                topIntake.move_voltage(-velValue);
+                bottomIntake.move_voltage(-velValue);
                 break;
             }
 
             case 3: {
-                rightIntake.move_voltage(-4000); // hi aakanksh tune left motor speed here
-                leftIntake.move_voltage(12000);
+                bottomIntake.move_voltage(-12000); // hi aakanksh tune left motor speed here
+                topIntake.move_voltage(12000);
                 break;
             }
         }

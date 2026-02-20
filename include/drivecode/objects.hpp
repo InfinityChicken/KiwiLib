@@ -3,8 +3,8 @@
 #include "pros/distance.hpp"
 
 //motor declarations
-extern pros::Motor leftIntake;
-extern pros::Motor rightIntake;
+extern pros::Motor topIntake;
+extern pros::Motor bottomIntake;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
