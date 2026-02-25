@@ -11,6 +11,7 @@ bool intakePressed = false;
 bool outtakePressed = false;
 bool speedPressed = false;
 bool testPressed = false;
+bool switchPressed = false;
 
 void runIntake() {
     while (true) {
@@ -109,5 +110,19 @@ void updateIntake() {
         speedPressed = true;
     } else {
         speedPressed = false;
+    }
+
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        if (!switchPressed) {
+        if (intakeState == 3){
+            intakeState = 1;
+        }
+        else if(intakeState == 1){
+            intakeState == 3;
+        }   
+    }
+    switchPressed = true;
+    } else {
+        switchPressed = false;
     }
 }
