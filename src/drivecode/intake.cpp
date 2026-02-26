@@ -48,16 +48,7 @@ void runIntake() {
 
 void updateIntake() {
     //l1 intake
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        if (!intakePressed) {
-            intakeState = 1;
-            //moved vel change to pistons.cpp
-        }
-        intakePressed = true;
-    } else {
-        intakePressed = false;
-        if (intakePressed = false){intakeState = 0;}
-    }
+   
 
 
     //l2 outtake
@@ -112,7 +103,7 @@ void updateIntake() {
             intakeState = 3;
         }
         else{
-        intakeState = 0;
+        intakeState =
         }
     }
     switchPressed = true;
