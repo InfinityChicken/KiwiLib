@@ -8,12 +8,14 @@ int midGoalState = 0; //0 closed
 int scraperState = 0; //0 up
 int wingState = 0; //0 down
 int odomState = 0; //0 down
+int midDescoreState = 0;
 
 bool trapdoorPressed = false;
 bool midGoalPressed = false;
 bool scraperPressed = false;
 bool wingPressed = false;
 bool odomPressed = false;
+bool midDescorePressed = false;
 
 // bool trapOverride = false;
 
@@ -37,6 +39,20 @@ void updatePistons() {
         wingPressed = true;
     } else {
         wingPressed = false;
+    }
+
+    // mid goal descore toggle
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+        if (!midDescorePressed) {
+            if(midDescoreState == 0) {
+                midDescoreState = 1;
+            } else {
+                midDescoreState = 0;
+            }
+        }
+        midDescorePressed = true;
+    } else {
+        midDescorePressed = false;
     }
 
     // //TODO: R1 trapdoor hold
@@ -83,11 +99,9 @@ void updatePistons() {
         if (!midGoalPressed) {
             if (midGoalState == 0) {
                 midGoalState = 1;
-                trapdoorState = 1;
                 //velValue = 12000 * 0.60;
             } else {
                 midGoalState = 0;
-                trapdoorState = 0;
             }
         }
         midGoalPressed = true;
@@ -126,12 +140,19 @@ void runPistons() {
             wing.set_value(true);
         }
 
-        // long trapdoor
-        if(trapdoorState == 0) {
-            trapdoor.set_value(false);
-        } else if (trapdoorState == 1) {
-            trapdoor.set_value(true);
+        // mid goal descore
+        if (midDescoreState == 0) {
+            midGoalDescore.set_value(false);
+        } else if (midDescoreState == 1) {
+            midGoalDescore.set_value(true);
         }
+
+        // long trapdoor
+        // if(trapdoorState == 0) {
+        //     trapdoor.set_value(false);
+        // } else if (trapdoorState == 1) {
+        //     trapdoor.set_value(true);
+        // }
 
         // mid trapdoor
         if(midGoalState == 0) {

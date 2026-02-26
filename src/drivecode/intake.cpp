@@ -48,21 +48,15 @@ void runIntake() {
 
 void updateIntake() {
     //l1 intake
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         if (!intakePressed) {
-
-            if(intakeState == 1) { //state changes
-                intakeState = 0;
-            } else {
-                intakeState = 1;
-            }
-
+            intakeState = 1;
             //moved vel change to pistons.cpp
-
         }
         intakePressed = true;
     } else {
         intakePressed = false;
+        if (intakePressed = false){intakeState = 0;}
     }
 
 
@@ -112,14 +106,14 @@ void updateIntake() {
         speedPressed = false;
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
         if (!switchPressed) {
-        if (intakeState == 3){
-            intakeState = 1;
+        if (intakeState != 3){
+            intakeState = 3;
         }
-        else if(intakeState == 1){
-            intakeState == 3;
-        }   
+        else{
+        intakeState = 0;
+        }
     }
     switchPressed = true;
     } else {

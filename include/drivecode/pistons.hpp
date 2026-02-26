@@ -6,6 +6,7 @@ extern int midGoalState;
 extern int scraperState;
 extern int wingState;
 extern int odomState;
+extern int midDescoreState;
 
 void updatePistons();
 void runPistons();

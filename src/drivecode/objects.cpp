@@ -8,7 +8,7 @@
 //pistons
 pros::adi::DigitalOut scraper('A');
 pros::adi::DigitalOut wing('B');
-pros::adi::DigitalOut trapdoor('C');
+pros::adi::DigitalOut midGoalDescore('C');
 pros::adi::DigitalOut midGoal('D');
 pros::adi::DigitalOut odomLift('E');
 

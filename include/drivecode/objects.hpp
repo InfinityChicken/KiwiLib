@@ -14,6 +14,7 @@ extern pros::adi::DigitalOut wing;
 extern pros::adi::DigitalOut trapdoor;
 extern pros::adi::DigitalOut midGoal;
 extern pros::adi::DigitalOut odomLift;
+extern pros::adi::DigitalOut midGoalDescore;
 
 //sensor declarations
 extern pros::Imu imu;
