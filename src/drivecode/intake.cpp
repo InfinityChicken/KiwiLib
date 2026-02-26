@@ -13,6 +13,7 @@ bool speedPressed = false;
 bool testPressed = false;
 bool switchPressed = false;
 
+
 void runIntake() {
     while (true) {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
@@ -47,8 +48,29 @@ void runIntake() {
 }
 
 void updateIntake() {
-    //l1 intake
    
+    //l1 intake storing
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        if (!intakePressed) {
+
+            if(intakeState == 3) { //state changes
+                intakeState = 0;
+            } else {
+                intakeState = 3;
+            }
+        }
+        intakePressed = true;
+    } else {
+        intakePressed = false;
+    }
+
+    // r2 scoring
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        intakeState = 1;
+    } else if (intakeState == 1) {
+        intakeState = 0;
+    }
+
 
 
     //l2 outtake
@@ -97,17 +119,4 @@ void updateIntake() {
         speedPressed = false;
     }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        if (!switchPressed) {
-        if (intakeState != 3){
-            intakeState = 3;
-        }
-        else{
-        intakeState =
-        }
-    }
-    switchPressed = true;
-    } else {
-        switchPressed = false;
-    }
 }
