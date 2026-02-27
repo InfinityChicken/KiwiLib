@@ -10,7 +10,7 @@ void skills97() {
     chassis.distanceReset('L', 'B');
 
     //intake first four blocks
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(-20.5, -27, 1500, {}, true);
     chassis.waitUntil(18.5);
     intakeState = 0;
@@ -20,12 +20,12 @@ void skills97() {
 
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(-6.7, -11.9, 1000, {.forwards = false, .minSpeed = 60}); //prev -8.5 -11.5
     
     //score mid goal
     midGoalState = 1;
-    trapdoorState = 1;
+    intakeState = 1;
     intakeState = 2;
     pros::delay(75);
     intakeState = 1;
@@ -46,7 +46,7 @@ void skills97() {
 
     //trapdoor up and mid goal down
     midGoalState = 0;
-    trapdoorState = 0;
+    intakeState = 3;
 
     //move forward and turn in front of first ml
     chassis.moveToPoint(-45.5, chassis.getPose().y, 1000);
@@ -57,7 +57,7 @@ void skills97() {
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
-    intakeState = 1;
+    intakeState = 3;
     
     //jitter first ml
     // chassis.moveDistance(-6, 100);
@@ -86,13 +86,13 @@ void skills97() {
     rightMotors.move(-50);
 
     //score long
+    intakeState = 3;
     intakeState = 1;
-    trapdoorState = 1;
     intakeState = 2;
     pros::delay(200);
     intakeState = 1;
     pros::delay(2500);
-    trapdoorState = 0;
+    intakeState = 3;
     leftMotors.move(0);
     leftMotors.move(0);
     chassis.distanceReset('L', 'F');
@@ -110,7 +110,7 @@ void skills97() {
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
-    intakeState = 1;
+    intakeState = 3;
 
     //jitter second ml
     chassis.sendVoltage(-6000, 100);
@@ -123,10 +123,10 @@ void skills97() {
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
-    trapdoorState = 1;
+    intakeState = 1;
     intakeState = 2;
     pros::delay(200);
-    intakeState = 1;
+    intakeState = 3;
     pros::delay(2000);
     leftMotors.move(0);
     leftMotors.move(0);
@@ -145,7 +145,7 @@ void skills97() {
     //use scraper to push blocks
 	chassis.sendVoltage(11000, 200); //7500
     scraperState = 0;
-    trapdoorState = 0;
+    intakeState = 3;
 	pros::delay(175);
 
 	//inital cross
@@ -179,7 +179,7 @@ void skills97() {
     odomState = 0;
 	intakeState = 2;
 	pros::delay(50);
-	intakeState = 1;
+	intakeState = 3;
 	chassis.sendVoltage(0, 10);
 
     if(interrupt) {
@@ -220,17 +220,17 @@ void skills97() {
     //turn and move toward mid goal
     chassis.turnToPoint(-7, -1, 1000, {.forwards = false});
     //chassis.turnToHeading(45, 1000);
-	intakeState = 1;
+	intakeState = 3;
 	//chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60}, true);
     chassis.moveDistance(-8.5, 1000, {.forwards = false, .minSpeed = 60});
 	pros::delay(500);
     midGoalState = 1;
-    trapdoorState = 1;
+    intakeState = 1;
 	chassis.turnToHeading(45, 1000, {}, true);
     intakeState = 2;
     pros::delay(100); //antijam time
 	midGoalSpeed = 12000 * 0.7;
-    intakeState = 1;
+    intakeState = 3;
     pros::delay(1400); //score time
 	lowGoalVel = true;
 	pros::delay(600);
@@ -254,9 +254,9 @@ void skills97() {
 	chassis.moveToPoint(45.75, chassis.getPose().y, 1500, {}, true);
 	pros::delay(500);
 	midGoalState = 0; //do states
-	intakeState = 1;
+	intakeState = 3;
 	chassis.waitUntilDone();
-	trapdoorState = 0;
+	intakeState = 3;
 	chassis.turnToHeading(0, 1000);
     chassis.distanceReset('R', 'F');
 
@@ -265,7 +265,7 @@ void skills97() {
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
-    intakeState = 1;
+    intakeState = 3;
 
     //jitter third ml
     // chassis.moveDistance(-6, 100);
@@ -293,15 +293,15 @@ void skills97() {
     // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
 
     //score long goal
+    intakeState = 3;
     intakeState = 1;
-    trapdoorState = 1;
     intakeState = 2;
     pros::delay(200);
-    intakeState = 1;
+    intakeState = 3;
     pros::delay(2000);
     leftMotors.move(0);
     rightMotors.move(0);
-    trapdoorState = 0;
+    intakeState = 3;
 
     if(interrupt) {
         return;
@@ -316,7 +316,7 @@ void skills97() {
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
-    intakeState = 1;
+    intakeState = 3;
 
     //jitter fourth ml
     // chassis.moveDistance(-6, 100);
@@ -332,10 +332,10 @@ void skills97() {
     leftMotors.move(-50);
     rightMotors.move(-50);
     // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
-    trapdoorState = 1;
+    intakeState = 1;
     intakeState = 2;
     pros::delay(200);
-    intakeState = 1;
+    intakeState = 3;
     pros::delay(2000);
     leftMotors.move(0);
     rightMotors.move(0);
@@ -387,7 +387,7 @@ void sevenBlockPushRight() {
     chassis.distanceReset('R', 'B'); //dist reset to begin
 
     //go to 3 blocks (tuned)
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
@@ -403,8 +403,8 @@ void sevenBlockPushRight() {
     //back into long goal and score (tuned)
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 60});
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
-    trapdoorState = 1;
     intakeState = 1;
+    intakeState = 3;
     pros::delay(2000); //prev 1500
     
     //curve out and push (tuned)
@@ -424,7 +424,7 @@ void sevenBlockPushLeft(){
 
     //go to 3 blocks
     wingState = 1;
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(-24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
@@ -440,7 +440,6 @@ void sevenBlockPushLeft(){
     //back into long goal and score
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
     chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
-    trapdoorState = 1;
     intakeState = 1;
     pros::delay(1600);
 
@@ -452,9 +451,8 @@ void sevenBlockPushLeft(){
     intakeState = 2;
     pros::delay(40);
     intakeState = 0;
-    trapdoorState = 0;
+    intakeState = 3;
     chassis.turnToHeading(180, 1000);
-    trapdoorState = 0;
     chassis.moveToPoint(-35, -5.5, 1000, {.forwards = false, .maxSpeed = 100});
     // chassis.moveDistance(33, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
@@ -465,7 +463,7 @@ void fourBlockPushRight() {
     chassis.distanceReset('R', 'B'); //dist reset to begin
 
     //go to 3 blocks
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
@@ -477,8 +475,8 @@ void fourBlockPushRight() {
     //back into long goal and score
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 70});
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
-    trapdoorState = 1;
     intakeState = 1;
+    intakeState = 3;
     pros::delay(1500);
     
     //curve out and push (tuned)
@@ -498,7 +496,7 @@ void fourBlockPushLeft() {
 
     //go to 3 blocks
     wingState = 1;
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(-24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
@@ -510,8 +508,8 @@ void fourBlockPushLeft() {
     //back into long goal and score
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
     chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
-    trapdoorState = 1;
     intakeState = 1;
+    intakeState = 3;
     pros::delay(1600);
 
     //curve out and push
@@ -520,7 +518,7 @@ void fourBlockPushLeft() {
     //chassis.sendVoltage(6000, 100);
     chassis.moveToPoint(-38.15, -36, 1000);
     chassis.turnToHeading(180, 1000);
-    trapdoorState = 0;
+    intakeState = 3;
     chassis.moveToPoint(-35, -6, 1000, {.forwards = false, .maxSpeed = 100});
     // chassis.moveDistance(33, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
@@ -539,13 +537,13 @@ void leftSplitPush() {
     chassis.distanceReset('R', 'F');
 
     //go into matchloader
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveDistance(13.5, 1000);
     pros::delay(50);
     
     //do long goal
     chassis.moveToPoint(-47, -25, 1000, {.forwards = false});
-    trapdoorState = 1;
+    intakeState = 1;
     pros::delay(750);
     chassis.distanceReset('R', 'F');
 
@@ -553,10 +551,10 @@ void leftSplitPush() {
     scraperState = 0;
     chassis.sendVoltage(4000, 250);
     chassis.swingToPoint(-20.25, -21, lemlib::DriveSide::LEFT, 1000);
-    trapdoorState = 0;
+    intakeState = 3;
 
     //move to first mid blocks
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(-20.25, -21, 1500, {}, true);
     chassis.waitUntil(10.5);
     scraperState = 1;
@@ -567,10 +565,10 @@ void leftSplitPush() {
     midGoalState = 1;
     chassis.turnToHeading(225, 1000);
     chassis.moveDistance(-13.5, 1000, {.forwards = false});
-    trapdoorState = 1;
+    intakeState = 1;
     intakeState = 2; //antijam
     pros::delay(50);
-    intakeState = 1;
+    intakeState = 3;
     pros::delay(860);
 
     //go to wing position and wing
@@ -578,9 +576,9 @@ void leftSplitPush() {
     intakeState = 2;
     pros::delay(40);
     intakeState = 0;
-    trapdoorState = 0;
+    intakeState = 3;
     chassis.turnToHeading(180, 1000);
-    trapdoorState = 0;
+    intakeState = 3;
     chassis.moveDistance(-25, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
@@ -599,7 +597,7 @@ void SAWP() {
     chassis.distanceReset('L', 'F');
 
     //go into matchloader
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveDistance(13.5, 1000);
     pros::delay(25); //prev 50, 100
     intakeState = 0;
@@ -607,8 +605,8 @@ void SAWP() {
     //do long goal
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 60});
     chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
-    trapdoorState = 1;
     intakeState = 1;
+    intakeState = 3;
     pros::delay(700);
     scraperState = 0;
     //intakeState = 0;
@@ -616,10 +614,10 @@ void SAWP() {
     //swing out right
     chassis.sendVoltage(4000, 250);
     chassis.swingToPoint(23.5, -21, lemlib::DriveSide::RIGHT, 1000); //prev -23
-    trapdoorState = 0;
+    intakeState = 3;
 
     //move to first mid blocks
-    intakeState = 1;
+    intakeState = 3;
     chassis.moveToPoint(23.5, -21, 1500, {}, true); //prev minspeed 40, prev -23
     chassis.waitUntil(10.5);
     scraperState = 1;
@@ -639,13 +637,13 @@ void SAWP() {
     chassis.turnToPoint(-11, -5, 1000, {.forwards = false});
     chassis.moveToPoint(-11, -5, 1000, {.forwards = false, .minSpeed = 60}, true); //pre minspeed 60
     chassis.waitUntil(12);
-    trapdoorState = 1;
-    // intakeState = 2; 
     intakeState = 1;
+    // intakeState = 2; 
+    intakeState = 3;
     midGoalSpeed = 12000;
     intakeState = 2; //antijam
     pros::delay(50);
-    intakeState = 1;
+    intakeState = 3;
     pros::delay(660);
 
     //move to ml
@@ -654,7 +652,7 @@ void SAWP() {
     intakeState = 2; //outtake to bring blocks farther down intake
     pros::delay(80); 
     intakeState = 0;
-    trapdoorState = 0;
+    intakeState = 3;
     midGoalState = 0;
 
     // turn and reset
@@ -662,7 +660,7 @@ void SAWP() {
     chassis.distanceReset('R', 'F');
 
     //do ml
-    intakeState = 1;
+    intakeState = 3;
     midGoalState = 1;
     chassis.moveDistance(13.25, 1000);
     pros::delay(25); //prev 80, 100
@@ -672,8 +670,8 @@ void SAWP() {
     //score long goal
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 60});
     chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 90}, true);
-    trapdoorState = 1;
+    intakeState = 1;
     // intakeState = 2;
     // pros::delay(50);
-    intakeState = 1;
+    intakeState = 3;
 }
