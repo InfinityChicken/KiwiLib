@@ -83,11 +83,11 @@ lemlib::ControllerSettings angularController(
     0
 );
 
-//distance sensors //TODO: find accurate offsets
+//distance sensors
 lemlib::DistanceSensors distSensors(distFrontLeft, -5.75, 5.25, // prev 5.25, 7
                                     distFrontRight, 5.25, 4.75, // prev -5.5, 6.25
                                     distBack, -3, 6,
-                                    distLeft, -2.5, 5.25,
+                                    distLeft, -1.75, 5.25,
                                     distRight, 2.5, 5.25);
 
 //controller
