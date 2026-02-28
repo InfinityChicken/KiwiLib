@@ -388,6 +388,7 @@ void sevenBlockPushRight() {
 
     //go to 3 blocks (tuned)
     intakeState = 3;
+    wingState = 1;
     chassis.moveToPoint(24, -24, 1000, {.earlyExitRange = 6}, true);
     chassis.waitUntil(12);
     scraperState = 1;
@@ -414,6 +415,7 @@ void sevenBlockPushRight() {
     //curve out and push (tuned)
     intakeState = 0;
     scraperState = 0;
+    wingState = 0;
     chassis.sendVoltage(6000, 200);
     chassis.moveToPoint(37.75, -38, 1000, {});
     chassis.turnToHeading(0, 1000);
@@ -435,17 +437,19 @@ void sevenBlockPushLeft(){
     scraperState = 1;
 
     //go to and into matchloader
-    chassis.moveToPose(-43.5, -46.5, 180, 1500, {.lead = 0.2});
+    chassis.moveToPose(-45, -46.5, 180, 1500, {.lead = 0.2});
     chassis.waitUntilDone();
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(16, 1000);
-    pros::delay(250);
+    pros::delay(350);
     intakeState = 0;
 
     //back into long goal and score
+    chassis.turnToHeading(180, 250);
     chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 70});
-    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 80}, true);
+    chassis.moveToPoint(-48, -20, 1000, {.forwards = false, .maxSpeed = 100}, true);
     intakeState = 1;
+    chassis.distanceReset('R', 'F');
     pros::delay(1600);
 
     //curve out and push
@@ -453,13 +457,12 @@ void sevenBlockPushLeft(){
     wingState = 0;
     scraperState = 0;
     //chassis.sendVoltage(6000, 100);
-    chassis.moveToPoint(-38.15, -36, 1000, {}, true);
+    chassis.moveToPoint(-38, -36, 1000, {}, true);
     intakeState = 2;
     pros::delay(40);
     intakeState = 0;
-    intakeState = 3;
     chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-35, -5.5, 1000, {.forwards = false, .maxSpeed = 100});
+    chassis.moveToPoint(-35, -8, 1000, {.forwards = false, .maxSpeed = 100});
     // chassis.moveDistance(33, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
