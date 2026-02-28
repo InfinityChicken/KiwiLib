@@ -89,20 +89,20 @@ void updateIntake() {
     }
 
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
-        if (!testPressed) {
+    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+    //     if (!testPressed) {
 
-            if(intakeState == 3) { //state changes
-                intakeState = 0;
-            } else {
-                intakeState = 3;
-            }
+    //         if(intakeState == 3) { //state changes
+    //             intakeState = 0;
+    //         } else {
+    //             intakeState = 3;
+    //         }
 
-        }
-        testPressed = true;
-    } else {
-        testPressed = false;
-    }
+    //     }
+    //     testPressed = true;
+    // } else {
+    //     testPressed = false;
+    // }
 
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
         if (!speedPressed) {

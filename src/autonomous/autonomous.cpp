@@ -533,11 +533,14 @@ void fourBlockPushLeft() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 void leftSplitPush() {
-    chassis.setPose(0, 0,270);
+    chassis.setPose(-1, -1,270);
+    chassis.distanceReset('F', 'L');
 
     //go to matchloader 
     scraperState = 1;
-    chassis.moveDistance(29, 1000); //prev 31.25
+    chassis.moveToPoint(-46, chassis.getPose().y, 1000);
+    //chassis.moveDistance(29, 1000); //prev 31.25
+
     chassis.turnToHeading(180, 1000);
 
     //reset pose
@@ -551,6 +554,7 @@ void leftSplitPush() {
     pros::delay(50);
     
     //do long goal
+    chassis.turnToHeading(180, 250);
     chassis.moveToPoint(-47, -25, 1000, {.forwards = false});
     intakeState = 1;
     pros::delay(750);
@@ -558,13 +562,15 @@ void leftSplitPush() {
 
     //swing out left
     scraperState = 0;
-    chassis.sendVoltage(4000, 250);
-    chassis.swingToPoint(-20.25, -21, lemlib::DriveSide::LEFT, 1000);
+    //chassis.sendVoltage(4000, 250);
+    chassis.moveDistance(3, 1000);
+    chassis.swingToPoint(-20.75, -21.75, lemlib::DriveSide::LEFT, 1000);
+    chassis.distanceReset('L', 'B');
     intakeState = 3;
 
     //move to first mid blocks
     intakeState = 3;
-    chassis.moveToPoint(-20.25, -21, 1500, {}, true);
+    chassis.moveToPoint(-20.75, -21.75, 1500, {}, true);
     chassis.waitUntil(10.5);
     scraperState = 1;
     chassis.waitUntilDone();
@@ -572,22 +578,28 @@ void leftSplitPush() {
 
     //score mid
     midGoalState = 1;
-    chassis.turnToHeading(225, 1000);
-    chassis.moveDistance(-13.5, 1000, {.forwards = false});
+    chassis.turnToHeading(228, 1000);
+    //chassis.turnToPoint(-8, -10, 1000, {.forwards = false});
+    chassis.moveDistance(-15.5, 1000, {.forwards = false});
     intakeState = 1;
     intakeState = 2; //antijam
     pros::delay(50);
-    intakeState = 3;
-    pros::delay(860);
+    intakeState = 1;
+    pros::delay(950);
+
+    //push mid with descore
+    chassis.moveDistance(7, 1000, {}, true);
+    chassis.waitUntil(4);
+    midDescoreState = 1;
+    chassis.moveDistance(-4, 1000, {.forwards = false});
 
     //go to wing position and wing
-    chassis.moveToPoint(-35.5, -38, 1000, {}, true);
+    chassis.moveToPoint(-34, -38, 1000, {}, true);
+    midDescoreState = 0;
     intakeState = 2;
     pros::delay(40);
     intakeState = 0;
-    intakeState = 3;
     chassis.turnToHeading(180, 1000);
-    intakeState = 3;
     chassis.moveDistance(-25, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
