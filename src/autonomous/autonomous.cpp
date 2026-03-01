@@ -86,8 +86,6 @@ void skills97() {
     rightMotors.move(-50);
 
     //score long
-    intakeState = 3;
-    intakeState = 1;
     intakeState = 2;
     pros::delay(200);
     intakeState = 1;
@@ -106,7 +104,7 @@ void skills97() {
     //chassis.turnToHeading(0, 250);
 
     //do second ml
-    chassis.moveDistance(19, 1000, {.minSpeed = 30});
+    chassis.moveDistance(18, 1000, {.minSpeed = 30});
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -123,10 +121,9 @@ void skills97() {
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
-    intakeState = 1;
     intakeState = 2;
     pros::delay(200);
-    intakeState = 3;
+    intakeState = 1;
     pros::delay(2000);
     leftMotors.move(0);
     leftMotors.move(0);
@@ -137,56 +134,23 @@ void skills97() {
     }
 
 	//move to park
-	chassis.moveToPose(-14, 63.5, 83, 2000, {.lead = 0.55}); //curve to park zone
+	chassis.moveToPose(-12, 65, 84, 2000, {.lead = 0.58}); //curve to park zone
 	odomState = 1; //odom up
 	scraperState = 1; 
 	pros::delay(100);
 
     //use scraper to push blocks
-	chassis.sendVoltage(11000, 200); //7500
+	chassis.sendVoltage(6000, 400); //7500
     scraperState = 0;
     intakeState = 3;
 	pros::delay(175);
 
-	//inital cross
-	leftMotors.move_voltage(10000); //prev 8k, needs a tiny bit more power
-	rightMotors.move_voltage(10400);
-    pros::delay(300);
-    leftMotors.move_voltage(6000); //prev 8k, needs a tiny bit more power
-	rightMotors.move_voltage(6400);
-	pros::delay(315);
+    //initial cross
+    leftMotors.move_voltage(8000); //this is what worked the first try
+	rightMotors.move_voltage(8400);
+    pros::delay(1000);
 
-	//pause in park zone
-	chassis.sendVoltage(0, 570);  //1100 before
-	//scraperState = 1;
-
-    if(interrupt) {
-        return;
-    }
-
-	//lift front wheels out of park
-	leftMotors.move_voltage(2000);
-	rightMotors.move_voltage(2400);
-	pros::delay(100);
-
-	//exit park zone
-	leftMotors.move_voltage(6000); //go slow out of park zone
-	rightMotors.move_voltage(6100); //prev 6200
-	pros::delay(1000);
-	scraperState = 0;
-
-	//antijam + odom down
-    odomState = 0;
-	intakeState = 2;
-	pros::delay(50);
-	intakeState = 3;
-	chassis.sendVoltage(0, 10);
-
-    if(interrupt) {
-        return;
-    }
-
-	//go to matchloader to intake all blocks
+	//cross and go to matchloader to intake all blocks
 	while (true) {
         if (distFrontRight.get_distance() / 25.4 <= 35) {
             leftMotors.move_voltage(0);
@@ -202,6 +166,7 @@ void skills97() {
 
 	//back up from ml
 	chassis.moveDistance(-16, 1000, {.forwards = false});
+    odomState = 0;
 
     if(interrupt) {
         return;
@@ -223,14 +188,13 @@ void skills97() {
 	intakeState = 3;
 	//chassis.moveToPoint(7.3, 12.3, 1000, {.forwards = false, .minSpeed = 60}, true);
     chassis.moveDistance(-8.5, 1000, {.forwards = false, .minSpeed = 60});
-	pros::delay(500);
+	//pros::delay(500);
     midGoalState = 1;
-    intakeState = 1;
 	chassis.turnToHeading(45, 1000, {}, true);
     intakeState = 2;
     pros::delay(100); //antijam time
 	midGoalSpeed = 12000 * 0.7;
-    intakeState = 3;
+    intakeState = 1;
     pros::delay(1400); //score time
 	lowGoalVel = true;
 	pros::delay(600);
@@ -244,6 +208,7 @@ void skills97() {
 	//veryyyy slowly go out
 	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
 	chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
+    return;
 
 	//go to third matchloader
 	scraperState = 1;
