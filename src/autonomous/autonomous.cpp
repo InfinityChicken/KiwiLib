@@ -4,6 +4,7 @@
 #include "main.h"
 #include "drivecode/util.hpp"
 
+
 void skills97() {
     //beginning dist reset
     chassis.setPose(-1, -1, 0);
@@ -48,7 +49,7 @@ void skills97() {
     chassis.turnToHeading(180, 1000);
 
     //do first ml
-    chassis.moveDistance(17, 1000, {.minSpeed = 30}); //prev 15, no minspeed
+    chassis.moveDistance(16.5, 1000, {.minSpeed = 30}); //prev 15, no minspeed
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -78,10 +79,14 @@ void skills97() {
     rightMotors.move(-50);
 
     //score long
-    intakeState = 2;
-    pros::delay(200);
+    intakeState = 2; // anti jam
+    pros::delay(125);
     intakeState = 1;
-    pros::delay(2500);
+    pros::delay(1150); // score
+    intakeState = 2; // antijam
+    pros::delay(75);
+    intakeState = 1;
+    pros::delay(1150); // score
     intakeState = 3;
     leftMotors.move(0);
     leftMotors.move(0);
@@ -95,7 +100,7 @@ void skills97() {
     chassis.moveToPose(-46.5, 46, 0, 1000, {.minSpeed = 90, .earlyExitRange = 8});
 
     //do second ml
-    chassis.moveDistance(16, 1000, {.minSpeed = 30}); //prev 18
+    chassis.moveDistance(15.5, 1000, {.minSpeed = 30}); //prev 18
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -111,10 +116,14 @@ void skills97() {
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
-    intakeState = 2;
-    pros::delay(200);
+    intakeState = 2; // anti jam
+    pros::delay(125);
     intakeState = 1;
-    pros::delay(2000);
+    pros::delay(1150); // score
+    intakeState = 2; // antijam
+    pros::delay(75);
+    intakeState = 1;
+    pros::delay(1150); // score
     leftMotors.move(0);
     leftMotors.move(0);
     scraperState = 0;
