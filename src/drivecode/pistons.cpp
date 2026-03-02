@@ -42,7 +42,7 @@ void updatePistons() {
     }
 
     // mid goal descore toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
         if (!midDescorePressed) {
             if(midDescoreState == 0) {
                 midDescoreState = 1;
@@ -54,13 +54,6 @@ void updatePistons() {
     } else {
         midDescorePressed = false;
     }
-
-    // //TODO: R1 trapdoor hold
-    // if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-    //     trapdoorState = 1;
-    // } else {
-    //     trapdoorState = 0;
-    // }
 
     // R1 trapdoor long toggle
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {

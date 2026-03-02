@@ -2,17 +2,13 @@
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 
-// trapdoor closed 75 - open - 100, scoring midgoal - 75
-
 int intakeState = 0;
-//int tempVelValue = 12000 * 0.75;
 
 bool intakePressed = false;
 bool outtakePressed = false;
 bool speedPressed = false;
 bool testPressed = false;
 bool switchPressed = false;
-
 
 void runIntake() {
     while (true) {
@@ -25,20 +21,26 @@ void runIntake() {
             }
             
             case 1: { // intake 100%
-                topIntake.move_voltage(velValue);
-                bottomIntake.move_voltage(velValue);
+                bottomIntake.move_voltage(12000);
+
+                if(midGoalState == 1) {
+                    topIntake.move_voltage(12000 * 0.6);
+                } else {
+                    topIntake.move_voltage(12000);
+                }
+
                 break;
             }
 
             case 2: { // outtake
-                topIntake.move_voltage(-velValue);
-                bottomIntake.move_voltage(-velValue);
+                topIntake.move_voltage(-12000);
+                bottomIntake.move_voltage(-12000);
                 break;
             }
 
             case 3: {
-                bottomIntake.move_voltage(-12000); // hi aakanksh tune left motor speed here
-                topIntake.move_voltage(12000);
+                topIntake.move_voltage(0);
+                bottomIntake.move_voltage(12000); // hi aakanksh tune left motor speed here
                 break;
             }
         }
@@ -71,8 +73,6 @@ void updateIntake() {
         intakeState = 0;
     }
 
-
-
     //l2 outtake
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         if (!outtakePressed) {
@@ -104,19 +104,19 @@ void updateIntake() {
     //     testPressed = false;
     // }
 
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-        if (!speedPressed) {
+    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+    //     if (!speedPressed) {
 
-            if(!lowGoalVel) { //state changes
-                lowGoalVel = true;
-            } else {
-                lowGoalVel = false;
-            }
+    //         if(!lowGoalVel) { //state changes
+    //             lowGoalVel = true;
+    //         } else {
+    //             lowGoalVel = false;
+    //         }
 
-        }
-        speedPressed = true;
-    } else {
-        speedPressed = false;
-    }
+    //     }
+    //     speedPressed = true;
+    // } else {
+    //     speedPressed = false;
+    // }
 
 }

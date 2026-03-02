@@ -14,9 +14,7 @@ void skills97() {
     chassis.moveToPoint(-20.5, -27, 1500, {}, true);
     chassis.waitUntil(18.5);
     intakeState = 0;
-    //scraperState = 1;
     chassis.waitUntilDone();
-    //scraperState = 0;
 
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
@@ -25,13 +23,10 @@ void skills97() {
     
     //score mid goal
     midGoalState = 1;
-    intakeState = 1;
     intakeState = 2;
-    pros::delay(75);
+    pros::delay(100);
     intakeState = 1;
-    midGoalSpeed = 12000 * 0.75;
     pros::delay(1000);
-    midGoalSpeed = 12000;
 
     if(interrupt) {
         return;
@@ -60,11 +55,8 @@ void skills97() {
     intakeState = 3;
     
     //jitter first ml
-    // chassis.moveDistance(-6, 100);
-    // chassis.moveDistance(7, 750);
     chassis.sendVoltage(-6000, 100);
     chassis.sendVoltage(4000, 1000);
-    // pros::delay(400);
 
     if(interrupt) {
         return;
@@ -101,10 +93,9 @@ void skills97() {
 
     //move to second ml
     chassis.moveToPose(-46.5, 46, 0, 1000, {.minSpeed = 90, .earlyExitRange = 8});
-    //chassis.turnToHeading(0, 250);
 
     //do second ml
-    chassis.moveDistance(18, 1000, {.minSpeed = 30});
+    chassis.moveDistance(16, 1000, {.minSpeed = 30}); //prev 18
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -113,7 +104,6 @@ void skills97() {
     //jitter second ml
     chassis.sendVoltage(-6000, 100);
     chassis.sendVoltage(4000, 1000);
-    // pros::delay(400);
 
     //score long
     intakeState = 0;
@@ -133,6 +123,8 @@ void skills97() {
         return;
     }
 
+    return;
+
 	//move to park
 	chassis.moveToPose(-12, 65, 84, 2000, {.lead = 0.58}); //curve to park zone
 	odomState = 1; //odom up
@@ -146,9 +138,19 @@ void skills97() {
 	pros::delay(175);
 
     //initial cross
-    leftMotors.move_voltage(8000); //this is what worked the first try
+    leftMotors.move_voltage(8000);
 	rightMotors.move_voltage(8400);
-    pros::delay(1000);
+    pros::delay(500);
+
+	//pause in park zone
+    leftMotors.move_voltage(0);
+	rightMotors.move_voltage(0);
+    pros::delay(250);
+
+    //go faster out of park
+    leftMotors.move_voltage(8000);
+	rightMotors.move_voltage(8400);
+    pros::delay(700);
 
 	//cross and go to matchloader to intake all blocks
 	while (true) {
@@ -193,13 +195,10 @@ void skills97() {
 	chassis.turnToHeading(45, 1000, {}, true);
     intakeState = 2;
     pros::delay(100); //antijam time
-	midGoalSpeed = 12000 * 0.7;
     intakeState = 1;
     pros::delay(1400); //score time
-	lowGoalVel = true;
 	pros::delay(600);
 	intakeState = 0;
-	lowGoalVel = false;
 
     if(interrupt) {
         return;
@@ -208,8 +207,6 @@ void skills97() {
 	//veryyyy slowly go out
 	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
 	chassis.moveDistance(-2.75, 1000, {.maxSpeed = 5});
-    return;
-
 	//go to third matchloader
 	scraperState = 1;
 	chassis.moveDistance(38, 2000, {.minSpeed = 80, .earlyExitRange = 5});
@@ -629,7 +626,6 @@ void SAWP() {
     intakeState = 1;
     // intakeState = 2; 
     intakeState = 3;
-    midGoalSpeed = 12000;
     intakeState = 2; //antijam
     pros::delay(50);
     intakeState = 3;
@@ -663,4 +659,73 @@ void SAWP() {
     // intakeState = 2;
     // pros::delay(50);
     intakeState = 3;
+}
+
+void counterSAWP() {
+    chassis.setPose(0,0, 90);
+
+    //go to matchloader
+    scraperState = 1;
+    chassis.moveDistance(31.25, 1000); 
+    chassis.turnToHeading(180, 1000);
+
+    //reset pose
+    chassis.setPose(10, -10, chassis.getPose().theta); //set quadrant and angle
+    chassis.waitUntilDone();
+    chassis.distanceReset('L', 'F');
+
+    //go into matchloader
+    intakeState = 3;
+    chassis.moveDistance(13.5, 1000);
+    pros::delay(25); //prev 50, 100
+    
+    //move into long goal
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 60});
+    leftMotors.move(-50); //push into goal
+    rightMotors.move(-50);
+
+    //score long goal
+    intakeState = 2;
+    pros::delay(50);
+    intakeState = 1;
+    pros::delay(700);
+    chassis.distanceReset('L', 'F');
+    scraperState = 0; 
+
+    //swing out right
+    chassis.distanceReset('L', 'F');
+    chassis.sendVoltage(4000, 250);
+    chassis.swingToPoint(23.5, -21, lemlib::DriveSide::RIGHT, 1000); //prev -23
+    intakeState = 3;
+
+    //chain to first mid blocks
+    intakeState = 3;
+    chassis.moveToPose(23.5, -21, 270, 1500, {.horizontalDrift = 1000, .minSpeed = 60}, true);
+    chassis.waitUntil(10.5);
+    scraperState = 1;
+    
+    //chain to second mid blocks
+    chassis.moveToPoint(-24, -17.75, 1500, {.minSpeed = 60}, true);
+    chassis.waitUntil(5);
+    scraperState = 0;
+    chassis.waitUntil(26);
+    scraperState = 1;
+
+    //chain to long goal
+    chassis.moveToPose(-49, -46, 180, 1500, {.horizontalDrift = 1000}, false);
+    chassis.distanceReset('R', 'F');
+
+    //score long
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false});
+    intakeState = 2;
+    pros::delay(50);
+    intakeState = 1;
+    pros::delay(700);
+    
+    //do ml
+    chassis.distanceReset('R', 'F');
+    chassis.moveToPose(-46.5, -45, 0, 1000, {.minSpeed = 90, .earlyExitRange = 8});
+    intakeState = 3;
+    chassis.moveDistance(18, 1000, {.minSpeed = 30});
+    pros::delay(25);
 }

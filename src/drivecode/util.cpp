@@ -28,12 +28,12 @@ void sensorInit() {}
 void taskInit() {
     pros::Task intakeTask(runIntake, "intake task");
     pros::Task pistonTask(runPistons, "piston task");
-    pros::Task velocityTask(runVelocity, "velocity task");
+    // pros::Task velocityTask(runVelocity, "velocity task");
     pros::Task screenTask(runScreen, "screen task");
-    pros::Task controllerTask(runController, "controller task");
+    // pros::Task controllerTask(runController, "controller task");
     // pros::Task autoScoreTask(runAutoScore, "autoscore task");
     // pros::Task consoleTask(runConsole, "console task");
-    pros::Task interruptTask(interruptSkills, "interrupt task");
+    // pros::Task interruptTask(interruptSkills, "interrupt task");
 }
 
 //brain task
@@ -46,8 +46,8 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
         pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topIntake.get_power());
         pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomIntake.get_power());
-       //pros::screen::print(pros::E_TEXT_MEDIUM, 6, "limit switch: %d", limitSwitch.get_value());
-       pros::screen::print(pros::E_TEXT_MEDIUM, 6, "front left dist: %.3f", distFrontLeft.get_distance()/25.4);
+        //pros::screen::print(pros::E_TEXT_MEDIUM, 6, "limit switch: %d", limitSwitch.get_value());
+        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "front left dist: %.3f", distFrontLeft.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front right dist: %.3f", distFrontRight.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 8, "back dist: %.3f", distBack.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 9, "left dist: %.3f", distLeft.get_distance()/25.4);
@@ -81,14 +81,6 @@ void runConsole() {
         // std::cout<<"limit switch: "<<std::to_string(limitSwitch.get_value())<<"\n";
         // std::cout<<"front dist: "<<std::to_string(distFront.get_distance()/25.4)<<"\n";
 
-        pros::delay(50);
-    }
-}
-
-//controller text task
-void runController() {
-    while (true) {
-        controller.set_text(0, 0, std::to_string(static_cast<int>(velValue/12000.0*100))+"%    ");
         pros::delay(50);
     }
 }
