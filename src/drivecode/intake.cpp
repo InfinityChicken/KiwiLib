@@ -9,7 +9,7 @@ bool outtakePressed = false;
 bool speedPressed = false;
 bool testPressed = false;
 bool switchPressed = false;
-
+bool scoringPressed = false;
 void runIntake() {
     while (true) {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
@@ -68,9 +68,15 @@ void updateIntake() {
 
     // r2 scoring
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        if (!scoringPressed){
+            intakeState = 2;
+            pros::delay(100);
+        }
         intakeState = 1;
+        scoringPressed = true;
     } else if (intakeState == 1) {
         intakeState = 0;
+        scoringPressed = false;
     }
 
     //l2 outtake
