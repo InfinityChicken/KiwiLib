@@ -27,7 +27,7 @@ void skills97() {
     intakeState = 2;
     pros::delay(100);
     intakeState = 1;
-    pros::delay(1000);
+    pros::delay(700);
 
     if(interrupt) {
         return;
@@ -57,7 +57,7 @@ void skills97() {
     
     //jitter first ml
     chassis.sendVoltage(-6000, 100);
-    chassis.sendVoltage(4000, 1000);
+    chassis.sendVoltage(4000, 700);
 
     if(interrupt) {
         return;
@@ -82,11 +82,7 @@ void skills97() {
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
-    pros::delay(1150); // score
-    intakeState = 2; // antijam
-    pros::delay(75);
-    intakeState = 1;
-    pros::delay(1150); // score
+    pros::delay(2350); // score
     intakeState = 3;
     leftMotors.move(0);
     leftMotors.move(0);
@@ -112,33 +108,31 @@ void skills97() {
 
     //score long
     intakeState = 0;
-    chassis.moveToPoint(-47.5, 25, 1000, {.forwards = false, .minSpeed = 40});
+    chassis.moveToPoint(-46, 25, 1000, {.forwards = false, .maxSpeed = 65});
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
-    pros::delay(1150); // score
-    intakeState = 2; // antijam
-    pros::delay(75);
-    intakeState = 1;
-    pros::delay(1150); // score
+    pros::delay(2350); // score
     leftMotors.move(0);
     leftMotors.move(0);
     scraperState = 0;
+
 
     if(interrupt) {
         return;
     }
 
-    return;
+
 
 	//move to park
 	chassis.moveToPose(-12, 65, 84, 2000, {.lead = 0.58}); //curve to park zone
 	odomState = 1; //odom up
+    pros::delay(100);
 	scraperState = 1; 
-	pros::delay(100);
+	pros::delay(200);
 
     //use scraper to push blocks
 	chassis.sendVoltage(6000, 400); //7500
@@ -154,7 +148,7 @@ void skills97() {
 	//pause in park zone
     leftMotors.move_voltage(0);
 	rightMotors.move_voltage(0);
-    pros::delay(250);
+    pros::delay(750);
 
     //go faster out of park
     leftMotors.move_voltage(8000);
@@ -202,11 +196,10 @@ void skills97() {
 	//pros::delay(500);
     midGoalState = 1;
 	chassis.turnToHeading(45, 1000, {}, true);
-    intakeState = 2;
-    pros::delay(100); //antijam time
+    intakeState = 2; // anti jam
+    pros::delay(125);
     intakeState = 1;
-    pros::delay(1400); //score time
-	pros::delay(600);
+    pros::delay(2350); // score
 	intakeState = 0;
 
     if(interrupt) {
@@ -232,7 +225,7 @@ void skills97() {
     chassis.distanceReset('R', 'F');
 
     //do third ml
-    chassis.moveDistance(17.5, 1000);
+    chassis.moveDistance(17, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -252,10 +245,10 @@ void skills97() {
 
     //go around long goal in alley
     chassis.moveToPose(60, 29, 0, 1000, {.forwards = false, .earlyExitRange = 5}); // booster by 1 x
-    chassis.moveToPoint(58, -28, 1500, {.forwards = false, .minSpeed = 127, .earlyExitRange = 5}); // booster by 1 x
+    chassis.moveToPoint(59, -28, 1500, {.forwards = false, .minSpeed = 118, .earlyExitRange = 5}); // booster by 1 x
 
     //move to long goal
-    chassis.moveToPoint(44.75, -45, 2000, {.forwards = false});
+    chassis.moveToPoint(46, -45, 2000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 60});
@@ -266,10 +259,10 @@ void skills97() {
     //score long goal
     intakeState = 3;
     intakeState = 1;
-    intakeState = 2;
-    pros::delay(200);
-    intakeState = 3;
-    pros::delay(2000);
+    intakeState = 2; // anti jam
+    pros::delay(125);
+    intakeState = 1;
+    pros::delay(2350); // score
     leftMotors.move(0);
     rightMotors.move(0);
     intakeState = 3;
@@ -304,10 +297,10 @@ void skills97() {
     rightMotors.move(-50);
     // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
     intakeState = 1;
-    intakeState = 2;
-    pros::delay(200);
-    intakeState = 3;
-    pros::delay(2000);
+    intakeState = 2; // anti jam
+    pros::delay(125);
+    intakeState = 1;
+    pros::delay(2350); // score
     leftMotors.move(0);
     rightMotors.move(0);
     scraperState = 0;
