@@ -131,7 +131,7 @@ void skills97() {
 
 
 	//move to park
-	chassis.moveToPose(-11, 63, 87, 2000, {.lead = 0.58},true); //curve to park zone
+	chassis.moveToPose(-11, 63, 87, 2000, {.lead = 0.58}, true); //curve to park zone
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
@@ -305,7 +305,6 @@ void skills97() {
 
     //score long
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 65});
-    chassis.distanceReset('L', 'F');
     leftMotors.move(-50);
     rightMotors.move(-50);
     // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true);
@@ -316,30 +315,58 @@ void skills97() {
     pros::delay(2350); // score
     leftMotors.move(0);
     rightMotors.move(0);
+    chassis.distanceReset('L', 'F');
     scraperState = 0;
 
     if(interrupt) {
         return;
     }
 
-    //park
-    chassis.moveToPose(13.5, -62.25, 267, 2000, {.lead = 0.58});
+    //move to park
+    chassis.moveToPose(11, -63.5, -87, 2000, {.lead = 0.58}, true); //curve to park zone
+    intakeState = 1;
     chassis.turnToHeading(270, 250);
     if(distBack.get_distance() / 25.4 >= 44) {
         chassis.moveDistance(2, 500);
     } 
-    //chassis.moveDistance(2, 1000, {.minSpeed = 40});
-    scraperState = 1;
-    intakeState = 1;
-    odomState = 1;
-	pros::delay(100);
-    chassis.sendVoltage(10000, 250);
-	scraperState = 0;
-	pros::delay(100);
-    //chassis.sendVoltage(9000,750); //prev 10000
+	odomState = 1; //odom up
+    pros::delay(100);
+	scraperState = 1; 
+	pros::delay(200);
+
+    //use scraper to push blocks
+	chassis.sendVoltage(6000, 400); //7500
+    scraperState = 0;
+	pros::delay(175);
+
+    //initial cross
     leftMotors.move_voltage(8000);
 	rightMotors.move_voltage(8400);
-    pros::delay(350);
+    pros::delay(500);
+
+	//pause in park zone
+    leftMotors.move_voltage(0);
+	rightMotors.move_voltage(0);
+    pros::delay(750);
+
+    // chassis.moveToPose(13.5, -62.25, 267, 2000, {.lead = 0.58});
+    // chassis.turnToHeading(270, 250);
+    // if(distBack.get_distance() / 25.4 >= 44) {
+    //     chassis.moveDistance(2, 500);
+    // } 
+    
+    // //chassis.moveDistance(2, 1000, {.minSpeed = 40});
+    // scraperState = 1;
+    // intakeState = 1;
+    // odomState = 1;
+	// pros::delay(100);
+    // chassis.sendVoltage(10000, 250);
+	// scraperState = 0;
+	// pros::delay(100);
+    // //chassis.sendVoltage(9000,750); //prev 10000
+    // leftMotors.move_voltage(8000);
+	// rightMotors.move_voltage(8400);
+    // pros::delay(350);
 
     if(interrupt) {
         return;
@@ -350,24 +377,24 @@ void skills97() {
     // pros::delay(1500);
     // chassis.sendVoltage(0, 10);
 
-    lemlib::Timer timer(500);
+    // lemlib::Timer timer(500);
 
-    while (!timer.isDone()) {
-        if (distBack.get_distance() / 25.4 >= 64 && distBack.get_distance() / 25.4 < 100 || distFrontRight.get_distance() / 25.4 <= 65 && distFrontRight.get_distance() / 25.4 >= 50) {
-            std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
-            std::cout<<"stopped\n";
-            leftMotors.move_voltage(0);
-			rightMotors.move_voltage(0);
-            timer.set(0);
-			break;
-        } else {
-			std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
-            leftMotors.move_voltage(8000); //prev 9500
-			rightMotors.move_voltage(8400); //prev 10000
-		}
-        pros::delay(10);
-    }  
-    chassis.sendVoltage(-6000, 250);
+    // while (!timer.isDone()) {
+    //     if (distBack.get_distance() / 25.4 >= 64 && distBack.get_distance() / 25.4 < 100 || distFrontRight.get_distance() / 25.4 <= 65 && distFrontRight.get_distance() / 25.4 >= 50) {
+    //         std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
+    //         std::cout<<"stopped\n";
+    //         leftMotors.move_voltage(0);
+	// 		rightMotors.move_voltage(0);
+    //         timer.set(0);
+	// 		break;
+    //     } else {
+	// 		std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
+    //         leftMotors.move_voltage(8000); //prev 9500
+	// 		rightMotors.move_voltage(8400); //prev 10000
+	// 	}
+    //     pros::delay(10);
+    // }  
+    // chassis.sendVoltage(-6000, 250);
 
 }
 

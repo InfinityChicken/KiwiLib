@@ -27,6 +27,15 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
+	// //initialize for final skills park reset in lg
+	// chassis.setPose(10, -10, 180);
+	// scraperState = 1;
+	// wingState = 1;
+	// pros::delay(1000);
+	// chassis.distanceReset('L', 'F');
+	// scraperState = 0;
+
+
 	skills97();
 	//SAWP();
 	//sevenBlockPushLeft();
