@@ -1,5 +1,6 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
+#include "lemlib/timer.hpp"
 #include "pros/distance.hpp"
 #include "main.h"
 #include "drivecode/util.hpp"
@@ -11,6 +12,7 @@ void skills97() {
     chassis.distanceReset('L', 'B');
 
     //intake first four blocks
+    wingState = 1;
     intakeState = 3;
     chassis.moveToPoint(-20.5, -27, 1500, {}, true);
     chassis.waitUntil(18.5);
@@ -20,7 +22,7 @@ void skills97() {
     //turn and move toward mid goal
     chassis.turnToHeading(-135, 1000);
     intakeState = 3;
-    chassis.moveToPoint(-6.7, -11.9, 1000, {.forwards = false, .minSpeed = 60}); //prev -8.5 -11.5
+    chassis.moveToPoint(-6.7, -11.9, 1000, {.forwards = false}); //prev -8.5 -11.5
     
     //score mid goal
     midGoalState = 1;
@@ -45,11 +47,11 @@ void skills97() {
     intakeState = 3;
 
     //move forward and turn in front of first ml
-    chassis.moveToPoint(-45.5, chassis.getPose().y, 1000);
+    chassis.moveToPoint(-45, chassis.getPose().y, 1000);
     chassis.turnToHeading(180, 1000);
 
     //do first ml
-    chassis.moveDistance(16.5, 1000, {.minSpeed = 30}); //prev 15, no minspeed
+    chassis.moveDistance(16, 1000, {.minSpeed = 30}); //prev 15, no minspeed
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -66,12 +68,12 @@ void skills97() {
     //go thru alley
     intakeState = 0;
     chassis.sendVoltage(6000,200);
-    chassis.moveToPose(-64, -30, 0, 1000, {.forwards = false, .earlyExitRange = 5});
-    chassis.moveToPoint(-58.25, 26, 2000, {.forwards = false, .minSpeed = 127, .earlyExitRange = 5});
+    chassis.moveToPose(-63.5, -28, 0, 1000, {.forwards = false, .minSpeed = 40, .earlyExitRange = 5});
+    chassis.moveToPoint(-58.25, 25, 2000, {.forwards = false, .minSpeed = 127});
     chassis.distanceReset('R', 'B');
     
     //exit alley and move into first long goal
-    chassis.moveToPoint(-49, 35, 1000, {.forwards = false});
+    chassis.moveToPoint(-49, 32, 1000, {.forwards = false});
     chassis.turnToHeading(0, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
     chassis.moveToPoint(-48, 25, 1000, {.forwards = false, .minSpeed = 60});
@@ -86,6 +88,7 @@ void skills97() {
     intakeState = 3;
     leftMotors.move(0);
     leftMotors.move(0);
+    chassis.turnToHeading(0, 500);
     chassis.distanceReset('L', 'F');
 
     if(interrupt) {
@@ -93,10 +96,10 @@ void skills97() {
     }
 
     //move to second ml
-    chassis.moveToPose(-46.5, 46, 0, 1000, {.minSpeed = 90, .earlyExitRange = 8});
+    chassis.moveToPose(-46, 46, 0, 1000, {.minSpeed = 90, .earlyExitRange = 8});
 
     //do second ml
-    chassis.moveDistance(15.5, 1000, {.minSpeed = 30}); //prev 18
+    chassis.moveDistance(13, 1000, {.minSpeed = 30}); //prev 18
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -108,7 +111,7 @@ void skills97() {
 
     //score long
     intakeState = 0;
-    chassis.moveToPoint(-46, 25, 1000, {.forwards = false, .maxSpeed = 65});
+    chassis.moveToPoint(-47, 25, 1000, {.forwards = false, .maxSpeed = 65});
     leftMotors.move(-50); //push into long goal
     rightMotors.move(-50);
     chassis.distanceReset('L', 'F');
@@ -128,7 +131,14 @@ void skills97() {
 
 
 	//move to park
-	chassis.moveToPose(-12, 65, 84, 2000, {.lead = 0.58}); //curve to park zone
+	chassis.moveToPose(-11, 63, 87, 2000, {.lead = 0.58},true); //curve to park zone
+    intakeState = 2; // anti jam
+    pros::delay(125);
+    intakeState = 1;
+    chassis.turnToHeading(90, 250);
+    if(distBack.get_distance() / 25.4 >= 44) {
+        chassis.moveDistance(2, 500);
+    } 
 	odomState = 1; //odom up
     pros::delay(100);
 	scraperState = 1; 
@@ -150,10 +160,10 @@ void skills97() {
 	rightMotors.move_voltage(0);
     pros::delay(750);
 
-    //go faster out of park
-    leftMotors.move_voltage(8000);
-	rightMotors.move_voltage(8400);
-    pros::delay(700);
+    //go slower out of park
+    leftMotors.move_voltage(7000);
+	rightMotors.move_voltage(7400);
+    pros::delay(800);
 
 	//cross and go to matchloader to intake all blocks
 	while (true) {
@@ -215,7 +225,7 @@ void skills97() {
 	//chassis.moveToPose(34.6, 46.7, 90, 2000, {.lead = 0.62});
 	chassis.turnToHeading(90, 1000, {.minSpeed = 30});
 	chassis.distanceReset('F', 'L');
-	chassis.moveToPoint(45.75, chassis.getPose().y, 1500, {}, true);
+	chassis.moveToPoint(47, chassis.getPose().y, 1500, {}, true);
 	pros::delay(500);
 	midGoalState = 0; //do states
 	intakeState = 3;
@@ -225,7 +235,7 @@ void skills97() {
     chassis.distanceReset('R', 'F');
 
     //do third ml
-    chassis.moveDistance(17, 1000);
+    chassis.moveDistance(15.75, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -244,11 +254,12 @@ void skills97() {
     }
 
     //go around long goal in alley
-    chassis.moveToPose(60, 29, 0, 1000, {.forwards = false, .earlyExitRange = 5}); // booster by 1 x
-    chassis.moveToPoint(59, -28, 1500, {.forwards = false, .minSpeed = 118, .earlyExitRange = 5}); // booster by 1 x
+    chassis.sendVoltage(-6000, 150);
+    chassis.moveToPose(60, 29, 0, 1000, {.forwards = false, .minSpeed = 40, .earlyExitRange = 5}); // booster by 1 x
+    chassis.moveToPoint(59, -28, 1500, {.forwards = false, .minSpeed = 127, .earlyExitRange = 5}); // booster by 1 x
 
     //move to long goal
-    chassis.moveToPoint(46, -45, 2000, {.forwards = false});
+    chassis.moveToPoint(47, -45, 2000, {.forwards = false});
     chassis.turnToHeading(180, 1000, {.direction = AngularDirection::CW_CLOCKWISE});
     chassis.distanceReset('L', 'F');
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .minSpeed = 60});
@@ -265,6 +276,8 @@ void skills97() {
     pros::delay(2350); // score
     leftMotors.move(0);
     rightMotors.move(0);
+    chassis.turnToHeading(180, 500);
+    chassis.distanceReset('L', 'F');
     intakeState = 3;
 
     if(interrupt) {
@@ -272,11 +285,11 @@ void skills97() {
     }
 
     //move to fourth ml
-    chassis.moveToPose(47.75, -45, 180, 1000, {.minSpeed = 90, .earlyExitRange = 8});
+    chassis.moveToPose(47, -45, 180, 1000, {.minSpeed = 90, .earlyExitRange = 8});
     //chassis.turnToHeading(180, 1000);
 
     //do fourth ml
-    chassis.moveDistance(19.25, 1000);
+    chassis.moveDistance(17, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -291,7 +304,7 @@ void skills97() {
     intakeState = 0;
 
     //score long
-    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 100});
+    chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 65});
     chassis.distanceReset('L', 'F');
     leftMotors.move(-50);
     rightMotors.move(-50);
@@ -310,17 +323,23 @@ void skills97() {
     }
 
     //park
-    chassis.moveToPose(14, -63, 263, 2000, {.lead = 0.55});
-    //chassis.turnToHeading(270, 1000);
-    //chassis.moveDistance(4, 1000, {.minSpeed = 40});
+    chassis.moveToPose(13.5, -62.25, 267, 2000, {.lead = 0.58});
+    chassis.turnToHeading(270, 250);
+    if(distBack.get_distance() / 25.4 >= 44) {
+        chassis.moveDistance(2, 500);
+    } 
+    //chassis.moveDistance(2, 1000, {.minSpeed = 40});
     scraperState = 1;
-    intakeState = 2;
+    intakeState = 1;
     odomState = 1;
 	pros::delay(100);
     chassis.sendVoltage(10000, 250);
 	scraperState = 0;
 	pros::delay(100);
-    chassis.sendVoltage(10000,500); //prev 10000
+    //chassis.sendVoltage(9000,750); //prev 10000
+    leftMotors.move_voltage(8000);
+	rightMotors.move_voltage(8400);
+    pros::delay(350);
 
     if(interrupt) {
         return;
@@ -331,18 +350,24 @@ void skills97() {
     // pros::delay(1500);
     // chassis.sendVoltage(0, 10);
 
-    while (true) {
-        if (distBack.get_distance() / 25.4 >= 64 && distBack.get_distance() / 25.4 < 100) {
+    lemlib::Timer timer(500);
+
+    while (!timer.isDone()) {
+        if (distBack.get_distance() / 25.4 >= 64 && distBack.get_distance() / 25.4 < 100 || distFrontRight.get_distance() / 25.4 <= 65 && distFrontRight.get_distance() / 25.4 >= 50) {
+            std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
+            std::cout<<"stopped\n";
             leftMotors.move_voltage(0);
 			rightMotors.move_voltage(0);
+            timer.set(0);
 			break;
         } else {
-			leftMotors.move_voltage(9000); //prev 9500
-			rightMotors.move_voltage(10000); //prev 10000
+			std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
+            leftMotors.move_voltage(8000); //prev 9500
+			rightMotors.move_voltage(8400); //prev 10000
 		}
         pros::delay(10);
     }  
-    chassis.sendVoltage(-8000, 250);
+    chassis.sendVoltage(-6000, 250);
 
 }
 
