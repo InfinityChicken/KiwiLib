@@ -7,6 +7,7 @@
 void sevenBlockLow();
 void sevenBlockMid();
 void SAWP();
+void counterSAWP();
 void sevenTwoBlock();
 void skills79();
 void skills97();
