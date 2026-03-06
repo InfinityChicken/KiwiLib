@@ -46,8 +46,10 @@ void updatePistons() {
         if (!midDescorePressed) {
             if(midDescoreState == 0) {
                 midDescoreState = 1;
+                midGoalState = 0;
             } else {
                 midDescoreState = 0;
+               
             }
         }
         midDescorePressed = true;
@@ -140,7 +142,7 @@ void runPistons() {
             midGoalDescore.set_value(true);
         }
 
-        // long trapdoor
+        // // long trapdoor
         // if(trapdoorState == 0) {
         //     trapdoor.set_value(false);
         // } else if (trapdoorState == 1) {

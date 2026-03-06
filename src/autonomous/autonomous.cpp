@@ -12,7 +12,7 @@ void skills97() {
     chassis.distanceReset('L', 'B');
 
     //intake first four blocks
-    wingState = 1;
+    wingState = 1;                    
     intakeState = 3;
     chassis.moveToPoint(-20.5, -27, 1500, {}, true);
     chassis.waitUntil(18.5);
@@ -51,7 +51,7 @@ void skills97() {
     chassis.turnToHeading(180, 1000);
 
     //do first ml
-    chassis.moveDistance(16, 1000, {.minSpeed = 30}); //prev 15, no minspeed
+    chassis.moveDistance(15.5, 1000, {.minSpeed = 30}); //prev 15, no minspeed
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -84,7 +84,7 @@ void skills97() {
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
-    pros::delay(2350); // score
+    pros::delay(1750); // score //prev 2350 scoring 
     intakeState = 3;
     leftMotors.move(0);
     leftMotors.move(0);
@@ -99,7 +99,7 @@ void skills97() {
     chassis.moveToPose(-46, 46, 0, 1000, {.minSpeed = 90, .earlyExitRange = 8});
 
     //do second ml
-    chassis.moveDistance(13, 1000, {.minSpeed = 30}); //prev 18
+    chassis.moveDistance(13.5, 1000, {.minSpeed = 30}); //prev 18
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -118,7 +118,7 @@ void skills97() {
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
-    pros::delay(2350); // score
+    pros::delay(1750); // score previously 2350
     leftMotors.move(0);
     leftMotors.move(0);
     scraperState = 0;
@@ -273,7 +273,7 @@ void skills97() {
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
-    pros::delay(2350); // score
+    pros::delay(1750); // score //previously 2350
     leftMotors.move(0);
     rightMotors.move(0);
     chassis.turnToHeading(180, 500);
@@ -289,7 +289,7 @@ void skills97() {
     //chassis.turnToHeading(180, 1000);
 
     //do fourth ml
-    chassis.moveDistance(17, 1000);
+    chassis.moveDistance(16.5, 1000);
     pros::delay(750);
     intakeState = 2;
     pros::delay(100);
@@ -312,7 +312,7 @@ void skills97() {
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
-    pros::delay(2350); // score
+    pros::delay(1700); // score //previously 2350
     leftMotors.move(0);
     rightMotors.move(0);
     chassis.distanceReset('L', 'F');
@@ -330,19 +330,19 @@ void skills97() {
         chassis.moveDistance(2, 500);
     } 
 	odomState = 1; //odom up
-    pros::delay(100);
+    pros::delay(10);
 	scraperState = 1; 
 	pros::delay(200);
 
     //use scraper to push blocks
-	chassis.sendVoltage(6000, 400); //7500
+	chassis.sendVoltage(6000, 420); //7500
     scraperState = 0;
 	pros::delay(175);
 
     //initial cross
     leftMotors.move_voltage(8000);
-	rightMotors.move_voltage(8400);
-    pros::delay(500);
+	rightMotors.move_voltage(8200);
+    pros::delay(650);
 
 	//pause in park zone
     leftMotors.move_voltage(0);
