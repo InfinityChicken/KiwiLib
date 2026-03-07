@@ -42,11 +42,11 @@ void autonomous() {
 	// pros::delay(1000);
 	// chassis.distanceReset('L', 'F');
 	// scraperState = 0;
-	
 
-	//skills97();
+
+	skills97();
 	//SAWP();
-	sevenBlockPushLeft();
+	//sevenBlockPushLeft();
 	//sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
