@@ -44,14 +44,14 @@ void autonomous() {
 	// scraperState = 0;
 	
 
-	//skills97();
+	skills97();
 	//SAWP();
 	//sevenBlockPushLeft();
 	//sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
 	//leftSplitPush();
-	counterSAWP();
+	// counterSAWP();
 }
 
 void opcontrol() {
