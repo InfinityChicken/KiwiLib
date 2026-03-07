@@ -5,7 +5,6 @@
 #include "main.h"
 #include "drivecode/util.hpp"
 
-
 void skills97() {
     //beginning dist reset
     chassis.setPose(-1, -1, 0);
@@ -176,7 +175,7 @@ void skills97() {
 	//pause in park zone
     leftMotors.move_voltage(0);
 	rightMotors.move_voltage(0);
-    pros::delay(750);
+    pros::delay(850); //TODO: prev 750
 
     //go slower out of park
     leftMotors.move_voltage(7000);
@@ -718,8 +717,6 @@ void counterSAWP() {
     scraperState = 1;
     wingState = 1;
     chassis.moveToPoint(49, chassis.getPose().y, 1000);
-    //chassis.moveDistance(29, 1000); //prev 31.25
-
     chassis.turnToHeading(180, 1000);
 
     //reset pose
@@ -741,31 +738,22 @@ void counterSAWP() {
     intakeState = 2;
     pros::delay(50);
     intakeState = 1;
-    pros::delay(700);
+    pros::delay(650);
     chassis.distanceReset('L', 'F');
     scraperState = 0; 
 
     //turn out right
-    //chassis.turnToPoint(24, -23, 1000); //theta: 294
     chassis.sendVoltage(4000, 150);
     chassis.turnToHeading(285, 1500);
-    // chassis.sendVoltage(4000, 100); //sometimes hits long goal increase and tune, prev 250
-    // chassis.swingToPoint(24, -23, lemlib::DriveSide::RIGHT, 1000); //prev -23
     intakeState = 3;
     chassis.distanceReset('B', 'L');
 
     //chain to first mid blocks
     chassis.moveToPoint(24.6, -20.6, 1000, {.minSpeed = 60}, true); //prev 23.5
-    //chassis.moveToPoint(27.27, -21.41, 1000, {.minSpeed = 60}, true); //prev 23.5
-    //chassis.moveDistance(13, 1000);
     chassis.waitUntil(10.5);
-    //scraperState = 1;
     
     //chain to second mid blocks
-    // chassis.turnToHeading(-90, 1000);
-    // chassis.moveDistance(32, 2000, {}, true);
     chassis.turnToPoint(-25.8, -22, 1000, {.minSpeed = 60});
-    //scraperState = 0;
     chassis.moveToPoint(-24, -22, 1500, {.minSpeed = 60}, true);
     chassis.waitUntil(30);
     scraperState = 1;
@@ -773,35 +761,30 @@ void counterSAWP() {
     scraperState = 0;
 
     //chain to long goal
-    chassis.turnToHeading(-135, 250);
-    // chassis.moveDistance(34, 1000);
-    // chassis.turnToHeading(180, 1000);
-    //chassis.moveToPose(-49, -50 , 180, 2000, {.lead = 0.2});
-    chassis.moveToPoint(-45, -40, 1000);
-    //chassis.distanceReset('R', 'F');
+    chassis.turnToHeading(-135, 1000);
+    chassis.moveToPoint(-48, -36, 2000);
+    chassis.turnToHeading(180, 1000);
+    chassis.distanceReset('R', 'F');
 
     //score long
-    chassis.moveToPose(-50.74, -25, 180, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(-46, -27, 1000, {.forwards = false, .minSpeed = 60});
     leftMotors.move(-50); //push into goal
     rightMotors.move(-50);
     intakeState = 2;
     pros::delay(50);
     intakeState = 1;
     scraperState = 1;
-    pros::delay(700);
+    pros::delay(650);
 
     //do ml
     chassis.turnToHeading(180, 500);
     chassis.distanceReset('R', 'F');
     intakeState = 3;
-    chassis.moveToPose(-48, -55, 180, 1250, {.minSpeed = 50});
-    //chassis.moveDistance(26, 1250, {.minSpeed = 30});
-    chassis.moveDistance(8, 500);
-    // chassis.moveToPose(-48, -63, 180, 1000, {.minSpeed = 30});
-    //chassis.moveDistance(18, 1000, {.minSpeed = 30});
-    pros::delay(25);
+    chassis.moveToPoint(-48.5, -58, 1500);
+    pros::delay(200);
 
     //go to mid goal and score
+    chassis.turnToHeading(180, 500);
     chassis.moveDistance(-12.5, 1000, {.forwards = false});
     chassis.distanceReset('R', 'F');
     midGoalState = 1;
