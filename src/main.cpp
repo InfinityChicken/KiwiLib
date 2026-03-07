@@ -46,12 +46,12 @@ void autonomous() {
 
 	//skills97();
 	//SAWP();
-	//sevenBlockPushLeft();
+	sevenBlockPushLeft();
 	//sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
 	//leftSplitPush();
-	counterSAWP();
+	//counterSAWP();
 }
 
 void opcontrol() {

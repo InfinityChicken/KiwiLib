@@ -450,7 +450,7 @@ void sevenBlockPushLeft(){
     chassis.moveToPose(-45, -46.5, 180, 1500, {.lead = 0.2});
     chassis.waitUntilDone();
     chassis.distanceReset('R', 'F');
-    chassis.moveDistance(16, 1000);
+    chassis.moveDistance(16.5, 1000);
     pros::delay(350);
     intakeState = 0;
 
