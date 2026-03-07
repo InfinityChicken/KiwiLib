@@ -35,15 +35,23 @@ void autonomous() {
 	// chassis.distanceReset('L', 'F');
 	// scraperState = 0;
 
+	// //initialize for first skills park reset in lg
+	// chassis.setPose(-10, 10, 0);
+	// scraperState = 1;
+	// wingState = 1;
+	// pros::delay(1000);
+	// chassis.distanceReset('L', 'F');
+	// scraperState = 0;
+	
 
-	skills97();
+	//skills97();
 	//SAWP();
 	//sevenBlockPushLeft();
 	//sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
 	//leftSplitPush();
-	//counterSAWP();
+	counterSAWP();
 }
 
 void opcontrol() {

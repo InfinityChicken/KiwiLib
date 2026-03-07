@@ -24,7 +24,7 @@ void runIntake() {
                 bottomIntake.move_voltage(12000);
 
                 if(midGoalState == 1) {
-                    topIntake.move_voltage(12000 * 0.6);
+                    topIntake.move_voltage(12000 * 0.65);
                 } else {
                     topIntake.move_voltage(12000);
                 }

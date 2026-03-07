@@ -7,12 +7,154 @@
 
 //motor settings
 bool interrupt = false;
+int macroState = 0;
+bool macroPressed = false;
 
-void interruptSkills() {
+void skillsMacro() {
     while(true) {
-        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-            interrupt = true;
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+        if (!macroPressed) {
+            switch(macroState) {
+                case 0: {
+                    //run first macro - first park
+                    //initialize for first skills park reset in lg
+                    chassis.setPose(-10, 10, 0);
+                    scraperState = 1;
+                    wingState = 1;
+                    pros::delay(1000);
+                    chassis.distanceReset('L', 'F');
+                    scraperState = 0;
+
+                    //move to park
+                    chassis.moveToPose(-24, 63.25, 82, 2000, {.lead = 0.48}, true);    intakeState = 2; // anti jam
+                    pros::delay(125);
+                    intakeState = 1;
+                    chassis.waitUntilDone();
+                    while(true) {
+                        if(distBack.get_distance() / 25.4 >= 41.5) {
+                            leftMotors.move_voltage(0);
+                            rightMotors.move_voltage(0);
+                            break;
+                        } else {
+                            leftMotors.move_voltage(5000);
+                            rightMotors.move_voltage(6000);
+                            scraperState = 0;
+                        }
+                        pros::delay(10);
+                    }
+                    chassis.turnToHeading(90, 250);
+                    odomState = 1; //odom up
+                    pros::delay(100);
+                    scraperState = 1; 
+                    pros::delay(200);
+
+                    //use scraper to push blocks
+                    chassis.sendVoltage(6000, 400); //7500
+                    scraperState = 0;
+                    intakeState = 3;
+                    pros::delay(175);
+
+                    //initial cross
+                    leftMotors.move_voltage(8000);
+                    rightMotors.move_voltage(8400);
+                    pros::delay(425);
+
+                    //pause in park zone
+                    leftMotors.move_voltage(0);
+                    rightMotors.move_voltage(0);
+                    pros::delay(750);
+
+                    //go slower out of park
+                    leftMotors.move_voltage(7000);
+                    rightMotors.move_voltage(7400);
+                    pros::delay(800);
+
+                    //cross and go to matchloader to intake all blocks
+                    while (true) {
+                        if (distFrontRight.get_distance() / 25.4 <= 35) {
+                            leftMotors.move_voltage(0);
+                            rightMotors.move_voltage(0);
+                            break;
+                        } else {
+                            leftMotors.move_voltage(4500);
+                            rightMotors.move_voltage(4700); //prev 10000
+                        }
+                        pros::delay(10);
+                    } 
+                    pros::delay(300);
+
+                    break;
+                }
+                case 1: {
+                    //run second macro - score mid
+                }
+                case 2: {
+                    //run third macro - second park
+                    //initialize for final skills park reset in lg
+                    chassis.setPose(10, -10, 180);
+                    scraperState = 1;
+                    wingState = 1;
+                    pros::delay(1000);
+                    chassis.distanceReset('L', 'F');
+                    scraperState = 0;
+
+                    //move to park
+                    chassis.moveToPose(24, -63.25, -98, 2000, {.lead = 0.4}, true);    intakeState = 2; // anti jam
+                    pros::delay(125);
+                    chassis.waitUntilDone();
+                    while(true) {
+                        if(distBack.get_distance() / 25.4 >= 41) {
+                            leftMotors.move_voltage(0);
+                            rightMotors.move_voltage(0);
+                            break;
+                        } else {
+                            leftMotors.move_voltage(5000);
+                            rightMotors.move_voltage(6000);
+                            scraperState = 0;
+                        }
+                        pros::delay(10);
+                    }
+                    chassis.turnToHeading(270, 250);
+                    intakeState = 2;
+                    odomState = 1; //odom up
+                    pros::delay(100);
+                    scraperState = 1; 
+                    pros::delay(200);
+
+                    //use scraper to push blocks
+                    chassis.sendVoltage(6000, 400); //7500
+                    scraperState = 0;
+                    pros::delay(175);
+
+                    //initial cross
+                    leftMotors.move_voltage(8000);
+                    rightMotors.move_voltage(8400);
+                    pros::delay(250);
+
+                    while (true) {
+                        if (distBack.get_distance() / 25.4 >= 62 && distBack.get_distance() / 25.4 < 100 || distFrontRight.get_distance() / 25.4 <= 67 && distFrontRight.get_distance() / 25.4 >= 50) {
+                            std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
+                            std::cout<<"stopped\n";
+                            leftMotors.move_voltage(0);
+                            rightMotors.move_voltage(0);
+                            break;
+                        } else {
+                            std::cout<<"back: "<<distBack.get_distance() / 25.4<<"     front: "<<distFrontRight.get_distance() / 25.4<<"\n";
+                            leftMotors.move_voltage(9500); //prev 9500
+                            rightMotors.move_voltage(11000); //prev 10000
+                        }
+                        pros::delay(10);
+                    }  
+                    chassis.sendVoltage(-6000, 250);
+                }
+            }
+            macroState++;
         }
+        macroPressed = true;
+    } else {
+        macroPressed = false;
+    }
+        pros::delay(10);
     }
 }
 
@@ -33,7 +175,7 @@ void taskInit() {
     // pros::Task controllerTask(runController, "controller task");
     // pros::Task autoScoreTask(runAutoScore, "autoscore task");
     // pros::Task consoleTask(runConsole, "console task");
-    // pros::Task interruptTask(interruptSkills, "interrupt task");
+    // pros::Task interruptTask(skillsMacro, "skills task");
 }
 
 //brain task

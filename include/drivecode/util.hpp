@@ -24,3 +24,4 @@ void runConsole();
 void runController();
 
 extern bool interrupt;
+extern int macroState;
