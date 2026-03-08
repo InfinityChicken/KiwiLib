@@ -43,6 +43,18 @@ void runIntake() {
                 bottomIntake.move_voltage(12000); // hi aakanksh tune left motor speed here
                 break;
             }
+
+            case 4: { //slower scoring
+                topIntake.move_voltage(12000 * 0.65);
+                bottomIntake.move_voltage(12000);
+                break;
+            }
+
+            case 5: { //faster mid goal scoring
+                topIntake.move_voltage(12000 * 0.7);
+                bottomIntake.move_voltage(12000);
+                break;
+            }
         }
 
         pros::delay(10);
