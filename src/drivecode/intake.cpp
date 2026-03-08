@@ -84,9 +84,9 @@ void updateIntake() {
             intakeState = 2;
             pros::delay(100);
         }
-        intakeState = 1;
+        intakeState = 4;
         scoringPressed = true;
-    } else if (intakeState == 1) {
+    } else if (intakeState == 4) {
         intakeState = 0;
         scoringPressed = false;
     }

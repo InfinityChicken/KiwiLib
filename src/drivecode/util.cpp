@@ -18,7 +18,7 @@ void skillsMacro() {
             midGoalState = 1;
             intakeState = 2; // anti jam
             pros::delay(125);
-            intakeState = 5;
+            intakeState = 1;
             pros::delay(2350); // score
             intakeState = 0;
 

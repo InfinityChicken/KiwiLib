@@ -65,9 +65,10 @@ void skills97() {
     }
 
     //go thru alley
-    intakeState = 0;
+    //intakeState = 0;
     chassis.sendVoltage(6000,200);
     chassis.moveToPose(-63.5, -28, 0, 1000, {.forwards = false, .minSpeed = 40, .earlyExitRange = 5});
+    scraperState = 0;
     chassis.moveToPoint(-58.25, 25, 2000, {.forwards = false, .minSpeed = 127});
     chassis.distanceReset('R', 'B');
     
@@ -80,6 +81,7 @@ void skills97() {
     rightMotors.move(-50);
 
     //score long
+    scraperState = 1;
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
@@ -110,6 +112,7 @@ void skills97() {
 
     //score long
     intakeState = 0;
+    //chassis.moveToPose(-48, 24, 0, 1000, {.forwards = false, .maxSpeed = 80}); //risky change
     chassis.moveToPoint(-47, 25, 1000, {.forwards = false, .maxSpeed = 65});
     // leftMotors.move(-50); //push into long goal
     // rightMotors.move(-50);
@@ -198,7 +201,7 @@ void skills97() {
 	pros::delay(300);
 
 	//back up from ml
-	chassis.moveDistance(-14.5, 1000, {.forwards = false});
+	chassis.moveDistance(-16, 1000, {.forwards = false});
     odomState = 0;
 
     if(interrupt) {
@@ -237,6 +240,7 @@ void skills97() {
 	//veryyyy slowly go out
 	chassis.moveDistance(3, 1000, {.maxSpeed = 10});
 	chassis.moveDistance(-3, 1000, {.maxSpeed = 5});
+
 	//go to third matchloader
 	scraperState = 1;
 	chassis.moveDistance(38, 2000, {.minSpeed = 80, .earlyExitRange = 5});
@@ -265,7 +269,7 @@ void skills97() {
     // pros::delay(400);
     chassis.sendVoltage(-6000, 100);
     chassis.sendVoltage(4000, 1000);
-    intakeState = 0;
+    //intakeState = 0;
     
     if(interrupt) {
         return;
@@ -274,6 +278,7 @@ void skills97() {
     //go around long goal in alley
     chassis.sendVoltage(-6000, 150);
     chassis.moveToPose(60, 29, 0, 1000, {.forwards = false, .minSpeed = 40, .earlyExitRange = 5}); // booster by 1 x
+    scraperState = 0;
     chassis.moveToPoint(59, -28, 1500, {.forwards = false, .minSpeed = 127}); // booster by 1 x
 
     //move to long goal
@@ -286,8 +291,7 @@ void skills97() {
     // chassis.moveToPoint(48, -20, 1000, {.forwards = false, .maxSpeed = 60}, true); //make sure the bot keeps pushing forward to actually align
 
     //score long goal
-    intakeState = 3;
-    intakeState = 1;
+    scraperState = 1;
     intakeState = 2; // anti jam
     pros::delay(125);
     intakeState = 1;
@@ -322,6 +326,7 @@ void skills97() {
     intakeState = 0;
 
     //score long
+    //chassis.moveToPose(48, -25, 180, 1000, {.forwards = false, .maxSpeed = 80}); //risky change
     chassis.moveToPoint(48, -25, 1000, {.forwards = false, .maxSpeed = 65});
     leftMotors.move(-50);
     rightMotors.move(-50);
@@ -775,6 +780,7 @@ void counterSAWP() {
     chassis.moveToPoint(-46, -27, 1000, {.forwards = false, .minSpeed = 100});
     leftMotors.move(-50); //push into goal
     rightMotors.move(-50);
+    chassis.turnToHeading(180, 500, {}, true);
     intakeState = 2;
     pros::delay(50);
     intakeState = 1;
@@ -782,7 +788,6 @@ void counterSAWP() {
     pros::delay(650);
 
     //do ml
-    chassis.turnToHeading(180, 250);
     chassis.distanceReset('R', 'F');
     intakeState = 3;
     chassis.moveDistance(32, 1000, {.minSpeed = 30});
