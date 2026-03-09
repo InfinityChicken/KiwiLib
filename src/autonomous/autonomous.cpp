@@ -456,7 +456,7 @@ void sevenBlockPushLeft(){
     chassis.waitUntilDone();
     chassis.distanceReset('R', 'F');
     chassis.moveDistance(16.5, 1000);
-    pros::delay(350);
+    pros::delay(150);
     intakeState = 0;
 
     //back into long goal and score
@@ -477,7 +477,7 @@ void sevenBlockPushLeft(){
     pros::delay(40);
     intakeState = 0;
     chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-35, -8, 1000, {.forwards = false, .maxSpeed = 100});
+    chassis.moveToPoint(-35, -10, 1000, {.forwards = false, .maxSpeed = 100});
     // chassis.moveDistance(33, 1000, {.forwards = false});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
@@ -567,7 +567,7 @@ void leftSplitPush() {
     //go into matchloader
     intakeState = 3;
     chassis.moveDistance(13.5, 1000);
-    pros::delay(40);
+    pros::delay(15);
     
     //do long goal
     chassis.turnToHeading(180, 250);
@@ -605,22 +605,22 @@ void leftSplitPush() {
     intakeState = 1;
     pros::delay(950);
 
-    // //push mid with descore
-    // chassis.moveDistance(7, 1000, {}, true);
-    // chassis.waitUntil(4);
-    // midDescoreState = 1;
-    // chassis.moveDistance(-4, 1000, {.forwards = false});
+    //push mid with descore
+    chassis.moveDistance(11, 1000);
+    //chassis.waitUntil(4);
+    midDescoreState = 1;
+    chassis.moveDistance(-7, 1000, {.forwards = false});
 
-    //go to wing position and wing
-    chassis.moveToPoint(-33.5, -36, 1000, {}, true);
-    midDescoreState = 0;
-    intakeState = 2;
-    wingState = 0;
-    pros::delay(40);
-    intakeState = 0;
-    //chassis.turnToHeading(180, 1000);
-    chassis.turnToPoint(-36.5, -13.7, 1000, {.forwards = false});
-    chassis.moveToPoint(-36.5, -13.7, 1000, {.forwards = false, .maxSpeed = 80});
+    // //go to wing position and wing
+    // chassis.moveToPoint(-33.5, -36, 1000, {}, true);
+    // midDescoreState = 0;
+    // intakeState = 2;
+    // wingState = 0;
+    // pros::delay(40);
+    // intakeState = 0;
+    // //chassis.turnToHeading(180, 1000);
+    // chassis.turnToPoint(-36.5, -13.7, 1000, {.forwards = false});
+    // chassis.moveToPoint(-36.5, -13.7, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
