@@ -9,20 +9,20 @@
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "pros/rtos.hpp"
 
-/* //TODO: removed
-const float lemlib::DistanceSensors::width = 140.5;
 
-lemlib::DistanceSensors::DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
-                                        float frontOffset, float backOffset, float leftOffset, float rightOffset)
-                        : front(front),
-                          back(back),
-                          left(left),
-                          right(right),
-                          frontOffset(frontOffset),
-                          backOffset(backOffset),
-                          leftOffset(leftOffset),
-                          rightOffset(rightOffset) {}
-*/
+//const float lemlib::DistanceSensors::width = 140.5;
+
+lemlib::DistanceSensors::DistanceSensors(pros::Distance frontLeft, float frontLeftOffsetX, float frontLeftOffsetY,
+                                        pros::Distance frontRight, float frontRightOffsetX, float frontRightOffsetY,
+                                        pros::Distance back, float backOffsetX, float backOffsetY,  
+                                        pros::Distance left, float leftOffsetX, float leftOffsetY, 
+                                        pros::Distance right, float rightOffsetX, float rightOffsetY)
+                        : frontLeft(frontLeft, frontLeftOffsetX, frontLeftOffsetY),
+                          frontRight(frontRight, frontRightOffsetX, frontRightOffsetY),
+                          back(back, backOffsetX, backOffsetY),
+                          left(left, leftOffsetX, leftOffsetY),
+                          right(right, rightOffsetX, rightOffsetY) {}
+
 
 
 lemlib::OdomSensors::OdomSensors(TrackingWheel* vertical1, TrackingWheel* vertical2, TrackingWheel* horizontal1,
@@ -42,26 +42,17 @@ lemlib::Drivetrain::Drivetrain(pros::MotorGroup* leftMotors, pros::MotorGroup* r
       rpm(rpm),
       horizontalDrift(horizontalDrift) {}
 
-lemlib::Chassis::Chassis(Drivetrain drivetrain,
-                         OdomSensors sensors, DriveCurve* throttleCurve, DriveCurve* steerCurve,
-                         ControllerSettings linearSettings1, ControllerSettings angularSettings1,
-                         ControllerSettings linearSettings2, ControllerSettings angularSettings2,
-                         ControllerSettings linearSettings3, ControllerSettings angularSettings3,
-                         ControllerSettings linearSettings4, ControllerSettings angularSettings4)
+lemlib::Chassis::Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
+                         OdomSensors sensors, DistanceSensors distSensors, DriveCurve* throttleCurve, DriveCurve* steerCurve)
     : drivetrain(drivetrain),
-      lateralSettings(linearSettings1), //todo: add separate lateral and angular settings? check if its only used for slew
-      angularSettings(angularSettings1),
+      lateralSettings(linearSettings),
+      angularSettings(angularSettings),
       sensors(sensors),
+      distSensors(distSensors),
       throttleCurve(throttleCurve),
       steerCurve(steerCurve),
-      lateralPID1(linearSettings1.kP, linearSettings1.kI, linearSettings1.kD, linearSettings1.windupRange, true),
-      lateralPID2(linearSettings2.kP, linearSettings2.kI, linearSettings2.kD, linearSettings2.windupRange, true),
-      lateralPID3(linearSettings3.kP, linearSettings3.kI, linearSettings3.kD, linearSettings3.windupRange, true),
-      lateralPID4(linearSettings1.kP, linearSettings1.kI, linearSettings1.kD, linearSettings1.windupRange, true),
-      angularPID1(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
-      angularPID2(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
-      angularPID3(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
-      angularPID4(angularSettings1.kP, angularSettings1.kI, angularSettings1.kD, angularSettings1.windupRange, true),
+      lateralPID(linearSettings.kP, linearSettings.kI, linearSettings.kD, linearSettings.windupRange, true),
+      angularPID(angularSettings.kP, angularSettings.kI, angularSettings.kD, angularSettings.windupRange, true),
       lateralLargeExit(lateralSettings.largeError, lateralSettings.largeErrorTimeout),
       lateralSmallExit(lateralSettings.smallError, lateralSettings.smallErrorTimeout),
       angularLargeExit(angularSettings.largeError, angularSettings.largeErrorTimeout),
@@ -135,6 +126,18 @@ void lemlib::Chassis::waitUntil(float dist) {
     // do while to give the thread time to start
     do pros::delay(10);
     while (distTraveled <= dist && distTraveled != -1);
+}
+
+void lemlib::Chassis::waitUntilWithin(float dist, float x, float y) {
+    lemlib::Pose target(x, y);
+    float distTarget = this->getPose().distance(target);
+
+    while(distTarget > dist) {
+        distTarget = this->getPose().distance(target);
+        pros::delay(10);
+    }
+
+    return;
 }
 
 void lemlib::Chassis::waitUntilDone() {

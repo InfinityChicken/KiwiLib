@@ -24,7 +24,7 @@ float lemlib::refAngle(bool rad, float angle) {
         } else if (angle > M_PI && angle <= 3 * M_PI_2) {
             return angle - M_PI;
         } else if (angle > 3 * M_PI_2 && angle <= 2 * M_PI) {
-            return 2 * M_PI_2 - angle;
+            return 2 * M_PI - angle;
         }
     }
 

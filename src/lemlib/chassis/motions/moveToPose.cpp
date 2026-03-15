@@ -6,34 +6,6 @@
 #include "pros/misc.hpp"
 
 void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, MoveToPoseParams params, bool async) {
-    //pointers to pids
-    PID* activeLateral;
-    PID* activeAngular;
-
-    //inital errors to determine what to use
-    float initialLateralError = fabs(getPose().distance(Pose(x,y)) * cos(angleError(getPose().theta, getPose().angle(Pose(x,y)))));
-    float initialAngularError = fabs(angleError(params.forwards ? getPose().theta : getPose().theta + M_PI, getPose().angle(Pose(x,y)))); //todo: this might not be the right condition
-    
-    //assign reference of lateral pid to pointer
-    if(initialLateralError<12)
-        activeLateral = &lateralPID1;
-    else if(initialLateralError<24)
-        activeLateral = &lateralPID2;
-    else if(initialLateralError<36) //todo: tune these distances
-        activeLateral = &lateralPID3;
-    else  
-        activeLateral = &lateralPID4;
-
-     //assign reference of angular pid to pointer
-    if(initialAngularError<45)
-        activeAngular = &angularPID1;
-    else if(initialAngularError<90)
-        activeAngular = &angularPID2;
-    else if(initialAngularError<180) //todo: tune these angles
-        activeAngular = &angularPID3;
-    else 
-        activeAngular = &angularPID4;
-
     // take the mutex
     this->requestMotionStart();
     // were all motions cancelled?
@@ -46,12 +18,11 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         return;
     }
 
-    //todo: add conditions for diff angles and distances
     // reset PIDs and exit conditions
-    activeLateral->reset();
+    lateralPID.reset();
     lateralLargeExit.reset();
     lateralSmallExit.reset();
-    activeAngular->reset();
+    angularPID.reset();
     angularLargeExit.reset();
     angularSmallExit.reset();
 
@@ -127,10 +98,9 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         angularSmallExit.update(radToDeg(angularError));
         angularLargeExit.update(radToDeg(angularError));
 
-        //todo: add conditions for diff angles and distances
         // get output from PIDs
-        float lateralOut = activeLateral->update(lateralError);
-        float angularOut = activeAngular->update(radToDeg(angularError));
+        float lateralOut = lateralPID.update(lateralError, true);
+        float angularOut = angularPID.update(radToDeg(angularError), false);
 
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
@@ -144,7 +114,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // constrain lateral output by the max speed it can travel at without
         // slipping
         const float radius = 1 / fabs(getCurvature(pose, carrot));
-        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius * 9.8));
+        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
         lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         // prioritize angular movement over lateral movement
         const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;

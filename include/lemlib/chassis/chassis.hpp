@@ -13,25 +13,40 @@
 namespace lemlib {
 
 //field width measurements
-static const float width = 140.5;
+static const float width = 141;
 static const float halfWidth = width / 2;
 
-/** //TODO: removed
+struct DistResetSensors {
+        /**
+         * @param distance stores distance sensor
+         * @param offsetX offset of dist sensor from projected plane of center (dist from the center of the side it is on) in inches
+         * @param offsetY offset of plane of dist sensor from center of robot in inches
+        **/
+
+        pros::Distance distance;
+        float offsetX; //offset of dist sensor from projected plane of center (dist from the center of the side it is on) in inches
+        float offsetY; //offset of plane of dist sensor from center of robot in inches
+        
+        DistResetSensors(pros::Distance dist, float x, float y) 
+                : distance(dist), offsetX(x), offsetY(y) {}
+
+};
+
+
 class DistanceSensors {
     public: 
-        DistanceSensors(pros::Distance front, pros::Distance back, pros::Distance left, pros::Distance right,
-                        float frontOffset, float backOffset, float leftOffset, float rightOffset);
-        pros::Distance front;
-        pros::Distance back;
-        pros::Distance left;
-        pros::Distance right;
-        float frontOffset;
-        float backOffset;
-        float leftOffset;
-        float rightOffset;
-        static const float width;
+        DistanceSensors(pros::Distance frontLeft, float frontLeftOffsetX, float frontLeftOffsetY, 
+                        pros::Distance frontRight, float frontRightOffsetX, float frontRightOffsetY,
+                        pros::Distance back, float backOffsetX, float backOffsetY, 
+                        pros::Distance left, float leftOffsetX, float leftOffsetY, 
+                        pros::Distance right, float rightOffsetX, float rightOffsetY);
+        DistResetSensors frontLeft;
+        DistResetSensors frontRight;
+        DistResetSensors back;
+        DistResetSensors left;
+        DistResetSensors right;
 };
-*/
+
 
 /**
  * @brief class containing the sensors used for odometry
@@ -357,7 +372,7 @@ class Chassis {
          * @brief Chassis constructor
          *
          * @param drivetrain drivetrain to be used for the chassis
-         * @param lateralSettings settings for the lateral controller //todo: add separate lateral/angular settings?
+         * @param lateralSettings settings for the lateral controller
          * @param angularSettings settings for the angular controller
          * @param sensors sensors to be used for odometry
          * @param throttleCurve curve applied to throttle input during driver control
@@ -365,17 +380,9 @@ class Chassis {
          *
          * @example main.cpp
          */
-        Chassis(Drivetrain drivetrain,
-                OdomSensors sensors, DriveCurve* throttleCurve = &defaultDriveCurve,
-                DriveCurve* steerCurve = &defaultDriveCurve, 
-                ControllerSettings linearSettings1 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings1 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5),
-                ControllerSettings linearSettings2 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings2 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5),
-                ControllerSettings linearSettings3 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings3 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5),
-                ControllerSettings linearSettings4 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5), 
-                ControllerSettings angularSettings4 = lemlib::ControllerSettings(10, 0, 3, 3, 1, 100, 3, 500, 5));
+        Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
+                OdomSensors sensors, DistanceSensors distSensors, DriveCurve* throttleCurve = &defaultDriveCurve,
+                DriveCurve* steerCurve = &defaultDriveCurve);
         /**
          * @brief Calibrate the chassis sensors. THis should be called in the initialize function
          *
@@ -482,6 +489,9 @@ class Chassis {
          * @endcode
          */
         void waitUntil(float dist);
+
+        void waitUntilWithin(float dist, float x, float y);
+
         /**
          * @brief Wait until the robot has completed the path
          *
@@ -721,6 +731,10 @@ class Chassis {
          */
         void moveDistance(float dist, int timeout, MoveToPointParams params = {}, bool async = false);
         /**
+         * @brief im too lazy to write this one chat
+         */
+        void moveUntilDistance(float exitDist, float x, float y, float timeout, MoveToPointParams = {});
+        /**
          * @brief Send in a constant voltage to the chassis
          *
          * @param voltage voltage to send, in millivolts
@@ -924,10 +938,11 @@ class Chassis {
         /**
          * @brief Distance sensor resets.
          *
-         * @param q The quadrant the robot is in, given (0,0) is at the center of the field and
-         * the bottom of the graph is located at the skills starting wall. 
+         * 
          */
-        void distanceReset(pros::Distance xSensor, pros::Distance ySensor, float xOffset, float yOffset);
+        void distanceReset(char xDirection, char yDirection);
+
+        DistanceSensors distSensors;
 
         /**
          * PIDs are exposed so advanced users can implement things like gain scheduling
@@ -935,20 +950,14 @@ class Chassis {
          *
          * @warning Do not interact with these unless you know what you are doing
          */
-        PID lateralPID1;
-        PID lateralPID2;
-        PID lateralPID3;
-        PID lateralPID4;
+        PID lateralPID;
         /**
          * PIDs are exposed so advanced users can implement things like gain scheduling
          * Changes are immediate and will affect a motion in progress
          *
          * @warning Do not interact with these unless you know what you are doing
          */
-        PID angularPID1;
-        PID angularPID2;
-        PID angularPID3;
-        PID angularPID4;
+        PID angularPID;
     protected:
         /**
          * @brief Indicates that this motion is queued and blocks current task until this motion reaches front of queue
@@ -964,11 +973,10 @@ class Chassis {
 
         float distTraveled = 0;
 
-        ControllerSettings lateralSettings; //todo: add separate lateral/angular?
+        ControllerSettings lateralSettings;
         ControllerSettings angularSettings;
         Drivetrain drivetrain;
         OdomSensors sensors;
-        // DistanceSensors distanceSensors; //TODO: removed
         DriveCurve* throttleCurve;
         DriveCurve* steerCurve;
 

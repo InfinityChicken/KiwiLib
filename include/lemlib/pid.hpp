@@ -41,7 +41,7 @@ class PID {
          * }
          * @endcode
          */
-        float update(float error);
+        float update(float error, bool useIntegral);
 
         /**
          * @brief reset integral, derivative, and prevTime
@@ -70,10 +70,12 @@ class PID {
         const float windupRange;
         const bool signFlipReset;
 
+        bool useWindup = true;
+
         float integral = 0;
         float prevError = 0;
         float prevDerivative = 0;
 
-        const float alpha = 0.15;
+        const float alpha = 0.4; //biased towards prev
 };
 } // namespace lemlib

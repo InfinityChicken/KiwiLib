@@ -6,34 +6,6 @@
 #include "pros/misc.hpp"
 
 void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointParams params, bool async) {
-    //pointers to pids
-    PID* activeLateral;
-    PID* activeAngular;
-
-    //inital errors to determine what to use
-    float initialLateralError = fabs(getPose().distance(Pose(x,y)) * cos(angleError(getPose().theta, getPose().angle(Pose(x,y)))));
-    float initialAngularError = fabs(angleError(params.forwards ? getPose().theta : getPose().theta + M_PI, getPose().angle(Pose(x,y)))); //todo: this might not be the right condition
-    
-    //assign reference of lateral pid to pointer
-    if(initialLateralError<12)
-        activeLateral = &lateralPID1;
-    else if(initialLateralError<24)
-        activeLateral = &lateralPID2;
-    else if(initialLateralError<36) //todo: tune these distances
-        activeLateral = &lateralPID3;
-    else  
-        activeLateral = &lateralPID4;
-
-     //assign reference of angular pid to pointer
-    if(initialAngularError<45)
-        activeAngular = &angularPID1;
-    else if(initialAngularError<90)
-        activeAngular = &angularPID2;
-    else if(initialAngularError<180) //todo: tune these angles
-        activeAngular = &angularPID3;
-    else 
-        activeAngular = &angularPID4;
-
     params.earlyExitRange = fabs(params.earlyExitRange);
     this->requestMotionStart();
     // were all motions cancelled?
@@ -46,12 +18,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         return;
     }
 
-    //todo: add conditions for diff angles and distances
     // reset PIDs and exit conditions
-    activeLateral->reset();
+    lateralPID.reset();
     lateralLargeExit.reset();
     lateralSmallExit.reset();
-    activeAngular->reset();
+    angularPID.reset();
 
     // initialize vars used between iterations
     Pose lastPose = getPose();
@@ -63,16 +34,13 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
     const int compState = pros::competition::get_status();
     std::optional<bool> prevSide = std::nullopt;
 
-    //time vars
-    int startTime;
-
     // calculate target pose in standard form
     Pose target(x, y);
     target.theta = lastPose.angle(target);
 
-    //TODO: close check removed
-    // main loop: will exit if timer exits OR EITHER exit condition is met OR motion running is false
-    while (!timer.isDone() && (!lateralSmallExit.getExit() && !lateralLargeExit.getExit()) && this->motionRunning) {
+    // main loop
+    while (!timer.isDone() && ((!lateralSmallExit.getExit() && !lateralLargeExit.getExit()) || !close) &&
+           this->motionRunning) {
         // update position
         const Pose pose = getPose(true, true);
 
@@ -83,12 +51,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // calculate distance to the target point
         const float distTarget = pose.distance(target);
 
-        // TODO: close clamps removed
         // check if the robot is close enough to the target to start settling
-        // if (distTarget < 7.5 && close == false) {
-        //     close = true;
-        //     params.maxSpeed = fmax(fabs(prevLateralOut), 60);
-        // }
+        if (distTarget < 7.5 && close == false) {
+            close = true;
+            params.maxSpeed = fmax(fabs(prevLateralOut), 60);
+        }
 
         // motion chaining
         const bool side =
@@ -99,13 +66,6 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         if (!sameSide && params.minSpeed != 0) break;
         prevSide = side;
 
-        // //TODO: vel based exit but it's kinda stupid so i'm ignoring it
-        // const int curTime = pros::millis();
-        // if (std::fabs(prevLateralOut) < 10) startTime = -1; //if power is less than 10/127
-        // else if (startTime == -1) startTime = curTime;
-        // else if (curTime >= startTime + 200) return; //for 200ms, exit
-
-        //TODO: CHECK THIS STUFF!!!
         // calculate error
         const float adjustedRobotTheta = params.forwards ? pose.theta : pose.theta + M_PI;
         const float angularError = angleError(adjustedRobotTheta, pose.angle(target));
@@ -115,13 +75,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         lateralSmallExit.update(lateralError);
         lateralLargeExit.update(lateralError);
 
-        //todo: add conditions for diff angles and distances
         // get output from PIDs
-        float lateralOut = activeLateral->update(lateralError);
-        float angularOut = activeAngular->update(radToDeg(angularError));
-        //TODO: this thing taken out
-        // if (close) angularOut = 0;
-
+        float lateralOut = lateralPID.update(lateralError, true);
+        float angularOut = angularPID.update(radToDeg(angularError), false);
+        if (close) angularOut = 0;
+        
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
         angularOut = slew(angularOut, prevAngularOut, angularSettings.slew);
@@ -129,10 +87,8 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // apply restrictions on lateral speed
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
         // constrain lateral output by max accel
-        //TODO: this thing changed
-        // if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
         // but not for decelerating, since that would interfere with settling
-        lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
+        if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);

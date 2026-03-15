@@ -30,7 +30,6 @@ void lemlib::Chassis::turnToPoint(float x, float y, int timeout, TurnToPointPara
     Timer timer(timeout);
     angularLargeExit.reset();
     angularSmallExit.reset();
-    //todo: add conditions for diff angles and distances
     angularPID.reset();
 
     // main loop
@@ -62,8 +61,7 @@ void lemlib::Chassis::turnToPoint(float x, float y, int timeout, TurnToPointPara
         if (params.minSpeed != 0 && sgn(deltaTheta) != sgn(prevDeltaTheta)) break;
 
         // calculate the speed
-        //todo: add conditions for diff angles and distances
-        motorPower = angularPID.update(deltaTheta);
+        motorPower = angularPID.update(deltaTheta, true);
         angularLargeExit.update(deltaTheta);
         angularSmallExit.update(deltaTheta);
 

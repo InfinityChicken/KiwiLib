@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "KiwiLib",
+    "project_name": "bot #3",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -592,7 +592,8 @@
       }
     },
     "upload_options": {
-      "description": "nvm 10 seed rumble"
+      "description": "one-eighty",
+      "icon": "pizza"
     },
     "use_early_access": false
   }
