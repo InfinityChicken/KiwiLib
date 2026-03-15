@@ -22,6 +22,3 @@ void runConsole();
 
 //controller screen print function
 void runController();
-
-extern bool interrupt;
-extern int macroState;
