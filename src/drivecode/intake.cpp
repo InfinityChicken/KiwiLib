@@ -13,6 +13,7 @@ bool scoringPressed = false;
 void runIntake() {
     while (true) {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
+        //mooncy is dumb
         switch(intakeState) {
             case 0: { // intake off
                 topIntake.move_voltage(0);
