@@ -58,26 +58,15 @@ void autonomous() {
 }
 
 void opcontrol() {
-	// chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	// skills97();
-
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-	intakeState = 0;
 
 	while (true) {
-		// //pid
-		// PIDTuning(0, 90);
-		
-		//subsystem updates
-		updateIntake();
-		updatePistons();
-		updateSensors();
-		
 		//drive
-		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-		chassis.arcade(throttle, turn);
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+			chassis.setPose(0, 0, 0);
+			chassis.turnToHeading(90, 2000);
+		}
 
 		//delay
 		pros::delay(10);

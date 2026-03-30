@@ -18,18 +18,18 @@ pros::Motor topIntake(-7, pros::MotorGearset::blue);
 pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({-15, 19, -10}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({3, -2, 1}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({17, -4, -13}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({6, -20, 14}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(6);
-pros::Rotation horizRotation(21);
-pros::adi::DigitalIn limitSwitch('H');
-pros::Distance distRight(11);
-pros::Distance distLeft(16);
-pros::Distance distFrontLeft(14);
-pros::Distance distFrontRight(9);
-pros::Distance distBack(13);
+pros::Imu imu(11);
+pros::Rotation horizRotation(-3);
+pros::adi::DigitalIn limitSwitch('Z');
+pros::Distance distRight(0);
+pros::Distance distLeft(0);
+pros::Distance distFrontLeft(0);
+pros::Distance distFrontRight(0);
+pros::Distance distBack(0);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(
@@ -52,9 +52,9 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    11,
-    4,
-    (48.0/84.0)*600.0,   
+    10,
+    2.75,
+    600.0,   
     30 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
 ); //good 45
 
@@ -72,16 +72,19 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    3.125, 
-    0.32,
-    23,
+    2, 
+    0,
+    13.53,
     5,
-    1.5,
+    1,
     50,
     0,
     500,
     0
 );
+
+
+
 
 //distance sensors
 lemlib::DistanceSensors distSensors(distFrontLeft, -5.75, 5.25, // prev 5.25, 7
