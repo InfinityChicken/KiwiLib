@@ -8,28 +8,27 @@
 //pistons
 pros::adi::DigitalOut scraper('A');
 pros::adi::DigitalOut wing('B');
-pros::adi::DigitalOut midGoalDescore('C');
-pros::adi::DigitalOut midGoal('D');
-pros::adi::DigitalOut odomLift('E');
+pros::adi::DigitalOut trapdoor('C');
+pros::adi::DigitalOut intakeLift('D');
 
 
 //intake
-pros::Motor topIntake(-7, pros::MotorGearset::blue);
-pros::Motor bottomIntake(8, pros::MotorGearset::blue);
+pros::Motor topIntake(-19, pros::MotorGearset::blue);
+pros::Motor midIntake(-15, pros::MotorGearset::blue);
+pros::Motor bottomIntake(16, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({-15, 19, -10}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({3, -2, 1}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-0, -1, 3}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({2, 4, -0}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(6);
-pros::Rotation horizRotation(21);
-pros::adi::DigitalIn limitSwitch('H');
-pros::Distance distRight(11);
-pros::Distance distLeft(16);
-pros::Distance distFrontLeft(14);
-pros::Distance distFrontRight(9);
-pros::Distance distBack(13);
+pros::Imu imu(0);
+pros::Rotation horizRotation(0);
+pros::Distance distRight(0);
+pros::Distance distLeft(0);
+pros::Distance distFrontLeft(0);
+pros::Distance distFrontRight(0);
+pros::Distance distBack(0);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(

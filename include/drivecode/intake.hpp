@@ -1,7 +1,8 @@
 #include "main.h"
 #include "objects.hpp"
 #include "pistons.hpp"
-#include "velocity.hpp"
+
+enum IntakeStates {STOPPED, LONG_GOAL, OUTTAKE, MID_GOAL};
 
 extern int intakeState;
 

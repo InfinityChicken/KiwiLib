@@ -6,53 +6,40 @@ int intakeState = 0;
 
 bool intakePressed = false;
 bool outtakePressed = false;
-bool speedPressed = false;
-bool testPressed = false;
-bool switchPressed = false;
-bool scoringPressed = false;
+//bool speedPressed = false;
+//bool testPressed = false;
+//bool switchPressed = false;
+bool midGoalPressed = false;
+
 void runIntake() {
     while (true) {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
         switch(intakeState) {
-            case 0: { // intake off
+            case STOPPED: { // intake off
                 topIntake.move_voltage(0);
+                midIntake.move_voltage(0);
                 bottomIntake.move_voltage(0);
                 break;
             }
             
-            case 1: { // intake 100%
+            case LONG_GOAL: { // intake 100%
+                topIntake.move_voltage(12000);
+                midIntake.move_voltage(12000);
                 bottomIntake.move_voltage(12000);
-
-                if(midGoalState == 1) {
-                    topIntake.move_voltage(12000 * 0.60);
-                } else {
-                    topIntake.move_voltage(12000);
-                }
-
                 break;
             }
 
-            case 2: { // outtake
+            case OUTTAKE: { // outtake
                 topIntake.move_voltage(-12000);
+                midIntake.move_voltage(-12000);
                 bottomIntake.move_voltage(-12000);
                 break;
             }
 
-            case 3: {
-                topIntake.move_voltage(0);
-                bottomIntake.move_voltage(12000); // hi aakanksh tune left motor speed here
-                break;
-            }
-
-            case 4: { //slower scoring
-                topIntake.move_voltage(12000 * 0.65);
-                bottomIntake.move_voltage(12000);
-                break;
-            }
-
-            case 5: { //faster mid goal scoring
-                topIntake.move_voltage(12000 * 0.7);
-                bottomIntake.move_voltage(12000);
+            case MID_GOAL: { //mid goal
+                topIntake.move_voltage(-12000);
+                midIntake.move_voltage(12000);
+                bottomIntake.move_voltage(12000); 
                 break;
             }
         }
@@ -63,14 +50,14 @@ void runIntake() {
 
 void updateIntake() {
    
-    //l1 intake storing
+    //l1 long goal scoring
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         if (!intakePressed) {
 
-            if(intakeState == 3) { //state changes
+            if(intakeState == 1) { //state changes
                 intakeState = 0;
             } else {
-                intakeState = 3;
+                intakeState = 1;
             }
         }
         intakePressed = true;
@@ -78,17 +65,21 @@ void updateIntake() {
         intakePressed = false;
     }
 
-    // r2 scoring
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        if (!scoringPressed){
-            intakeState = 2;
-            pros::delay(100);
+    // y mid goal
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        if (!midGoalPressed) {
+
+            if(intakeState == 3) { //state changes
+                intakeState = 0;
+            } else {
+                intakeState = 2;
+                pros::delay(100);
+                intakeState = 3;
+            }
         }
-        intakeState = 4;
-        scoringPressed = true;
-    } else if (intakeState == 4) {
-        intakeState = 0;
-        scoringPressed = false;
+        midGoalPressed = true;
+    } else {
+        midGoalPressed = false;
     }
 
     //l2 outtake
@@ -105,22 +96,6 @@ void updateIntake() {
     } else {
         outtakePressed = false;
     }
-
-
-    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
-    //     if (!testPressed) {
-
-    //         if(intakeState == 3) { //state changes
-    //             intakeState = 0;
-    //         } else {
-    //             intakeState = 3;
-    //         }
-
-    //     }
-    //     testPressed = true;
-    // } else {
-    //     testPressed = false;
-    // }
 
     // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
     //     if (!speedPressed) {

@@ -4,10 +4,6 @@
 #include "pros/motors.h"
 #include "drivecode/util.hpp"
 #include "pros/misc.h"
-#include "drivecode/intake.hpp"
-#include "drivecode/pistons.hpp"
-#include "drivecode/sensors.hpp"
-#include "autonomous/autonomous.hpp"
 #include "lemlib/intersect.hpp"
 #include "autonomous/autonSelector.hpp"
 
@@ -53,7 +49,7 @@ void autonomous() {
 	//sevenBlockPushRight(); 
 	//fourBlockPushLeft();
 	//fourBlockPushRight();
-	leftSplitPush();
+	//leftSplitPush();
 	//counterSAWP();
 }
 
@@ -72,7 +68,6 @@ void opcontrol() {
 		//subsystem updates
 		updateIntake();
 		updatePistons();
-		updateSensors();
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
