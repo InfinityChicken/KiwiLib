@@ -13,8 +13,8 @@ pros::adi::DigitalOut intakeLift('D');
 
 
 //intake
-pros::Motor topIntake(-19, pros::MotorGearset::blue);
-pros::Motor midIntake(-15, pros::MotorGearset::blue);
+pros::Motor topIntake(-19, pros::MotorGearset::green);
+pros::Motor midIntake(-15, pros::MotorGearset::green);
 pros::Motor bottomIntake(16, pros::MotorGearset::blue);
 
 //drive motors
