@@ -2,7 +2,7 @@
 #include "objects.hpp"
 #include "pistons.hpp"
 
-enum IntakeStates {STOPPED, LONG_GOAL, OUTTAKE, MID_GOAL};
+enum IntakeStates {STOPPED, LONG_GOAL, OUTTAKE, MID_GOAL, BOTTOM_ONLY};
 
 extern int intakeState;
 

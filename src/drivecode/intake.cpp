@@ -10,6 +10,7 @@ bool outtakePressed = false;
 //bool testPressed = false;
 //bool switchPressed = false;
 bool midGoalPressed = false;
+bool bottomPressed = false;
 
 void runIntake() {
     while (true) {
@@ -40,6 +41,13 @@ void runIntake() {
                 topIntake.move_voltage(-12000);
                 midIntake.move_voltage(12000);
                 bottomIntake.move_voltage(12000); 
+                break;
+            }
+
+            case BOTTOM_ONLY: {
+                topIntake.move_voltage(0);
+                midIntake.move_voltage(0);
+                bottomIntake.move_voltage(-12000); 
                 break;
             }
         }
@@ -95,6 +103,40 @@ void updateIntake() {
         outtakePressed = true;
     } else {
         outtakePressed = false;
+    }
+    //y
+   if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        if (!midGoalPressed) {
+            if (intakeState == MID_GOAL) {
+                intakeState = STOPPED;
+                controller.rumble("");
+            } else {
+                intakeState = OUTTAKE;
+                pros::delay(100);
+                intakeState = MID_GOAL;
+                while(intakeState == MID_GOAL){
+                    controller.rumble("...");
+                }
+            }
+        }
+        midGoalPressed = true;
+    } else {
+        midGoalPressed = false;
+    }
+ 
+
+    //down
+      if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+        if (!bottomPressed){
+            if (intakeState == BOTTOM_ONLY){
+            intakeState = STOPPED;
+        } else {
+            intakeState = BOTTOM_ONLY;
+        }
+        }
+        bottomPressed = true;
+    } else {
+        bottomPressed = false;
     }
 
     // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {

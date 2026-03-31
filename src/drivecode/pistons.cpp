@@ -7,10 +7,12 @@ int trapdoorState = 0; //0 closed
 int scraperState = 0; //0 up
 int wingState = 0; //0 down
 int intakeLiftState = 0;
+int midDescoreState = 0; //down
 
 bool trapdoorPressed = false;
 bool scraperPressed = false;
 bool wingPressed = false;
+bool midDescorePressed = false;
 bool intakeLiftPressed;
 
 void updatePistons() {
@@ -21,8 +23,8 @@ void updatePistons() {
     //     wingState = 0;
     // }
 
-    // R2 wing toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    // R1 wing toggle
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         if (!wingPressed) {
             if(wingState == 0) {
                 wingState = 1;
@@ -35,8 +37,8 @@ void updatePistons() {
         wingPressed = false;
     }
 
-    // R1 trapdoor long toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    // R2 trapdoor long toggle
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         if (!trapdoorPressed) {
             if(trapdoorState == 0) {
                 trapdoorState = 1;
@@ -80,6 +82,17 @@ void updatePistons() {
         intakeLiftPressed = false;
     }
 
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
+        if (!midDescorePressed){
+            if (midDescoreState == 0){
+                midDescoreState = 1;
+            }
+            else if(midDescoreState = 1){
+                midDescoreState = 0;
+                
+            }
+        }
+    }
 }
 
 void runPistons() {
