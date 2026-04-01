@@ -59,6 +59,7 @@ void updatePistons() {
             if (scraperState == 0) {
                 scraperState = 1;
                 trapdoorState =  0;
+                intakeState = 1;
             } else if (scraperState == 1) {
                 scraperState = 0;
             }
@@ -89,7 +90,8 @@ void updatePistons() {
             }
             else if(midDescoreState = 1){
                 midDescoreState = 0;
-                
+                intakeState = 1;
+                trapdoorState = 1;
             }
         }
     }

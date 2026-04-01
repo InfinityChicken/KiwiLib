@@ -8,10 +8,16 @@ bool intakePressed = false;
 bool outtakePressed = false;
 //bool speedPressed = false;
 //bool testPressed = false;
-//bool switchPressed = false;
+bool lowSpeedPressed = false;
 bool midGoalPressed = false;
 bool bottomPressed = false;
-
+static int vel() {
+    if (lowSpeedMode) {
+        return 7200;
+    } else {
+        return 12000;
+    }
+}
 void runIntake() {
     while (true) {
         //MUST CHANGE VELVALUE TO CHANGE SPEED
@@ -73,23 +79,6 @@ void updateIntake() {
         intakePressed = false;
     }
 
-    // y mid goal
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-        if (!midGoalPressed) {
-
-            if(intakeState == 3) { //state changes
-                intakeState = 0;
-            } else {
-                intakeState = 2;
-                pros::delay(100);
-                intakeState = 3;
-            }
-        }
-        midGoalPressed = true;
-    } else {
-        midGoalPressed = false;
-    }
-
     //l2 outtake
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         if (!outtakePressed) {
@@ -104,17 +93,17 @@ void updateIntake() {
     } else {
         outtakePressed = false;
     }
-    //y
+    //y mid goal
    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
         if (!midGoalPressed) {
-            if (intakeState == MID_GOAL) {
-                intakeState = STOPPED;
+            if (intakeState == 3) {
+                intakeState = 0;
                 controller.rumble("");
             } else {
-                intakeState = OUTTAKE;
+                intakeState = 2;
                 pros::delay(100);
-                intakeState = MID_GOAL;
-                while(intakeState == MID_GOAL){
+                intakeState = 3;
+                while(intakeState == 3){
                     controller.rumble("...");
                 }
             }
@@ -132,6 +121,7 @@ void updateIntake() {
             intakeState = STOPPED;
         } else {
             intakeState = BOTTOM_ONLY;
+            intakeLiftState = 0;
         }
         }
         bottomPressed = true;
@@ -139,19 +129,14 @@ void updateIntake() {
         bottomPressed = false;
     }
 
-    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
-    //     if (!speedPressed) {
-
-    //         if(!lowGoalVel) { //state changes
-    //             lowGoalVel = true;
-    //         } else {
-    //             lowGoalVel = false;
-    //         }
-
-    //     }
-    //     speedPressed = true;
-    // } else {
-    //     speedPressed = false;
-    // }
+    
+     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+        if (!lowSpeedPressed) {
+            lowSpeedMode = !lowSpeedMode;
+        }
+        lowSpeedPressed = true;
+    } else {
+        lowSpeedPressed = false;
+    }
 
 }
