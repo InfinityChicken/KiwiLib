@@ -13,7 +13,7 @@ bool midGoalPressed = false;
 bool bottomPressed = false;
 static int vel() {
     if (lowSpeedMode) {
-        return 7200;
+        return 9000;
     } else {
         return 12000;
     }
