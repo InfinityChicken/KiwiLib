@@ -1,18 +1,31 @@
 #include <cmath>
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/util.hpp"
-#include "pros/misc.hpp"
 
-float mmToIn2(float mm) {
-    return mm / 25.4;
-}
-
-void lemlib::Chassis::moveUntilDistance(float exitDist, float x, float y, float timeout, MoveToPointParams params) {
+//TODO: test
+void lemlib::Chassis::moveUntilDistance(char dir, float exitDist, float x, float y, float timeout, MoveToPointParams params) {
+    //start movement async
     this->moveToPoint(x, y, timeout, params, true); 
 
-    while(mmToIn2(this->distSensors.frontRight.distance.get()) > exitDist && this->isInMotion()) {
+    //pick active dist sensor for side
+    DistResetSensors* distSensor = nullptr;
+
+    //if using front or back as x direction, rotate angle by adding 90 degrees
+    if(dir == 'L') {
+        distSensor = &distSensors.frontLeft;
+    } else if(dir == 'B') {
+        distSensor = &distSensors.back;
+    } else if(dir == 'R') {
+        distSensor = &distSensors.right;
+    }
+
+    //TODO: adds distance sensor offset Y
+    //delay until distance sensor detects exitDist inches or motion is complete
+    while(mmToIn(distSensor->distance.get()) + distSensor->offsetY > exitDist && this->isInMotion()) {
         pros::delay(10);
     }
 
     this->endMotion();
+    this->drivetrain.leftMotors->move_velocity(0);
+    this->drivetrain.rightMotors->move_velocity(0);
 }

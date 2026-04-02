@@ -6,7 +6,9 @@
 #include "lemlib/pose.hpp"
 
 namespace lemlib {
-    
+
+float mmToIn(float mm);
+
 float refAngle(bool rad, float angle);
 
 /**

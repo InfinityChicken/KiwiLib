@@ -30,8 +30,9 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
     Pose target(x, y, M_PI_2 - degToRad(theta));
     if (!params.forwards) target.theta = fmod(target.theta + M_PI, 2 * M_PI); // backwards movement
 
-    // use global horizontalDrift is horizontalDrift is 0
-    if (params.horizontalDrift == 0) params.horizontalDrift = drivetrain.horizontalDrift;
+    //TODO: removed slip constraint
+    // // use global horizontalDrift is horizontalDrift is 0
+    // if (params.horizontalDrift == 0) params.horizontalDrift = drivetrain.horizontalDrift;
 
     // initialize vars used between iterations
     Pose lastPose = getPose();
@@ -111,11 +112,12 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // constrain lateral output by max accel
         if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
-        // constrain lateral output by the max speed it can travel at without
-        // slipping
-        const float radius = 1 / fabs(getCurvature(pose, carrot));
-        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
-        lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
+        //TODO: removed slip constraint
+        // // constrain lateral output by the max speed it can travel at without
+        // // slipping
+        // const float radius = 1 / fabs(getCurvature(pose, carrot));
+        // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
+        // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         // prioritize angular movement over lateral movement
         const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
         if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;

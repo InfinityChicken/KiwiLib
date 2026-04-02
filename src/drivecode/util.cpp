@@ -1,10 +1,7 @@
-#include "main.h"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
-#include <string>
 #include "drivecode/util.hpp"
-#include <iomanip>
 
 void motorInit() {
     topIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -32,13 +29,13 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topIntake.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomIntake.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "front left dist: %.3f", distFrontLeft.get_distance()/25.4);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front right dist: %.3f", distFrontRight.get_distance()/25.4);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 8, "back dist: %.3f", distBack.get_distance()/25.4);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 9, "left dist: %.3f", distLeft.get_distance()/25.4);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 10, "right dist: %.3f", distRight.get_distance()/25.4);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topIntake.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "bottom wattage: %.3f", bottomIntake.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "front left dist: %.3f", distFrontLeft.get_distance()/25.4);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front right dist: %.3f", distFrontRight.get_distance()/25.4);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 8, "back dist: %.3f", distBack.get_distance()/25.4);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 9, "left dist: %.3f", distLeft.get_distance()/25.4);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 10, "right dist: %.3f", distRight.get_distance()/25.4);
 
 
         // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "left front: %.3f", leftMotors.get_position(0));
@@ -61,8 +58,8 @@ void runConsole() {
         // std::cout<<"Y: "<<std::to_string(pose.y)<<"\n";
         // std::cout<<"Theta: "<<std::to_string(pose.theta)<<"\n";
 
-        std::cout<<drivetrain.leftMotors->get_voltage()<<"\n";
-        std::cout<<drivetrain.rightMotors->get_voltage()<<"\n\n";
+        // std::cout<<drivetrain.leftMotors->get_voltage()<<"\n";
+        // std::cout<<drivetrain.rightMotors->get_voltage()<<"\n\n";
 
 
         // std::cout<<"limit switch: "<<std::to_string(limitSwitch.get_value())<<"\n";

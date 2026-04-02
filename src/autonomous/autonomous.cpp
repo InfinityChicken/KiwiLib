@@ -179,7 +179,7 @@
 // 	//pause in park zone
 //     leftMotors.move_voltage(0);
 // 	rightMotors.move_voltage(0);
-//     pros::delay(850); //TODO: prev 750
+//     pros::delay(850); 
 
 //     //go slower out of park
 //     leftMotors.move_voltage(7000);

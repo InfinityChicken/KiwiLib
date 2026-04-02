@@ -1,5 +1,4 @@
 #include "lemlib/chassis/chassis.hpp"
-#include "main.h"
 #include <climits>
 #include "objects.hpp"
 #include "drivecode/util.hpp"
@@ -10,7 +9,6 @@ pros::adi::DigitalOut scraper('A');
 pros::adi::DigitalOut wing('B');
 pros::adi::DigitalOut trapdoor('C');
 pros::adi::DigitalOut intakeLift('D');
-
 
 //intake
 pros::Motor topIntake(-19, pros::MotorGearset::green);
@@ -52,16 +50,16 @@ lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
     11,
-    4,
-    (48.0/84.0)*600.0,   
-    30 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
-); //good 45
+    3.25,
+    450,    //TODO: horizontal drift disabled
+    0 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
+);
 
 //controller settings
 lemlib::ControllerSettings lateralController(
-    10,                           //kP
-    0.16,                         //kI
-    64,                           //kD    
+    0,                           //kP
+    0,                         //kI
+    0,                           //kD    
     4,                   //windup range
     1,                    //small error
     50,           //small error timeout
@@ -71,11 +69,11 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    3.125, 
-    0.32,
-    23,
+    0, 
+    0,
+    0,
     5,
-    1.5,
+    2,
     50,
     0,
     500,
@@ -83,11 +81,11 @@ lemlib::ControllerSettings angularController(
 );
 
 //distance sensors
-lemlib::DistanceSensors distSensors(distFrontLeft, -5.75, 5.25, // prev 5.25, 7
-                                    distFrontRight, 5.25, 4.75, // prev -5.5, 6.25
-                                    distBack, -3, 6,
-                                    distLeft, -1.75, 5.25,
-                                    distRight, 2.5, 5.25);
+lemlib::DistanceSensors distSensors(distFrontLeft, 0, 0,
+                                    distFrontRight, 0, 0,
+                                    distBack, 0, 0,
+                                    distLeft, 0, 0,
+                                    distRight, 0, 0);
 
 //controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

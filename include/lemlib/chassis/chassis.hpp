@@ -733,7 +733,7 @@ class Chassis {
         /**
          * @brief im too lazy to write this one chat
          */
-        void moveUntilDistance(float exitDist, float x, float y, float timeout, MoveToPointParams = {});
+        void moveUntilDistance(char dir, float exitDist, float x, float y, float timeout, MoveToPointParams = {});
         /**
          * @brief Send in a constant voltage to the chassis
          *

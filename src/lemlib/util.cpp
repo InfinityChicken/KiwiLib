@@ -2,6 +2,10 @@
 #include "lemlib/pose.hpp"
 #include "lemlib/util.hpp"
 
+float mmToIn(float mm) {
+    return mm / 25.4;
+}
+
 float lemlib::refAngle(bool rad, float angle) {
 
     angle = sanitizeAngle(angle, rad);

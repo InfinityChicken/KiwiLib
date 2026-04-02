@@ -5,10 +5,6 @@
 #include "main.h"
 #include <string>
 
-float mmToIn(float mm) {
-    return mm / 25.4;
-}
-
 float absMax(float x1, float x2) {
     if(std::fabs(x1) > std::fabs(x2)) {
         pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "left front chosen");
