@@ -6,54 +6,57 @@ int intakeState = 0;
 
 bool intakePressed = false;
 bool outtakePressed = false;
-//bool speedPressed = false;
-//bool testPressed = false;
-bool lowSpeedPressed = false;
-bool midGoalPressed = false;
-bool bottomPressed = false;
-static int vel() {
-    if (lowSpeedMode) {
-        return 9000;
-    } else {
-        return 12000;
-    }
-}
+bool scoringPressed = false;
+
+// Jam detection threshold (mA) — tune as needed
+static const int JAM_CURRENT = 2500;
+
 void runIntake() {
     while (true) {
-        //MUST CHANGE VELVALUE TO CHANGE SPEED
         switch(intakeState) {
-            case STOPPED: { // intake off
+            case 0: { // stopped
                 topIntake.move_voltage(0);
                 midIntake.move_voltage(0);
                 bottomIntake.move_voltage(0);
                 break;
             }
-            
-            case LONG_GOAL: { // intake 100%
+
+            case 1: { // full intake
                 topIntake.move_voltage(12000);
                 midIntake.move_voltage(12000);
                 bottomIntake.move_voltage(12000);
                 break;
             }
 
-            case OUTTAKE: { // outtake
+            case 2: { // outtake
                 topIntake.move_voltage(-12000);
                 midIntake.move_voltage(-12000);
                 bottomIntake.move_voltage(-12000);
                 break;
             }
 
-            case MID_GOAL: { //mid goal
-                topIntake.move_voltage(-12000);
-                midIntake.move_voltage(12000);
-                bottomIntake.move_voltage(12000); 
+            case 3: { // store/intake (L1)
+                // jam detection: if top roller stalls (e.g. closing on a ball),
+                // open trapdoor and reverse to clear, then re-close
+                if (topIntake.get_current_draw() > JAM_CURRENT) {
+                    trapdoorState = 1;
+                    topIntake.move_voltage(-4000);
+                    midIntake.move_voltage(0);
+                    bottomIntake.move_voltage(0);
+                    pros::delay(150);
+                    trapdoorState = 0;
+                } else {
+                    topIntake.move_voltage(12000);
+                    midIntake.move_voltage(12000);
+                    bottomIntake.move_voltage(12000);
+                }
                 break;
             }
 
-            case BOTTOM_ONLY: {
-                topIntake.move_voltage(0);
-                midIntake.move_voltage(0);
-                bottomIntake.move_voltage(-12000); 
+            case 4: { // scoring (R2 hold)
+                topIntake.move_voltage(12000 * 0.65);
+                midIntake.move_voltage(12000);
+                bottomIntake.move_voltage(12000);
                 break;
             }
         }
@@ -63,15 +66,15 @@ void runIntake() {
 }
 
 void updateIntake() {
-   
-    //l1 long goal scoring
+
+    // L1: intake/store — toggle, close trapdoor to keep blocks in
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         if (!intakePressed) {
-
-            if(intakeState == 1) { //state changes
+            if (intakeState == 3) {
                 intakeState = 0;
             } else {
-                intakeState = 1;
+                intakeState = 3;
+                trapdoorState = 0;
             }
         }
         intakePressed = true;
@@ -79,64 +82,33 @@ void updateIntake() {
         intakePressed = false;
     }
 
-    //l2 outtake
+    // R2: score on hold — brief outtake on press, then scoring state while held
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        if (!scoringPressed) {
+            intakeState = 2;
+            pros::delay(100);
+        }
+        intakeState = 4;
+        scoringPressed = true;
+    } else if (intakeState == 4) {
+        intakeState = 0;
+        scoringPressed = false;
+    }
+
+    // L2: outtake everything + raise intake lift
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         if (!outtakePressed) {
-
-            if(intakeState == 2) { //state changes
+            if (intakeState == 2) {
                 intakeState = 0;
+                intakeLiftState = 0;
             } else {
                 intakeState = 2;
+                intakeLiftState = 1;
             }
         }
         outtakePressed = true;
     } else {
         outtakePressed = false;
-    }
-    //y mid goal
-   if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-        if (!midGoalPressed) {
-            if (intakeState == 3) {
-                intakeState = 0;
-                controller.rumble("");
-            } else {
-                intakeState = 2;
-                pros::delay(100);
-                intakeState = 3;
-                while(intakeState == 3){
-                    controller.rumble("...");
-                }
-            }
-        }
-        midGoalPressed = true;
-    } else {
-        midGoalPressed = false;
-    }
- 
-
-    //down
-      if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-        if (!bottomPressed){
-            if (intakeState == BOTTOM_ONLY){
-            intakeState = STOPPED;
-        } else {
-            intakeState = BOTTOM_ONLY;
-            intakeLiftState = 0;
-        }
-        }
-        bottomPressed = true;
-    } else {
-        bottomPressed = false;
-    }
-
-    
-     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
-        if (!lowSpeedPressed) {
-            lowSpeedMode = !lowSpeedMode;
-        }
-        lowSpeedPressed = true;
-    } else {
-        lowSpeedPressed = false;
     }
 
 }
