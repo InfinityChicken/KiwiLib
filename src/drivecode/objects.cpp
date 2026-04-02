@@ -18,8 +18,8 @@ pros::Motor topIntake(-7, pros::MotorGearset::blue);
 pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({17, -4, -13}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({6, -20, 14}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-6, 17, -13}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({8, -10, 15}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(11);
@@ -73,10 +73,10 @@ lemlib::ControllerSettings lateralController(
 
 lemlib::ControllerSettings angularController(
     2, 
-    0,
-    13.53,
+    0.06,
+    12.5,
     5,
-    1,
+    2,
     50,
     0,
     500,

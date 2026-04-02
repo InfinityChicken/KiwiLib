@@ -61,14 +61,30 @@ void opcontrol() {
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 
-	while (true) {
-		//drive
-		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-			chassis.setPose(0, 0, 0);
-			chassis.turnToHeading(90, 2000);
-		}
+	int heading = 0;
 
-		//delay
-		pros::delay(10);
-	}
+	while (true) {
+	 	chassis.turnToHeading(heading, 3000);
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+			heading += 90;
+			chassis.turnToHeading(heading, 3000);
+
+		}
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+			heading += 45;
+			chassis.turnToHeading(heading, 3000);
+
+		}
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+			heading += 180;
+			chassis.turnToHeading(heading, 3000);
+
+		}
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+			chassis.moveToPoint(0, 10, 3000);
+		}
+		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+			chassis.moveToPoint(0, -10, 3000);
+		}
+ 	}
 }
