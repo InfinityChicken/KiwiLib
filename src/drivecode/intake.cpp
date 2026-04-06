@@ -38,23 +38,23 @@ void runIntake() {
             case 3: { // store/intake (L1)
                 // jam detection: if top roller stalls (e.g. closing on a ball),
                 // open trapdoor and reverse to clear, then re-close
-                if (topIntake.get_current_draw() > JAM_CURRENT) {
-                    trapdoorState = 1;
-                    topIntake.move_voltage(-4000);
-                    midIntake.move_voltage(0);
-                    bottomIntake.move_voltage(0);
-                    pros::delay(150);
-                    trapdoorState = 0;
-                } else {
+                // if (topIntake.get_current_draw() > JAM_CURRENT) {
+                //     trapdoorState = 1;
+                //     topIntake.move_voltage(-4000);
+                //     midIntake.move_voltage(0);
+                //     bottomIntake.move_voltage(0);
+                //     pros::delay(150);
+                //     trapdoorState = 0;
+                // } else {
                     topIntake.move_voltage(12000);
                     midIntake.move_voltage(12000);
                     bottomIntake.move_voltage(12000);
-                }
+                // }
                 break;
             }
 
             case 4: { // scoring (R2 hold)
-                topIntake.move_voltage(12000 * 0.65);
+                topIntake.move_voltage(12000);
                 midIntake.move_voltage(12000);
                 bottomIntake.move_voltage(12000);
                 break;
