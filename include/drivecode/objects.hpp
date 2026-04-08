@@ -14,6 +14,7 @@ extern pros::adi::DigitalOut scraper;
 extern pros::adi::DigitalOut wing;
 extern pros::adi::DigitalOut trapdoor;
 extern pros::adi::DigitalOut intakeLift;
+extern pros::adi::DigitalOut midDescore;
 
 //sensor declarations
 extern pros::Imu imu;

@@ -3,10 +3,11 @@
 #include "drivecode/intake.hpp"
 
 int intakeState = 0;
+int toggleState = 0;
 
 bool intakePressed = false;
 bool outtakePressed = false;
-bool scoringPressed = false;
+bool midPressed = false;
 
 // Jam detection threshold (mA) — tune as needed
 static const int JAM_CURRENT = 2500;
@@ -21,7 +22,7 @@ void runIntake() {
                 break;
             }
 
-            case 1: { // full intake
+            case 1: { // full intake (R2 hold)
                 topIntake.move_voltage(12000);
                 midIntake.move_voltage(12000);
                 bottomIntake.move_voltage(12000);
@@ -35,26 +36,15 @@ void runIntake() {
                 break;
             }
 
-            case 3: { // store/intake (L1)
-                // jam detection: if top roller stalls (e.g. closing on a ball),
-                // open trapdoor and reverse to clear, then re-close
-                // if (topIntake.get_current_draw() > JAM_CURRENT) {
-                //     trapdoorState = 1;
-                //     topIntake.move_voltage(-4000);
-                //     midIntake.move_voltage(0);
-                //     bottomIntake.move_voltage(0);
-                //     pros::delay(150);
-                //     trapdoorState = 0;
-                // } else {
-                    topIntake.move_voltage(12000);
-                    midIntake.move_voltage(12000);
-                    bottomIntake.move_voltage(12000);
-                // }
+            case 3: { // store/intake (L1 toggle)
+                topIntake.move_voltage(12000);
+                midIntake.move_voltage(12000);
+                bottomIntake.move_voltage(12000);
                 break;
             }
 
-            case 4: { // scoring (R2 hold)
-                topIntake.move_voltage(12000);
+            case 4: { // mid goal score (Y toggle)
+                topIntake.move_voltage(-12000);
                 midIntake.move_voltage(12000);
                 bottomIntake.move_voltage(12000);
                 break;
@@ -67,13 +57,14 @@ void runIntake() {
 
 void updateIntake() {
 
-    // L1: intake/store — toggle, close trapdoor to keep blocks in
+    // L1: intake/store toggle
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         if (!intakePressed) {
-            if (intakeState == 3) {
-                intakeState = 0;
+            if (toggleState == 3) {
+                toggleState = 0;
+                trapdoorState = 0;
             } else {
-                intakeState = 3;
+                toggleState = 3;
                 trapdoorState = 0;
             }
         }
@@ -82,27 +73,14 @@ void updateIntake() {
         intakePressed = false;
     }
 
-    // R2: score on hold — brief outtake on press, then scoring state while held
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        if (!scoringPressed) {
-            intakeState = 2;
-            pros::delay(100);
-        }
-        intakeState = 4;
-        scoringPressed = true;
-    } else if (intakeState == 4) {
-        intakeState = 0;
-        scoringPressed = false;
-    }
-
-    // L2: outtake everything + raise intake lift
+    // L2: outtake toggle
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         if (!outtakePressed) {
-            if (intakeState == 2) {
-                intakeState = 0;
+            if (toggleState == 2) {
+                toggleState = 0;
                 intakeLiftState = 0;
             } else {
-                intakeState = 2;
+                toggleState = 2;
                 intakeLiftState = 1;
             }
         }
@@ -111,4 +89,25 @@ void updateIntake() {
         outtakePressed = false;
     }
 
+    // Y: mid goal score toggle
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        if (!midPressed) {
+            if (toggleState == 4) {
+                toggleState = 0;
+            } else {
+                toggleState = 4;
+            }
+        }
+        midPressed = true;
+    } else {
+        midPressed = false;
+    }
+
+    // R2: hold override (scoring)
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        intakeState = 1;
+        trapdoorState = 1;
+    } else {
+        intakeState = toggleState;
+    }
 }

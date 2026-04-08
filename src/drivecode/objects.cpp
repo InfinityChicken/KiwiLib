@@ -5,28 +5,29 @@
 #include "pros/distance.hpp"
 
 //pistons
-pros::adi::DigitalOut scraper('A');
-pros::adi::DigitalOut wing('B');
-pros::adi::DigitalOut trapdoor('C');
-pros::adi::DigitalOut intakeLift('D');
+pros::adi::DigitalOut scraper('B');
+pros::adi::DigitalOut wing('D');
+pros::adi::DigitalOut trapdoor('F');
+pros::adi::DigitalOut intakeLift('C');
+pros::adi::DigitalOut midDescore('E');
 
 //intake
-pros::Motor topIntake(-19, pros::MotorGearset::green);
-pros::Motor midIntake(-15, pros::MotorGearset::green);
-pros::Motor bottomIntake(16, pros::MotorGearset::blue);
+pros::Motor topIntake(-14, pros::MotorGearset::green);
+pros::Motor midIntake(-9, pros::MotorGearset::green);
+pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
-pros::MotorGroup leftMotors({-0, -1, 3}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({2, 4, -0}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-10, -16, 19}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({1, -3, 4}, pros::MotorGearset::blue);
 
 //sensors
-pros::Imu imu(0);
-pros::Rotation horizRotation(0);
-pros::Distance distRight(0);
-pros::Distance distLeft(0);
-pros::Distance distFrontLeft(0);
-pros::Distance distFrontRight(0);
-pros::Distance distBack(0);
+pros::Imu imu(6);
+pros::Rotation horizRotation(-7);
+pros::Distance distRight(13);
+pros::Distance distLeft(20);
+pros::Distance distFrontLeft(15);
+pros::Distance distFrontRight(12);
+pros::Distance distBack(11);
 
 //odom objects
 lemlib::TrackingWheel horizOdom(

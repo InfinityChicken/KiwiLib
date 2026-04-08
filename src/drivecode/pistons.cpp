@@ -1,6 +1,7 @@
 #include "drivecode/pistons.hpp"
 #include "drivecode/intake.hpp"
 #include "pros/misc.h"
+#include "drivecode/objects.hpp"
 
 int trapdoorState = 0;   // 0 closed
 int scraperState = 0;    // 0 up
@@ -11,6 +12,8 @@ int midDescoreState = 0;
 bool trapdoorPressed = false;
 bool wingPressed = false;
 bool intakeLiftPressed = false;
+bool scraperPressed = false;
+bool midDescorePressed = false;
 
 void updatePistons() {
     // R1: wing toggle
@@ -51,6 +54,36 @@ void updatePistons() {
     } else {
         intakeLiftPressed = false;
     }
+
+    // RIGHT: matchloader w/ trapdoor closed
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        if (!scraperPressed) {
+            if (scraperState == 0) {
+                scraperState = 1;
+                trapdoorState = 1;
+            } else {
+                scraperState = 0;
+            }
+        scraperPressed = true;
+        }
+    } else {
+        scraperPressed = false;
+    }
+
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+        if (!midDescorePressed) {
+            if (midDescoreState == 0) {
+                midDescoreState = 1;
+            } else {
+                midDescoreState = 1;
+            }
+        midDescorePressed = true;
+        }
+    } else {
+        midDescorePressed = false;
+    }
+
+
 }
 
 void runPistons() {
@@ -76,6 +109,19 @@ void runPistons() {
             intakeLift.set_value(true);
         }
 
-        pros::delay(10);
+        // scraper
+        if (scraperState == 0) {
+            scraper.set_value(false);
+        } else if (scraperState == 1) {
+            scraper.set_value(true);
+        }
+
+        // mid descore
+        if (midDescoreState == 0) {
+            midDescore.set_value(false);
+        } else if (midDescoreState == 1) {
+            midDescore.set_value(true);
+        }
+
     }
 }
