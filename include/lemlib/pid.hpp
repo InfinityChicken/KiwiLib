@@ -76,6 +76,6 @@ class PID {
         float prevError = 0;
         float prevDerivative = 0;
 
-        const float alpha = 0.9; //biased 90% toward curr derivative
+        const float alpha = 1.0; //biased 100% toward curr derivative
 };
 } // namespace lemlib

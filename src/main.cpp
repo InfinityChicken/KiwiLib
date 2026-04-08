@@ -62,12 +62,18 @@ void opcontrol() {
 	intakeState = 0;
 
 	while (true) {
+		// chassis.turnToHeading(180, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
+		// chassis.turnToHeading(0, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
 		// //pid
-		// PIDTuning(0, 90);
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+			chassis.turnToHeading(0, 2000);
+		}
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) chassis.setPose(0, 0, 0);
 		
 		//subsystem updates
-		updateIntake();
-		updatePistons();
+		// updateIntake();
+		// updatePistons();
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

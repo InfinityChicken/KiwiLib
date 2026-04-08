@@ -50,7 +50,7 @@ lemlib::OdomSensors odomSensorsDrive(
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
-    11,
+    11.44, //TODO: ensure accuracy
     3.25,
     450,    //TODO: horizontal drift disabled
     0 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
@@ -70,9 +70,9 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    0, 
-    0,
-    0,
+    2.5,
+    0.32,
+    20,
     5,
     2,
     50,
