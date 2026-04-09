@@ -82,11 +82,11 @@ lemlib::ControllerSettings angularController(
 );
 
 //distance sensors
-lemlib::DistanceSensors distSensors(distFrontLeft, 0, 0,
-                                    distFrontRight, 0, 0,
-                                    distBack, 0, 0,
-                                    distLeft, 0, 0,
-                                    distRight, 0, 0);
+lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
+                                    distFrontRight, 4.13, 5.27,
+                                    distBack, 2.99, 4.66,
+                                    distLeft, 4.80, 2.04,
+                                    distRight, 4.80, -3.18);
 
 //controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
