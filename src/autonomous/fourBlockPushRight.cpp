@@ -9,5 +9,5 @@ void fourBlockPushRight() {
     intakeState = 1;
     chassis.moveToPoint(28, -24, 1000, {}, true);
     chassis.waitUntilWithin(5, 24, 24);
-    scraperState = 1;
+    scraperState = 1;  
 }

@@ -62,7 +62,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // check if the robot is close enough to the target to start settling
         if (distTarget < 7.5 && close == false) {
             close = true;
-            params.maxSpeed = fmax(fabs(prevLateralOut), 60);
+            // params.maxSpeed = fmax(fabs(prevLateralOut), 60); //TODO: removed
         }
 
         // check if the lateral controller has settled
@@ -103,6 +103,10 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         float lateralOut = lateralPID.update(lateralError, true);
         float angularOut = angularPID.update(radToDeg(angularError), false);
 
+        // cosine damper //TODO: cosine damper
+        const float cosDamper = std::clamp(std::cos(angularError), 0.0f, 1.0f);
+        lateralOut *= cosDamper;
+
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
 
@@ -119,9 +123,10 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
         // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         
-        // prioritize angular movement over lateral movement
-        const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
-        if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
+        //TODO: removed old overturn
+        // // prioritize angular movement over lateral movement
+        // const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
+        // if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
 
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
@@ -131,6 +136,14 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         if (params.forwards && lateralOut < fabs(params.minSpeed) && lateralOut > 0) lateralOut = fabs(params.minSpeed);
         if (!params.forwards && -lateralOut < fabs(params.minSpeed) && lateralOut < 0)
             lateralOut = -fabs(params.minSpeed);
+
+        // preserve lateral to angular ratio //TODO: new overturn
+        float total = fabs(lateralOut) + fabs(angularOut);
+        if(total > params.maxSpeed) {
+            float scale = params.maxSpeed / total;
+            lateralOut *= scale;
+            angularOut *= scale;
+        }
 
         // update previous output
         prevAngularOut = angularOut;
