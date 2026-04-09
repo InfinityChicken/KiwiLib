@@ -62,7 +62,7 @@ void updateIntake() {
         if (!intakePressed) {
             if (toggleState == 3) {
                 toggleState = 0;
-                trapdoorState = 0;
+                // trapdoorState = 0; //TODO: intake turning off does not activate trapdoor
             } else {
                 toggleState = 3;
                 trapdoorState = 0;
@@ -78,7 +78,7 @@ void updateIntake() {
         if (!outtakePressed) {
             if (toggleState == 2) {
                 toggleState = 0;
-                intakeLiftState = 0;
+                intakeLiftState = 0; 
             } else {
                 toggleState = 2;
                 intakeLiftState = 1;
@@ -96,6 +96,7 @@ void updateIntake() {
                 toggleState = 0;
             } else {
                 toggleState = 4;
+                trapdoorState = 0; //TODO: mid score closes trapdoor
             }
         }
         midPressed = true;

@@ -30,16 +30,17 @@ void updatePistons() {
         wingPressed = false;
     }
 
-    // R2: score on hold — open trapdoor while held, close on release
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        trapdoorState = 1;
-        trapdoorPressed = true;
-    } else {
-        if (trapdoorPressed) {
-            trapdoorState = 0;
-        }
-        trapdoorPressed = false;
-    }
+    //TODO: redundant
+    // // R2: score on hold — open trapdoor while held, close on release
+    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    //     trapdoorState = 1;
+    //     trapdoorPressed = true;
+    // } else {
+    //     if (trapdoorPressed) {
+    //         trapdoorState = 0;
+    //     }
+    //     trapdoorPressed = false;
+    // }
 
     // UP: odom lift toggle
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
@@ -60,7 +61,7 @@ void updatePistons() {
         if (!scraperPressed) {
             if (scraperState == 0) {
                 scraperState = 1;
-                trapdoorState = 1;
+                trapdoorState = 0;
             } else {
                 scraperState = 0;
             }
