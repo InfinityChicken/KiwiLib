@@ -66,10 +66,11 @@ void opcontrol() {
 		// chassis.turnToHeading(0, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
 		// //pid
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			chassis.turnToHeading(0, 2000);
+			chassis.setPose(0, 0, 0);
+			chassis.moveToPoint(0, 24, 2500);
 		}
 
-		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) chassis.setPose(0, 0, 0);
+		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) chassis.setPose(0, 0, 0);
 		
 		//subsystem updates
 		// updateIntake();
