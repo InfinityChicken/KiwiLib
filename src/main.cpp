@@ -62,15 +62,24 @@ void opcontrol() {
 	intakeState = 0;
 
 	while (true) {
-		// chassis.turnToHeading(180, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
-		// chassis.turnToHeading(0, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
-		// //pid
+		//pid
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			chassis.setPose(0, 0, 0);
-			chassis.moveToPoint(0, 24, 2500);
+			chassis.moveToPoint(0, 0, 2000);
+			lemlib::Pose pose = chassis.getPose();
+			std::cout<<"X: "<<pose.x<<"\n";
+			std::cout<<"Y: "<<pose.y<<"\n";
+			std::cout<<"T: "<<pose.theta<<"\n\n";
 		}
 
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) chassis.setPose(0, 0, 0);
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			chassis.moveToPose(0, 0, 0, 2000);
+			lemlib::Pose pose = chassis.getPose();
+			std::cout<<"X: "<<pose.x<<"\n";
+			std::cout<<"Y: "<<pose.y<<"\n";
+			std::cout<<"T: "<<pose.theta<<"\n\n";
+		}
+
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) chassis.setPose(0, 0, 0);
 		
 		//subsystem updates
 		// updateIntake();

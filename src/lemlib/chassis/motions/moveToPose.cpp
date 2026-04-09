@@ -118,6 +118,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // const float radius = 1 / fabs(getCurvature(pose, carrot));
         // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
         // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
+        
         // prioritize angular movement over lateral movement
         const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
         if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
