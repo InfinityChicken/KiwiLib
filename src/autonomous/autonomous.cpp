@@ -1,9 +1,27 @@
-// #include "autonomous/autonomous.hpp"
-// #include "lemlib/chassis/chassis.hpp"
-// #include "lemlib/timer.hpp"
-// #include "pros/distance.hpp"
-// #include "main.h"
-// #include "drivecode/util.hpp"
+#include "autonomous/autonomous.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "lemlib/timer.hpp"
+#include "pros/distance.hpp"
+#include "main.h"
+#include "drivecode/util.hpp"
+
+void four_block(){
+    chassis.setPose(1, -1, 0);
+    chassis.distanceReset('R', 'B');
+
+    intakeState = 1;
+    chassis.moveToPoint(33, -27, 750, {}, true);
+    chassis.waitUntil(12);
+    scraperState = 1;
+    pros::delay(400);
+
+    chassis.turnToHeading(123, 500);
+    chassis.moveDistance(45, 1500);
+    chassis.turnToHeading(180, 500);
+
+
+
+}
 
 // void skills97() {
 //     //beginning dist reset
