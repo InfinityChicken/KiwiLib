@@ -52,7 +52,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         const float distTarget = pose.distance(target);
 
         // check if the robot is close enough to the target to start settling
-        if (distTarget < 7.5 && close == false) {
+        if (distTarget < 10 && close == false) {
             close = true;
             // params.maxSpeed = fmax(fabs(prevLateralOut), 60); //TODO: removed
         }
@@ -78,11 +78,11 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError, true);
         float angularOut = angularPID.update(radToDeg(angularError), false);
-        if (close) angularOut *= 0.5; //TODO: angular cut 50% when close to target
+        if (close) angularOut = 0;
 
-        //cosine damper //TODO: cosine damper
-        const float cosDamper = std::clamp(std::cos(angularError), 0.0f, 1.0f);
-        lateralOut *= cosDamper;
+        // //cosine damper //TODO: cosine damper
+        // const float cosDamper = fabs(std::cos(angularError));
+        // lateralOut *= cosDamper;
         
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);

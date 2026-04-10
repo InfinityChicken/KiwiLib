@@ -30,9 +30,8 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
     Pose target(x, y, M_PI_2 - degToRad(theta));
     if (!params.forwards) target.theta = fmod(target.theta + M_PI, 2 * M_PI); // backwards movement
 
-    //TODO: removed slip constraint
-    // // use global horizontalDrift is horizontalDrift is 0
-    // if (params.horizontalDrift == 0) params.horizontalDrift = drivetrain.horizontalDrift;
+    // use global horizontalDrift is horizontalDrift is 0
+    if (params.horizontalDrift == 0) params.horizontalDrift = drivetrain.horizontalDrift;
 
     // initialize vars used between iterations
     Pose lastPose = getPose();
@@ -62,7 +61,6 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // check if the robot is close enough to the target to start settling
         if (distTarget < 7.5 && close == false) {
             close = true;
-            // params.maxSpeed = fmax(fabs(prevLateralOut), 60); //TODO: removed
         }
 
         // check if the lateral controller has settled
@@ -103,9 +101,9 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         float lateralOut = lateralPID.update(lateralError, true);
         float angularOut = angularPID.update(radToDeg(angularError), false);
 
-        // cosine damper //TODO: cosine damper
-        const float cosDamper = std::clamp(std::cos(angularError), 0.0f, 1.0f);
-        lateralOut *= cosDamper;
+        // // cosine damper //TODO: cosine damper
+        // const float cosDamper = fabs(std::cos(angularError));
+        // lateralOut *= cosDamper;
 
         // apply restrictions on angular speed
         angularOut = std::clamp(angularOut, -params.maxSpeed, params.maxSpeed);
@@ -116,12 +114,11 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // constrain lateral output by max accel
         if (!close) lateralOut = slew(lateralOut, prevLateralOut, lateralSettings.slew);
 
-        //TODO: removed slip constraint
-        // // constrain lateral output by the max speed it can travel at without
-        // // slipping
-        // const float radius = 1 / fabs(getCurvature(pose, carrot));
-        // const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
-        // lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
+        // constrain lateral output by the max speed it can travel at without
+        // slipping
+        const float radius = 1 / fabs(getCurvature(pose, carrot));
+        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
+        lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         
         //TODO: removed old overturn
         // // prioritize angular movement over lateral movement

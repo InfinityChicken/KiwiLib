@@ -26,13 +26,10 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	fourBlockPushRight();
+	sevenBlockRight();
 }
 
 void opcontrol() {
-	// chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	// skills97();
-
 	//driver
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	intakeState = 0;
@@ -41,6 +38,21 @@ void opcontrol() {
 		// subsystem updates
 		updateIntake();
 		updatePistons();
+
+		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+		// 	chassis.moveToPoint(0, 0, 1500);
+		// 	std::cout<<"X: "<<chassis.getPose().x<<"\n";
+		// 	std::cout<<"Y: "<<chassis.getPose().y<<"\n";
+		// 	std::cout<<"T: "<<chassis.getPose().theta<<"\n\n";
+		// }
+
+		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+		// 	chassis.moveToPose(0, 0, 0, 3000);
+		// }
+
+		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+		// 	chassis.setPose(0, 0, 0);
+		// }
 		
 		//drive
 		int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
