@@ -17,7 +17,7 @@ bool midDescorePressed = false;
 
 void updatePistons() {
     // R1: wing toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         if (!wingPressed) {
             if (wingState == 0) {
                 wingState = 1;
@@ -32,7 +32,7 @@ void updatePistons() {
 
     //TODO: redundant
     // // R2: score on hold — open trapdoor while held, close on release
-    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
     //     trapdoorState = 1;
     //     trapdoorPressed = true;
     // } else {
@@ -71,12 +71,13 @@ void updatePistons() {
         scraperPressed = false;
     }
 
+    // B: mid descore
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
         if (!midDescorePressed) {
             if (midDescoreState == 0) {
                 midDescoreState = 1;
             } else {
-                midDescoreState = 1;
+                midDescoreState = 0;
             }
         midDescorePressed = true;
         }

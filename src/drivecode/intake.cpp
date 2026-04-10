@@ -105,7 +105,7 @@ void updateIntake() {
     }
 
     // R2: hold override (scoring)
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         intakeState = 1;
         trapdoorState = 1;
     } else {
