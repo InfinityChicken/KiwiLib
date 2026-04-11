@@ -34,8 +34,9 @@ VERSION:=1.0.0
 # this line excludes opcontrol.c and similar files
 # EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/main,$(foreach cext,$(CEXTS),$(file).$(cext)) $(foreach cxxext,$(CXXEXTS),$(file).$(cxxext)))
 EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/main.cpp
-EXCLUDE_SRC_FROM_LIB += $(wildcard $(SRCDIR)/autonomous/*) #auton code hot packaged
-EXCLUDE_SRC_FROM_LIB += $(wildcard $(SRCDIR)/drivecode/*) #drivecode hot packaged
+EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/autonomous/fourPlusThreeLeft.cpp
+# EXCLUDE_SRC_FROM_LIB += $(wildcard $(SRCDIR)/autonomous/*) #auton code hot packaged
+# EXCLUDE_SRC_FROM_LIB += $(wildcard $(SRCDIR)/drivecode/*) #drivecode hot packaged
 
 
 # files that get distributed to every user (beyond your source archive) - add

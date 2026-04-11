@@ -59,18 +59,22 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     if(side1 != nullptr && mmToIn(side1->distance.get())>300) {
         side1 = nullptr;
         std::cout<<"side1 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     } 
     if(side2 != nullptr && mmToIn(side2->distance.get())>300) {
         side2 = nullptr;
         std::cout<<"side2 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     }
     if(front1 != nullptr && mmToIn(front1->distance.get())>300) {
         front1 = nullptr;
         std::cout<<"front1 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     } 
     if(front2 != nullptr && mmToIn(front2->distance.get())>300) {
         front2 = nullptr;
         std::cout<<"front2 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     }
 
     //if both/essential distance sensors are bad, don't reset

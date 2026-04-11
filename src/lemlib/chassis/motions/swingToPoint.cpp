@@ -37,8 +37,19 @@ void lemlib::Chassis::swingToPoint(float x, float y, DriveSide lockedSide, int t
                                      ? this->drivetrain.leftMotors->get_brake_mode_all().at(0)
                                      : this->drivetrain.rightMotors->get_brake_mode_all().at(0);
     // set brake mode of the locked side to hold
-    if (lockedSide == DriveSide::LEFT) this->drivetrain.leftMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
-    else this->drivetrain.rightMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
+    if (lockedSide == DriveSide::LEFT) {
+        if(params.coast) {
+            this->drivetrain.leftMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+        } else {
+            this->drivetrain.leftMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
+        }
+    } else {
+        if(params.coast) {
+            this->drivetrain.rightMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+        } else {
+            this->drivetrain.rightMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
+        }
+    }
 
     // main loop
     while (!timer.isDone() && !angularLargeExit.getExit() && !angularSmallExit.getExit() && this->motionRunning) {

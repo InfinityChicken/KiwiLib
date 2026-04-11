@@ -14,23 +14,23 @@ void sevenLeft() { //TODO: blindcoded
     chassis.turnToHeading(-145, 1000);
 
     //go to ml
-    chassis.moveToPose(-48.5, -58, 180, 1000, {.horizontalDrift = 30, .lead = 0.3, .earlyExitRange = 5});
+    chassis.moveToPose(-48, -58, 180, 1000, {.horizontalDrift = 30, .lead = 0.3});
     chassis.sendVoltage(12000 * 0.3, 800);
     chassis.turnToHeading(180, 1000);
-    chassis.distanceReset('L', 'F');
+    chassis.distanceReset('R', 'F');
 
     //score long
     chassis.moveToPoint(-48.5, -26, 1000, {.forwards = false});
     trapdoorState = 1;
     chassis.sendVoltage(-12000 * 0.5, 1000);
-    chassis.distanceReset('L', 'F');
+    chassis.distanceReset('R', 'F');
     scraperState = 0;
 
     //wing
-    chassis.moveToPoint(-33.5, -40, 1000);
-    chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-32, -11, 1000);
-    chassis.turnToHeading(-15, 1000, {.minSpeed = 110});
+    chassis.moveToPoint(-34, -36, 1000, {.minSpeed = 80});
+    trapdoorState = 0;
+    chassis.turnToHeading(180, 1000, {.minSpeed = 80});
+    chassis.moveToPoint(-34, -11, 1000, {.forwards = false, .minSpeed = 60});
 
     return;
 }

@@ -4,7 +4,7 @@
 #include "drivecode/util.hpp"
 
 void motorInit() {
-    topIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    topIntake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     midIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     bottomIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
