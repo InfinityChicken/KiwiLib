@@ -4,10 +4,12 @@ void sevenRight() {
     //dist reset
     chassis.setPose(1, -1, 0);
     chassis.distanceReset('R', 'B');
+    wingState = 1;
 
     //block grab
     intakeState = 1;
     chassis.moveToPoint(24, -24, 1000, {}, true);
+    wingState = 0;
     chassis.waitUntil(14);
     scraperState = 1;
     chassis.waitUntilDone();
