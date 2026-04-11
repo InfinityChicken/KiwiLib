@@ -1,6 +1,7 @@
 #include "autonomous/autonomous.hpp"
 #include <strings.h>
 
+//og
 void sevenRight() {
     //dist reset
     chassis.setPose(1, -1, 0);

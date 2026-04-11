@@ -1,9 +1,10 @@
 #include "autonomous/autonomous.hpp"
 #include "pros/motors.h"
 
-void fourPlusThreeLeft() {
+//reflect blindcode
+void fourPlusThreeRight() {
     //dsr
-    chassis.setPose(1, -1, 270);
+    chassis.setPose(1, -1, 90);
     chassis.distanceReset('F', 'R');
     intakeState = 1;
     wingState = 1;

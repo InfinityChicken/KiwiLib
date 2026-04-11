@@ -1,9 +1,8 @@
 #include "autonomous/autonomous.hpp"
 #include "pros/motors.h"
 
+//og
 void fourPlusThreeLeft() {
-//TODO: SCORING AND STORING STATES ARE DIFFERENT
-
     //dsr
     chassis.setPose(-1, -1, 270);
     chassis.distanceReset('F', 'L');
