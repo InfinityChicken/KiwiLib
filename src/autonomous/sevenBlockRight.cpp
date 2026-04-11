@@ -7,24 +7,32 @@ void sevenBlockRight() {
 
     //block grab
     intakeState = 1;
-    chassis.moveToPoint(32, -24, 1000, {.minSpeed = 100}, true);
+    chassis.moveToPoint(31, -22, 1000, {}, true);
     chassis.waitUntil(14);
     scraperState = 1;
     chassis.waitUntilDone();
-    chassis.turnToHeading(125, 1000, {.minSpeed = 100});
+    chassis.turnToHeading(135, 1000);
 
-    //curve to ml
-    chassis.moveToPoint(52, -58, 2000, {.minSpeed = 110});
-    leftMotors.move(60);
-    rightMotors.move(60);
-    pros::delay(600);
-    leftMotors.move(0);
-    rightMotors.move(0);
+    //move to ml
+    chassis.moveToPoint(56, -41, 1000);
+    chassis.turnToHeading(180, 1000);
+    chassis.moveDistance(19, 1000);
 
-    //move to long goal
-    chassis.moveToPoint(chassis.getPose().x, chassis.getPose().y - 8, 1000, {.forwards = false, .minSpeed = 100});
-        //force movement 8 inches backward
+    //do ml
+    pros::delay(100);
     chassis.distanceReset('L', 'F');
-    chassis.moveToPoint(47, -8, 1000, {.forwards = false, .minSpeed = 80});
+
+    //exit ml
+    chassis.moveToPoint(51, -30, 1000, {.forwards = false}); //prev -15
+    return;
     trapdoorState = 1;
+    pros::delay(500);
+    chassis.distanceReset('L', 'F');
+
+    //position for wing
+    chassis.moveToPoint(39, -35, 1000);
+    chassis.turnToHeading(0, 1000);
+    chassis.moveDistance(24, 1000);
+    chassis.turnToHeading(-20, 1000, {.minSpeed = 100});
+    return;
 }

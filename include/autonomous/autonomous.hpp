@@ -10,7 +10,7 @@ void counterSAWP();
 void sevenTwoBlock();
 void skills79();
 void skills97();
-void sevenBlockRight();w
+void sevenBlockRight();
 void sevenBlockPushLeft();
 void fourBlockPushLeft();
 void fourBlockPushRight();

@@ -70,7 +70,7 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    2.5,
+    2.75, //TODO: BOOSTED THIS BY 0.25
     0.32,
     20,
     5,
