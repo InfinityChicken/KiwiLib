@@ -35,15 +35,11 @@ void opcontrol() {
 	intakeState = 0;
 
 	while (true) {
-		// subsystem updates
+		// // subsystem updates
 		updateIntake();
 		updatePistons();
 
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-		// 	chassis.moveToPoint(0, 0, 1500);
-		// 	std::cout<<"X: "<<chassis.getPose().x<<"\n";
-		// 	std::cout<<"Y: "<<chassis.getPose().y<<"\n";
-		// 	std::cout<<"T: "<<chassis.getPose().theta<<"\n\n";
+		// 	pros::delay(500);
 		// }
 
 		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {

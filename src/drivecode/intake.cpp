@@ -1,3 +1,4 @@
+#include "lemlib/timer.hpp"
 #include "main.h"
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
@@ -5,9 +6,17 @@
 int intakeState = 0;
 int toggleState = 0;
 
+int prevState = 0;
+
 bool intakePressed = false;
 bool outtakePressed = false;
 bool midPressed = false;
+
+bool topStalled = false;
+bool midStalled = false;
+
+int topTicks = 0;
+int midTicks = 0;
 
 // Jam detection threshold (mA) — tune as needed
 static const int JAM_CURRENT = 2500;
@@ -51,7 +60,45 @@ void runIntake() {
             }
         }
 
-        pros::delay(10);
+        // if(intakeState > 0) {
+        //     if(midIntake.get_actual_velocity() < 50) {
+        //         midTicks++;
+        //     } else {
+        //         midTicks = 0;
+        //     }
+
+        //     if(topIntake.get_actual_velocity() < 50) {
+        //         topTicks++;
+        //     } else {
+        //         topTicks = 0;
+        //     }
+        // }
+
+        // if(prevState != intakeState) {
+        //     midTicks = 0;
+        //     topTicks = 0;
+        //     midStalled = false;
+        //     topStalled = false;
+        // }
+
+        // if(midTicks > 25) {
+        //     midStalled = true;
+        // }
+
+        // if(topTicks > 25) {
+        //     topStalled = true;
+        // }
+
+        // if(midStalled == true) {
+        //     midIntake.move(0);
+        // }
+        
+        // if(topStalled == true) {
+        //     topIntake.move(0);
+        // }
+
+        // prevState = intakeState;
+        // pros::delay(10);
     }
 }
 

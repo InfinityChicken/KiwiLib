@@ -18,7 +18,7 @@ float absMax(float x1, float x2) {
 void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress
-    this->requestMotionStart();
+    // this->requestMotionStart();
 
     float rotated = 0;
 
@@ -162,7 +162,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"distance reset finished\n\n";
 
     this->setPose(pose);
-    this->endMotion();
+    // this->endMotion();
     return;
     
 }
