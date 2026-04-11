@@ -1,6 +1,6 @@
 #include "autonomous/autonomous.hpp"
 
-void sevenRight() {
+void fourPlusThreeRight() {
     //dist reset
     chassis.setPose(1, -1, 0);
     chassis.distanceReset('R', 'B');
