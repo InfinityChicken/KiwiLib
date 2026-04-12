@@ -22,6 +22,7 @@ pros::MotorGroup rightMotors({1, -3, 4}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(6);
+pros::Optical color(0); //TODO: same as dist front left
 pros::Rotation horizRotation(7);
 pros::Distance distRight(13);
 pros::Distance distLeft(20);

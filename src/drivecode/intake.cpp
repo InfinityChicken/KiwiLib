@@ -53,12 +53,12 @@ void runIntake() {
             }
 
             case 4: { // mid goal score (Y toggle)
-                if (prevState != intakeState) { //outtake on mid goal
+                if (prevState != intakeState) { //outtake for mid
                     topIntake.move_voltage(-12000);
                     midIntake.move_voltage(-12000);
                     bottomIntake.move_voltage(-12000);
 
-                    pros::delay(250); //TODO: tune
+                    pros::delay(250);
 
                     midTicks = 0;
                     topTicks = 0;
@@ -87,6 +87,21 @@ void runIntake() {
             }
         }
 
+        // //color sort
+        // while(color.get_hue() < 30 && color.get_hue() > 0) {
+        //     if(intakeState == 1 || intakeState == 3) {
+        //         topIntake.move_voltage(12000);
+        //         midIntake.move_voltage(12000);
+        //         topIntake.move_voltage(-12000);
+        //         pros::delay(10);
+        //     } else if (intakeState == 4) {
+        //         topIntake.move_voltage(12000);
+        //         midIntake.move_voltage(12000);
+        //         topIntake.move_voltage(12000);
+        //         pros::delay(10);
+        //     }
+        // }
+
         if(prevState != intakeState) {
             midTicks = 0;
             topTicks = 0;
@@ -94,21 +109,10 @@ void runIntake() {
             topStalled = false;
         }
 
-        if(midTicks > 25) {
-            midStalled = true;
-        }
-
-        if(topTicks > 25) {
-            topStalled = true;
-        }
-
-        if(midStalled == true) {
-            midIntake.move(0);
-        }
-        
-        if(topStalled == true) {
-            topIntake.move(0);
-        }
+        if(midTicks > 25) midStalled = true;
+        if(topTicks > 25) topStalled = true;
+        if(midStalled == true) midIntake.move(0);
+        if(topStalled == true) topIntake.move(0);
 
         prevState = intakeState;
         pros::delay(10);

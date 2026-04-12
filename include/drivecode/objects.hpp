@@ -18,6 +18,7 @@ extern pros::adi::DigitalOut midDescore;
 
 //sensor declarations
 extern pros::Imu imu;
+extern pros::Optical color;
 extern pros::Rotation horizRotation;
 extern pros::Distance distRight;
 extern pros::Distance distLeft;

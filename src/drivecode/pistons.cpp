@@ -19,7 +19,7 @@ void updatePistons() {
     //r1 wing, up intake lift, right matchloader/close trapdoor, b mid descore, down trapdoor toggle
     
     // R1: wing toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
         if (!wingPressed) {
             if (wingState == 0) {
                 wingState = 1;
@@ -32,19 +32,19 @@ void updatePistons() {
         wingPressed = false;
     }
 
-    // down: trapdoor toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-        if (!trapdoorPressed) {
-            if (trapdoorState == 0) {
-                trapdoorState = 1;
-            } else {
-                trapdoorState = 0;
-            }
-        }
-        trapdoorPressed = true;
-    } else {
-        trapdoorPressed = false;
-    }
+    // // down: trapdoor toggle
+    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+    //     if (!trapdoorPressed) {
+    //         if (trapdoorState == 0) {
+    //             trapdoorState = 1;
+    //         } else {
+    //             trapdoorState = 0;
+    //         }
+    //     }
+    //     trapdoorPressed = true;
+    // } else {
+    //     trapdoorPressed = false;
+    // }
 
     // UP: intake lift toggle
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
