@@ -3,6 +3,8 @@
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 
+int sortState = 0;
+
 int intakeState = 0;
 int toggleState = 0;
 
@@ -20,6 +22,28 @@ int midTicks = 0;
 
 // Jam detection threshold (mA) — tune as needed
 static const int JAM_CURRENT = 2500;
+
+void colorSortThruMid() {
+    pros::delay(50); //delay until block gets to indexer
+    topIntake.move_voltage(12000);
+    midIntake.move_voltage(12000);
+    topIntake.move_voltage(-12000);
+    pros::delay(50); //outtake
+    topIntake.move_voltage(12000);
+    midIntake.move_voltage(12000);
+    topIntake.move_voltage(12000); //reset
+}
+
+void colorSortThruLong() {
+    pros::delay(50); //delay until block gets to indexer
+    topIntake.move_voltage(12000);
+    midIntake.move_voltage(12000);
+    topIntake.move_voltage(12000);
+    pros::delay(50); //outtake
+    topIntake.move_voltage(12000);
+    midIntake.move_voltage(12000);
+    topIntake.move_voltage(-12000); //reset
+}
 
 void runIntake() {
     while (true) {
@@ -87,20 +111,27 @@ void runIntake() {
             }
         }
 
-        // //color sort
-        // while(color.get_hue() < 30 && color.get_hue() > 0) {
-        //     if(intakeState == 1 || intakeState == 3) {
-        //         topIntake.move_voltage(12000);
-        //         midIntake.move_voltage(12000);
-        //         topIntake.move_voltage(-12000);
-        //         pros::delay(10);
-        //     } else if (intakeState == 4) {
-        //         topIntake.move_voltage(12000);
-        //         midIntake.move_voltage(12000);
-        //         topIntake.move_voltage(12000);
-        //         pros::delay(10);
-        //     }
-        // }
+        if(sortState == 1) { //sort out red, score blue
+            if(color.get_hue() < 20 && color.get_hue() > 0) { //check for color
+                if(intakeState == 1 || intakeState == 3) {
+                    colorSortThruMid();
+                } else if (intakeState == 4) {
+                    colorSortThruLong();
+                }
+            }
+        } else if(sortState == 2) {
+            if(sortState == 1) { //sort out red, score blue
+                if(color.get_hue() < 2304 && color.get_hue() > 23045) { //check for color //TODO: tune all color sort values
+                    if(intakeState == 1 || intakeState == 3) {
+                        colorSortThruMid();
+                    } else if (intakeState == 4) {
+                        colorSortThruLong();
+                    }
+                }
+            }
+        }
+
+
 
         if(prevState != intakeState) {
             midTicks = 0;
