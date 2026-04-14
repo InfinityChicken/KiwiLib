@@ -3,7 +3,7 @@
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 
-int sortState = 0;
+int sortState = 1;
 
 int intakeState = 0;
 int toggleState = 0;
@@ -24,22 +24,20 @@ int midTicks = 0;
 static const int JAM_CURRENT = 2500;
 
 void colorSortThruMid() {
-    pros::delay(50); //delay until block gets to indexer
     topIntake.move_voltage(12000);
     midIntake.move_voltage(12000);
     topIntake.move_voltage(-12000);
-    pros::delay(50); //outtake
+    pros::delay(100); //outtake
     topIntake.move_voltage(12000);
     midIntake.move_voltage(12000);
     topIntake.move_voltage(12000); //reset
 }
 
 void colorSortThruLong() {
-    pros::delay(50); //delay until block gets to indexer
     topIntake.move_voltage(12000);
     midIntake.move_voltage(12000);
     topIntake.move_voltage(12000);
-    pros::delay(50); //outtake
+    pros::delay(100); //outtake
     topIntake.move_voltage(12000);
     midIntake.move_voltage(12000);
     topIntake.move_voltage(-12000); //reset
@@ -112,7 +110,7 @@ void runIntake() {
         }
 
         if(sortState == 1) { //sort out red, score blue
-            if(color.get_hue() < 20 && color.get_hue() > 0) { //check for color
+            if(color.get_hue() < 20 && color.get_hue() > 0 || color.get_hue() > 340 && color.get_hue() < 356) { //check for color
                 if(intakeState == 1 || intakeState == 3) {
                     colorSortThruMid();
                 } else if (intakeState == 4) {
@@ -120,8 +118,8 @@ void runIntake() {
                 }
             }
         } else if(sortState == 2) {
-            if(sortState == 1) { //sort out red, score blue
-                if(color.get_hue() < 2304 && color.get_hue() > 23045) { //check for color //TODO: tune all color sort values
+            if(sortState == 1) { //sort out blue, score red
+                if(color.get_hue() < 220 && color.get_hue() > 200) { //check for color //TODO: tune all color sort values
                     if(intakeState == 1 || intakeState == 3) {
                         colorSortThruMid();
                     } else if (intakeState == 4) {

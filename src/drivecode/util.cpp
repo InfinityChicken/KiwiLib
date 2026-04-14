@@ -32,7 +32,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
         pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
         // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "top wattage: %.3f", topIntake.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "color hue %.3f", color.get_hue());
+        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "color hue: %.3f", color.get_hue());
         pros::screen::print(pros::E_TEXT_MEDIUM, 6, "front left dist: %.3f", distFrontLeft.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 7, "front right dist: %.3f", distFrontRight.get_distance()/25.4);
         pros::screen::print(pros::E_TEXT_MEDIUM, 8, "back dist: %.3f", distBack.get_distance()/25.4);
