@@ -10,22 +10,22 @@ void sevenRight() {
     //block grab
     intakeState = 3;
     wingState = 1;
-    chassis.moveToPoint(24, -24, 1000, {}, true);
+    chassis.moveToPoint(24, -24, 1000, {.minSpeed = 90, .earlyExitRange = 9}, true);
     chassis.waitUntil(14);
     scraperState = 1;
     chassis.waitUntilDone();
-    chassis.turnToHeading(145, 1000, {.minSpeed = 60});
+    chassis.turnToHeading(130, 500, {.minSpeed = 70});
     wingState = 0;
 
     //go to ml
-    chassis.moveToPose(48, -58, 179, 1000, {.lead = 0.4});
-    chassis.sendVoltage(12000 * 0.5, 500);
+    chassis.moveToPose(44, -55.5, 179, 1000, {.lead = 0.5, .minSpeed = 80});
+    chassis.sendVoltage(12000 * 0.7, 500);
     pros::delay(400);
     chassis.turnToHeading(181, 1000);
     chassis.distanceReset('L', 'F');
 
     //score long
-    chassis.moveToPoint(49, -25, 1500, {.forwards = false, .minSpeed = 80});
+    chassis.moveToPoint(49, -25, 1500, {.forwards = false, .minSpeed = 100});
     intakeState = 1;
     trapdoorState = 1;
     chassis.sendVoltage(-12000 * 0.5, 1350);
@@ -34,9 +34,9 @@ void sevenRight() {
     scraperState = 0;
 
     //wing
-    chassis.sendVoltage(12000 * 0.5, 100);
-    chassis.moveToPoint(36, -40, 1000);
-    chassis.turnToHeading(0, 1000, {.minSpeed = 60});
+    chassis.sendVoltage(12000, 120);
+    chassis.moveToPoint(35.25, -40, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    chassis.turnToHeading(-10, 500, {.minSpeed = 60, .earlyExitRange = 2});
     chassis.moveToPoint(33.5, -13, 1000);
     chassis.turnToHeading(-15, 1000, {.minSpeed = 110});
 
