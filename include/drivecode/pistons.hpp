@@ -1,5 +1,3 @@
-#pragma once
-
 #include "main.h"
 #include "drivecode/objects.hpp"
 

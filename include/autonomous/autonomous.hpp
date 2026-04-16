@@ -3,8 +3,6 @@
 #include "drivecode/intake.hpp"
 #include "drivecode/pistons.hpp"
 
-void four_block();
-
 void sevenBlockLow();
 void sevenBlockMid();
 void SAWP();

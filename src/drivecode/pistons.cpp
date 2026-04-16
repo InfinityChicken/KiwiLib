@@ -60,7 +60,7 @@ void updatePistons() {
         if (!scraperPressed) {
             if (scraperState == 0) {
                 scraperState = 1;
-                trapdoorState = 0;
+                trapdoorState = 1;
             } else {
                 scraperState = 0;
             }
@@ -123,6 +123,5 @@ void runPistons() {
             midDescore.set_value(true);
         }
 
-        pros::delay(10);
     }
 }

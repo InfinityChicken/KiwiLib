@@ -1,5 +1,3 @@
-#pragma once
-
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
