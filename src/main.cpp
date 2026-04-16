@@ -7,21 +7,10 @@
 #include "lemlib/intersect.hpp"
 #include "autonomous/autonSelector.hpp"
 #include "autonomous/autonomous.hpp"
-#include "logo.c"
-#include "liblvgl/display/lv_display.h"
-#include "liblvgl/widgets/image/lv_image.h"
-
-void displayImageFromArray() {
-	lv_obj_t* img = lv_image_create(lv_screen_active());
-	lv_image_set_src(img, &logo);
-	lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
-}
 
 void on_center_button() {}
 
 void initialize() {
-	displayImageFromArray();
-
 	chassis.calibrate();
 	chassis.setPose(0,0,0);
 
