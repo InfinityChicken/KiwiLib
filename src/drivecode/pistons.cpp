@@ -16,8 +16,10 @@ bool scraperPressed = false;
 bool midDescorePressed = false;
 
 void updatePistons() {
+    //r1 wing, up intake lift, right matchloader/close trapdoor, b mid descore, down trapdoor toggle
+    
     // R1: wing toggle
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2) || controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
         if (!wingPressed) {
             if (wingState == 0) {
                 wingState = 1;
@@ -30,18 +32,21 @@ void updatePistons() {
         wingPressed = false;
     }
 
-    // R2: score on hold — open trapdoor while held, close on release
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        trapdoorState = 1;
-        trapdoorPressed = true;
-    } else {
-        if (trapdoorPressed) {
-            trapdoorState = 0;
-        }
-        trapdoorPressed = false;
-    }
+    // // down: trapdoor toggle
+    // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+    //     if (!trapdoorPressed) {
+    //         if (trapdoorState == 0) {
+    //             trapdoorState = 1;
+    //         } else {
+    //             trapdoorState = 0;
+    //         }
+    //     }
+    //     trapdoorPressed = true;
+    // } else {
+    //     trapdoorPressed = false;
+    // }
 
-    // UP: odom lift toggle
+    // UP: intake lift toggle
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
         if (!intakeLiftPressed) {
             if (intakeLiftState == 0) {
@@ -60,7 +65,7 @@ void updatePistons() {
         if (!scraperPressed) {
             if (scraperState == 0) {
                 scraperState = 1;
-                trapdoorState = 1;
+                trapdoorState = 0;
             } else {
                 scraperState = 0;
             }
@@ -70,12 +75,13 @@ void updatePistons() {
         scraperPressed = false;
     }
 
+    // B: mid descore
     if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
         if (!midDescorePressed) {
             if (midDescoreState == 0) {
                 midDescoreState = 1;
             } else {
-                midDescoreState = 1;
+                midDescoreState = 0;
             }
         midDescorePressed = true;
         }

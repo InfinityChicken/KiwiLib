@@ -22,7 +22,8 @@ pros::MotorGroup rightMotors({1, -3, 4}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(6);
-pros::Rotation horizRotation(-7);
+pros::Optical color(18);
+pros::Rotation horizRotation(7);
 pros::Distance distRight(13);
 pros::Distance distLeft(20);
 pros::Distance distFrontLeft(15);
@@ -52,15 +53,15 @@ lemlib::Drivetrain drivetrain(
     &rightMotors,
     11.44,
     3.25,
-    450,    //TODO: horizontal drift disabled
-    0 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
+    450,
+    60 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
 );
 
 //controller settings
 lemlib::ControllerSettings lateralController(
     10,                           //kP
     0.16,                         //kI
-    32,                           //kD    
+    56,                           //kD    
     4,                   //windup range
     0.5,                    //small error
     50,           //small error timeout
@@ -70,7 +71,7 @@ lemlib::ControllerSettings lateralController(
 );
 
 lemlib::ControllerSettings angularController(
-    2.5,
+    2.75, //TODO: BOOSTED THIS BY 0.25
     0.32,
     20,
     5,
@@ -85,8 +86,8 @@ lemlib::ControllerSettings angularController(
 lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
                                     distFrontRight, 4.13, 5.27,
                                     distBack, 2.99, 4.66,
-                                    distLeft, 4.80, 2.04,
-                                    distRight, 4.80, -3.18);
+                                    distLeft, 2.04, 4.80,
+                                    distRight, -3.18, 4.80);
 
 //controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

@@ -18,7 +18,7 @@ float absMax(float x1, float x2) {
 void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"distance reset started\n";
     //treat as lemlib motion so doesnt interfere with motions in progress
-    this->requestMotionStart();
+    // this->requestMotionStart();
 
     float rotated = 0;
 
@@ -59,18 +59,22 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     if(side1 != nullptr && mmToIn(side1->distance.get())>300) {
         side1 = nullptr;
         std::cout<<"side1 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     } 
     if(side2 != nullptr && mmToIn(side2->distance.get())>300) {
         side2 = nullptr;
         std::cout<<"side2 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     }
     if(front1 != nullptr && mmToIn(front1->distance.get())>300) {
         front1 = nullptr;
         std::cout<<"front1 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     } 
     if(front2 != nullptr && mmToIn(front2->distance.get())>300) {
         front2 = nullptr;
         std::cout<<"front2 bad\n";
+        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "BADBADBAD");
     }
 
     //if both/essential distance sensors are bad, don't reset
@@ -162,7 +166,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"distance reset finished\n\n";
 
     this->setPose(pose);
-    this->endMotion();
+    // this->endMotion();
     return;
     
 }

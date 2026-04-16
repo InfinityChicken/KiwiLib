@@ -2,7 +2,7 @@
 #include "lemlib/pose.hpp"
 #include "lemlib/util.hpp"
 
-float mmToIn(float mm) {
+float lemlib::mmToIn(float mm) {
     return mm / 25.4;
 }
 
