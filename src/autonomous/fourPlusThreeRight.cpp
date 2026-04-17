@@ -5,6 +5,75 @@
 
 //reflect blindcode
 void fourPlusThreeRight() {
+    //dist reset
+    chassis.setPose(1, -1, 0);
+    chassis.distanceReset('R', 'B');
+
+    //block grab 3
+    intakeState = 3;
+    wingState = 1;
+    chassis.moveToPoint(20, -28, 1000, {.minSpeed = 90, .earlyExitRange = 3}, true);
+    chassis.waitUntil(16);
+    scraperState = 1;
+    wingState = 0;
+    chassis.waitUntilDone();
+    chassis.turnToHeading(-70, 1000, {.minSpeed = 100, .earlyExitRange = 45}); //TODO: tune
+    chassis.turnToHeading(-70, 1000, {.maxSpeed = 40, .minSpeed = 10, .earlyExitRange = 4}); //TODO: tune
+    chassis.moveToPoint(32, -29, 1000, {.forwards = false, .minSpeed = 80});
+
+    //swing into goal
+    leftMotors.move_voltage(-12000);
+    rightMotors.move(20); //TODO: tune
+
+    while(std::fabs(chassis.getPose().theta + 180) > 10) { //+180 because robot is at negative 180 when sitting in long
+        pros::delay(10);
+    } //start scoring early within 20deg of target
+    trapdoorState = 1;
+    intakeState = 1;
+
+    while(std::fabs(chassis.getPose().theta + 180) > 6) { //exit when close
+        pros::delay(10);
+    }
+    leftMotors.move(-60);
+    rightMotors.move(-60);
+    pros::delay(300);
+
+    //dsr in long
+    chassis.turnToHeading(180, 1000);
+    chassis.setPose(1, -1, 180);
+    chassis.distanceReset('L', 'F');
+    scraperState = 0;
+
+    //wing
+    chassis.moveDistance(4, 1000, {.minSpeed = 100});
+    chassis.swingToHeading(310, lemlib::DriveSide::RIGHT, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 100, .earlyExitRange = 10, .coast = false});
+    chassis.turnToHeading(360, 1000, {.minSpeed = 30, .earlyExitRange = 4});
+    chassis.moveToPoint(32.5, -13.5, 1000, {.minSpeed = 100}); //TODO: tune
+
+    return;
+
+    //move to ml
+    pros::delay(3000);
+    wingState = 1;
+    chassis.turnToHeading(0, 1000);
+    chassis.distanceReset('R', 'B');
+    chassis.moveToPoint(35.6, -35, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
+    chassis.moveToPoint(49.5, -40, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
+    chassis.turnToHeading(180, 1000);
+    chassis.distanceReset('L', 'F');
+    scraperState = 1;
+    chassis.moveDistance(10, 1000, {.minSpeed = 127 * 0.5});
+    chassis.distanceReset('L', 'F');
+
+    //go to low goal
+    chassis.moveToPose(19, -18, 140, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
+    scraperState = 0;
+    chassis.turnToHeading(320, 1000, {.minSpeed = 30, .earlyExitRange = 2});
+    chassis.moveToPoint(14, -14, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    intakeState = 2;
+
+    return;
+
     // //dsr
     // chassis.setPose(1, -1, 90);
     // chassis.distanceReset('F', 'R');
@@ -30,83 +99,36 @@ void fourPlusThreeRight() {
     // chassis.setPose(1, -1, chassis.getPose().theta);
 
     //code for starting in long
-     chassis.setPose(1, -1, 180);
-     chassis.distanceReset('L', 'F');
-     scraperState = 0;
+    //  chassis.setPose(1, -1, 180);
+    //  chassis.distanceReset('L', 'F');
+    //  scraperState = 0;
 
-    // //dist reset 4 GRAB
-    // chassis.setPose(1, -1, 0);
-    // chassis.distanceReset('R', 'B');
 
-    // //block grab 4 GRAB
-    // intakeState = 3;
+    // //old wing
+    // chassis.sendVoltage(12000, 150);
+    // chassis.moveToPoint(35.25, -40, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    // chassis.turnToHeading(-10, 500, {.minSpeed = 60, .earlyExitRange = 2});
+    // chassis.moveToPoint(33.5, -13, 1000);
+    // chassis.turnToHeading(-15, 1000, {.minSpeed = 110});
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+
+    // //delay and exit long
+    // pros::delay(3000);
+    // intakeState = 1;
     // wingState = 1;
-    // chassis.moveToPoint(24, -28, 1000, {.minSpeed = 90}, true); //prev earlyexitrange 9, prev minspeed 90
-    // chassis.waitUntil(14);
+    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+    // chassis.moveDistance(-5, 1000, {.forwards = false});
+    // chassis.turnToPoint(21, -24, 1000);
+
+    // //block grab
+    // chassis.moveToPoint(21, -24, 1000, {}, true);
+    // chassis.waitUntil(4); //tune
     // scraperState = 1;
     // chassis.waitUntilDone();
-    // chassis.turnToHeading(-90, 1000, {.minSpeed = 20});
-    // chassis.moveToPoint(32, -28, 1000, {.forwards = false});
-    // // chassis.moveToPose(32, -26, -90, 1000, {.forwards = false});
-    // return;
-    // chassis.moveToPoint(36.5, -30, 1000, {.forwards = false});
-    
-    // return;
 
-    //wing copied from 7right
-    chassis.moveDistance(4, 1000, {.minSpeed = 100});
-    chassis.swingToHeading(310, lemlib::DriveSide::RIGHT, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 100, .earlyExitRange = 10, .coast = false});
-    chassis.turnToHeading(360, 1000, {.minSpeed = 30, .earlyExitRange = 4});
-    chassis.moveToPoint(32.5, -13.5, 1000);
-    chassis.turnToHeading(-15, 500, {.minSpeed = 60}); //TODO: consider removing tee ess
-
-    //move to ml
-    pros::delay(3000);
-    wingState = 1;
-    chassis.turnToHeading(0, 1000);
-    chassis.distanceReset('R', 'B');
-    chassis.moveToPoint(35.6, -35, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
-    chassis.moveToPoint(49.5, -40, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
-    chassis.turnToHeading(180, 1000);
-    chassis.distanceReset('L', 'F');
-    scraperState = 1;
-    chassis.moveDistance(10, 1000, {.minSpeed = 127 * 0.5});
-    chassis.distanceReset('L', 'F');
-
-    //go to low goal
-    chassis.moveToPose(19, -18, 140, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
-    scraperState = 0;
-    chassis.turnToHeading(320, 1000, {.minSpeed = 30, .earlyExitRange = 2});
-    chassis.moveToPoint(14, -14, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    intakeState = 2;
-
-    return;
-
-    //old wing
-    chassis.sendVoltage(12000, 150);
-    chassis.moveToPoint(35.25, -40, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    chassis.turnToHeading(-10, 500, {.minSpeed = 60, .earlyExitRange = 2});
-    chassis.moveToPoint(33.5, -13, 1000);
-    chassis.turnToHeading(-15, 1000, {.minSpeed = 110});
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-
-    //delay and exit long
-    pros::delay(3000);
-    intakeState = 1;
-    wingState = 1;
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    chassis.moveDistance(-5, 1000, {.forwards = false});
-    chassis.turnToPoint(21, -24, 1000);
-
-    //block grab
-    chassis.moveToPoint(21, -24, 1000, {}, true);
-    chassis.waitUntil(4); //tune
-    scraperState = 1;
-    chassis.waitUntilDone();
-
-    //score mid
-    chassis.turnToHeading(-45, 1000);
-    scraperState = 0;
-    chassis.moveToPoint(2, -7, 1000, {.maxSpeed = 60});
-    intakeState = 2;
+    // //score mid
+    // chassis.turnToHeading(-45, 1000);
+    // scraperState = 0;
+    // chassis.moveToPoint(2, -7, 1000, {.maxSpeed = 60});
+    // intakeState = 2;
 }
