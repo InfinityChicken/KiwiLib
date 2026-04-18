@@ -12,22 +12,18 @@ void fourPlusThreeRight() {
     //block grab 3
     intakeState = 3;
     wingState = 1;
-    chassis.moveToPoint(22.5, -26.5, 1000, {.minSpeed = 80, .earlyExitRange = 3}, true);
+    chassis.moveToPoint(22.5, -26.5, 1000, {.minSpeed = 127, .earlyExitRange = 2}, true);
     chassis.waitUntil(16.5);
     scraperState = 1;
     wingState = 0;
-    chassis.waitUntilDone();
-    //chassis.turnToHeading(-40, 1000, {.minSpeed = 100, .earlyExitRange = 5});
-    chassis.turnToPoint(32, -27.5, 1000, {.forwards = false, .minSpeed = 100, .earlyExitRange = 15}); //eer prev 20
-    //chassis.turnToHeading(-75, 1000, {.minSpeed = 100, .earlyExitRange = 50}); //TODO: tune prev 45
-    //chassis.turnToHeading(-75, 1000, {.maxSpeed = 40, .minSpeed = 10, .earlyExitRange = 4}); //TODO: tune
-    chassis.moveToPoint(32, -28.5, 1000, {.forwards = false, .minSpeed = 80});
+    chassis.turnToHeading(-30, 1000, {.minSpeed = 100, .earlyExitRange = 15});
+    chassis.moveToPoint(39, -30, 1000, {.forwards = false, .minSpeed = 80});
 
     //swing into goal
-    leftMotors.move_voltage(-12000);
-    rightMotors.move(20); //TODO: tune
+    leftMotors.move(-127);
+    rightMotors.move(10); //TODO: tune
 
-    while(std::fabs(chassis.getPose().theta + 180) > 20) { //+180 because robot is at negative 180 when sitting in long
+    while(chassis.getPose().theta > -160) {
         pros::delay(10);
     } //start scoring early within 20deg of target
     trapdoorState = 1;
@@ -36,9 +32,11 @@ void fourPlusThreeRight() {
     while(std::fabs(chassis.getPose().theta + 180) > 12) { //exit when close
         pros::delay(10);
     }
-    leftMotors.move(-80);
-    rightMotors.move(-80);
-    pros::delay(300);
+
+    //reverse into long
+    rightMotors.move(-127);
+    leftMotors.move(-60); //prev 80
+    pros::delay(700);
 
     //dsr in long
     chassis.turnToHeading(180, 1000);
@@ -62,11 +60,9 @@ void fourPlusThreeRight() {
     chassis.distanceReset('R', 'B');
     chassis.moveToPoint(33.6, -35, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
     chassis.swingToPoint(48, -54, lemlib::DriveSide::RIGHT, 1000, {.minSpeed = 60, .earlyExitRange = 5});
-    //chassis.moveToPoint(48, -40, 1000, {.forwards = false, .minSpeed = 60});
-    //chassis.turnToHeading(180, 1000);
     chassis.distanceReset('L', 'F');
     scraperState = 1;
-    chassis.moveToPose(48, -58, 180, 1000, {.minSpeed = 80, .earlyExitRange = 5});
+    chassis.moveToPose(47, -58, 180, 1000, {.minSpeed = 80, .earlyExitRange = 5});
     chassis.moveDistance(9, 500, {.minSpeed = 127 * 0.7});
     pros::delay(25);
     chassis.distanceReset('L', 'F');
@@ -74,8 +70,9 @@ void fourPlusThreeRight() {
     //go to low goal
     chassis.moveToPose(19, -18, 140, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
     scraperState = 0;
-    chassis.turnToHeading(320, 1000, {.earlyExitRange = 2});
-    chassis.moveToPoint(19, -19, 1000, {.minSpeed = 80}, true);
+    chassis.turnToHeading(315, 1000, {.earlyExitRange = 2});
+    return;
+    chassis.moveToPoint(19.4, -19.8, 1000, {.minSpeed = 80}, true);
     chassis.waitUntil(5);
     intakeState = 2;
 

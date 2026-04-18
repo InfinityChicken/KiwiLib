@@ -1,9 +1,9 @@
 #include "autonomous/autonomous.hpp"
 #include "pros/motors.h"
 
-//og
+//TUNED
 void fourPlusThreeLeft() {
-    //dist reset
+    // //dist reset
     chassis.setPose(-1, -1, 0);
     chassis.distanceReset('L', 'B');
 
@@ -17,8 +17,6 @@ void fourPlusThreeLeft() {
     chassis.waitUntilDone();
     chassis.turnToPoint(-35, -27, 1000, {.forwards = false, .minSpeed = 100, .earlyExitRange = 15}); //eer prev 20
     chassis.moveToPoint(-39, -25.5, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
-    // intakeState = 0;
-    // trapdoorState = 1;
 
     //swing into goal
     rightMotors.move(-127);
@@ -32,31 +30,26 @@ void fourPlusThreeLeft() {
     trapdoorState = 1;
     intakeState = 1;
 
-    leftMotors.move(0);
-    rightMotors.move(0);
-
-    return;
-
     //reverse into long
     leftMotors.move(-127);
-    rightMotors.move(-80);
-    pros::delay(500);
+    rightMotors.move(-60); //prev 80
+    pros::delay(700);
 
     //dsr in long
     chassis.setPose(-1, -1, chassis.getPose().theta);
+    //chassis.setPose(-1, -1, 180);
     chassis.distanceReset('R', 'F');
     scraperState = 0;
 
     //left wing
-    chassis.turnToHeading(135, 500, {.minSpeed = 60, .earlyExitRange = 4});
-    chassis.moveToPoint(-41.5, -36, 1000, {.minSpeed = 100, .earlyExitRange = 4});
+    chassis.turnToHeading(135, 350, {.minSpeed = 60, .earlyExitRange = 4});
+    trapdoorState = 0;
+    chassis.moveToPoint(-41.5, -33.75, 1000, {.minSpeed = 100, .earlyExitRange = 4});
     //chassis.moveDistance(7.5, 1000, {.minSpeed = 100, .earlyExitRange = 4});
     chassis.turnToHeading(178, 500, {.minSpeed = 60});
     chassis.moveToPoint(-38.5, -12, 1000, {.forwards = false, .minSpeed = 80});
     //chassis.moveDistance(-22, 1000, {.forwards = false, .minSpeed = 60});
     chassis.turnToHeading(180, 1000);
-    
-    return;
 
     //move to ml
     pros::delay(3000);
@@ -73,21 +66,21 @@ void fourPlusThreeLeft() {
     //chassis.distanceReset('R', 'F');
     chassis.moveDistance(14, 1000, {.minSpeed = 100, .earlyExitRange = 4});
     scraperState = 1;
-    chassis.moveToPose(-41.5, -61, 180, 1000, {.lead = 0.4});
+    chassis.moveToPose(-43, -61, 180, 1000, {.lead = 0.4});
     chassis.moveDistance(15, 500, {.minSpeed = 127 * 0.7});
     pros::delay(50);
     chassis.distanceReset('R', 'F');
 
     //go to mid goal
-    chassis.moveDistance(-7, 500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 3});
-    chassis.moveToPose(-12, -7, 220, 2000, {.forwards = false, .lead = 0.5, .minSpeed = 80});
+    //chassis.moveDistance(-7, 500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 3});
+    chassis.moveToPose(-12, -10, 225, 2000, {.forwards = false, .minSpeed = 60}); //prev -10, -13
     chassis.moveDistance(-8, 500, {.forwards = false});
     chassis.turnToHeading(225, 500, {}, true);
     scraperState = 0;
     //chassis.turnToHeading(320, 1000, {.earlyExitRange = 2});
     //chassis.moveToPoint(19, -19, 1000, {.minSpeed = 80}, true);
     //chassis.waitUntil(5);
-    intakeState = 4;
+    intakeState = 4; //TODO: lower mid goal speed
 
     return;
 }
