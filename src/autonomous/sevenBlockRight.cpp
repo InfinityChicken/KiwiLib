@@ -18,8 +18,8 @@ void sevenRight() {
     wingState = 0;
 
     //go to ml
-    chassis.moveToPose(44, -55.5, 179, 1000, {.lead = 0.5, .minSpeed = 80});
-    chassis.sendVoltage(12000 * 0.7, 500);
+    chassis.moveToPose(45, -57.25, 179, 1000, {.lead = 0.5, .minSpeed = 60});
+    chassis.sendVoltage(12000 * 0.5, 500);
     pros::delay(400);
     chassis.turnToHeading(181, 1000);
     chassis.distanceReset('L', 'F');
@@ -34,12 +34,10 @@ void sevenRight() {
     scraperState = 0;
 
     //wing
-    chassis.sendVoltage(12000, 120);
-    chassis.moveToPoint(35.25, -40, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    chassis.turnToHeading(-10, 500, {.minSpeed = 60, .earlyExitRange = 2});
-    chassis.moveToPoint(33.5, -13, 1000);
-    chassis.turnToHeading(-15, 1000, {.minSpeed = 110});
-
+    chassis.moveDistance(4, 1000, {.minSpeed = 100});
+    chassis.swingToHeading(310, lemlib::DriveSide::RIGHT, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 100, .earlyExitRange = 10, .coast = false});
+    chassis.turnToHeading(360, 1000, {.minSpeed = 30, .earlyExitRange = 6}); //prev 4
+    chassis.moveToPoint(32.5, -15.5, 1000, {.minSpeed = 100}); //TODO: tune
+    intakeState = 0;
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    return;
 }
