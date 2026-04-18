@@ -26,11 +26,11 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	// sevenRight();
+	sevenRight();
 	// sevenLeft();
 	// fourPlusThreeRight();
-	fourPlusThreeLeft();
-	
+	// fourPlusThreeLeft();
+	// counterSAWP();
 }
 
 void opcontrol() {
