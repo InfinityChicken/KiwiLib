@@ -28,8 +28,8 @@ void autonomous() {
 
 	// sevenRight();
 	// sevenLeft();
-	fourPlusThreeRight();
-	// fourPlusThreeLeft();
+	// fourPlusThreeRight();
+	fourPlusThreeLeft();
 	
 }
 
