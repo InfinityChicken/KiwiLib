@@ -3,7 +3,7 @@
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 
-int sortState = 1;
+int sortState = 0;
 bool currentCorrectColor;
 bool prevCorrectColor;
 int prevIntakeState;
@@ -76,6 +76,18 @@ void runIntake() {
                 bottomIntake.move_voltage(12000);
                 break;
             }
+
+            case 5: { //color sort mid
+                topIntake.move_voltage(-12000);
+                midIntake.move_voltage(12000);
+                bottomIntake.move_voltage(12000);
+            }
+
+            case 6: { //color sort long
+                topIntake.move_voltage(12000);
+                midIntake.move_voltage(12000);
+                bottomIntake.move_voltage(12000);
+            }
         }
 
         if(intakeState > 0) {
@@ -96,28 +108,35 @@ void runIntake() {
             if(color.get_hue() < 20 && color.get_hue() > 0 || color.get_hue() > 340 && color.get_hue() < 356) { //check for color
                 prevCorrectColor = currentCorrectColor;
                 currentCorrectColor = false;
+                std::cout<<"wrong color detected\n";
             } else if(color.get_hue() < 220 && color.get_hue() > 200) {
                 prevCorrectColor = currentCorrectColor;
                 currentCorrectColor = true;
-            }
-
-            if(prevCorrectColor != currentCorrectColor) {
-                if(intakeState == 1 || intakeState == 3) { //sort through mid
-                    prevIntakeState = intakeState;
-                    intakeState = 4;
-                } else if (intakeState == 4) { //sort through long
-                    intakeState = prevIntakeState;
-                }
+                std::cout<<"right color detected\n";
             }
         } else if(sortState == 2) {
-            if(sortState == 1) { //sort out blue, score red
-                if(color.get_hue() < 220 && color.get_hue() > 200) { //check for color //TODO: tune all color sort values
-                    if(intakeState == 1 || intakeState == 3) { //sort through mid
-                        
-                    } else if (intakeState == 4) { //sort through long
-                        
-                    }
-                }
+            if(color.get_hue() < 20 && color.get_hue() > 0 || color.get_hue() > 340 && color.get_hue() < 356) { //check for color
+                prevCorrectColor = currentCorrectColor;
+                currentCorrectColor = true;
+                std::cout<<"right color detected\n";
+            } else if(color.get_hue() < 220 && color.get_hue() > 200) {
+                prevCorrectColor = currentCorrectColor;
+                currentCorrectColor = false;
+                std::cout<<"wrong color detected\n";
+            }
+        }
+
+        if(prevCorrectColor != currentCorrectColor) {
+            if(intakeState == 1 || intakeState == 3) { //sort through mid
+                prevIntakeState = intakeState;
+                intakeState = 5;
+            } else if(intakeState == 5) {
+                intakeState = prevIntakeState;
+            }
+            if (intakeState == 4) { //sort through long
+                intakeState = 6;
+            } else if (intakeState == 6) {
+                intakeState = 4;
             }
         }
 

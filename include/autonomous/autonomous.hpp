@@ -17,3 +17,6 @@ void fourRight();
 void fourLeft();
 
 void auroraAuto();
+
+void nineBallLeft();
+void nineBallRight();

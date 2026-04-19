@@ -2,7 +2,7 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/motors.h"
 
-//hi this is aakanksh im doing it
+//hi this is aakanksh im doing it this is left im silly
 void auroraAuto() {
     
     //dist reset
@@ -25,6 +25,7 @@ void auroraAuto() {
     
     //go to mid goal
     // chassis.moveDistance(-10, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    // chassis.distanceReset('R', 'F');
     // chassis.turnToPoint(0, 0, 1000, {.minSpeed = 30, .earlyExitRange = 4});
     // chassis.moveToPoint(-12, -12, 1000, {.minSpeed = 60, .earlyExitRange = 4});
     chassis.moveToPose(-12, -12, 220, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
@@ -36,6 +37,7 @@ void auroraAuto() {
     intakeState = 1;
     chassis.moveToPoint(-36, -36, 1000, {.minSpeed = 60, .earlyExitRange = 4});
     chassis.turnToHeading(178, 1000, {.minSpeed = 30, .earlyExitRange = 2});
+    //add dsr if it doesnt conflict
     chassis.moveToPoint(-36, -12, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
     wingState = 0;
     chassis.moveToPoint(-36, -48, 1000, {.minSpeed = 60, .earlyExitRange = 4});
@@ -50,9 +52,10 @@ void auroraAuto() {
     chassis.distanceReset('R', 'F');
     
     //descore mid
-    chassis.moveToPoint(-48, -36, 1000);
-    chassis.turnToPoint(0, 0, 1000);
+    chassis.moveToPoint(-48, -36, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    //add dsr if it doesnt conflict
+    chassis.turnToPoint(0, 0, 1000, {.minSpeed = 30, .earlyExitRange = 4});
     midDescoreState = 1;
-
+    chassis.moveToPoint(-12, -12, 1000, {.minSpeed = 60, .earlyExitRange = 4});
 
 }   

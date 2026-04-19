@@ -7,8 +7,8 @@ void motorInit() {
     topIntake.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
     midIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     bottomIntake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    // color.set_integration_time(10);
-    // color.set_led_pwm(100);
+    color.set_integration_time(10);
+    color.set_led_pwm(100);
 }
 
 //sensor settings
