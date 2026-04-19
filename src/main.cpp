@@ -31,7 +31,7 @@ void autonomous() {
 	// fourPlusThreeRight(); //DONE! saturday night
 	// fourPlusThreeLeft(); //DONE! friday night
 	// counterSAWP(); //DONE! saturday night
-	auroraAuto(); //Not done...
+	auroraAuto(); //DONE! saturday night (sunday morning) (could be faster)
 }
 
 void opcontrol() {
