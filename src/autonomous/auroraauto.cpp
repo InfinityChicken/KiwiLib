@@ -9,53 +9,63 @@ void auroraAuto() {
     chassis.setPose(-1, -1, 0);
     chassis.distanceReset('L', 'B');
 
-    //block grab 3
+    //block grab
     intakeState = 3;
     wingState = 1;
-    chassis.moveToPoint(-22.5, -26.5, 1000, {.minSpeed = 127, .earlyExitRange = 2}, true);
-    chassis.waitUntil(17);
+    chassis.moveToPoint(-24, -23, 1000, {.minSpeed = 90, .earlyExitRange = 9}, true);
+    chassis.waitUntil(14);
     scraperState = 1;
     chassis.waitUntilDone();
+    chassis.turnToHeading(-120, 500, {.minSpeed = 70});
 
     //go to ml
-    chassis.moveToPose(-48, -60, 180, 1500, {.minSpeed = 60, .earlyExitRange = 4});
-    chassis.sendVoltage(6000, 400);
+    chassis.moveToPose(-47, -58, 180, 1500, {.horizontalDrift = 50, .lead = 0.32});
+    chassis.turnToHeading(180, 1000, {.minSpeed = 20});
+    chassis.moveDistance(8, 1000, {.minSpeed = 127 * 0.6});
+    chassis.sendVoltage(12000 * 0.6, 600);
+
+    //dsr
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
-    
+        
     //go to mid goal
-    // chassis.moveDistance(-10, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    // chassis.distanceReset('R', 'F');
-    // chassis.turnToPoint(0, 0, 1000, {.minSpeed = 30, .earlyExitRange = 4});
-    // chassis.moveToPoint(-12, -12, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    chassis.moveToPose(-12, -12, 220, 1000, {.forwards = false, .minSpeed = 60, .earlyExitRange = 4});
-    chassis.turnToHeading(225, 1000, {.minSpeed = 30, .earlyExitRange = 4});
+    chassis.moveDistance(-7, 500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 3});
+    chassis.distanceReset('R', 'F');
+    chassis.turnToHeading(218, 500, {.minSpeed = 80, .earlyExitRange = 3});
+    chassis.moveToPose(-9, -12 , 220, 2000, {.forwards = false, .lead = 0.45, .minSpeed = 80});
+    chassis.moveDistance(-6, 500, {.forwards = false});
+    chassis.turnToHeading(225, 500, {}, true);
+    scraperState = 0;
     intakeState = 4;
-    pros::delay(400);
+    pros::delay(800);
+    intakeState = 1;
 
     //wing out long
-    intakeState = 1;
-    chassis.moveToPoint(-36, -36, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    chassis.moveToPoint(-26, -40, 1000, {.minSpeed = 60, .earlyExitRange = 4});
     chassis.turnToHeading(178, 1000, {.minSpeed = 30, .earlyExitRange = 2});
-    //add dsr if it doesnt conflict
-    chassis.moveToPoint(-36, -12, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
+    chassis.distanceReset('R', 'F');
+    chassis.moveToPoint(-32, -13, 1000, {.forwards = false});
+    chassis.turnToHeading(180, 1000);
     wingState = 0;
+    chassis.distanceReset('R', 'F');
     chassis.moveToPoint(-36, -48, 1000, {.minSpeed = 60, .earlyExitRange = 4});
 
     //score long
-    chassis.moveToPose(-48, -25, 180, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    trapdoorState = 0;
+    chassis.moveToPoint(-48, -25, 1000, {.forwards = false, .minSpeed = 60});
+    trapdoorState = 1;
     rightMotors.move(-127);
-    leftMotors.move(-60); //prev 80
+    leftMotors.move(-80);
+    pros::delay(500);
+    intakeState = 3;
     pros::delay(500);
     chassis.setPose(-1, -1, chassis.getPose().theta);
     chassis.distanceReset('R', 'F');
     
     //descore mid
-    chassis.moveToPoint(-48, -36, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    //add dsr if it doesnt conflict
-    chassis.turnToPoint(0, 0, 1000, {.minSpeed = 30, .earlyExitRange = 4});
+    // chassis.moveToPoint(-48, -38, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    chassis.moveToPoint(-48, -48, 1000);
+    chassis.distanceReset('R', 'F');
     midDescoreState = 1;
-    chassis.moveToPoint(-12, -12, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-
-}   
+    chassis.turnToHeading(225, 1000);
+    chassis.moveToPoint(-11, -12, 2000, {.forwards = false});
+}
