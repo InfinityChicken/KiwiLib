@@ -45,10 +45,8 @@ void fourPlusThreeLeft() {
     chassis.turnToHeading(135, 350, {.minSpeed = 60, .earlyExitRange = 4});
     trapdoorState = 0;
     chassis.moveToPoint(-41.5, -33.75, 1000, {.minSpeed = 100, .earlyExitRange = 4});
-    //chassis.moveDistance(7.5, 1000, {.minSpeed = 100, .earlyExitRange = 4});
     chassis.turnToHeading(178, 500, {.minSpeed = 60});
     chassis.moveToPoint(-38.5, -12, 1000, {.forwards = false, .minSpeed = 80});
-    //chassis.moveDistance(-22, 1000, {.forwards = false, .minSpeed = 60});
     chassis.turnToHeading(180, 1000);
 
     //move to ml

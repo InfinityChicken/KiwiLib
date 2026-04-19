@@ -1,7 +1,6 @@
 #include "autonomous/autonomous.hpp"
 #include <strings.h>
 
-//og
 void sevenRight() {
     //dist reset
     chassis.setPose(1, -1, 0);
@@ -18,8 +17,8 @@ void sevenRight() {
     wingState = 0;
 
     //go to ml
-    chassis.moveToPose(48, -58, 180, 1500, {.horizontalDrift = 40});
-    chassis.turnToHeading(180, 1000);
+    chassis.moveToPose(48, -58, 180, 1500, {.horizontalDrift = 40, .earlyExitRange = 1.5}); //TODO
+    chassis.turnToHeading(180, 1000, {.minSpeed = 10}); //TODO
     chassis.moveDistance(8, 1000, {.minSpeed = 127 * 0.6});
     chassis.sendVoltage(12000 * 0.6, 500);
 

@@ -44,7 +44,7 @@ void runIntake() {
             }
 
             case 2: { // outtake
-                topIntake.move_voltage(-12000*0.4);
+                topIntake.move_voltage(-12000*0.35);
                 midIntake.move_voltage(-12000);
                 bottomIntake.move_voltage(-12000);
                 break;
