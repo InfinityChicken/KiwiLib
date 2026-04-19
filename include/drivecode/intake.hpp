@@ -4,6 +4,7 @@
 
 // enum IntakeStates {STOPPED, LONG_GOAL, OUTTAKE, MID_GOAL, BOTTOM_ONLY};
 
+extern int sortState;
 extern int intakeState;
 extern bool lowSpeedMode;
 void updateIntake();

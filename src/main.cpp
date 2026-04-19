@@ -31,6 +31,7 @@ void autonomous() {
 	fourPlusThreeRight(); 
 	// fourPlusThreeLeft(); //DONE!
 	// counterSAWP(); //Needs slight tuning
+	// auroraAuto();
 }
 
 void opcontrol() {

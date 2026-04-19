@@ -15,3 +15,5 @@ void fourPlusThreeLeft();
 
 void fourRight();
 void fourLeft();
+
+void auroraAuto();

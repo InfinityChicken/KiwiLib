@@ -3,7 +3,10 @@
 #include "pros/misc.h"
 #include "drivecode/intake.hpp"
 
-// int sortState = 1;
+int sortState = 1;
+bool currentCorrectColor;
+bool prevCorrectColor;
+int prevIntakeState;
 
 int intakeState = 0;
 int toggleState = 0;
@@ -22,26 +25,6 @@ int midTicks = 0;
 
 // Jam detection threshold (mA) — tune as needed
 static const int JAM_CURRENT = 2500;
-
-// void colorSortThruMid() {
-//     topIntake.move_voltage(12000);
-//     midIntake.move_voltage(12000);
-//     topIntake.move_voltage(-12000);
-//     pros::delay(100); //outtake
-//     topIntake.move_voltage(12000);
-//     midIntake.move_voltage(12000);
-//     topIntake.move_voltage(12000); //reset
-// }
-
-// void colorSortThruLong() {
-//     topIntake.move_voltage(12000);
-//     midIntake.move_voltage(12000);
-//     topIntake.move_voltage(12000);
-//     pros::delay(100); //outtake
-//     topIntake.move_voltage(12000);
-//     midIntake.move_voltage(12000);
-//     topIntake.move_voltage(-12000); //reset
-// }
 
 void runIntake() {
     while (true) {
@@ -109,25 +92,34 @@ void runIntake() {
             }
         }
 
-        // if(sortState == 1) { //sort out red, score blue
-        //     if(color.get_hue() < 20 && color.get_hue() > 0 || color.get_hue() > 340 && color.get_hue() < 356) { //check for color
-        //         if(intakeState == 1 || intakeState == 3) {
-        //             colorSortThruMid();
-        //         } else if (intakeState == 4) {
-        //             colorSortThruLong();
-        //         }
-        //     }
-        // } else if(sortState == 2) {
-        //     if(sortState == 1) { //sort out blue, score red
-        //         if(color.get_hue() < 220 && color.get_hue() > 200) { //check for color //TODO: tune all color sort values
-        //             if(intakeState == 1 || intakeState == 3) {
-        //                 colorSortThruMid();
-        //             } else if (intakeState == 4) {
-        //                 colorSortThruLong();
-        //             }
-        //         }
-        //     }
-        // }
+        if(sortState == 1) { //sort out red, score blue
+            if(color.get_hue() < 20 && color.get_hue() > 0 || color.get_hue() > 340 && color.get_hue() < 356) { //check for color
+                prevCorrectColor = currentCorrectColor;
+                currentCorrectColor = false;
+            } else if(color.get_hue() < 220 && color.get_hue() > 200) {
+                prevCorrectColor = currentCorrectColor;
+                currentCorrectColor = true;
+            }
+
+            if(prevCorrectColor != currentCorrectColor) {
+                if(intakeState == 1 || intakeState == 3) { //sort through mid
+                    prevIntakeState = intakeState;
+                    intakeState = 4;
+                } else if (intakeState == 4) { //sort through long
+                    intakeState = prevIntakeState;
+                }
+            }
+        } else if(sortState == 2) {
+            if(sortState == 1) { //sort out blue, score red
+                if(color.get_hue() < 220 && color.get_hue() > 200) { //check for color //TODO: tune all color sort values
+                    if(intakeState == 1 || intakeState == 3) { //sort through mid
+                        
+                    } else if (intakeState == 4) { //sort through long
+                        
+                    }
+                }
+            }
+        }
 
         if(prevState != intakeState) {
             midTicks = 0;

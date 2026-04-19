@@ -291,7 +291,7 @@ struct SwingToPointParams {
          * non-zero.*/
         float earlyExitRange = 0;
 
-        bool coast = true;
+        bool coast = false;
 };
 
 /**
@@ -314,7 +314,7 @@ struct SwingToHeadingParams {
          * non-zero.*/
         float earlyExitRange = 0;
         
-        bool coast = true;
+        bool coast = false;
 };
 
 /**
