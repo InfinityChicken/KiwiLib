@@ -20,9 +20,10 @@ void auroraAuto() {
 
     //go to ml
     chassis.moveToPose(-47, -58, 180, 1500, {.horizontalDrift = 50, .lead = 0.32});
-    chassis.turnToHeading(180, 1000, {.minSpeed = 20});
+    chassis.turnToHeading(178, 1000, {.minSpeed = 20});
     chassis.moveDistance(8, 1000, {.minSpeed = 127 * 0.6});
-    chassis.sendVoltage(12000 * 0.6, 600);
+    chassis.sendVoltage(12000 * 0.6, 300);
+    pros::delay(300);
 
     //dsr
     chassis.turnToHeading(180, 1000);
@@ -31,7 +32,7 @@ void auroraAuto() {
     //go to mid goal
     chassis.moveDistance(-7, 500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 3});
     chassis.distanceReset('R', 'F');
-    chassis.turnToHeading(218, 500, {.minSpeed = 80, .earlyExitRange = 3});
+    //chassis.turnToHeading(218, 500, {.minSpeed = 80, .earlyExitRange = 3});
     chassis.moveToPose(-9, -12 , 220, 2000, {.forwards = false, .lead = 0.45, .minSpeed = 80});
     chassis.moveDistance(-6, 500, {.forwards = false});
     chassis.turnToHeading(225, 500, {}, true);
@@ -63,9 +64,9 @@ void auroraAuto() {
     
     //descore mid
     // chassis.moveToPoint(-48, -38, 1000, {.minSpeed = 60, .earlyExitRange = 4});
-    chassis.moveToPoint(-48, -48, 1000);
+    chassis.moveToPoint(-48, -49., 1000);
     chassis.distanceReset('R', 'F');
     midDescoreState = 1;
-    chassis.turnToHeading(225, 1000);
-    chassis.moveToPoint(-11, -12, 2000, {.forwards = false});
+    chassis.turnToHeading(234, 1000);
+    chassis.moveToPoint(-12, -10, 2000, {.forwards = false});
 }
