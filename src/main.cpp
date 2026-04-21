@@ -26,14 +26,18 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	// sevenRight(); //DONE! saturday night
-	// sevenLeft(); //DONE! saturday night
-	// fourPlusThreeRight(); //DONE! saturday night
+	// sevenRight();
+	// sevenLeft();
+
+	fourPlusThreeRight(); //DONE! saturday night
 	// fourPlusThreeLeft(); //DONE! friday night
+
 	// counterSAWP(); //DONE! saturday night
-	auroraAuto(); //DONE! saturday night/sunday morning (could be faster)
-	//nineBallRight(); //good sunday
-	//nineBallLeft(); //BAD
+
+	// auroraAuto();
+
+	// nineBallRight(); //good sunday
+	// nineBallLeft(); //BAD
 }
 
 void opcontrol() {
