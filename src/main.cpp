@@ -31,10 +31,10 @@ void autonomous() {
 	// sevenRight();
 	// sevenLeft();
 
-	fourPlusThreeRight(); //DONE! saturday night
+	//fourPlusThreeRight(); //DONE! saturday night
 	// fourPlusThreeLeft(); //DONE! friday night
 
-	// counterSAWP(); //DONE! saturday night
+	counterSAWP(); //DONE! saturday night
 
 	// auroraAuto();
 

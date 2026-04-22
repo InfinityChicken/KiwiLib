@@ -21,7 +21,7 @@ void fourPlusThreeRight() {
     leftMotors.move(-127);
     rightMotors.move(30); //prev 40
 
-    while(chassis.getPose().theta > -160) {
+    while(chassis.getPose().theta > -170) {
         pros::delay(10);
     } 
     
@@ -53,7 +53,7 @@ void fourPlusThreeRight() {
     intakeState = 0;
 
     //move to ml
-    pros::delay(2500); //very important delay
+    pros::delay(2000); //very important delay //2500 before
     wingState = 1;
     trapdoorState = 0;
     intakeState = 1;

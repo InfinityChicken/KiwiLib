@@ -46,7 +46,7 @@ void runIntake() {
             case 2: { // outtake
                 topIntake.move_voltage(-12000*0.35);
                 midIntake.move_voltage(-12000);
-                bottomIntake.move_voltage(-12000);
+                bottomIntake.move_voltage(-12000*0.75);
                 break;
             }
 
@@ -77,17 +77,12 @@ void runIntake() {
                 break;
             }
 
-            case 5: { //color sort mid
-                topIntake.move_voltage(-12000);
-                midIntake.move_voltage(12000);
+            case 5: { //special auto state for filling
+                topIntake.move_voltage(0);
+                midIntake.move_voltage(0);
                 bottomIntake.move_voltage(12000);
             }
 
-            case 6: { //color sort long
-                topIntake.move_voltage(12000);
-                midIntake.move_voltage(12000);
-                bottomIntake.move_voltage(12000);
-            }
         }
 
         if(intakeState > 0) {
