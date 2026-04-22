@@ -18,7 +18,7 @@ pros::Motor bottomIntake(8, pros::MotorGearset::blue);
 
 //drive motors
 pros::MotorGroup leftMotors({-10, -16, 19}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({1, -3, 4}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({1, -4, 3}, pros::MotorGearset::blue);
 
 //sensors
 pros::Imu imu(6);

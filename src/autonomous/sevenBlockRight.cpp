@@ -17,8 +17,8 @@ void sevenRight() {
     wingState = 0;
 
     //go to ml
-    chassis.moveToPose(48, -58, 180, 1500, {.horizontalDrift = 40, .earlyExitRange = 1.5}); //TODO
-    chassis.turnToHeading(180, 1000, {.minSpeed = 10}); //TODO
+    chassis.moveToPose(49, -58, 180, 1500, {.horizontalDrift = 35, .minSpeed = 30}); //TODO
+    chassis.turnToHeading(178, 1000, {.minSpeed = 30}); //TODO
     chassis.moveDistance(8, 1000, {.minSpeed = 127 * 0.6});
     chassis.sendVoltage(12000 * 0.6, 500);
 
@@ -27,8 +27,8 @@ void sevenRight() {
     chassis.distanceReset('L', 'F');
 
     //get to long
-    chassis.moveToPoint(47, -27, 1000, {.forwards = false, .minSpeed = 110, .earlyExitRange = 20});
-    chassis.moveToPoint(47, -27, 1000, {.forwards = false, .maxSpeed = 80, .minSpeed = 127 * 0.4}, true);
+    chassis.moveToPoint(47, -27, 1000, {.forwards = false, .minSpeed = 110, .earlyExitRange = 10});
+    chassis.moveToPoint(47, -27, 1000, {.forwards = false, .maxSpeed = 60, .minSpeed = 127 * 0.4}, true);
     chassis.waitUntil(17);
     trapdoorState = 1;
     intakeState = 1;
@@ -45,9 +45,9 @@ void sevenRight() {
     scraperState = 0;
 
     //wing
-    chassis.moveDistance(4, 1000, {.minSpeed = 100});
-    chassis.swingToHeading(340, lemlib::DriveSide::RIGHT, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 100, .earlyExitRange = 10, .coast = false});
-    chassis.turnToHeading(5, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 30, .earlyExitRange = 6}); //prev 4
+    chassis.moveDistance(2, 1000, {.minSpeed = 100});
+    chassis.swingToHeading(300, lemlib::DriveSide::RIGHT, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 100, .earlyExitRange = 10, .coast = false});
+    chassis.turnToHeading(5, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 10}); //prev 4
     chassis.moveToPoint(34, -17, 1000, {.minSpeed = 100});
     chassis.turnToHeading(-10, 1000);
     intakeState = 0;
