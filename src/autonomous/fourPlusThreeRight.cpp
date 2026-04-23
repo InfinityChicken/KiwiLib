@@ -14,7 +14,7 @@ void fourPlusThreeRight() {
     scraperState = 1;
     wingState = 0;
 
-    // go to long goal
+    //go to long goal
     chassis.turnToPoint(48, -38, 1000, {.minSpeed = 60});
     chassis.moveToPoint(48, -38, 1000);
     chassis.turnToHeading(180, 1000, {.minSpeed = 60});
@@ -53,8 +53,8 @@ void fourPlusThreeRight() {
     chassis.setPose(1, -1, chassis.getPose().theta);
     chassis.distanceReset('L', 'F');
     scraperState = 1;
-    chassis.moveToPoint(47, -56, 1000, {.minSpeed = 127 * 0.4});
-    chassis.sendVoltage(12000 * 0.4, 600);
+    chassis.moveToPoint(47, -56, 1000, {.minSpeed = 127 * 0.6});
+    chassis.sendVoltage(12000 * 0.6, 600);
 
     //go to low goal
     chassis.moveDistance(-7, 1000, {.forwards = false});

@@ -13,7 +13,7 @@ void counterSAWP() {
     wingState = 1;
     scraperState = 1;
     //chassis.moveToPoint(40, chassis.getPose().y, 1000, {.minSpeed = 127, .earlyExitRange = 10});
-    chassis.moveToPoint(45, chassis.getPose().y, 1000, {.maxSpeed = 60});
+    chassis.moveToPoint(45.5, chassis.getPose().y, 1000, {.maxSpeed = 60});
     chassis.turnToHeading(180, 1000);
     intakeState = 1;
     chassis.moveDistance(6, 1000, {.minSpeed = 127 * 0.5}); //prev 9
@@ -48,10 +48,10 @@ void counterSAWP() {
     //go to long
     chassis.turnToPoint(-42, -60, 1000, {.minSpeed = 30, .earlyExitRange = 4});
     intakeState = 1;
-    chassis.moveToPoint(-43.5, -50, 1000, {.minSpeed = 60, .earlyExitRange = 4});
+    chassis.moveToPoint(-45.5, -50, 1000, {.minSpeed = 60, .earlyExitRange = 4});
     chassis.turnToHeading(180, 1000);
     chassis.distanceReset('R', 'F');
-    chassis.moveToPoint(-47, -25, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
+    chassis.moveToPoint(-47.5, -25, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
     intakeState = 3;
     trapdoorState = 1;
     chassis.sendVoltage(-12000 * 0.3, 1200);
@@ -71,8 +71,8 @@ void counterSAWP() {
     //go to mid goal
     chassis.moveDistance(-7, 500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 3});
     chassis.distanceReset('R', 'F');
-    //chassis.turnToHeading(218, 500, {.minSpeed = 80, .earlyExitRange = 3});
-    chassis.moveToPose(-13, -9.7 , 220, 2000, {.forwards = false, .lead = 0.45, .minSpeed = 80}); //blindcode from x=-10
+    chassis.turnToHeading(218, 500, {.minSpeed = 80, .earlyExitRange = 3});
+    chassis.moveToPose(-13, -9.7, 220, 2000, {.forwards = false, .lead = 0.45, .minSpeed = 80}); //blindcode from x=-10
     chassis.moveDistance(-10, 500, {.forwards = false});
     chassis.turnToHeading(225, 500, {}, true);
     scraperState = 0;
