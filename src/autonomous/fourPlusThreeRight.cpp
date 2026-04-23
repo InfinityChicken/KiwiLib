@@ -13,34 +13,23 @@ void fourPlusThreeRight() {
     chassis.waitUntil(16.75);
     scraperState = 1;
     wingState = 0;
-    chassis.turnToHeading(-66, 1000, {.minSpeed = 60});
-    //chassis.turnToPoint(39, -32.5, 1000, {.forwards = false, .minSpeed = 60}); //prev 60
-    chassis.moveToPoint(39, -28, 500, {.forwards = false, .minSpeed = 80, .earlyExitRange = 2.5}); //prev y=-34 for both
 
-    //swing into goal
-    leftMotors.move(-127);
-    rightMotors.move(30); //prev 40
+    // go to long goal
+    chassis.turnToPoint(48, -38, 1000, {.minSpeed = 60});
+    chassis.moveToPoint(48, -38, 1000);
+    chassis.turnToHeading(180, 1000, {.minSpeed = 60});
+    chassis.distanceReset('L', 'F');
+    chassis.moveToPoint(47.5, -26, 1000, {.forwards = false, .minSpeed = 100});
 
-    while(chassis.getPose().theta > -170) {
-        pros::delay(10);
-    } 
-    
-    //start scoring early within 40deg of target
+    //score
     trapdoorState = 1;
     intakeState = 1;
-
-    while(chassis.getPose().theta > -172) {
-        pros::delay(10);
-    }
-
-    //start reversing angular dir and reverse into long within 20 deg
-    rightMotors.move(-127);
-    leftMotors.move(-127); //prev 80
+    rightMotors.move(-60);
+    leftMotors.move(-60); //prev 80
     pros::delay(400);
 
     //dsr in long
-    chassis.turnToHeading(180, 1000);
-    chassis.setPose(1, -1, 180);
+    chassis.setPose(1, -1, chassis.getPose().theta);
     chassis.distanceReset('L', 'F');
     scraperState = 0;
 
@@ -53,27 +42,26 @@ void fourPlusThreeRight() {
     intakeState = 0;
 
     //move to ml
-    pros::delay(1800); //very important delay //2500 before
+    pros::delay(1000); //very important delay //2500 before
     wingState = 1;
     trapdoorState = 0;
     intakeState = 1;
     chassis.turnToHeading(0, 1000);
     chassis.moveDistance(-24, 1000, {.forwards = false, .minSpeed = 80}); //TODO: prev 60
-    chassis.moveToPoint(44, -48, 1000, {.forwards = false, .maxSpeed = 60}); //blindcode
+    chassis.moveToPoint(44.5, -48, 1000, {.forwards = false, .maxSpeed = 80}); //blindcode
     chassis.turnToHeading(-178, 1000);
     chassis.setPose(1, -1, chassis.getPose().theta);
     chassis.distanceReset('L', 'F');
     scraperState = 1;
     chassis.moveToPoint(47, -56, 1000, {.minSpeed = 127 * 0.4});
-    chassis.sendVoltage(12000 * 0.4, 650);
+    chassis.sendVoltage(12000 * 0.4, 600);
 
     //go to low goal
-    chassis.moveDistance(-5, 1000, {.forwards = false});
+    chassis.moveDistance(-7, 1000, {.forwards = false});
     chassis.distanceReset('L', 'F');
     scraperState = 0;
-    chassis.turnToHeading(-38, 1000);
-    //chassis.turnToPoint(11, -11, 1000);
-    chassis.moveToPose(11, -14, 315, 2000, {.maxSpeed = 80, .earlyExitRange = 2}, true);
+    chassis.turnToPoint(10, 12, 1000);
+    chassis.moveToPoint(10, -12, 2000, {.maxSpeed = 100, .earlyExitRange = 3}, true);
     chassis.waitUntil(45);
     intakeState = 2;
 

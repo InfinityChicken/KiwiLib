@@ -26,6 +26,13 @@ void fourPlusThreeLeft() {
     while(chassis.getPose().theta < 170) { //+180 because robot is at negative 180 when sitting in long
         pros::delay(10);
     } 
+
+    // //go to long goal
+    // //chassis.turnToHeading(-155, 1000);
+    // chassis.turnToPoint(-48, -50, 1000, {.minSpeed = 60});
+    // chassis.moveToPoint(-48, -50, 1000, {.minSpeed = 80});
+    // chassis.turnToHeading(180, 1000);
+    // chassis.moveToPoint(-48, -26, 1000, {.forwards = false, .minSpeed = 80});
     
     //start scoring early within 22deg of target
     trapdoorState = 1;
@@ -52,7 +59,7 @@ void fourPlusThreeLeft() {
     chassis.turnToHeading(180, 1000);
 
     //move to ml
-    pros::delay(3000);
+    pros::delay(2000);
     wingState = 1;
     trapdoorState = 0;
     intakeState = 1;

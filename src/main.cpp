@@ -27,12 +27,13 @@ void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	//chassis.moveDistance(4, 1000);
+	//chassis.turnToHeading(180, 1000);
 
 	// sevenRight();
 	// sevenLeft();
 
 	fourPlusThreeRight(); //DONE! saturday night
-	// fourPlusThreeLeft(); //DONE! friday night
+	//fourPlusThreeLeft(); //DONE! friday night
 
 	//counterSAWP(); //DONE! saturday night
 
@@ -55,11 +56,11 @@ void opcontrol() {
 		// 	pros::delay(500);
 		// }
 
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-		// 	chassis.moveToPose(0, 0, 0, 3000);
-		// }
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+			chassis.moveToPose(0, 0, 0, 3000);
+		}
 
-		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+		// if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
 		// 	chassis.setPose(0, 0, 0);
 		// }
 		
