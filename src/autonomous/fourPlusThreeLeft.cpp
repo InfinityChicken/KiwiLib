@@ -15,14 +15,15 @@ void fourPlusThreeLeft() {
     scraperState = 1;
     wingState = 0;
     chassis.waitUntilDone();
-    chassis.turnToPoint(-35, -27, 1000, {.forwards = false, .minSpeed = 100, .earlyExitRange = 15}); //eer prev 20
+    chassis.turnToHeading(65, 1000, {.minSpeed = 60});
+    //chassis.turnToPoint(-35, -27, 1000, {.forwards = false, .minSpeed = 100, .earlyExitRange = 15}); //eer prev 20
     chassis.moveToPoint(-39, -25.5, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
 
     //swing into goal
     rightMotors.move(-127);
-    leftMotors.move(10);
+    leftMotors.move(30);
 
-    while(chassis.getPose().theta < 160) { //+180 because robot is at negative 180 when sitting in long
+    while(chassis.getPose().theta < 170) { //+180 because robot is at negative 180 when sitting in long
         pros::delay(10);
     } 
     
@@ -32,10 +33,11 @@ void fourPlusThreeLeft() {
 
     //reverse into long
     leftMotors.move(-127);
-    rightMotors.move(-60); //prev 80
+    rightMotors.move(-127); //prev 80
     pros::delay(700);
 
     //dsr in long
+    chassis.turnToHeading(180, 1000);
     chassis.setPose(-1, -1, chassis.getPose().theta);
     //chassis.setPose(-1, -1, 180);
     chassis.distanceReset('R', 'F');
