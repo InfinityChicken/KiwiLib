@@ -12,6 +12,7 @@ void sevenLeft();
 
 void fourPlusThreeRight();
 void fourPlusThreeLeft();
+void fourPlusThreeLeftReflected();
 
 void fourRight();
 void fourLeft();

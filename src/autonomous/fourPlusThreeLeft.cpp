@@ -1,5 +1,83 @@
 #include "autonomous/autonomous.hpp"
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/motors.h"
+
+//TODO: don't forget the freaking 
+
+void fourPlusThreeLeftReflected() {
+    // //dist reset
+    // chassis.setPose(-1, -1, 0);
+    // chassis.distanceReset('L', 'B');
+
+    // //block grab 3
+    // intakeState = 3;
+    // wingState = 1;
+    // chassis.moveToPoint(-23.5, -25.5, 1000, {.minSpeed = 50}, true);
+    // chassis.waitUntil(17);
+    // scraperState = 1;
+    // wingState = 0;
+
+    // //go to long goal
+    // chassis.turnToPoint(-48, -38, 1000, {.minSpeed = 60});
+    // chassis.moveToPoint(-48, -38, 1000);
+    // chassis.turnToHeading(180, 1000, {.minSpeed = 60});
+    // chassis.distanceReset('R', 'F');
+    // chassis.moveToPoint(-47.5, -26, 1000, {.forwards = false, .minSpeed = 100});
+
+    // //score
+    // trapdoorState = 1;
+    // intakeState = 1;
+    // rightMotors.move(-60);
+    // leftMotors.move(-60); //prev 80
+    // pros::delay(600);
+
+    //dsr in long
+    // chassis.setPose(-1, -1, chassis.getPose().theta);
+    chassis.setPose(-1, -1, 180);
+    chassis.distanceReset('R', 'F');
+    scraperState = 0;
+
+    //left wing
+    chassis.moveDistance(4, 1000, {.minSpeed = 60});
+    chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 1000, {.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE, .coast = false});
+    chassis.moveDistance(5, 1000);
+    chassis.turnToHeading(180, 500, {.minSpeed = 60});
+    // chassis.moveToPoint(-41.5, -36, 1000, {.minSpeed = 60});
+    // chassis.turnToHeading(178, 500, {.minSpeed = 60});
+    // chassis.moveToPoint(-38.5, -12, 1000, {.forwards = false, .minSpeed = 80});
+    // chassis.turnToHeading(180, 1000);
+
+    return;
+
+    //move to ml
+    pros::delay(1000); //very important delay //2500 before
+    wingState = 1;
+    trapdoorState = 0;
+    intakeState = 1;
+    chassis.turnToHeading(0, 1000);
+    chassis.moveDistance(-24, 1000, {.forwards = false, .minSpeed = 80}); //TODO: prev 60
+    chassis.moveToPoint(-44.5, -48, 1000, {.forwards = false, .maxSpeed = 80}); //blindcode
+    chassis.turnToHeading(-182, 1000);
+    chassis.setPose(-1, -1, chassis.getPose().theta); 
+    chassis.distanceReset('R', 'F');
+    scraperState = 1;
+    chassis.moveToPoint(-47, -56, 1000, {.minSpeed = 127 * 0.6});
+    chassis.turnToHeading(180, 1000); //TODO: consider
+    chassis.sendVoltage(12000 * 0.6, 600);
+
+    return;
+
+    //go to low goal
+    chassis.moveDistance(-7, 1000, {.forwards = false});
+    chassis.distanceReset('R', 'F');
+    scraperState = 0;
+    chassis.turnToPoint(-10, 12, 1000);
+    chassis.moveToPoint(-10, -12, 2000, {.maxSpeed = 80, .earlyExitRange = 3}, true);
+    chassis.waitUntil(45);
+    intakeState = 2;
+
+    return;
+}
 
 //TUNED
 void fourPlusThreeLeft() {
@@ -10,43 +88,27 @@ void fourPlusThreeLeft() {
     //block grab 3
     intakeState = 3;
     wingState = 1;
-    chassis.moveToPoint(-22.5, -26.5, 1000, {.minSpeed = 127, .earlyExitRange = 2}, true);
+    chassis.moveToPoint(-23.5, -25.5, 1000, {.minSpeed = 50}, true);
     chassis.waitUntil(17);
     scraperState = 1;
     wingState = 0;
-    chassis.waitUntilDone();
-    chassis.turnToHeading(65, 1000, {.minSpeed = 60});
-    //chassis.turnToPoint(-35, -27, 1000, {.forwards = false, .minSpeed = 100, .earlyExitRange = 15}); //eer prev 20
-    chassis.moveToPoint(-39, -25.5, 1000, {.forwards = false, .minSpeed = 80, .earlyExitRange = 4});
 
-    //swing into goal
-    rightMotors.move(-127);
-    leftMotors.move(30);
+    //go to long goal
+    chassis.turnToPoint(-48, -38, 1000, {.minSpeed = 60});
+    chassis.moveToPoint(-48, -38, 1000);
+    chassis.turnToHeading(180, 1000, {.minSpeed = 60});
+    chassis.distanceReset('R', 'F');
+    chassis.moveToPoint(-47.5, -26, 1000, {.forwards = false, .minSpeed = 100});
 
-    while(chassis.getPose().theta < 170) { //+180 because robot is at negative 180 when sitting in long
-        pros::delay(10);
-    } 
-
-    // //go to long goal
-    // //chassis.turnToHeading(-155, 1000);
-    // chassis.turnToPoint(-48, -50, 1000, {.minSpeed = 60});
-    // chassis.moveToPoint(-48, -50, 1000, {.minSpeed = 80});
-    // chassis.turnToHeading(180, 1000);
-    // chassis.moveToPoint(-48, -26, 1000, {.forwards = false, .minSpeed = 80});
-    
-    //start scoring early within 22deg of target
+    //score
     trapdoorState = 1;
     intakeState = 1;
-
-    //reverse into long
-    leftMotors.move(-127);
-    rightMotors.move(-127); //prev 80
-    pros::delay(700);
+    rightMotors.move(-60);
+    leftMotors.move(-60); //prev 80
+    pros::delay(600);
 
     //dsr in long
-    chassis.turnToHeading(180, 1000);
     chassis.setPose(-1, -1, chassis.getPose().theta);
-    //chassis.setPose(-1, -1, 180);
     chassis.distanceReset('R', 'F');
     scraperState = 0;
 
