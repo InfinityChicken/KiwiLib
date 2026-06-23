@@ -26,18 +26,33 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     DistResetSensors* front1 = nullptr;
     DistResetSensors* front2 = nullptr;
 
+    DistResetSensors* xDist = nullptr;
+    DistResetSensors* yDist = nullptr;
+
     //if using front or back as x direction, need to switch axes so x measures left and right
     if(xDirection == 'F') {
         side1 = &distSensors.frontLeft;
         side2 = &distSensors.frontRight;
         rotated = M_PI_2;
+
+        xDist = side1;
+        yDist = side2;
     } else if(xDirection == 'B') {
         side1 = &distSensors.back;
         rotated = M_PI_2;
+
+        xDist = side1;
+        yDist = side2;
     } else if(xDirection == 'R') {
         side1 = &distSensors.right;
+
+        xDist = side1;
+        yDist = side2;
     } else if(xDirection == 'L') {
         side1 = &distSensors.left;
+
+        xDist = side1;
+        yDist = side2;
     }
         
     //if using left or right as y direction, need to rotate axes so y measures fwd and back
