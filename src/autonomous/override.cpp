@@ -1,14 +1,6 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
-void override_test() {
-    chassis.setPose(1, -1, 90);
-    chassis.distanceReset('R', 'F');
-
-    chassis.moveToPoint(24, -1, 1000);
-    // chassis.turnToHeading(-45, 1000);
-}
-
 void override_june() {
     // beginning turn
     // intakeState = 1;
@@ -17,41 +9,37 @@ void override_june() {
     chassis.distanceReset('R', 'F');
 
     // get the first pin
-    chassis.moveToPoint(48, 0, 1000);
-    //chassis.moveToPoint(92, -35, 1000);
+    chassis.moveToPoint(94, -64, 1000);
+    chassis.moveToPoint(113, -54, 1000);
 
-//     // turn to the next pin and get it
-//     chassis.turnToHeading(-42, 500, {.minSpeed = 70, .earlyExitRange = 1.5});
-//     chassis.moveToPoint(93, -29, 1000, {.minSpeed = 70, .earlyExitRange= 1.5});
+    // turn to the next pin and get it
+    chassis.turnToHeading(-42, 1000);
+    chassis.moveToPoint(93, -29, 1000, {.earlyExitRange= 0.5});
 
-//     //go to the quart
-//     chassis.turnToHeading(-97, 500, {.earlyExitRange = 1});
-//     chassis.moveToPoint(67.5, -27, 1500, {.minSpeed = 80, .earlyExitRange= 2});
-//     chassis.moveToPoint(47.5, -27, 1500, {.minSpeed = 80, .earlyExitRange= 2});
+    //go to the quart
+    chassis.turnToHeading(-97, 1000);
+    chassis.moveToPoint(47.5, -27, 1500);
+    chassis.moveDistance(7, 1000);
+    chassis.moveDistance(-10, 1000, {.forwards = false});
 
-//     // in the event it turns away from 90 consistently this is to adjust it
-//   //  chassis.turnToHeading(-90, 1000);
+    // wait a bit to calibrate
+    pros::delay(500);
+    chassis.moveToPoint(12, -7, 1500);
+    chassis.turnToHeading(0, 1000);
 
-//     chassis.moveToPoint(40.5,-27,1500,{.earlyExitRange = 1.5});
-//     chassis.moveDistance(-10, 1000, {.forwards = false,.earlyExitRange = 1.5});
+    // reset distance sensor 
+    chassis.distanceReset('L', 'B');
 
-//     // wait a bit to calibrate
-//    // pros::delay(350);
-//     chassis.moveToPoint(12, -8, 1000,{.minSpeed = 70, .earlyExitRange = 1});
+    // get pin near wall
+    chassis.turnToHeading(-21,1000);
+    chassis.moveDistance(24.5,1000);
+    chassis.turnToHeading(32, 500);
 
-//     // reset distance sensor 
-//     chassis.distanceReset('L', 'B');
-// pros::delay(100);
-//     // get pin near wall
-//     chassis.turnToHeading(-29,1000);
-//     chassis.moveDistance(24, 1000);
-//     chassis.turnToHeading(27, 500,{.earlyExitRange = 1});
+    // align to diagonal
+    chassis.moveDistance(29,1000);
+    chassis.turnToHeading(135, 1000);
 
-//     // align to diagonal
-//     chassis.moveDistance(31,1000, {.earlyExitRange= 1});
-//     chassis.turnToHeading(130, 500, {.earlyExitRange = 1});
-
-//     // get first pin, then second
-//     chassis.moveDistance(28, 1000, {.minSpeed = 90,.earlyExitRange = 2});
-//     chassis.moveDistance(30, 1000, { .minSpeed = 90, .earlyExitRange = 1});
+    // get first pin, then second
+    chassis.moveDistance(28, 1000, {.minSpeed = 110, .earlyExitRange=2});
+    chassis.moveDistance(26, 1000, {.earlyExitRange= 1});
 }
