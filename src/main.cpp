@@ -26,7 +26,14 @@ void competition_initialize() {}
 void autonomous() {
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	override_june();
+	const std::string file = "autonsdtest.csv";
+
+	sdWriter::setData(file, sdWriter::poseData);
+
+	sdWriter::startWrite(file);
+	override();
+	sdWriter::stopWrite(file);
+
 } 
 
 void opcontrol() {
