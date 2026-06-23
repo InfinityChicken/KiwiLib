@@ -7,10 +7,8 @@
 
 float absMax(float x1, float x2) {
     if(std::fabs(x1) > std::fabs(x2)) {
-        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "left front chosen");
         return x1;
     } else {
-        pros::screen::print(pros::E_TEXT_MEDIUM, 150, 50, "right front chosen");
         return x2;
     }
 }
@@ -100,14 +98,6 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"offsetMultiplier: "<<offsetMultiplier<<"        rotated: "<<rotated<<"\n";
     std::cout<<"correctedAngle: "<<correctedAngle<<"\n";
     std::cout<<"sanitized angle: "<<lemlib::sanitizeAngle(currentPose.theta-rotated)*180/M_PI<<"\n";
-    //print pose to brain screen
-    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 10, "correctedAngle: %.3f", correctedAngle);
-    char buf[64];
-    snprintf(buf, sizeof(buf), "%.3f, %.3f, %.3f",
-            currentPose.x, currentPose.y, currentPose.theta);
-    std::string printPos(buf);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 30, "Position: %s", printPos.c_str());
-    std::cout<<printPos<<"\n";
 
 
     // ACTUAL DISTANCE CALCULATION
@@ -168,12 +158,6 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     std::cout<<"y position reset\n";
 
 
-    char buf1[64];
-    snprintf(buf1, sizeof(buf1), "%.3f, %.3f, %.3f",
-            pose.x, pose.y, pose.theta);
-    std::string printPos1(buf1);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 150, 70, "Distance Reset: %s", printPos1.c_str());
-    std::cout<<printPos1<<"\n";
     std::cout<<"distance reset finished\n\n";
 
     this->setPose(pose);
