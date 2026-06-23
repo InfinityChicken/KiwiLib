@@ -1,7 +1,7 @@
 #include "autonomous/autonomous.hpp"
 #include "lemlib/chassis/chassis.hpp"
 
-void override() {
+void override_june() {
     chassis.setPose(1, -1, 90);
     chassis.distanceReset('R', 'F');
 
@@ -26,7 +26,7 @@ void override() {
 
     // wait a bit to calibrate
     // pros::delay(350);
-    
+
     chassis.moveToPoint(12, -8, 1000,{.minSpeed = 70, .earlyExitRange = 1});
 
     // reset distance sensor 
