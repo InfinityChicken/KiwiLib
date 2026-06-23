@@ -58,27 +58,26 @@ lemlib::Drivetrain drivetrain(
 
 //controller settings
 lemlib::ControllerSettings lateralController(
-    10,                           //kP
+    64,                           //kP
     0,                         //kI
-    56,                           //kD
-    4,                   //windup range
-    0.5,                    //small error
-    50,           //small error timeout
-    0,                    //large error 
+    50,                           //kD    
+    10,                   //windup range
+    1,                    //small error
+    100,           //small error timeout
+    3,                    //large error 
     500,           //large error timeout
-    0                           //slew
+    20                           //slew
 );
 
-lemlib::ControllerSettings angularController(
-    2.73, //TODO: BOOSTED THIS BY 0.25
-    0,
-    18,
-    5,
-    2,
-    50,
-    0,
-    500,
-    0
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              10, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 
 //distance sensors

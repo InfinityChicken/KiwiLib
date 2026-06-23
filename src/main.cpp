@@ -79,20 +79,6 @@ void opcontrol() {
 			pros::screen::print(pros::E_TEXT_MEDIUM, 10, "-> X:%.2f Y:%.2f", resetPose.x, resetPose.y);
 		}
 
-		// update controller screen every 500ms
-		uint32_t now = pros::millis();
-		if (now - lastPrint >= 500) {
-			lemlib::Pose pose = chassis.getPose();
-			uint32_t secs = (now - startTime) / 1000;
-			uint32_t mins = secs / 60;
-			secs = secs % 60;
-
-			controller.print(0, 0, "X:%.1f Y:%.1f   ", pose.x, pose.y);
-			controller.print(1, 0, "Q%d  Xr:%c  Yr:%c  ", quadrant, xSensor, ySensor);
-			controller.print(2, 0, "Time:    %02d:%02d  ", mins, secs);
-			lastPrint = now;
-		}
-
 		pros::delay(10);
 	}
 }
