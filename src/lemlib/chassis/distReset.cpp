@@ -36,48 +36,54 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
         rotated = M_PI_2;
 
         xDist = side1;
-        yDist = side2;
     } else if(xDirection == 'B') {
         side1 = &distSensors.back;
         rotated = M_PI_2;
 
         xDist = side1;
-        yDist = side2;
     } else if(xDirection == 'R') {
         side1 = &distSensors.right;
 
         xDist = side1;
-        yDist = side2;
     } else if(xDirection == 'L') {
         side1 = &distSensors.left;
 
         xDist = side1;
-        yDist = side2;
     }
         
     //if using left or right as y direction, need to rotate axes so y measures fwd and back
     if(yDirection == 'F') {
         front1 = &distSensors.frontLeft;
         front2 = &distSensors.frontRight;
+        rotated = M_PI_2;
+        yDist = front1;
     } else if(yDirection == 'B') {
         front1 = &distSensors.back;
+        yDist = front1;
     } else if(yDirection == 'R') {
         front1 = &distSensors.right;
         rotated = M_PI_2;
+        yDist = front1;
     } else if(yDirection == 'L') {
         front1 = &distSensors.left;
         rotated = M_PI_2;
+        yDist = front1;
     }
 
     // switch makes sure axes for reference angle are correct
 
     //invalidate sensors that return readings out of range
-    if(xDist != nullptr && mmToIn(xDist->distance.get())>300) {
+    if(xDist != nullptr && mmToIn(xDist->distance.get()) > 300) {
         xDist = nullptr;
     }
 
-    if(yDist != nullptr && mmToIn(yDist->distance.get())>300) {
+    if(yDist != nullptr && mmToIn(yDist->distance.get()) > 300) {
         yDist = nullptr;
+    }
+
+    if (xDist == nullptr || yDist == nullptr) {
+        this->endMotion();
+        return;
     }
 
     //if both/essential distance sensors are bad, don't reset
