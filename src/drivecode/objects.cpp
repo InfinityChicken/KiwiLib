@@ -26,7 +26,8 @@ pros::Optical color(18);
 pros::Rotation horizRotation(7);
 pros::Distance distRight(13);
 pros::Distance distLeft(20);
-pros::Distance distFront(15);
+pros::Distance distFrontLeft(15);
+pros::Distance distFrontRight(12);
 pros::Distance distBack(11);
 
 //odom objects
@@ -81,7 +82,8 @@ lemlib::ControllerSettings angularController(2, // proportional gain (kP)
 );
 
 //distance sensors
-lemlib::DistanceSensors distSensors(distFront, -4.13, 5.27,
+lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
+                                    distFrontRight, 4.13, 5.27,
                                     distBack, 2.99, 4.66,
                                     distLeft, 2.04, 4.80,
                                     distRight, -3.18, 4.80);

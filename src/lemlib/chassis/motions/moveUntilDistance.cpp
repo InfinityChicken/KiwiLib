@@ -10,7 +10,7 @@ void lemlib::Chassis::moveUntilDistance(char dir, float exitDist, float x, float
     //pick active dist sensor for side
     DistResetSensors* distSensor = nullptr;
     if(dir == 'L') {
-        distSensor = &distSensors.front;
+        distSensor = &distSensors.frontLeft;
     } else if(dir == 'R') {
         distSensor = &distSensors.right;
     }

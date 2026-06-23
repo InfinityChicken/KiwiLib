@@ -21,32 +21,36 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     float rotated = 0;
 
     //pick active dist sensor for side
-    DistResetSensors* xDist = nullptr;
-    DistResetSensors* yDist = nullptr;
+    DistResetSensors* side1 = nullptr;
+    DistResetSensors* side2 = nullptr;
+    DistResetSensors* front1 = nullptr;
+    DistResetSensors* front2 = nullptr;
 
     //if using front or back as x direction, need to switch axes so x measures left and right
     if(xDirection == 'F') {
-        xDist = &distSensors.front;
+        side1 = &distSensors.frontLeft;
+        side2 = &distSensors.frontRight;
         rotated = M_PI_2;
     } else if(xDirection == 'B') {
-        xDist = &distSensors.back;
+        side1 = &distSensors.back;
         rotated = M_PI_2;
     } else if(xDirection == 'R') {
-        xDist = &distSensors.right;
+        side1 = &distSensors.right;
     } else if(xDirection == 'L') {
-        xDist = &distSensors.left;
+        side1 = &distSensors.left;
     }
         
     //if using left or right as y direction, need to rotate axes so y measures fwd and back
     if(yDirection == 'F') {
-        yDist = &distSensors.front;
+        front1 = &distSensors.frontLeft;
+        front2 = &distSensors.frontRight;
     } else if(yDirection == 'B') {
-        yDist = &distSensors.back;
+        front1 = &distSensors.back;
     } else if(yDirection == 'R') {
-        yDist = &distSensors.right;
+        front1 = &distSensors.right;
         rotated = M_PI_2;
     } else if(yDirection == 'L') {
-        yDist = &distSensors.left;
+        front1 = &distSensors.left;
         rotated = M_PI_2;
     }
 
@@ -62,7 +66,7 @@ void lemlib::Chassis::distanceReset(char xDirection, char yDirection) {
     }
 
     //if both/essential distance sensors are bad, don't reset
-    if(xDist == nullptr || yDist == nullptr) {
+    if(side1 == nullptr && side2 == nullptr || front1 == nullptr && front2 == nullptr) {
         this->endMotion();
         return;
     }
