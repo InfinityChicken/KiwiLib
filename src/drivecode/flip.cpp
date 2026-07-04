@@ -79,7 +79,7 @@ void runFlip() {
         controller.print(0, 0, "Color: %c | Seeing: %c     ", color, detectedStr);
         
         // TODO: check if the largest color 
-        // TODO: for the next programmer, please make the code such as
+        // TODO: for the next program2mer, please make the code such as
         // TODO: that the code will flip once (which should get it to that side)
         // TODO: and set manualoverride to true
         // if (detected != colorSig.id) {
