@@ -17,6 +17,11 @@ extern bool manualOverride;
 // boolean to track if macro is running
 extern bool macroIsOn;
 
+// chain bar stall variables
+extern int currentDraw;
+extern double currentVelocity;
+
 void updateCascade();
 void runCascade();
 void runManual();
+void macroScore();

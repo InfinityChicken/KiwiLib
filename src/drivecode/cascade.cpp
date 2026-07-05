@@ -20,6 +20,10 @@ bool manualOverride = false;
 // boolean to track if macro is running
 bool macroIsOn = false;
 
+// chain bar stall variables
+int currentDraw = 0;
+double currentVelocity = 0.0;
+
 void updateCascade() {
     // if my certain button is pressed
     if (controller.get_digital(cascadeControl)) {
@@ -64,14 +68,11 @@ void runCascade() {
                     cascadeR.move_velocity(200);
                 }
                 // if not in the range, it will cease to move until furthe sensor results
-                else {
+                if (!macroIsOn) {
                     cascadeL.move_velocity(0);
                     cascadeR.move_velocity(0);
                 }
             }
-
-            // chain bar macro
-
         }
         pros::delay(10);
     }
@@ -137,7 +138,6 @@ void macroScore() {
             cascadeL.move_velocity(0);
             cascadeR.move_velocity(0);
             chainBar.move_velocity(200);
-       
         }
     }
 }

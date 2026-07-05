@@ -25,8 +25,9 @@ void sensorInit() {
 
 //begin all tasks
 void taskInit() {
-    pros::Task screenTask(runScreen, "screen task");
+    // pros::Task screenTask(runScreen, "screen task");
     pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task scoreTask(macroScore, "score task");
     pros::Task intakeTask(runIntake, "intake task");
     pros::Task flipTask(runFlip, "flip task");
     // pros::Task pistonTask(runPistons, "pistons task");

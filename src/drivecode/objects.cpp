@@ -33,13 +33,13 @@ pros::Motor intake(0, pros::MotorGearset::green); // 5.5w
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
-pros::Motor cascadeL (11, pros::MotorGearset::blue);
+pros::Motor cascadeL (19, pros::MotorGearset::blue);
 pros::Motor cascadeR (0, pros::MotorGearset::blue);
-pros::Motor chainBar (2, pros::MotorGearset::green); // 5.5 w
+pros::Motor chainBar (18, pros::MotorGearset::green); // 5.5 w
 
 // TODO: Add actual cascade distance sensor port
 // cascade distance sensor for macro
-pros::Distance distCascade(1);
+pros::Distance distCascade(7);
 
 // TODO: Add actual claw ports
 // piston claw
