@@ -10,6 +10,9 @@ void motorInit();
 //initialize sensors
 void sensorInit();
 
+// create image from c array
+void displayLogo();
+
 //screen run function
 void runScreen();
 

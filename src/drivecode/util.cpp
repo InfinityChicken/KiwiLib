@@ -13,7 +13,7 @@ void runCascade();
 
 void motorInit() {}
 
-//sensor settings
+// sensor settings
 void sensorInit() {
     vision.clear_led();
     vision.set_exposure(150);
@@ -21,6 +21,18 @@ void sensorInit() {
     vision.set_signature(3, &yellowSig);
     vision.set_signature(2, &blueSig);
     vision.set_signature(1, &redSig);
+}
+
+// display logo for auton selector
+void displayLogo() {
+    // create a variable for the c array (image)
+    LV_IMAGE_DECLARE(logo);
+
+    // declare and define the image object
+    lv_obj_t* img = lv_image_create(lv_screen_active());
+
+    // set the source data for the image 
+    lv_image_set_src(img,&logo);
 }
 
 //begin all tasks

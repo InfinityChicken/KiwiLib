@@ -24,7 +24,7 @@ pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
 // TODO: Add actual drivetrain motor ports
 // drivetrain
 pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({0, 0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // intake
@@ -33,13 +33,13 @@ pros::Motor intake(0, pros::MotorGearset::green); // 5.5w
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
-pros::Motor cascadeL (19, pros::MotorGearset::blue);
+pros::Motor cascadeL (0, pros::MotorGearset::blue);
 pros::Motor cascadeR (0, pros::MotorGearset::blue);
-pros::Motor chainBar (18, pros::MotorGearset::green); // 5.5 w
+pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
 
 // TODO: Add actual cascade distance sensor port
 // cascade distance sensor for macro
-pros::Distance distCascade(7);
+pros::Distance distCascade(0);
 
 // TODO: Add actual claw ports
 // piston claw
@@ -119,30 +119,30 @@ lemlib::Drivetrain drivetrain(
     11.44,
     3.25,
     450,
-    60 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
+    60 
+    //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
 );
 
 // lateral pid controller
-lemlib::ControllerSettings lateralController(
-    10,                           //kP
-    0,                         //kI
-    56,                           //kD
-    4,                   //windup range
-    0.5,                    //small error
-    50,           //small error timeout
-    0,                    //large error 
-    500,           //large error timeout
-    0                           //slew
+lemlib::ControllerSettings lateralController(10, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              3, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              20 // maximum acceleration (slew)
 );
 
 // angular pid controller
-lemlib::ControllerSettings angularController(4.5, // proportional gain (kP)
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              27.5, // derivative gain (kD)
-                                              5, // anti windup
-                                              2, // small error range, in inches
-                                              50, // small error range timeout, in milliseconds
-                                              0, // large error range, in inches
+                                              10, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
