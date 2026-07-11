@@ -68,7 +68,8 @@ void opcontrol() {
 		updateCascade();
 		updateFlip();
 		updateIntake();
-		updatePistons();
+		// commented out while we work out the issues surrounding the color sort
+		// updatePistons();
 
 		// miscellaneous manual override or macro programs
 		runManual();
