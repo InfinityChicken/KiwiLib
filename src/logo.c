@@ -17,8 +17,8 @@
 #define LV_ATTRIBUTE_MEM_ALIGN
 #endif
 
-#ifndef LV_ATTRIBUTE_IMAGE_5776VLICENCE_320X240
-#define LV_ATTRIBUTE_IMAGE_5776VLICENCE_320X240
+#ifndef LV_ATTRIBUTE_IMAGE_5776V
+#define LV_ATTRIBUTE_IMAGE_5776V
 #endif
 
 const uint8_t logo_map[] = {
@@ -328,8 +328,8 @@ const uint8_t logo_map[] = {
 const lv_image_dsc_t logo = {
   .header.cf = LV_COLOR_FORMAT_RGB565A8,
   .header.magic = LV_IMAGE_HEADER_MAGIC,
-  .header.w = 320,
-  .header.h = 240,
-  .data_size = 76800 * 3,
+  .header.w = 300,
+  .header.h = 150,
+  .data_size = 45000 * 3,
   .data = logo_map,
 };
