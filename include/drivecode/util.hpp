@@ -16,12 +16,6 @@ void displayLogo();
 // create vinish from c array
 void displayVinish();
 
-// translate rgb to uint32_t color
-uint32_t translateRGB(uint8_t r, uint8_t g, uint8_t b);
-
-// detect if button with parameters is detected
-bool detectClick(int16_t x, int16_t y, int16_t dx, int16_t dy);
-
 //screen run function
 void runScreen();
 

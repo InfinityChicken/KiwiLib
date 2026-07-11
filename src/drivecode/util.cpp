@@ -48,11 +48,6 @@ void displayVinish() {
     lv_image_set_src(img,&vinish);
 }
 
-// translate rgb color into uint32_t color
-uint32_t translateRGB(uint8_t r, uint8_t g, uint8_t b){
-    return ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
-}
-
 //begin all tasks
 void taskInit() {
     // pros::Task screenTask(runScreen, "screen task");
