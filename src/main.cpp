@@ -24,12 +24,11 @@ void initialize() {
 	chassis.calibrate();
 	chassis.setPose(0,0,0);
 
-	// motorInit();
-	// sensorInit();
+	motorInit();
+	sensorInit();
 	
-	// taskInit();
+	taskInit();
 
-	// displayVinish();
 	autonSelector();
 }
 
@@ -50,15 +49,13 @@ void opcontrol() {
 
 		chassis.arcade(throttle, turn);
 
-		// updateCascade();
-		// updateFlip();
-		// updateIntake();
-		// updatePistons();
+		updateCascade();
+		updateFlip();
+		updateIntake();
+		updatePistons();
 
-		// runManual();
-		// macroScore();
-
-        // displayVinish();
+		runManual();
+		macroScore();
 
 		pros::delay(10);
 	}

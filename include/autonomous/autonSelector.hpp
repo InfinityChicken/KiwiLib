@@ -4,10 +4,10 @@
 #include "drivecode/util.hpp"
 #include "autonomous/autonomous.hpp"
 
-extern bool optionSelected;
+extern bool colorSelected;
 extern char autonColor;
 extern int auton;
+extern int paginate;
 
-extern uint32_t VIRIDIAN;
-
-void autonSelector();
+extern void autonSelector();
+extern void chooseAuton();
