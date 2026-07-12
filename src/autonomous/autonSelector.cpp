@@ -1,5 +1,6 @@
 #include "autonomous/autonSelector.hpp"
 #include "autonomous/button.hpp"
+#include "autonomous/drawField.hpp"
 #include "pros/colors.h"
 #include "pros/misc.hpp"
 #include "pros/screen.h"
@@ -32,7 +33,7 @@ void dialog(int autonID, std::string autonName) {
         auton = autonID;
 
         // create a new dialog box
-        createLabel(NUCLEARGREEN, selectedText, 20, 180);
+        createLabel(NUCLEARGREEN, selectedText, 260, 120);
         
         // // wait until next press, originally used for confirmation code
         // while (pros::screen::touch_status().touch_status) {
@@ -72,7 +73,7 @@ void autonSelector() {
                     autonColor = 'R';
 
                     // create dialog box with red selected but not confirmed
-                    createLabel(RED, const_cast<char*>("RED Selected!"), 240, 180);
+                    createLabel(RED, const_cast<char*>("RED Selected!"), 260, 180);
                     
                     // wait until we actually release
                     while (pros::screen::touch_status().touch_status) {
@@ -92,7 +93,7 @@ void autonSelector() {
                     autonColor = 'R';
 
                     // create dialog box with red confirmed and locked
-                    createLabel(pros::c::COLOR_RED, const_cast<char*>("RED CONFIRMED!"), 240, 180);
+                    createLabel(pros::c::COLOR_RED, const_cast<char*>("RED CONFIRMED!"), 260, 180);
                 }
             }
 
@@ -105,7 +106,7 @@ void autonSelector() {
                     autonColor = 'B';
 
                     // reate dialog box with blue selected but not confirmed
-                    createLabel(BLUE, const_cast<char*>("BLUE Selected!"), 240, 180);
+                    createLabel(BLUE, const_cast<char*>("BLUE Selected!"), 260, 180);
                     
                     // wait until we actually release
                     while (pros::screen::touch_status().touch_status) {
@@ -147,11 +148,11 @@ void autonSelector() {
             
             // create small buttons for pagination on the right side
             createSmallButton(pros::c::COLOR_LIGHT_GRAY, const_cast<char*>("^"), 420, 20);
-            createSmallButton(pros::c::COLOR_LIGHT_GRAY, const_cast<char*>("v"), 420, 120);
+            createSmallButton(pros::c::COLOR_LIGHT_GRAY, const_cast<char*>("v"), 420, 50);
 
             // depending on which page we are paginated at
             switch (paginate) {
-                // auton 1/auton 2
+                // auton 1
                 case 0:
                     // create medium button for override button
                     createAutonButton(VIRIDIAN, 
@@ -160,15 +161,23 @@ void autonSelector() {
                         const_cast<char*>("our first auton on the worlds bot"), 
                         20, 20);
 
+                    drawField(0);
+                    break;
+                
+                // auton 2
+                case 1:
                     // create medium button for dsun auto button
                     createAutonButton(VIRIDIAN, 
                         const_cast<char*>("dsun auto"), 
                         const_cast<char*>("dsun's bad auton"),  
                         const_cast<char*>("really do not trust a psychopath"),  
-                        20, 100);
+                        20, 20);
+
+                    drawField(1);
                     break;
-                // auton 3/auton 4
-                case 1:
+
+                // auton 3
+                case 2:
                     // create medium button for auton 3
                     createAutonButton(VIRIDIAN, 
                         const_cast<char*>("auton 3"), 
@@ -176,12 +185,18 @@ void autonSelector() {
                         const_cast<char*>("here, hello norrel"), 
                         20, 20);
 
+                    drawField(2);
+                    break;
+                
+                case 3:
                     // create medium button for auton 4
                     createAutonButton(VIRIDIAN, 
                         const_cast<char*>("auton 4"), 
                         const_cast<char*>("hi vinish"), 
                         const_cast<char*>("vinish is a cool guy"), 
-                        20, 100);
+                        20, 20);
+
+                    drawField(3);
                     break;
             }
 
@@ -195,26 +210,20 @@ void autonSelector() {
                         dialog(1, "override");
                         break;
 
-                    // page two will result in the button for auton 3
-                    case 1:
-                        // create auton specific dialog that selects auton 3
-                        dialog(3, "auton 3");
-                        break;
-                }
-            }
-
-            // if a button is detected on the bottom button
-            if(detectAutonClick(20, 100)) {
-                // depending on which page we are paginated at:
-                switch (paginate) {
                     // page two will result in the button for auton 2
-                    case 0:
+                    case 1:
                         // create auton specific dialog that selects dsun auto 
                         dialog(2, "dsun auto");
                         break;
+
+                    // page two will result in the button for auton 3
+                    case 2:
+                        // create auton specific dialog that selects auton 3
+                        dialog(3, "auton 3");
+                        break;
                     
                     // page two will result in the button for auton 4
-                    case 1:
+                    case 3:
                         // create auton specific dialog that selects auton 4
                         dialog(4, "auton 4");
                         break;
@@ -224,7 +233,7 @@ void autonSelector() {
             // detect if the top paginate button was clicked
             if(detectSmallClick(420, 20)) {
                 // set paginate to the button that was above it, loops if exceeds bounds
-                paginate = abs(((paginate - 1) % 2));
+                paginate = abs(((paginate - 1) % 4));
                 
                 // wait for release so that you do not trigger it while your finger is down infinitely
                 while (pros::screen::touch_status().touch_status) {
@@ -233,9 +242,9 @@ void autonSelector() {
             }
 
             // detect if the bottom paginate button was clicked
-            if(detectSmallClick(420, 120)) {
+            if(detectSmallClick(420, 50)) {
                 // set paginate to the button that was below it, loops if exceeds bounds
-                paginate = abs(((paginate + 1) % 2));
+                paginate = abs(((paginate + 1) % 4));
                     
                 // wait for release so that you do not trigger it while your finger is down infinitely
                 while (pros::screen::touch_status().touch_status) {

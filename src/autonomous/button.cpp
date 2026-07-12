@@ -63,10 +63,10 @@ void createSmallButton(std::uint32_t boxColor, char * text,
                    std::int16_t x1, std::int16_t y1) {
 
     pros::screen::set_pen(boxColor);
-    pros::screen::fill_rect(x1, y1, x1 + 50, y1 + 40);
+    pros::screen::fill_rect(x1, y1, x1 + 50, y1 + 30);
     
     pros::screen::set_pen(pros::c::COLOR_WHITE);
-    pros::screen::print(pros::E_TEXT_MEDIUM, x1 + 10, y1 + 10, text);        
+    pros::screen::print(pros::E_TEXT_SMALL, x1 + 5, y1 + 5, text);        
 }
 
 // function to detect a touchscreen click of a large button
