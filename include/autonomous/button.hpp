@@ -29,6 +29,10 @@ extern void createMediumButton(std::uint32_t boxColor,
                    char * text,
                    std::int16_t x1, std::int16_t y1);
 
+// function to create an auton button
+extern void createAutonButton(std::uint32_t boxColor, char * text, char * description1, char * description2,
+                   std::int16_t x1, std::int16_t y1);
+
 // function to create a small button
 extern void createSmallButton(std::uint32_t boxColor, 
                    char * text,
@@ -36,6 +40,9 @@ extern void createSmallButton(std::uint32_t boxColor,
 
 // function to detect a touchscreen click of a large button
 extern bool detectLargeClick(int16_t dx, int16_t dy);
+
+// function to detect a touchscreen click of an auton button
+extern bool detectAutonClick(int16_t dx, int16_t dy);
 
 // function to detect a touchscreen click of a medium button
 extern bool detectMediumClick(int16_t dx, int16_t dy);

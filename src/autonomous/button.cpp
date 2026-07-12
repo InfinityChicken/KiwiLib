@@ -17,7 +17,7 @@ void createLabel(std::uint32_t boxColor, char * text,
                    std::int16_t x1, std::int16_t y1) {
 
     pros::screen::set_pen(boxColor);
-    pros::screen::fill_rect(x1, y1, x1 + 200, y1 + 40);
+    pros::screen::fill_rect(x1, y1, x1 + 210, y1 + 40);
     
     pros::screen::set_pen(pros::c::COLOR_WHITE);
     pros::screen::print(pros::E_TEXT_MEDIUM, x1 + 10, y1 + 10, text);        
@@ -45,12 +45,25 @@ void createMediumButton(std::uint32_t boxColor, char * text,
     pros::screen::print(pros::E_TEXT_MEDIUM, x1 + 10, y1 + 10, text);        
 }
 
+// function to create an auton button
+void createAutonButton(std::uint32_t boxColor, char * text, char * description1, char * description2,
+                   std::int16_t x1, std::int16_t y1) {
+
+    pros::screen::set_pen(boxColor);
+    pros::screen::fill_rect(x1, y1, x1 + 380, y1 + 60);
+    
+    pros::screen::set_pen(pros::c::COLOR_WHITE);
+    pros::screen::print(pros::E_TEXT_MEDIUM, x1 + 10, y1 + 10, text);        
+    pros::screen::print(pros::E_TEXT_SMALL, x1 + 10, y1 + 30, description1);
+    pros::screen::print(pros::E_TEXT_SMALL, x1 + 10, y1 + 40, description2);
+}
+
 // function to create a small button
 void createSmallButton(std::uint32_t boxColor, char * text,
                    std::int16_t x1, std::int16_t y1) {
 
     pros::screen::set_pen(boxColor);
-    pros::screen::fill_rect(x1, y1, x1 + 100, y1 + 40);
+    pros::screen::fill_rect(x1, y1, x1 + 50, y1 + 40);
     
     pros::screen::set_pen(pros::c::COLOR_WHITE);
     pros::screen::print(pros::E_TEXT_MEDIUM, x1 + 10, y1 + 10, text);        
@@ -72,6 +85,15 @@ bool detectMediumClick(int16_t dx, int16_t dy) {
     return status.touch_status &&
            (dx <= status.x && status.x <= dx + 300) &&
            (dy <= status.y && status.y <= dy + 40);
+}
+
+// function to detect a touchscreen click of an auton button
+bool detectAutonClick(int16_t dx, int16_t dy) {
+    pros::screen_touch_status_s_t status = pros::screen::touch_status();
+
+    return status.touch_status &&
+           (dx <= status.x && status.x <= dx + 380) &&
+           (dy <= status.y && status.y <= dy + 60);
 }
 
 // function to detect a touchscreen click of a small button
