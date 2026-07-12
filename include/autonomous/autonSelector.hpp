@@ -16,4 +16,4 @@ extern int paginate;
 extern void autonSelector();
 
 // function to index the selected auton to the actual auton
-extern void chooseAuton();
+extern void runAuton();

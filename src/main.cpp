@@ -51,6 +51,8 @@ void competition_initialize() {}
 void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+
+	runAuton();
 } 
 
 void opcontrol() {
