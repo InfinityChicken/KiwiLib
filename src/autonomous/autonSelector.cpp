@@ -1,6 +1,7 @@
 #include "autonomous/autonSelector.hpp"
 #include "autonomous/button.hpp"
 #include "pros/colors.h"
+#include "pros/misc.hpp"
 #include "pros/screen.h"
 #include "pros/screen.hpp"
 
@@ -42,7 +43,9 @@ void dialog(int autonID, std::string autonName) {
 
 // function that contains the auton selector process
 void autonSelector() {
-        if (!pros::competition::is_connected()) {
+    pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pros::competition::is_disabled());
+
+    while (pros::competition::is_disabled()) {
         // clear screen
         pros::screen::set_eraser(pros::c::COLOR_BLACK);
         pros::screen::erase();
@@ -57,7 +60,7 @@ void autonSelector() {
         colorSelected = false;
 
         // loops while you haven't confirmed your choice
-        while(!colorSelected) {
+        while(pros::competition::is_disabled() && !colorSelected) {
             // TODO: Convert detectSmallClick (previously used in older version) to detectLargeClick
 
             // button 1 (red)
@@ -132,7 +135,7 @@ void autonSelector() {
         pros::screen::erase();
 
         // loops while the match hasn't started yet so you can change it midway through your set up
-        while(!pros::competition::is_connected()) {
+        while(pros::competition::is_disabled()) {
             if (autonColor == 'R') {
                 createLabel(pros::c::COLOR_RED, const_cast<char*>("RED CONFIRMED!"), 260, 180);
             }
@@ -243,6 +246,10 @@ void autonSelector() {
             pros::delay(10);
         }
     }
+
+    // clear screen
+    pros::screen::set_eraser(pros::c::COLOR_BLACK);
+    pros::screen::erase();
 }
 
 // function to index the selected auton to the actual auton
