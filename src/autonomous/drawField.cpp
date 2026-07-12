@@ -7,19 +7,20 @@
 #include "pros/screen.hpp"
 #include <fstream>
 #include <sstream>
+#include <string>
 
 std::string line;
 
 int prevX, prevY;
 bool hasPrev = false;
 
-void drawField(std::string auton) {
+void drawField(int auton) {
     pros::screen::set_pen(pros::c::COLOR_GREY);
     pros::screen::fill_rect(20, 100, 140, 220);
 
     pros::screen::set_pen(pros::c::COLOR_DARK_GREY);
 
-    std::ifstream inputFile("/drawings/" + auton +".txt");
+    std::ifstream inputFile("/drawings/" + std::to_string(auton) +".txt");
 
     for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 6; col++) {
