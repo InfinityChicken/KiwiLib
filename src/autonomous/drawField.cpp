@@ -33,29 +33,46 @@ void drawField(int auton) {
         }
     }
 
-    while (std::getline(inputFile, line)) {
-        std::stringstream ss(line);
-
-        int x, y;
-        if (!(ss >> x >> y))
-            continue;
-
-        // 20 pixels for every 12 inches
-        // x ~~inches~~ * 20 pixels / 12 ~~inches~~, inches cancels out
-        // i love dimensional analysis
-        if (hasPrev) {
-            int screenX1 = 20 + prevX * 20 / 12;
-            int screenY1 = 220 - prevY * 20 / 12;
-
-            int screenX2 = 20 + x * 20 / 12;
-            int screenY2 = 220 - y * 20 / 12;
-
-            pros::screen::set_pen(NUCLEARGREEN);
-            pros::screen::draw_line(screenX1 + 20, screenY1 + 100, screenX2 + 140, screenY2 + 220);
-        }
-
-        prevX = x;
-        prevY = y;
-        hasPrev = true;
+    // create driver position little box
+    if (autonColor == 'R') {
+        // set color to red if on red side
+        pros::screen::set_pen(RED);
+    } else if (autonColor == 'B') {
+        // set color to red if on blue side
+        pros::screen::set_pen(BLUE);
+    } else {
+        // error handling: set color to nuclear green if invalid color, just in case
+        pros::screen::set_pen(NUCLEARGREEN);
     }
+
+    // draw the driver
+    pros::screen::fill_rect(60, 240, 80, 260);
+
+    // while (std::getline(inputFile, line)) {
+    //     std::stringstream ss(line);
+
+    //     int x, y;
+    //     if (!(ss >> x >> y))
+    //         continue;
+
+    //     // 20 pixels for every 12 inches
+    //     // x ~~inches~~ * 20 pixels / 12 ~~inches~~, inches cancels out
+    //     // i love dimensional analysis
+    //     if (hasPrev) {
+    //         int screenX1 = 20 + prevX * 20 / 12;
+    //         int screenY1 = 220 - prevY * 20 / 12;
+
+    //         int screenX2 = 20 + x * 20 / 12;
+    //         int screenY2 = 220 - y * 20 / 12;
+
+    //         pros::screen::set_pen(NUCLEARGREEN);
+    //         pros::screen::draw_line(screenX1 + 20, screenY1 + 100, screenX2 + 140, screenY2 + 220);
+    //     }
+
+    //     prevX = x;
+    //     prevY = y;
+    //     hasPrev = true;
+    // }
+
+    // i have yet to write the format of how the code reads it :(
 }
