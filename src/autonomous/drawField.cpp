@@ -8,11 +8,34 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <stdexcept>
 
 std::string line;
 
-int prevX, prevY;
-bool hasPrev = false;
+int x, y, theta;
+
+int findValue(std::string line, int index) {
+    size_t first_space = line.find(' ');
+    if (first_space == std::string::npos)
+        throw std::out_of_range("No values found.");
+
+    std::stringstream ss(line.substr(first_space + 1));
+
+    int value;
+    for (int i = 0; i <= index; i++) {
+        if (!(ss >> value))
+            throw std::out_of_range("Index out of range.");
+    }
+
+    return value;
+}
+
+std::string findCommand(std::string line) {
+    size_t firstSpace = line.find(' ');
+    std::string command = line.substr(0, firstSpace);
+
+    return command;
+}
 
 void drawField(int auton) {
     pros::screen::set_pen(pros::c::COLOR_GREY);
@@ -46,33 +69,26 @@ void drawField(int auton) {
     }
 
     // draw the driver
-    pros::screen::fill_rect(60, 240, 80, 260);
+    pros::screen::fill_rect(160, 165, 180, 185);
+    pros::screen::fill_rect(160, 135, 180, 155);
 
-    // while (std::getline(inputFile, line)) {
-    //     std::stringstream ss(line);
+    // Read the file line by line
+    while (std::getline(inputFile, line)) {
+        // detect the command used
+        if (findCommand(line) == "TURNTOHEADING") {
+            theta = 0;
+        }
+        else if (findCommand(line) == "MOVEDISTANCE") {
+            break;
+        }
+        else if (findCommand(line) == "MOVETOPOINT") {
+            break;
+        }
+        else if (findCommand(line) == "MOVETOPOSE") {
+            break;
+        }
+    }
 
-    //     int x, y;
-    //     if (!(ss >> x >> y))
-    //         continue;
-
-    //     // 20 pixels for every 12 inches
-    //     // x ~~inches~~ * 20 pixels / 12 ~~inches~~, inches cancels out
-    //     // i love dimensional analysis
-    //     if (hasPrev) {
-    //         int screenX1 = 20 + prevX * 20 / 12;
-    //         int screenY1 = 220 - prevY * 20 / 12;
-
-    //         int screenX2 = 20 + x * 20 / 12;
-    //         int screenY2 = 220 - y * 20 / 12;
-
-    //         pros::screen::set_pen(NUCLEARGREEN);
-    //         pros::screen::draw_line(screenX1 + 20, screenY1 + 100, screenX2 + 140, screenY2 + 220);
-    //     }
-
-    //     prevX = x;
-    //     prevY = y;
-    //     hasPrev = true;
-    // }
-
-    // i have yet to write the format of how the code reads it :(
+    // Close the file stream
+    inputFile.close();
 }

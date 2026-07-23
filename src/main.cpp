@@ -34,6 +34,7 @@ void initialize() {
 
 	// initialize the motors
 	motorInit();
+	
 	// initialize the sensors
 	sensorInit();
 	

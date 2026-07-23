@@ -8,18 +8,18 @@ bool intakePressed = false;
 
 void updateIntake() {
     // if intake control is pressed
-    if (controller.get_digital(intakeControl)) {
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
         if (!intakePressed) {
-            // if it is intakking turn it outtake
-            if(intakeState == 1) {
+            // if it is intaking turn it outtaking
+            if (intakeState == 1) {
                 intakeState = 2;
             }
             // if it is outtaking turn it off
-            if(intakeState == 2) {
+            else if (intakeState == 2) {
                 intakeState = 0;
             }
             // if it is off turn it intaking
-            if(intakeState == 0) {
+            else if (intakeState == 0) {
                 intakeState = 1;
             }
         }
@@ -39,13 +39,18 @@ void runIntake() {
         switch (intakeState) {
             // intaking
             case 1:
-                intake.move_velocity(200);
+                intake.move_voltage(12000);
+                break;
             // outtaking
             case 2:
-                intake.move_velocity(-200);
+                intake.move_voltage(-12000);
+                break;
             // off
             case 0:
-                intake.move_velocity(0);
+                intake.move_voltage(0);
+                break;
         }
+
+        pros::delay(10);
     }
 }

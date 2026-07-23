@@ -50,11 +50,11 @@ void displayVinish() {
 
 //begin all tasks
 void taskInit() {
-    // pros::Task screenTask(runScreen, "screen task");
+    pros::Task screenTask(runScreen, "screen task");
 
     // pros::Task cascadeTask(runCascade, "cascade task");
     // pros::Task flipTask(runFlip, "flip task");
-    // pros::Task intakeTask(runIntake, "intake task");
+    pros::Task intakeTask(runIntake, "intake task");
     // pros::Task pistonTask(runPistons, "pistons task");
 
     // pros::Task scoreTask(macroScore, "score task");
@@ -64,6 +64,8 @@ void taskInit() {
 void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
+
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Intake state: %d", intakeState);
 
         // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
         // pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
