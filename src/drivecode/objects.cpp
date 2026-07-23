@@ -28,7 +28,7 @@ pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // intake
-pros::Motor intake(-20, pros::MotorGearset::green); // 5.5w
+pros::Motor intake(19, pros::MotorGearset::green); // 5.5w
 
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)

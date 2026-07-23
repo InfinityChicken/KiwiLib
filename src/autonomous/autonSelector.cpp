@@ -62,8 +62,6 @@ void autonSelector() {
 
         // loops while you haven't confirmed your choice
         while(pros::competition::is_disabled() && !colorSelected) {
-            // TODO: Convert detectSmallClick (previously used in older version) to detectLargeClick
-
             // button 1 (red)
             // if a click is detected in the range that it occupies
             if(detectLargeClick(20, 20)) {

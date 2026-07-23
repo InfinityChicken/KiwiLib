@@ -49,3 +49,6 @@ extern bool detectMediumClick(int16_t dx, int16_t dy);
 
 // function to detect a touchscreen click of a small button
 extern bool detectSmallClick(int16_t dx, int16_t dy);
+
+// function to create a line that is visible unlike 1 px lines
+extern void drawLine(int x0, int y0, int x1, int y1, int thickness);

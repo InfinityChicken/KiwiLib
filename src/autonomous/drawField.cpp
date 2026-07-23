@@ -12,7 +12,32 @@
 
 std::string line;
 
-int x, y, theta;
+int xCurr, yCurr, xPrev, yPrev, theta, d;
+
+// Embedded drawing data
+const char* drawingData[] = {
+    // override
+    "START 120 0 0\n"
+    "MOVETOPOINT 24 12\n"
+    "TURNTOHEADING 90\n"
+    "MOVEDISTANCE 18\n"
+    "TURNTOHEADING 45\n"
+    "MOVETOPOINT 36 30\n"
+    "TURNTOHEADING 180\n"
+    "MOVEDISTANCE 24\n"
+    "TURNTOHEADING 270\n"
+    "MOVETOPOINT 12 48\n"
+    "TURNTOHEADING 0\n"
+    "MOVEDISTANCE 30\n"
+    "TURNTOHEADING 135\n"
+    "MOVETOPOINT 48 24\n"
+    "MOVEDISTANCE 15\n"
+    "TURNTOHEADING 315\n"
+    "MOVEDISTANCE 20\n",
+
+    // dsun auto
+    ""
+};
 
 int findValue(std::string line, int index) {
     size_t first_space = line.find(' ');
@@ -43,8 +68,6 @@ void drawField(int auton) {
 
     pros::screen::set_pen(pros::c::COLOR_DARK_GREY);
 
-    std::ifstream inputFile("/drawings/" + std::to_string(auton) +".txt");
-
     for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 6; col++) {
             if ((row + col) % 2 == 0) {
@@ -68,27 +91,56 @@ void drawField(int auton) {
         pros::screen::set_pen(NUCLEARGREEN);
     }
 
-    // draw the driver
-    pros::screen::fill_rect(160, 165, 180, 185);
-    pros::screen::fill_rect(160, 135, 180, 155);
+    // draw the drivers
+    pros::screen::fill_circle(160, 150, 7);
+    pros::screen::fill_circle(160, 170, 7);
 
-    // Read the file line by line
-    while (std::getline(inputFile, line)) {
+    // Parse embedded drawing data
+    std::istringstream drawingStream(drawingData[auton]);
+
+    // Read the data line by line
+    while (std::getline(drawingStream, line)) {
         // detect the command used
-        if (findCommand(line) == "TURNTOHEADING") {
-            theta = 0;
+        if (findCommand(line) == "START") {
+            xCurr = findValue(line, 0);
+            yCurr = findValue(line, 1);
+            xPrev = findValue(line, 0);
+            yPrev = findValue(line, 1);
+            theta = findValue(line, 2);
+        }
+        else if (findCommand(line) == "SETPOSE") {
+            xCurr = findValue(line, 0);
+            yCurr = findValue(line, 1);
+            theta = findValue(line, 2);
+        }
+        else if (findCommand(line) == "TURNTOHEADING") {
+            theta = findValue(line, 0);
         }
         else if (findCommand(line) == "MOVEDISTANCE") {
-            break;
+            d = findValue(line, 0);
+            xCurr = d * (std::acos(theta));
+            yCurr = d * (std::asin(theta));
         }
         else if (findCommand(line) == "MOVETOPOINT") {
-            break;
+            xCurr = findValue(line, 0);
+            yCurr = findValue(line, 1);
         }
         else if (findCommand(line) == "MOVETOPOSE") {
-            break;
+            xCurr = findValue(line, 0);
+            yCurr = findValue(line, 1);
+            theta = findValue(line, 2);
+        }
+        
+        if (findCommand(line) == "START") {
+            pros::screen::set_pen(autonColor == 'R' ? RED : BLUE);
+            pros::screen::fill_circle(20 + xCurr, 100 + yCurr, 8);
+        }
+
+        else {
+            pros::screen::set_pen(autonColor == 'R' ? pros::c::COLOR_RED : pros::c::COLOR_BLUE);
+            drawLine(20 + xPrev, 100 + yPrev, 20 + xCurr, 100 + yCurr, 3);
+            xPrev = xCurr;
+            yPrev = yCurr;
         }
     }
-
-    // Close the file stream
-    inputFile.close();
 }

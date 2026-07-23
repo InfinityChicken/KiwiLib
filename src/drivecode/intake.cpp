@@ -6,29 +6,40 @@ int intakeState = 0;
 
 bool intakePressed = false;
 
-void updateIntake() {
-    // if intake control is pressed
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-        if (!intakePressed) {
-            // if it is intaking turn it outtaking
-            if (intakeState == 1) {
-                intakeState = 2;
-            }
-            // if it is outtaking turn it off
-            else if (intakeState == 2) {
-                intakeState = 0;
-            }
-            // if it is off turn it intaking
-            else if (intakeState == 0) {
-                intakeState = 1;
-            }
-        }
-        // intake was just toggled just now
-        intakePressed = true;
+// void updateIntake() {
 
-    } 
-    // intake was not toggled just now
-    else {
+//     pros::screen::print(pros::E_TEXT_MEDIUM, 2, "L1: %d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1));
+
+//     // if intake control is pressed
+//     if (controller.get_digital(intakeControl)) {
+//         if (!intakePressed) {
+//             // modulo fun
+//             intakeState = (intakeState + 1) % 3;
+//         }
+//         // intake was just toggled just now
+//         intakePressed = true;
+
+//     } 
+//     // intake was not toggled just now
+//     else {
+//         intakePressed = false;
+//     }
+// }
+
+void updateIntake() {
+    bool pressed = controller.get_digital(intakeControl);
+
+    pros::screen::print(pros::E_TEXT_MEDIUM, 2,
+                        "Pressed: %d  State: %d",
+                        pressed, intakeState);
+
+    if (pressed) {
+        if (!intakePressed) {
+            intakeState = (intakeState + 1) % 3;
+        }
+
+        intakePressed = true;
+    } else {
         intakePressed = false;
     }
 }

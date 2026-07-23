@@ -34,12 +34,9 @@ void initialize() {
 
 	// initialize the motors
 	motorInit();
-	
+
 	// initialize the sensors
 	sensorInit();
-	
-	// initialize the tasks
-	taskInit();
 
 	// run autonSelector during the set up period
 	autonSelector();
@@ -47,7 +44,10 @@ void initialize() {
 
 void disabled() {}
 
-void competition_initialize() {}
+void competition_initialize() {
+	// initialize the tasks
+	taskInit();
+}
 
 void autonomous() {
 	// set the autonomous to brake

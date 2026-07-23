@@ -104,3 +104,11 @@ bool detectSmallClick(int16_t dx, int16_t dy) {
            (dx <= status.x && status.x <= dx + 100) &&
            (dy <= status.y && status.y <= dy + 40);
 }
+
+// function to create a line that is visible unlike 1 px lines
+void drawLine(int x0, int y0, int x1, int y1, int thickness) {
+    for (int i = 0; i < thickness; i++) {
+        // Offset each line slightly perpendicular to the main line
+        pros::screen::draw_line(x0 + i, y0, x1 + i, y1);
+    }
+}
