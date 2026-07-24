@@ -6,9 +6,10 @@
 // CONTROLS
 extern pros::controller_digital_e_t cascadeControl;
 extern pros::controller_digital_e_t intakeControl;
+extern pros::controller_digital_e_t outtakeControl;
 extern pros::controller_digital_e_t clawRotateControl;
-extern pros::controller_digital_e_t clawCloseControl;
 
+extern pros::controller_digital_e_t clawCloseControl;
 extern pros::controller_digital_e_t manualCascadeControlUp;
 extern pros::controller_digital_e_t manualCascadeControlDown;
 extern pros::controller_digital_e_t manualChainBarControlUp;

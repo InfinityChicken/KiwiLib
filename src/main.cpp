@@ -32,6 +32,9 @@ void initialize() {
 	chassis.calibrate();
 	chassis.setPose(0,0,0);
 
+	// initialize the tasks
+	taskInit();
+	
 	// initialize the motors
 	motorInit();
 
@@ -44,10 +47,7 @@ void initialize() {
 
 void disabled() {}
 
-void competition_initialize() {
-	// initialize the tasks
-	taskInit();
-}
+void competition_initialize() {}
 
 void autonomous() {
 	// set the autonomous to brake
@@ -68,15 +68,18 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
-		updateCascade();
-		updateFlip();
 		updateIntake();
+		// intake.move_voltage(12000);
+
+		// temporarily commented to prevent possible blocking so im a bit worried about that
+		// updateCascade();
+		// updateFlip();
 		// commented out while we work out the issues surrounding the color sort
 		// updatePistons();
 
 		// miscellaneous manual override or macro programs
-		runManual();
-		macroScore();
+		// runManual();
+		// macroScore();
 
 		pros::delay(10);
 	}

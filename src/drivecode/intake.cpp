@@ -5,42 +5,51 @@
 int intakeState = 0;
 
 bool intakePressed = false;
-
-// void updateIntake() {
-
-//     pros::screen::print(pros::E_TEXT_MEDIUM, 2, "L1: %d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1));
-
-//     // if intake control is pressed
-//     if (controller.get_digital(intakeControl)) {
-//         if (!intakePressed) {
-//             // modulo fun
-//             intakeState = (intakeState + 1) % 3;
-//         }
-//         // intake was just toggled just now
-//         intakePressed = true;
-
-//     } 
-//     // intake was not toggled just now
-//     else {
-//         intakePressed = false;
-//     }
-// }
+bool outtakePressed = false;
 
 void updateIntake() {
-    bool pressed = controller.get_digital(intakeControl);
-
-    pros::screen::print(pros::E_TEXT_MEDIUM, 2,
-                        "Pressed: %d  State: %d",
-                        pressed, intakeState);
-
-    if (pressed) {
+    // if intake control is pressed
+    if (controller.get_digital(intakeControl)) {
         if (!intakePressed) {
-            intakeState = (intakeState + 1) % 3;
-        }
+            // if it is intakking turn it off
+            if(intakeState == 1) {
+                intakeState = 0;
+            }
 
+            // if it is off or outtaking turn it intaking
+            else {
+                intakeState = 1;
+            }
+        }
+        // intake was just toggled just now
         intakePressed = true;
-    } else {
+
+    } 
+    // intake was not toggled just now
+    else {
         intakePressed = false;
+    }
+
+    // if outtake control is pressed
+    if (controller.get_digital(outtakeControl)) {
+        if (!outtakePressed) {
+            // if it is outtaking turn it off
+            if(intakeState == 2) {
+                intakeState = 0;
+            }
+
+            // if it is off or intaking turn it outtaking
+            else {
+                intakeState = 2;
+            }
+        }
+        // outtake was just toggled just now
+        outtakePressed = true;
+
+    } 
+    // outtake was not toggled just now
+    else {
+        outtakePressed = false;
     }
 }
 
@@ -48,6 +57,10 @@ void runIntake() {
     while (true) {
         // based on our intake state, we toggle it on or off
         switch (intakeState) {
+            // off
+            case 0:
+                intake.move_voltage(0);
+                break;
             // intaking
             case 1:
                 intake.move_voltage(12000);
@@ -55,10 +68,6 @@ void runIntake() {
             // outtaking
             case 2:
                 intake.move_voltage(-12000);
-                break;
-            // off
-            case 0:
-                intake.move_voltage(0);
                 break;
         }
 

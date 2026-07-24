@@ -1,4 +1,5 @@
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "drivecode/util.hpp"
@@ -50,7 +51,9 @@ void displayVinish() {
 
 //begin all tasks
 void taskInit() {
-    pros::Task screenTask(runScreen, "screen task");
+    if (!pros::competition::is_disabled()) {
+        pros::Task screenTask(runScreen, "screen task");
+    }
 
     // pros::Task cascadeTask(runCascade, "cascade task");
     // pros::Task flipTask(runFlip, "flip task");
@@ -65,20 +68,7 @@ void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Intake state: %d", intakeState);
-
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
-
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Front: %.2f in", distFrontLeft.get() / 25.4);
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Right: %.2f in", distRight.get() / 25.4);
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "Left:  %.2f in", distLeft.get() / 25.4);
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 7, "Back:  %.2f in", distBack.get() / 25.4);
-
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 8, "override=%d state=%d macro=%d", manualOverride, cascadeState, macroIsOn);
-
-        // displayLogo();
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Intake state: %d", intakeState);
 
         pros::delay(10);
     }
@@ -87,6 +77,6 @@ void runScreen() {
 //console task
 void runConsole() {
     while(true) {
-        pros::delay(50);
+        pros::delay(10);
     }
 }

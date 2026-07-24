@@ -11,14 +11,15 @@
 // TODO: CONTROLS
 // controls
 pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
-pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_L2;
-pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R1;
-pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_R2;
+pros::controller_digital_e_t outtakeControl = pros::E_CONTROLLER_DIGITAL_L2;
+pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R2;
 
-pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_DOWN;
-pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_RIGHT;
-pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_Y;
-pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_B;
+pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_A;
 pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
 
 // TODO: Add actual drivetrain motor ports
@@ -28,7 +29,7 @@ pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // intake
-pros::Motor intake(19, pros::MotorGearset::green); // 5.5w
+pros::Motor intake(9, pros::MotorGearset::green); // 5.5w
 
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
@@ -56,7 +57,7 @@ pros::Distance distRight(0);
 
 // TODO: Add actual vision sensor ports
 // vision sensors for colour sort
-pros::Vision vision(9);
+pros::Vision vision(0);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
