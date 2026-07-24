@@ -20,6 +20,7 @@
 #include "lemlib/intersect.hpp"
 #include "pros/motors.h"
 #include "pros/misc.h"
+#include "pros/apix.h"
 
 // sdcard
 #include "sdcard/sdtest.hpp"

@@ -35,6 +35,9 @@ void displayLogo() {
 
     // set the source data for the image 
     lv_image_set_src(img,&logo);
+    
+    // center the image
+    lv_obj_center(img);
 }
 
 // display vinish for the jokes
@@ -52,9 +55,7 @@ void displayVinish() {
 //begin all tasks
 void taskInit() {
     if (!pros::competition::is_disabled()) {
-        if (pros::competition::is_autonomous()) {
-            pros::Task logoTask(displayLogo, "logo task");
-        } else {
+        if (!pros::competition::is_autonomous()) {
             pros::Task screenTask(runScreen, "screen task");
         }
     }
