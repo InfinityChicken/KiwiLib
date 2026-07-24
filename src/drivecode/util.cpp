@@ -52,7 +52,11 @@ void displayVinish() {
 //begin all tasks
 void taskInit() {
     if (!pros::competition::is_disabled()) {
-        pros::Task screenTask(runScreen, "screen task");
+        if (pros::competition::is_autonomous()) {
+            pros::Task logoTask(displayLogo, "logo task");
+        } else {
+            pros::Task screenTask(runScreen, "screen task");
+        }
     }
 
     // pros::Task cascadeTask(runCascade, "cascade task");

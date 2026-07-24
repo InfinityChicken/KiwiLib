@@ -1,6 +1,6 @@
 #include "autonomous/autonSelector.hpp"
-#include "autonomous/button.hpp"
-#include "autonomous/drawField.hpp"
+#include "autonomous/aselFunctions.hpp"
+#include "autonomous/aselDrawField.hpp"
 #include "pros/colors.h"
 #include "pros/misc.hpp"
 #include "pros/screen.h"
@@ -36,6 +36,12 @@ const char* drawingData[] = {
     "MOVEDISTANCE 20\n",
 
     // dsun auto
+    ""
+
+    // auton 3
+    ""
+
+    // auton 4
     ""
 };
 
