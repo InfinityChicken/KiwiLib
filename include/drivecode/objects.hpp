@@ -3,10 +3,10 @@
 #include "pros/distance.hpp"
 #include "pros/optical.hpp"
 
-// CONTROLS
-extern pros::controller_digital_e_t cascadeControl;
+// controls
 extern pros::controller_digital_e_t intakeControl;
 extern pros::controller_digital_e_t outtakeControl;
+extern pros::controller_digital_e_t cascadeControl;
 extern pros::controller_digital_e_t clawRotateControl;
 
 extern pros::controller_digital_e_t clawCloseControl;
@@ -16,7 +16,7 @@ extern pros::controller_digital_e_t manualChainBarControlUp;
 extern pros::controller_digital_e_t manualChainBarControlDown;
 extern pros::controller_digital_e_t colorSwitchControl;
 
-// drive motors
+// drivetrain
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
@@ -27,6 +27,9 @@ extern pros::Motor intake; // 5.5w
 extern pros::Motor cascadeL;
 extern pros::Motor cascadeR;
 extern pros::Motor chainBar;
+
+// cascade rotation sensor for macro
+extern pros::Rotation cascadeRotation;
 
 // cascade distance sensor for macro
 extern pros::Distance distCascade;
@@ -61,3 +64,6 @@ extern lemlib::Chassis chassis;
 
 //control declarations
 extern pros::Controller controller;
+
+// cascade rotation pid
+extern lemlib::PID cascadePID;

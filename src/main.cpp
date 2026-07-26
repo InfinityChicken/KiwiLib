@@ -9,7 +9,6 @@
 
 // drivecode
 #include "drivecode/cascade.hpp"
-#include "drivecode/flip.hpp"
 #include "drivecode/intake.hpp"
 #include "drivecode/objects.hpp"
 #include "drivecode/pistons.hpp"
@@ -69,17 +68,13 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
+		updateCascade();
+		updateFlip();
 		updateIntake();
-		// intake.move_voltage(12000);
-
-		// temporarily commented to prevent possible blocking so im a bit worried about that
-		// updateCascade();
-		// updateFlip();
-		// commented out while we work out the issues surrounding the color sort
-		// updatePistons();
+		updatePistons();
 
 		// miscellaneous manual override or macro programs
-		// runManual();
+		runManual();
 		// macroScore();
 
 		pros::delay(10);

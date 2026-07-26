@@ -1,4 +1,5 @@
 #include "drivecode/intake.hpp"
+#include "drivecode/cascade.hpp"
 #include "pros/misc.h"
 #include "drivecode/objects.hpp"
 
@@ -9,7 +10,8 @@ bool outtakePressed = false;
 
 void updateIntake() {
     // if intake control is pressed
-    if (controller.get_digital(intakeControl)) {
+    // and if cascade macro is off
+    if (controller.get_digital(intakeControl) && cascadeState != 1 && manualOverride == false) {
         if (!intakePressed) {
             // if it is intakking turn it off
             if(intakeState == 1) {

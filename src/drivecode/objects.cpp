@@ -38,7 +38,10 @@ pros::Motor cascadeL (0, pros::MotorGearset::blue);
 pros::Motor cascadeR (0, pros::MotorGearset::blue);
 pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
 
-// TODO: Add actual cascade distance sensor port
+// TODO: Add actual cascade sensor ports
+// cascade rotation sensor for macro
+pros::Rotation cascadeRotation(0);
+
 // cascade distance sensor for macro
 pros::Distance distCascade(0);
 
@@ -164,4 +167,17 @@ lemlib::Chassis chassis(
     angularController,
     odomSensorsDrive,
     distSensors
+);
+
+// cascade rotation PID
+lemlib::PID cascadePID(5,
+                         // proportional gain (kP)
+                         0.01,
+                         // integral gain (kI)
+                         20,
+                         // derivative gain (kD)
+                         5,
+                         // antiwindup
+                         false
+                         // sign flip reset boolean
 );
