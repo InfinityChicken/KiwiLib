@@ -105,28 +105,15 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
 
         infoSink()->debug("Angular Out: {}, Lateral Out: {}", angularOut, lateralOut);
 
-        //TODO: subtractive overturn
+        // ratio the speeds to respect the max speed
+        // subtractive overturn is silly
         float leftPower = lateralOut + angularOut;
         float rightPower = lateralOut - angularOut;
-        float hiPower = std::max(std::fabs(leftPower), std::fabs(rightPower));
-
-        if(hiPower > params.maxSpeed) { //127 maxSpeed default
-            float diff = params.maxSpeed - hiPower;
-            lateralOut > 0 ? lateralOut -= diff : lateralOut += diff;
+        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
+        if (ratio > 1) {
+            leftPower /= ratio;
+            rightPower /= ratio;
         }
-
-        leftPower = lateralOut + angularOut;
-        rightPower = lateralOut - angularOut;
-
-        // //*old ratio
-        // // ratio the speeds to respect the max speed
-        // float leftPower = lateralOut + angularOut;
-        // float rightPower = lateralOut - angularOut;
-        // const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
-        // if (ratio > 1) {
-        //     leftPower /= ratio;
-        //     rightPower /= ratio;
-        // }
 
         // move the drivetrain
         drivetrain.leftMotors->move(leftPower);
