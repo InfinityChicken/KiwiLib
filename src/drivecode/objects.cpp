@@ -18,20 +18,20 @@ pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_R2;
 // TODO: Add actual drivetrain motor ports
 // drivetrain
 // 55w 5.5w motorstack
-pros::Motor leftFront (0, pros::MotorGearset::blue);
-pros::Motor leftMid (0, pros::MotorGearset::blue);
+pros::Motor leftFront (18, pros::MotorGearset::blue);
+pros::Motor leftMid (20, pros::MotorGearset::blue);
 pros::Motor leftBack (0, pros::MotorGearset::green);
 
-pros::Motor rightFront (0, pros::MotorGearset::blue);
-pros::Motor rightMid (0, pros::MotorGearset::blue);
+pros::Motor rightFront (10, pros::MotorGearset::blue);
+pros::Motor rightMid (9, pros::MotorGearset::blue);
 pros::Motor rightBack (0, pros::MotorGearset::green);
 
-pros::MotorGroup leftMotors({0, 0, 0});
-pros::MotorGroup rightMotors({0, 0, 0});
+// pros::MotorGroup leftMotors({0, 0, 0});
+// pros::MotorGroup rightMotors({0, 0, 0});
 
 // 44w
-// pros::MotorGroup leftMotors({0, 0}, pros::MotorGearset::blue);
-// pros::MotorGroup rightMotors({-0, -0}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-18, 20}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({9, -10}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // rollerClaw
