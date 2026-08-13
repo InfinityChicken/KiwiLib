@@ -6,13 +6,15 @@
 #include "drivecode/objects.hpp"
 #include "sdcard/sdmain.hpp"
 #include "drivecode/cascade.hpp"
-#include "drivecode/intake.hpp"
+#include "drivecode/rollerClaw.hpp"
 #include "drivecode/pistons.hpp"
 // #include "autonomous/autonSelector.hpp"
 
 void runCascade();
 
-void motorInit() {}
+void motorInit() {
+    rollerClaw.tare_position();
+}
 
 // sensor settings
 void sensorInit() {
@@ -24,33 +26,6 @@ void sensorInit() {
     vision.set_signature(1, &redSig);
 }
 
-// display logo for auton selector
-void displayLogo() {
-    // create a variable for the c array (image)
-    LV_IMAGE_DECLARE(logo);
-
-    // declare and define the image object
-    lv_obj_t* img = lv_image_create(lv_screen_active());
-
-    // set the source data for the image 
-    lv_image_set_src(img,&logo);
-    
-    // center the image
-    lv_obj_center(img);
-}
-
-// display vinish for the jokes
-void displayVinish() {
-    // create a variable for the c array (image)
-    LV_IMAGE_DECLARE(vinish);
-
-    // declare and define the image object
-    lv_obj_t* img = lv_image_create(lv_screen_active());
-
-    // set the source data for the image 
-    lv_image_set_src(img,&vinish);
-}
-
 //begin all tasks
 void taskInit() {
     if (!pros::competition::is_disabled()) {
@@ -59,12 +34,12 @@ void taskInit() {
         }
     }
 
-    pros::Task cascadeTask(runCascade, "cascade task");
-    pros::Task flipTask(runFlip, "flip task");
-    pros::Task intakeTask(runIntake, "intake task");
-    pros::Task pistonTask(runPistons, "pistons task");
+    //pros::Task cascadeTask(runCascade, "cascade task");
+    //pros::Task flipTask(runFlip, "flip task");
+    pros::Task intakeTask(runRoller, "roller task");
+    //pros::Task pistonTask(runPistons, "pistons task");
 
-    pros::Task scoreTask(macroScore, "score task");
+    //pros::Task scoreTask(macroScore, "score task");
 }
 
 //brain task
@@ -72,7 +47,7 @@ void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Intake state: %d", intakeState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Roller state: %d", rollerState);
 
         pros::delay(10);
     }

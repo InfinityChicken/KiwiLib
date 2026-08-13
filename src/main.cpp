@@ -9,7 +9,7 @@
 
 // drivecode
 #include "drivecode/cascade.hpp"
-#include "drivecode/intake.hpp"
+#include "drivecode/rollerClaw.hpp"
 #include "drivecode/objects.hpp"
 #include "drivecode/pistons.hpp"
 #include "drivecode/util.hpp"
@@ -68,14 +68,7 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
-		updateCascade();
-		updateFlip();
-		updateIntake();
-		updatePistons();
-
-		// miscellaneous manual override or macro programs
-		runManual();
-		// macroScore();
+		updateRoller();
 
 		pros::delay(10);
 	}

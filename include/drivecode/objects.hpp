@@ -4,7 +4,7 @@
 #include "pros/optical.hpp"
 
 // controls
-extern pros::controller_digital_e_t intakeControl;
+extern pros::controller_digital_e_t rollerControl;
 extern pros::controller_digital_e_t outtakeControl;
 extern pros::controller_digital_e_t cascadeControl;
 extern pros::controller_digital_e_t clawRotateControl;
@@ -21,7 +21,7 @@ extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
 // intake
-extern pros::Motor intake; // 5.5w
+extern pros::Motor rollerClaw; // 5.5w
 
 // cascade and chainbar motors
 extern pros::Motor cascadeL;

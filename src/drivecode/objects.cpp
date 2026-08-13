@@ -10,26 +10,31 @@
 
 // TODO: CONTROLS
 // controls
-pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
-pros::controller_digital_e_t outtakeControl = pros::E_CONTROLLER_DIGITAL_L2;
-pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_R1;
-pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R2;
+pros::controller_digital_e_t rollerControl = pros::E_CONTROLLER_DIGITAL_L1;
+// pros::controller_digital_e_t outtakeControl = pros::E_CONTROLLER_DIGITAL_L2;
+// pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_R1;
+// pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R2;
 
-pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_A;
-pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_A;
-pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_A;
-pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_A;
-pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_A;
-pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
+// pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_A;
+// pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_A;
+// pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_A;
+// pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_A;
+// pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_A;
+// pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
+// 55w 5.5w motorstack
 pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
 
+// 44w
+// pros::MotorGroup leftMotors({0, 0}, pros::MotorGearset::blue);
+// pros::MotorGroup rightMotors({-0, -0}, pros::MotorGearset::blue);
+
 // TODO: Add actual intake motor ports
-// intake
-pros::Motor intake(9, pros::MotorGearset::green); // 5.5w
+// rollerClaw
+pros::Motor rollerClaw(2, pros::MotorGearset::blue); // 5.5w
 
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
