@@ -11,22 +11,23 @@
 // TODO: CONTROLS
 // controls
 pros::controller_digital_e_t rollerControl = pros::E_CONTROLLER_DIGITAL_L1;
-// pros::controller_digital_e_t outtakeControl = pros::E_CONTROLLER_DIGITAL_L2;
-// pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_R1;
-// pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R2;
-
-// pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_A;
-// pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_A;
-// pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_A;
-// pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_A;
-// pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_A;
-// pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t clawFlipControl = pros::E_CONTROLLER_DIGITAL_L2;
+pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_R2;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
 // 55w 5.5w motorstack
-pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
+pros::Motor leftFront (0, pros::MotorGearset::blue);
+pros::Motor leftMid (0, pros::MotorGearset::blue);
+pros::Motor leftBack (0, pros::MotorGearset::green);
+
+pros::Motor rightFront (0, pros::MotorGearset::blue);
+pros::Motor rightMid (0, pros::MotorGearset::blue);
+pros::Motor rightBack (0, pros::MotorGearset::green);
+
+pros::MotorGroup leftMotors({0, 0, 0});
+pros::MotorGroup rightMotors({0, 0, 0});
 
 // 44w
 // pros::MotorGroup leftMotors({0, 0}, pros::MotorGearset::blue);
@@ -34,13 +35,15 @@ pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // rollerClaw
-pros::Motor rollerClaw(2, pros::MotorGearset::blue); // 5.5w
+pros::Motor rollerClaw(20, pros::MotorGearset::blue); // 5.5w
 
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
 pros::Motor cascadeL (0, pros::MotorGearset::blue);
 pros::Motor cascadeR (0, pros::MotorGearset::blue);
+pros::Motor cascadeLs (0, pros::MotorGearset::green);
+pros::Motor cascadeRs (0, pros::MotorGearset::green);
 pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
 
 // TODO: Add actual cascade sensor ports
@@ -52,8 +55,7 @@ pros::Distance distCascade(0);
 
 // TODO: Add actual claw ports
 // piston claw
-pros::adi::DigitalOut pistonClawRotate(0);
-pros::adi::DigitalOut pistonClawClose(0);
+pros::adi::DigitalOut pistonFlip(0);
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr

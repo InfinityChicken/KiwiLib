@@ -1,43 +1,56 @@
-#include "main.h"
-#include "pros/adi.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include <climits>
+#include "pros/abstract_motor.hpp"
 #include "pros/distance.hpp"
-#include "pros/optical.hpp"
+#include "pros/misc.h"
+#include "pros/motor_group.hpp"
+#include "pros/rotation.hpp"
+#include "pros/vision.hpp"
 
+// TODO: CONTROLS
 // controls
 extern pros::controller_digital_e_t rollerControl;
-extern pros::controller_digital_e_t outtakeControl;
-extern pros::controller_digital_e_t cascadeControl;
-extern pros::controller_digital_e_t clawRotateControl;
+extern pros::controller_digital_e_t clawFlipControl;
+extern pros::controller_digital_e_t cascadeUpControl;
+extern pros::controller_digital_e_t cascadeDownControl;
 
-extern pros::controller_digital_e_t clawCloseControl;
-extern pros::controller_digital_e_t manualCascadeControlUp;
-extern pros::controller_digital_e_t manualCascadeControlDown;
-extern pros::controller_digital_e_t manualChainBarControlUp;
-extern pros::controller_digital_e_t manualChainBarControlDown;
-extern pros::controller_digital_e_t colorSwitchControl;
-
+// TODO: Add actual drivetrain motor ports
 // drivetrain
+// 55w 5.5w motorstack or 44w
+extern pros::Motor leftFront;
+extern pros::Motor leftMid;
+extern pros::Motor leftBack;
+extern pros::Motor rightFront;
+extern pros::Motor rightMid;
+extern pros::Motor rightBack;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
-// intake
+// TODO: Add actual intake motor ports
+// rollerClaw
 extern pros::Motor rollerClaw; // 5.5w
 
+// TODO: Add actual cascade ports and rotation
+// TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
 extern pros::Motor cascadeL;
 extern pros::Motor cascadeR;
-extern pros::Motor chainBar;
+extern pros::Motor cascadeLs;
+extern pros::Motor cascadeRs;
+extern pros::Motor chainBar; // 5.5 w
 
+// TODO: Add actual cascade sensor ports
 // cascade rotation sensor for macro
 extern pros::Rotation cascadeRotation;
 
 // cascade distance sensor for macro
 extern pros::Distance distCascade;
 
+// TODO: Add actual claw ports
 // piston claw
-extern pros::adi::DigitalOut pistonClawRotate;
-extern pros::adi::DigitalOut pistonClawClose;
+extern pros::adi::DigitalOut pistonFlip;
 
+// TODO: Add actual distance sensor ports
 // distance sensors for dsr
 extern pros::Distance distFrontLeft;
 extern pros::Distance distFrontRight;
@@ -45,25 +58,47 @@ extern pros::Distance distBack;
 extern pros::Distance distLeft;
 extern pros::Distance distRight;
 
-// vision sensors for colour
+// TODO: Add actual vision sensor ports
+// vision sensors for colour sort
 extern pros::Vision vision;
 
+// TODO: Add actual odometry ports
 // odometry sensors for chassis
 extern pros::Rotation horizRotation;
 extern pros::Imu imu;
 
+// TODO: Retune color if ever needed
 // color signatures for vision sensor
-extern pros::vision_signature_s_t yellowSig;
 extern pros::vision_signature_s_t redSig;
+
 extern pros::vision_signature_s_t blueSig;
 
-//drivetrain declarations
-extern lemlib::TrackingWheel horizOdom;
-extern lemlib::Drivetrain drivetrain;
-extern lemlib::Chassis chassis;
+extern pros::vision_signature_s_t yellowSig;
 
-//control declarations
+// odom objects
+extern lemlib::TrackingWheel horizOdom;
+
+// odom sensors
+extern lemlib::OdomSensors odomSensorsDrive;
+
+
+// drivetrain
+extern lemlib::Drivetrain drivetrain;
+
+// lateral pid controller
+extern lemlib::ControllerSettings lateralController;
+
+// angular pid controller
+extern lemlib::ControllerSettings angularController;
+
+// distance sensors
+extern lemlib::DistanceSensors distSensors;
+
+// controller
 extern pros::Controller controller;
 
-// cascade rotation pid
+// chassis
+extern lemlib::Chassis chassis;
+
+// cascade rotation PID
 extern lemlib::PID cascadePID;

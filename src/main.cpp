@@ -8,10 +8,7 @@
 #include "autonomous/autonSelector.hpp"
 
 // drivecode
-#include "drivecode/cascade.hpp"
-#include "drivecode/rollerClaw.hpp"
 #include "drivecode/objects.hpp"
-#include "drivecode/pistons.hpp"
 #include "drivecode/util.hpp"
 
 // lemlib & pros
@@ -68,7 +65,6 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
-		updateRoller();
 
 		pros::delay(10);
 	}
