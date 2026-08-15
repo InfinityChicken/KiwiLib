@@ -10,6 +10,8 @@
 // drivecode
 #include "drivecode/objects.hpp"
 #include "drivecode/util.hpp"
+#include "drivecode/cascade.hpp"
+#include "drivecode/claw.hpp"
 
 // lemlib & pros
 #include "lemlib/chassis/chassis.hpp"
@@ -65,6 +67,8 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
+		updateCascade();
+		updateRoller();
 
 		pros::delay(10);
 	}

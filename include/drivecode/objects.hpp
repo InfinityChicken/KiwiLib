@@ -9,10 +9,13 @@
 
 // TODO: CONTROLS
 // controls
-extern pros::controller_digital_e_t rollerControl;
-extern pros::controller_digital_e_t clawFlipControl;
+extern pros::controller_digital_e_t rollerControlIn;
+extern pros::controller_digital_e_t rollerControlOut;
 extern pros::controller_digital_e_t cascadeUpControl;
 extern pros::controller_digital_e_t cascadeDownControl;
+
+extern pros::controller_digital_e_t clawFlipControl;
+extern pros::controller_digital_e_t cascadeResetControl;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
@@ -33,16 +36,10 @@ extern pros::Motor rollerClaw; // 5.5w
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
-extern pros::Motor cascadeL;
-extern pros::Motor cascadeR;
-extern pros::Motor cascadeLs;
-extern pros::Motor cascadeRs;
+extern pros::MotorGroup cascade;
 extern pros::Motor chainBar; // 5.5 w
 
 // TODO: Add actual cascade sensor ports
-// cascade rotation sensor for macro
-extern pros::Rotation cascadeRotation;
-
 // cascade distance sensor for macro
 extern pros::Distance distCascade;
 
@@ -81,7 +78,6 @@ extern lemlib::TrackingWheel horizOdom;
 // odom sensors
 extern lemlib::OdomSensors odomSensorsDrive;
 
-
 // drivetrain
 extern lemlib::Drivetrain drivetrain;
 
@@ -99,6 +95,3 @@ extern pros::Controller controller;
 
 // chassis
 extern lemlib::Chassis chassis;
-
-// cascade rotation PID
-extern lemlib::PID cascadePID;

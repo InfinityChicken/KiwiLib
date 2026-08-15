@@ -6,12 +6,19 @@
 #include "drivecode/objects.hpp"
 #include "sdcard/sdmain.hpp"
 #include "drivecode/claw.hpp"
+#include "drivecode/cascade.hpp"
 // #include "autonomous/autonSelector.hpp"
 
-void runCascade();
-
 void motorInit() {
+    // set current roller claw "absolute" position to zero
     rollerClaw.tare_position();
+
+    // set current cascade "absolute" position to zero
+    cascade.tare_position();
+
+    // set chain bar "absolute" position to zero, assuming you 
+    // are resting it against something rigid
+    chainBar.tare_position();
 }
 
 // sensor settings
@@ -19,9 +26,10 @@ void sensorInit() {
     vision.clear_led();
     vision.set_exposure(150);
     vision.set_led(4024241);
-    vision.set_signature(3, &yellowSig);
-    vision.set_signature(2, &blueSig);
-    vision.set_signature(1, &redSig);
+
+    vision.set_signature(0, &yellowSig);
+    vision.set_signature(0, &blueSig);
+    vision.set_signature(0, &redSig);
 }
 
 //begin all tasks
@@ -31,6 +39,8 @@ void taskInit() {
             pros::Task screenTask(runScreen, "screen task");
         }
     }
+    pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task rollerTask(runRoller, "roller task");
 }
 
 //brain task
@@ -44,6 +54,10 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_MEDIUM, 4, "rightFront: %d", rightFront.get_power());
         pros::screen::print(pros::E_TEXT_MEDIUM, 5, "rightMid: %d", rightMid.get_power());
         pros::screen::print(pros::E_TEXT_MEDIUM, 6, "rightBack: %d", rightBack.get_power());
+
+        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "cascadeState: %d", cascadeState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 8, "rollerState: %d", rollerState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 9, "resetState: %d", resetState);
 
         pros::delay(10);
     }

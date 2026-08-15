@@ -10,46 +10,44 @@
 
 // TODO: CONTROLS
 // controls
-pros::controller_digital_e_t rollerControl = pros::E_CONTROLLER_DIGITAL_L1;
-pros::controller_digital_e_t clawFlipControl = pros::E_CONTROLLER_DIGITAL_L2;
-pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_R1;
-pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_R2;
+pros::controller_digital_e_t rollerControlIn = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t rollerControlOut = pros::E_CONTROLLER_DIGITAL_R2;
+pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_L1;
+pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
+
+pros::controller_digital_e_t cascadeResetControl = pros::E_CONTROLLER_DIGITAL_DOWN;
+pros::controller_digital_e_t clawFlipControl = pros::E_CONTROLLER_DIGITAL_RIGHT;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
-// 55w 5.5w motorstack
-pros::Motor leftFront (18, pros::MotorGearset::blue);
-pros::Motor leftMid (20, pros::MotorGearset::blue);
+pros::Motor leftFront (0, pros::MotorGearset::blue);
+pros::Motor leftMid (0, pros::MotorGearset::blue);
 pros::Motor leftBack (0, pros::MotorGearset::green);
 
-pros::Motor rightFront (10, pros::MotorGearset::blue);
-pros::Motor rightMid (9, pros::MotorGearset::blue);
+pros::Motor rightFront (0, pros::MotorGearset::blue);
+pros::Motor rightMid (0, pros::MotorGearset::blue);
 pros::Motor rightBack (0, pros::MotorGearset::green);
 
+// 55w 5.5w motorstack
 // pros::MotorGroup leftMotors({0, 0, 0});
 // pros::MotorGroup rightMotors({0, 0, 0});
 
 // 44w
-pros::MotorGroup leftMotors({-18, 20}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({9, -10}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
 // rollerClaw
-pros::Motor rollerClaw(20, pros::MotorGearset::blue); // 5.5w
+pros::Motor rollerClaw(0, pros::MotorGearset::blue); // 5.5w
 
 // TODO: Add actual cascade ports and rotation
 // TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
-pros::Motor cascadeL (0, pros::MotorGearset::blue);
-pros::Motor cascadeR (0, pros::MotorGearset::blue);
-pros::Motor cascadeLs (0, pros::MotorGearset::green);
-pros::Motor cascadeRs (0, pros::MotorGearset::green);
+pros::MotorGroup cascade({0, 0, 0, 0}, pros::MotorGearset::blue);
+
 pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
 
 // TODO: Add actual cascade sensor ports
-// cascade rotation sensor for macro
-pros::Rotation cascadeRotation(0);
-
 // cascade distance sensor for macro
 pros::Distance distCascade(0);
 
@@ -76,33 +74,33 @@ pros::Imu imu(0);
 
 // TODO: Retune color if ever needed
 // color signatures for vision sensor
-pros::vision_signature_s_t redSig = pros::Vision::signature_from_utility(1, 
-                                                                       9341, 
-                                                                       12549, 
-                                                                      10945, 
-                                                                       -1999, 
-                                                                       -745, 
-                                                                      -1372, 
+pros::vision_signature_s_t redSig = pros::Vision::signature_from_utility(0, 
+                                                                       0, 
+                                                                       0, 
+                                                                      0, 
+                                                                       0, 
+                                                                       0, 
+                                                                      0, 
                                                                        2.5, 
                                                                         0);
 
-pros::vision_signature_s_t blueSig = pros::Vision::signature_from_utility(2, 
-                                                                       -4353, 
-                                                                       -3559, 
-                                                                      -3956, 
-                                                                       6299, 
-                                                                       7737, 
-                                                                      7018, 
+pros::vision_signature_s_t blueSig = pros::Vision::signature_from_utility(0, 
+                                                                       0, 
+                                                                       0, 
+                                                                      0, 
+                                                                       0, 
+                                                                       0, 
+                                                                      0, 
                                                                        2.5, 
                                                                         0);
 
-pros::vision_signature_s_t yellowSig = pros::Vision::signature_from_utility(3, 
-                                                                       593, 
-                                                                       1227, 
-                                                                      910, 
-                                                                       -4851, 
-                                                                       -4147, 
-                                                                      -4499, 
+pros::vision_signature_s_t yellowSig = pros::Vision::signature_from_utility(0, 
+                                                                       0, 
+                                                                       0, 
+                                                                      0, 
+                                                                       0, 
+                                                                       0, 
+                                                                      0, 
                                                                        2.5, 
                                                                         0);
 
@@ -174,17 +172,4 @@ lemlib::Chassis chassis(
     angularController,
     odomSensorsDrive,
     distSensors
-);
-
-// cascade rotation PID
-lemlib::PID cascadePID(5,
-                         // proportional gain (kP)
-                         0.01,
-                         // integral gain (kI)
-                         20,
-                         // derivative gain (kD)
-                         5,
-                         // antiwindup
-                         false
-                         // sign flip reset boolean
 );
