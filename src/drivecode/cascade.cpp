@@ -9,10 +9,11 @@ int cascadeState = 0;
 bool chainBarPressed = false;
 int chainBarState = 0;
 
-std::int32_t chainBarPID_target = 0;
-
 bool resetPressed = false;
 int resetState = 0;
+
+// chain bar pid target variable
+std::int32_t chainBarPID_target = 0;
 
 void updateCascade() {
     // if cascade control down is pressed

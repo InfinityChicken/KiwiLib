@@ -6,13 +6,14 @@ extern bool cascadePressed;
 extern int cascadeState;
 
 extern bool chainBarPressed;
-extern bool chainBarState;
+extern int chainBarState;
 
 extern bool resetPressed;
 extern int resetState;
 
-// initialize update state function
-void updateCascade();
+// chain bar pid target variable
+extern std::int32_t chainBarPID_target;
 
-// initialize run fuction
-void runCascade();
+extern void updateCascade();
+extern void updateChainBar();
+extern void runCascade();
