@@ -18,6 +18,9 @@ pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
 pros::controller_digital_e_t cascadeResetControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 pros::controller_digital_e_t clawFlipControl = pros::E_CONTROLLER_DIGITAL_RIGHT;
 
+pros::controller_digital_e_t chainBarUpControl = pros::E_CONTROLLER_DIGITAL_Y;
+pros::controller_digital_e_t chainBarDownControl = pros::E_CONTROLLER_DIGITAL_B;
+
 // TODO: Add actual drivetrain motor ports
 // drivetrain
 pros::Motor leftFront (0, pros::MotorGearset::blue);
@@ -50,6 +53,10 @@ pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
 pros::Distance distCascade(0);
+
+// chain bar/cascade rotation sensors
+pros::Rotation chainBarRotation(0);
+// pros::Rotation cascadeRotation(0);
 
 // TODO: Add actual claw ports
 // piston claw
@@ -172,4 +179,17 @@ lemlib::Chassis chassis(
     angularController,
     odomSensorsDrive,
     distSensors
+);
+
+// chain bar pid
+lemlib::PID chainBarPID(5,
+                         // proportional gain (kP)
+                         0.01,
+                         // integral gain (kI)
+                         20,
+                         // derivative gain (kD)
+                         5,
+                         // antiwindup
+                         false
+                         // sign flip reset boolean
 );

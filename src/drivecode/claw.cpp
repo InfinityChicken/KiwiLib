@@ -58,11 +58,11 @@ void runRoller() {
         switch (rollerState) {
             // intaking
             case 0:
-                rollerClaw.move_absolute(100, 600);
+                rollerClaw.move_relative(100, 600);
                 break;
             // outtaking
             case 1:
-                rollerClaw.move_absolute(-100, 600);
+                rollerClaw.move_relative(-100, 600);
                 break;
         }
 

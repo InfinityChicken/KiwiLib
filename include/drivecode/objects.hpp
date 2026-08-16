@@ -43,6 +43,10 @@ extern pros::Motor chainBar; // 5.5 w
 // cascade distance sensor for macro
 extern pros::Distance distCascade;
 
+// chain bar/cascade rotation sensors
+extern pros::Rotation chainBarRotation;
+// extern pros::Rotation cascadeRotation;
+
 // TODO: Add actual claw ports
 // piston claw
 extern pros::adi::DigitalOut pistonFlip;
@@ -95,3 +99,6 @@ extern pros::Controller controller;
 
 // chassis
 extern lemlib::Chassis chassis;
+
+// chain bar pid
+extern lemlib::PID chainBarPID;
