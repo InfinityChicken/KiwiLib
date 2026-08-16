@@ -5,6 +5,9 @@
 extern bool cascadePressed;
 extern int cascadeState;
 
+extern bool chainBarPressed;
+extern bool chainBarState;
+
 extern bool resetPressed;
 extern int resetState;
 

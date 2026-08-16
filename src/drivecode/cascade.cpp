@@ -6,6 +6,9 @@
 bool cascadePressed = false;
 int cascadeState = 0;
 
+bool chainBarPressed = false;
+int chainBarState = 0;
+
 std::int32_t chainBarPID_target = 0;
 
 bool resetPressed = false;
@@ -47,7 +50,7 @@ void updateCascade() {
 void updateChainBar() {
     // if cascade reset position is pressed
     if (controller.get_digital(chainBarUpControl)) {
-        if (!chainBarUpPressed) {
+        if (!chainBarPressed) {
             chainBarState = 0;
         }
         // flip was just toggled just now
@@ -55,7 +58,7 @@ void updateChainBar() {
     }
 
     if (controller.get_digital(chainBarDownControl)) {
-        if (!chainBarDownPressed) {
+        if (!chainBarPressed) {
             chainBarState = 1;
         }
         // flip was just toggled just now

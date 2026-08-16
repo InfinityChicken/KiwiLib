@@ -17,6 +17,9 @@ extern pros::controller_digital_e_t cascadeDownControl;
 extern pros::controller_digital_e_t clawFlipControl;
 extern pros::controller_digital_e_t cascadeResetControl;
 
+extern pros::controller_digital_e_t chainBarUpControl;
+extern pros::controller_digital_e_t chainBarDownControl;
+
 // TODO: Add actual drivetrain motor ports
 // drivetrain
 // 55w 5.5w motorstack or 44w
