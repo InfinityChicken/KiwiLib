@@ -48,16 +48,19 @@ void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "leftMid: %d", leftMid.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 3, "leftBack: %d", leftBack.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "rightFront: %d", rightFront.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "rightMid: %d", rightMid.get_power());
-        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "rightBack: %d", rightBack.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 2, "leftMid: %d", leftMid.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 3, "leftBack: %d", leftBack.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 4, "rightFront: %d", rightFront.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 5, "rightMid: %d", rightMid.get_power());
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 6, "rightBack: %d", rightBack.get_power());
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 7, "cascadeState: %d", cascadeState);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 8, "rollerState: %d", rollerState);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 9, "resetState: %d", resetState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "cascadeState: %d", cascadeState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "rollerState: %d", rollerState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 3, "resetState: %d", resetState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 4, "chainBarState: %d", chainBarState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 5, "rollerState: %d", flipState);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 6, "controlType: %d", controlType);
 
         pros::delay(10);
     }

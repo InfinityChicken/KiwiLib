@@ -13,8 +13,6 @@ bool resetPressed = false;
 int resetState = 0;
 
 bool switchPressed = false;
-int switchState = 0;
-
 // control type variable for cascade control switch
 int controlType = 0;
 
@@ -57,7 +55,7 @@ void updateCascade() {
     // if switch button is pressed
     if (controller.get_digital(cascadeSwitchControl)) {
         if (!switchPressed) {
-            switchState = (switchState + 1) % 2;
+            controlType = (controlType + 1) % 2;
         }
         // switch was just toggled just now
         switchPressed = true;

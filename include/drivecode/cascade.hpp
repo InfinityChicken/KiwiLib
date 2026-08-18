@@ -12,8 +12,6 @@ extern bool resetPressed;
 extern int resetState;
 
 extern bool switchPressed;
-extern int switchState;
-
 // control type variable for cascade control switch
 extern int controlType;
 
