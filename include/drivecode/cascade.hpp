@@ -11,6 +11,9 @@ extern int chainBarState;
 extern bool resetPressed;
 extern int resetState;
 
+// control type variable for cascade control switch
+extern int controlType;
+
 // chain bar pid target variable
 extern std::int32_t chainBarPID_target;
 

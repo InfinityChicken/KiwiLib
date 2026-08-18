@@ -120,10 +120,10 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
         lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         
-        // //*old overturn
-        // // prioritize angular movement over lateral movement
-        // const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
-        // if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
+        //*old overturn
+        // prioritize angular movement over lateral movement
+        const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
+        if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
 
         // prevent moving in the wrong direction
         if (params.forwards && !close) lateralOut = std::fmax(lateralOut, 0);
@@ -150,18 +150,18 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
             lateralOut > 0 ? lateralOut -= diff : lateralOut += diff;
         }
 
+        // leftPower = lateralOut + angularOut;
+        // rightPower = lateralOut - angularOut;
+
+        //* old ratio
+        // ratio the speeds to respect the max speed
         leftPower = lateralOut + angularOut;
         rightPower = lateralOut - angularOut;
-
-        // //* old ratio
-        // // ratio the speeds to respect the max speed
-        // float leftPower = lateralOut + angularOut;
-        // float rightPower = lateralOut - angularOut;
-        // const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
-        // if (ratio > 1) {
-        //     leftPower /= ratio;
-        //     rightPower /= ratio;
-        // }
+        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
+        if (ratio > 1) {
+            leftPower /= ratio;
+            rightPower /= ratio;
+        }
 
         // move the drivetrain
         drivetrain.leftMotors->move(leftPower);

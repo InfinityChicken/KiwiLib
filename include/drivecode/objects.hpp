@@ -17,8 +17,8 @@ extern pros::controller_digital_e_t cascadeDownControl;
 extern pros::controller_digital_e_t clawFlipControl;
 extern pros::controller_digital_e_t cascadeResetControl;
 
-extern pros::controller_digital_e_t chainBarUpControl;
-extern pros::controller_digital_e_t chainBarDownControl;
+extern pros::controller_digital_e_t chainBarControl;
+extern pros::controller_digital_e_t cascadeSwitchControl;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
@@ -48,7 +48,7 @@ extern pros::Distance distCascade;
 
 // chain bar/cascade rotation sensors
 extern pros::Rotation chainBarRotation;
-// extern pros::Rotation cascadeRotation;
+extern pros::Rotation cascadeRotation;
 
 // TODO: Add actual claw ports
 // piston claw
@@ -105,3 +105,6 @@ extern lemlib::Chassis chassis;
 
 // chain bar pid
 extern lemlib::PID chainBarPID;
+
+// cascade pid
+extern lemlib::PID cascadePID;
