@@ -1,13 +1,13 @@
-#include "pros/misc.h"
-#include "pros/misc.hpp"
-#include "pros/motors.h"
-#include "pros/rtos.hpp"
 #include "drivecode/util.hpp"
-#include "drivecode/objects.hpp"
-#include "sdcard/sdmain.hpp"
-#include "drivecode/claw.hpp"
-#include "drivecode/cascade.hpp"
-// #include "autonomous/autonSelector.hpp"
+#include "autonomous/autonSelector.hpp"
+
+//begin all tasks
+void taskInit() {
+    pros::Task screenTask(runScreen, "screen task");
+    // pros::Task cascadeTask(runCascade, "cascade task");
+    // pros::Task rollerTask(runRoller, "roller task");
+    // pros::Task flipTask(runFlip, "flipTask");
+}
 
 void motorInit() {
     // set current roller claw "absolute" position to zero
@@ -30,14 +30,6 @@ void sensorInit() {
     vision.set_signature(0, &yellowSig);
     vision.set_signature(0, &blueSig);
     vision.set_signature(0, &redSig);
-}
-
-//begin all tasks
-void taskInit() {
-    // pros::Task screenTask(runScreen, "screen task");
-    // pros::Task cascadeTask(runCascade, "cascade task");
-    // pros::Task rollerTask(runRoller, "roller task");
-    // pros::Task flipTask(runFlip, "flipTask");
 }
 
 //brain task

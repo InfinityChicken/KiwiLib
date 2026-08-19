@@ -1,5 +1,12 @@
 #include "main.h"
+#include "pros/misc.h"
+#include "pros/misc.hpp"
+#include "pros/motors.h"
+#include "pros/rtos.hpp"
 #include "drivecode/objects.hpp"
+#include "sdcard/sdmain.hpp"
+#include "drivecode/claw.hpp"
+#include "drivecode/cascade.hpp"
 
 //begin all tasks
 void taskInit();
@@ -10,12 +17,6 @@ void motorInit();
 //initialize sensors
 void sensorInit();
 
-// create image from c array
-void displayLogo();
-
-// create vinish from c array
-void displayVinish();
-
 //screen run function
 void runScreen();
 
@@ -23,4 +24,4 @@ void runScreen();
 void runConsole();
 
 //controller screen print function
-void runController();
+// void runController();

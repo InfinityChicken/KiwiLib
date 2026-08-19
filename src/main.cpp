@@ -55,8 +55,8 @@ void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	//runAuton();
-	override();
+	// runAuton();
+	// override();
 } 
 
 void opcontrol() {
