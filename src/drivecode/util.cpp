@@ -34,20 +34,15 @@ void sensorInit() {
 
 //begin all tasks
 void taskInit() {
-    if (!pros::competition::is_disabled()) {
-        if (!pros::competition::is_autonomous()) {
-            pros::Task screenTask(runScreen, "screen task");
-        }
-    }
-    pros::Task cascadeTask(runCascade, "cascade task");
-    pros::Task rollerTask(runRoller, "roller task");
+    // pros::Task screenTask(runScreen, "screen task");
+    // pros::Task cascadeTask(runCascade, "cascade task");
+    // pros::Task rollerTask(runRoller, "roller task");
+    // pros::Task flipTask(runFlip, "flipTask");
 }
 
 //brain task
 void runScreen() {
     while(true) {
-        lemlib::Pose pose = chassis.getPose();
-
         // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 2, "leftMid: %d", leftMid.get_power());
         // pros::screen::print(pros::E_TEXT_MEDIUM, 3, "leftBack: %d", leftBack.get_power());
