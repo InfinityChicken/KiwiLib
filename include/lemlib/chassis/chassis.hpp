@@ -664,6 +664,10 @@ class Chassis {
          */
         void swingToPoint(float x, float y, DriveSide lockedSide, int timeout, SwingToPointParams params = {},
                           bool async = false);
+        
+        //TODO: turnWithPower
+        void turnWithPower(float theta, float latPower, int timeout, TurnToHeadingParams params, bool async);
+        
         /**
          * @brief Move the chassis towards the target pose
          *
