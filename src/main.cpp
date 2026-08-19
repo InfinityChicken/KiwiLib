@@ -16,7 +16,6 @@
 // lemlib & pros
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/intersect.hpp"
-#include "liblvgl/llemu.hpp"
 #include "pros/motors.h"
 #include "pros/misc.h"
 #include "pros/apix.h"
@@ -32,8 +31,6 @@ void initialize() {
 	chassis.calibrate();
 	chassis.setPose(0,0,0);
 
-	pros::lcd::initialize();
-
 	// initialize the motors
 	motorInit();
 
@@ -44,7 +41,7 @@ void initialize() {
 	taskInit();
 
 	// run autonSelector during the set up period
-	// autonSelector();
+	//autonSelector();
 }
 
 void disabled() {}
@@ -55,8 +52,8 @@ void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
-	// runAuton();
-	// override();
+	runAuton();
+	override();
 } 
 
 void opcontrol() {
@@ -71,10 +68,12 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		// update drivecode
-		// updateCascade();
-		// updateRoller();
-		// updateChainBar();
-		// updateFlip();
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
+
+		updateCascade();
+		updateRoller();
+		updateChainBar();
+		updateFlip();
 
 		pros::delay(10);
 	}
