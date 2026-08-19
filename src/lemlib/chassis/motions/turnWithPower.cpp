@@ -4,17 +4,16 @@
 #include "lemlib/timer.hpp"
 #include "lemlib/util.hpp"
 #include "pros/misc.hpp"
-#include "pros/motors.h"
 
-void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int timeout, SwingToHeadingParams params,
-                                     bool async) {
-    params.minSpeed = fabs(params.minSpeed);
+//TODO: test
+void lemlib::Chassis::turnWithPower(float theta, float latPower, int timeout, TurnToHeadingParams params, bool async) {
+    params.minSpeed = std::abs(params.minSpeed);
     this->requestMotionStart();
     // were all motions cancelled?
     if (!this->motionRunning) return;
     // if the function is async, run it in a new task
     if (async) {
-        pros::Task task([&]() { swingToHeading(theta, lockedSide, timeout, params, false); });
+        pros::Task task([&]() { turnToHeading(theta, timeout, params, false); });
         this->endMotion();
         pros::delay(10); // delay to give the task time to start
         return;
@@ -24,7 +23,7 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
     float motorPower;
     float prevMotorPower = 0;
     float startTheta = getPose().theta;
-    bool settling = false;
+    bool settling = false; 
     std::optional<float> prevRawDeltaTheta = std::nullopt;
     std::optional<float> prevDeltaTheta = std::nullopt;
     std::uint8_t compState = pros::competition::get_status();
@@ -33,33 +32,15 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
     angularLargeExit.reset();
     angularSmallExit.reset();
     angularPID.reset();
-    // get original braking mode of that side of the drivetrain so we can set it back to it after this motion ends
-    pros::MotorBrake brakeMode = (lockedSide == DriveSide::LEFT)
-                                     ? this->drivetrain.leftMotors->get_brake_mode_all().at(0)
-                                     : this->drivetrain.rightMotors->get_brake_mode_all().at(0);
-    // set brake mode of the locked side to hold
-    if (lockedSide == DriveSide::LEFT) { //TODO: coast vs. hold parameter
-        if(params.coast) {
-            this->drivetrain.leftMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-        } else {
-            this->drivetrain.leftMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
-        }
-    } else {
-        if(params.coast) {
-            this->drivetrain.rightMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-        } else {
-            this->drivetrain.rightMotors->set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
-        }
-    }
 
     // main loop
     while (!timer.isDone() && !angularLargeExit.getExit() && !angularSmallExit.getExit() && this->motionRunning) {
         // update variables
         Pose pose = getPose();
-        pose.theta = fmod(pose.theta, 360);
 
         // update completion vars
         distTraveled = fabs(angleError(pose.theta, startTheta, false));
+
         targetTheta = theta;
 
         // check if settling
@@ -82,33 +63,34 @@ void lemlib::Chassis::swingToHeading(float theta, DriveSide lockedSide, int time
         angularLargeExit.update(deltaTheta);
         angularSmallExit.update(deltaTheta);
 
-        // cap the speed
-        if (motorPower > params.maxSpeed) motorPower = params.maxSpeed;
-        else if (motorPower < -params.maxSpeed) motorPower = -params.maxSpeed;
-        if (fabs(deltaTheta) > 20) motorPower = slew(motorPower, prevMotorPower, angularSettings.slew);
-        if (motorPower < 0 && motorPower > -params.minSpeed) motorPower = -params.minSpeed;
-        else if (motorPower > 0 && motorPower < params.minSpeed) motorPower = params.minSpeed;
-        prevMotorPower = motorPower;
+        // TODO: add in additional velocity
+        float leftPower = latPower + motorPower;
+        float rightPower = latPower - motorPower;
+
+        // ratio the speeds to respect the max speed
+        const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
+        if (ratio > 1) {
+            leftPower /= ratio;
+            rightPower /= ratio;
+        }
+
+        // // cap the speed
+        // if (motorPower > params.maxSpeed) motorPower = params.maxSpeed;
+        // else if (motorPower < -params.maxSpeed) motorPower = -params.maxSpeed;
+        // if (fabs(deltaTheta) > 20) motorPower = slew(motorPower, prevMotorPower, angularSettings.slew);
+        // if (motorPower < 0 && motorPower > -params.minSpeed) motorPower = -params.minSpeed;
+        // else if (motorPower > 0 && motorPower < params.minSpeed) motorPower = params.minSpeed;
+        // prevMotorPower = motorPower;
 
         infoSink()->debug("Turn Motor Power: {} ", motorPower);
 
         // move the drivetrain
-        if (lockedSide == DriveSide::LEFT) {
-            drivetrain.rightMotors->move(-motorPower);
-            drivetrain.leftMotors->brake();
-        } else {
-            drivetrain.leftMotors->move(motorPower);
-            drivetrain.rightMotors->brake();
-        }
+        drivetrain.leftMotors->move(motorPower);
+        drivetrain.rightMotors->move(-motorPower);
 
-        // delay to save resources
         pros::delay(10);
     }
 
-    // set the brake mode of the locked side of the drivetrain to its
-    // original value
-    if (lockedSide == DriveSide::LEFT) this->drivetrain.leftMotors->set_brake_mode_all(brakeMode);
-    else this->drivetrain.rightMotors->set_brake_mode_all(brakeMode);
     // stop the drivetrain
     drivetrain.leftMotors->move(0);
     drivetrain.rightMotors->move(0);

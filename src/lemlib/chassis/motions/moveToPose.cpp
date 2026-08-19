@@ -60,7 +60,7 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
 
         // check if the robot is close enough to the target to start settling
         if (distTarget < 7.5 && close == false) {
-            close = true; //TODO: see mtpoint
+            close = true; //TODO: close distance 7.5
         }
 
         // check if the lateral controller has settled
@@ -85,11 +85,19 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         const float angularError =
             close ? angleError(adjustedRobotTheta, target.theta) : angleError(adjustedRobotTheta, pose.angle(carrot));
         float lateralError = pose.distance(carrot);
+
+        //TODO: NEW LATERAL ERROR CODE
+        lateralError *= cos(angleError(pose.theta, pose.angle(carrot)));
+
+        //TODO: uhhh why do we only multiply lateral error by cos when settling? that seems a bit strange...
+
+        /* //TODO: OLD LATERAL ERROR CODE
         // only use cos when settling
         // otherwise just multiply by the sign of cos
         // maxSlipSpeed takes care of lateralOut
         if (close) lateralError *= cos(angleError(pose.theta, pose.angle(carrot)));
         else lateralError *= sgn(cos(angleError(pose.theta, pose.angle(carrot))));
+        */
 
         // update exit conditions
         lateralSmallExit.update(lateralError);
@@ -99,14 +107,10 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError, true);
-        float angularOut = angularPID.update(radToDeg(angularError), false);
-
-        // // cosine damper //TODO: cosine damper
-        // const float cosDamper = fabs(std::cos(angularError));
-        // lateralOut *= cosDamper;
+        float angularOut = angularPID.update(radToDeg(angularError), false); //TODO: no angular integral
 
         // apply restrictions on angular speed
-        angularOut = std::clamp(angularOut, -127.0f, 127.0f); //TODO: see mtpoint
+        angularOut = std::clamp(angularOut, -127.0f, 127.0f); //TODO: only restriction on angular speed is robot limit
 
         // apply restrictions on lateral speed
         lateralOut = std::clamp(lateralOut, -params.maxSpeed, params.maxSpeed);
@@ -117,10 +121,9 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
         // constrain lateral output by the max speed it can travel at without
         // slipping
         const float radius = 1 / fabs(getCurvature(pose, carrot));
-        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius));
+        const float maxSlipSpeed(sqrt(params.horizontalDrift * radius)); //TODO: anti-slip horizontal drift code
         lateralOut = std::clamp(lateralOut, -maxSlipSpeed, maxSlipSpeed);
         
-        //*old overturn
         // prioritize angular movement over lateral movement
         const float overturn = fabs(angularOut) + fabs(lateralOut) - params.maxSpeed;
         if (overturn > 0) lateralOut -= lateralOut > 0 ? overturn : -overturn;
@@ -140,23 +143,9 @@ void lemlib::Chassis::moveToPose(float x, float y, float theta, int timeout, Mov
 
         infoSink()->debug("lateralOut: {} angularOut: {}", lateralOut, angularOut);
 
-        //TODO: subtractive overturn
+        // ratio the speeds to respect the max speed
         float leftPower = lateralOut + angularOut;
         float rightPower = lateralOut - angularOut;
-        float hiPower = std::max(std::fabs(leftPower), std::fabs(rightPower));
-
-        if(hiPower > params.maxSpeed) { //127 maxSpeed default
-            float diff = params.maxSpeed - hiPower;
-            lateralOut > 0 ? lateralOut -= diff : lateralOut += diff;
-        }
-
-        // leftPower = lateralOut + angularOut;
-        // rightPower = lateralOut - angularOut;
-
-        //* old ratio
-        // ratio the speeds to respect the max speed
-        leftPower = lateralOut + angularOut;
-        rightPower = lateralOut - angularOut;
         const float ratio = std::max(std::fabs(leftPower), std::fabs(rightPower)) / params.maxSpeed;
         if (ratio > 1) {
             leftPower /= ratio;
