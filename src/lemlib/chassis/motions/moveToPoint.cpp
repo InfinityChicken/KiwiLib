@@ -77,7 +77,7 @@ void lemlib::Chassis::moveToPoint(float x, float y, int timeout, MoveToPointPara
 
         // get output from PIDs
         float lateralOut = lateralPID.update(lateralError, true);
-        float angularOut = angularPID.update(radToDeg(angularError), false);
+        float angularOut = angularPID.update(radToDeg(angularError), false); //TODO: no angular pid integral
         if (close) angularOut = 0;
         
         // apply restrictions on angular speed

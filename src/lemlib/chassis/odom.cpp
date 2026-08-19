@@ -134,7 +134,7 @@ void lemlib::update() {
     if (!odomSensors.vertical1->getType()) verticalWheel = odomSensors.vertical1;
     else if (!odomSensors.vertical2->getType()) verticalWheel = odomSensors.vertical2;
     else { //if no vert tracking wheels, use drive
-        driveSide1 = odomSensors.vertical1;//TODO: vertical odom
+        driveSide1 = odomSensors.vertical1; //TODO: uses both sides of drive
         driveSide2 = odomSensors.vertical2; 
     }
 

@@ -12,7 +12,7 @@
 
 namespace lemlib {
 
-//field width measurements
+//TODO: field width measurements
 static const float width = 141;
 static const float halfWidth = width / 2;
 
@@ -946,8 +946,8 @@ class Chassis {
          *
          * 
          */
-        void distanceReset(char xDirection, char yDirection);
-        void distanceResetNoTrig(char xDirection, char yDirection);
+        void distReset(char xDirection, char yDirection);
+        void distResetNoTrig(char xDirection, char yDirection);
         void distResetX(char xDirection);
         void distResetY(char yDirection);
 
