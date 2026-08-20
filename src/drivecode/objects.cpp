@@ -9,7 +9,7 @@
 #include "pros/rotation.hpp"
 
 // TODO: CONTROLS
-// controls
+// Buttons on the controller that control assigned subsystems
 pros::controller_digital_e_t rollerControlIn = pros::E_CONTROLLER_DIGITAL_R1;
 pros::controller_digital_e_t rollerControlOut = pros::E_CONTROLLER_DIGITAL_R2;
 pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_L1;
