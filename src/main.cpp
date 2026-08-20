@@ -68,8 +68,8 @@ void opcontrol() {
 		// gourav's favourite two stick arcade configuration
 		chassis.arcade(throttle, turn);
 
-		// update drivecode
-        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
+		// update drivecode (prints leftFront: value)
+        //pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
 
 		updateCascade();
 		updateRoller();
