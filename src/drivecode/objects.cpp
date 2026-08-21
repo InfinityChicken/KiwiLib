@@ -61,6 +61,7 @@ pros::Rotation cascadeRotation(0);
 // TODO: Add actual claw ports
 // piston claw
 pros::adi::DigitalOut pistonFlip(0);
+// TODO: add piston for opening and closing claw
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr

@@ -36,6 +36,8 @@ void updateRoller() {
     }
 }
 
+// TODO: add update function for opening and closing claw piston
+
 void updateFlip() {
     // if flip control is pressed
     if (controller.get_digital(clawFlipControl)) {
@@ -52,13 +54,14 @@ void updateFlip() {
     }
 }
 
+// TODO: change to be always running, have 3 states for off, intaking, and outtaking
 void runRoller() {
     while (true) {
         // based on our roller state, we toggle it on or off
         switch (rollerState) {
             // intaking
             case 0:
-                rollerClaw.move_relative(100, 600);
+                rollerClaw.move_relative(100, 600); // TODO: tune where open and closed state of rollerclaw is
                 break;
             // outtaking
             case 1:
@@ -69,6 +72,8 @@ void runRoller() {
         pros::delay(10);
     }
 }
+
+// TODO: add run function for opening and closing claw piston
 
 void runFlip() {
     while (true) {

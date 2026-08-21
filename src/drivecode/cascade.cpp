@@ -33,7 +33,7 @@ void updateCascade() {
         chainBarState = 2;
     }
 
-    // cascade was not toggled just now
+    // no cascade buttons are pressed, 0 vel
     else {
         cascadeState = 0;
     }
@@ -55,7 +55,7 @@ void updateCascade() {
     // if switch button is pressed
     if (controller.get_digital(cascadeSwitchControl)) {
         if (!switchPressed) {
-            controlType = (controlType + 1) % 2;
+            controlType = (controlType + 1) % 2; //toggle logic between the two states
         }
         // switch was just toggled just now
         switchPressed = true;
@@ -71,7 +71,7 @@ void updateChainBar() {
     // if cascade reset position is pressed
     if (controller.get_digital(chainBarControl)) {
         if (!chainBarPressed) {
-            chainBarState = (chainBarState + 1) % 2;
+            chainBarState = (chainBarState + 1) % 2; //toggle logic between the two states
         }
         // switch was just toggled just now
         chainBarPressed = true;
@@ -89,24 +89,33 @@ void runCascade() {
         switch (cascadeState) {
             // cascade stop
             case 0: {
-                if (controlType == 1) {cascade.move(0);}
-                else {cascadePID_target = cascadePID_target;}
+                if (controlType == 1) {
+                    cascade.move(0);
+                } else {
+                    cascadePID_target = cascadePID_target;
+                }
                 chainBarPID_target = 0.00;
                 break;
             }
 
             // cascade up
             case 1: {
-                if (controlType == 1) {cascade.move(600);}
-                else {cascadePID_target += 0.00;}
+                if (controlType == 1) {
+                    cascade.move(600);
+                } else {
+                    cascadePID_target += 0.00; // TODO: currently infinitely increments, make some sort of toggle logic that increments once per press
+                }
                 chainBarPID_target = 0.00;
                 break;
             }
 
             // cascade down
             case 2: {
-                if (controlType == 1) {cascade.move(-600);}
-                else {cascadePID_target -= 0.00;}
+                if (controlType == 1) {
+                    cascade.move(-600);
+                } else {
+                    cascadePID_target -= 0.00; // TODO: currently infinitely decrements, make some sort of toggle logic that increments once per press
+                }
                 chainBarPID_target = 0.00;
                 break;
             }
@@ -116,11 +125,11 @@ void runCascade() {
 
     switch (chainBarState) {
         case 0: {
-            chainBarPID_target = 0.00;
+            chainBarPID_target = 0.00; // TODO: add values
             break;
         }
         case 1: {
-            chainBarPID_target = 0.00;
+            chainBarPID_target = 0.00; // TODO: add values
             break;
         }
     }
