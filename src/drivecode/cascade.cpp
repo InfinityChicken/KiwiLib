@@ -20,6 +20,10 @@ int controlType = 0;
 std::int32_t chainBarPID_target = 0;
 std::int32_t cascadePID_target = 0;
 
+static float chainBarLoad = 0.00;
+static float chainBarScore = 0.00;
+static float cascadeIncrement = 0.00;
+
 void updateCascade() {
     // if cascade control down is pressed
     if (controller.get_digital(cascadeDownControl)) {
@@ -89,12 +93,10 @@ void runCascade() {
         switch (cascadeState) {
             // cascade stop
             case 0: {
-                if (controlType == 1) {
-                    cascade.move(0);
+                
                 } else {
                     cascadePID_target = cascadePID_target;
                 }
-                chainBarPID_target = 0.00;
                 break;
             }
 
@@ -103,9 +105,9 @@ void runCascade() {
                 if (controlType == 1) {
                     cascade.move(600);
                 } else {
-                    cascadePID_target += 0.00; // TODO: currently infinitely increments, make some sort of toggle logic that increments once per press
+                    cascadePID_target += cascadeIncrement; // TODO: currently infinitely increments, make some sort of toggle logic that increments once per press
                 }
-                chainBarPID_target = 0.00;
+                chainBarPID_target = chainBarScore;
                 break;
             }
 
@@ -114,9 +116,9 @@ void runCascade() {
                 if (controlType == 1) {
                     cascade.move(-600);
                 } else {
-                    cascadePID_target -= 0.00; // TODO: currently infinitely decrements, make some sort of toggle logic that increments once per press
+                    cascadePID_target -= cascadeIncrement; // TODO: currently infinitely decrements, make some sort of toggle logic that increments once per press
                 }
-                chainBarPID_target = 0.00;
+                chainBarPID_target = chainBarScore;
                 break;
             }
 
@@ -124,19 +126,17 @@ void runCascade() {
     }
 
     switch (chainBarState) {
+        // chain bar load state
         case 0: {
-            chainBarPID_target = 0.00; // TODO: add values
+            chainBarPID_target = chainBarLoad; // TODO: add values
             break;
         }
+        // chain bar score state
         case 1: {
-            chainBarPID_target = 0.00; // TODO: add values
+            chainBarPID_target = chainBarScore; // TODO: add values
             break;
         }
     }
-    
-    // calculate error and move voltage based on the error voltage
-    float chainbarPIDOut = chainBarPID.update(chainBarPID_target - chainBarRotation.get_position(), true);
-    chainBar.move_voltage(chainbarPIDOut);
 
     // incremental
     if (controlType == 0) {
@@ -153,9 +153,14 @@ void runCascade() {
         // cascade reset
         case 1:
             cascade.move_absolute(0, 600);
+            chainBarPID_target = chainBarLoad; // TODO: add values
             resetState = 0;
             break;
     }
+    
+    // calculate error and move voltage based on the error voltage
+    float chainbarPIDOut = chainBarPID.update(chainBarPID_target - chainBarRotation.get_position(), true);
+    chainBar.move_voltage(chainbarPIDOut);
 
     pros::delay(10);
 }

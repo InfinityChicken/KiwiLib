@@ -54,18 +54,24 @@ void updateFlip() {
     }
 }
 
+
+
 // TODO: change to be always running, have 3 states for off, intaking, and outtaking
 void runRoller() {
     while (true) {
         // based on our roller state, we toggle it on or off
+      
+
         switch (rollerState) {
             // intaking
             case 0:
-                rollerClaw.move_relative(100, 600); // TODO: tune where open and closed state of rollerclaw is
+                pistonClaw.set_value(false);
+                rollerClaw.move_voltage(12000); // TODO: tune where open and closed state of rollerclaw is
                 break;
             // outtaking
             case 1:
-                rollerClaw.move_relative(-100, 600);
+                pistonClaw.set_value(true);
+                rollerClaw.move_voltage(-12000);
                 break;
         }
 

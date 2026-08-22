@@ -75,6 +75,7 @@ void opcontrol() {
 		updateRoller();
 		updateChainBar();
 		updateFlip();
+		
 
 		pros::delay(10);
 	}

@@ -9,9 +9,9 @@ extern int flipState;
 extern bool flipPressed;
 
 // initialize update state functions
-void updateRoller();
-void updateFlip();
+extern void updateRoller();
+extern void updateFlip();
 
 // initialize run fuctions
-void runRoller();
-void runFlip();
+extern void runRoller();
+extern void runFlip();
