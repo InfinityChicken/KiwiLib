@@ -9,6 +9,9 @@ bool rollerPressed = false;
 int flipState = 0;
 bool flipPressed = false;
 
+int clawState = 0;
+bool clawPressed = false;
+
 void updateRoller() {
     // if roller control intake is pressed
     if (controller.get_digital(rollerControlIn)) {
@@ -36,7 +39,23 @@ void updateRoller() {
     }
 }
 
-// TODO: add update function for opening and closing claw piston
+// DONE TODO: add update function for opening and closing claw piston
+
+void updateClaw() {
+    // if flip control is pressed
+    if (controller.get_digital(clawControl)) {
+        if (!clawPressed) {
+            clawState = (clawState + 1) % 2;
+        }
+        // flip was just toggled just now
+        clawPressed = true;
+
+    }
+    // flip was not toggled just now
+    else {
+        clawPressed = false;
+    }
+}
 
 void updateFlip() {
     // if flip control is pressed
@@ -65,12 +84,10 @@ void runRoller() {
         switch (rollerState) {
             // intaking
             case 0:
-                pistonClaw.set_value(false);
                 rollerClaw.move_voltage(12000); // TODO: tune where open and closed state of rollerclaw is
                 break;
             // outtaking
-            case 1:
-                pistonClaw.set_value(true);
+            case 1;
                 rollerClaw.move_voltage(-12000);
                 break;
         }
@@ -79,7 +96,25 @@ void runRoller() {
     }
 }
 
-// TODO: add run function for opening and closing claw piston
+// DONE TODO: add run function for opening and closing claw piston
+
+void runClaw() {
+    while (true) {
+        // based on our claw state, we toggle to open and close
+        switch (clawState) {
+            // 0
+            case 0:
+                pistonClaw.set_value(false);
+                break;
+            // 180
+            case 1:
+                pistonClaw.set_value(true);
+                break;
+        }
+
+        pros::delay(10);
+    }
+}
 
 void runFlip() {
     while (true) {

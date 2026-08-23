@@ -14,6 +14,7 @@ extern pros::controller_digital_e_t rollerControlOut;
 extern pros::controller_digital_e_t cascadeUpControl;
 extern pros::controller_digital_e_t cascadeDownControl;
 
+extern pros::controller_digital_e_t clawControl;
 extern pros::controller_digital_e_t clawFlipControl;
 extern pros::controller_digital_e_t cascadeResetControl;
 
@@ -52,6 +53,7 @@ extern pros::Rotation cascadeRotation;
 
 // TODO: Add actual claw ports
 // piston claw
+extern pros::adi::DigitalOut pistonClaw;
 extern pros::adi::DigitalOut pistonFlip;
 
 // TODO: Add actual distance sensor ports
