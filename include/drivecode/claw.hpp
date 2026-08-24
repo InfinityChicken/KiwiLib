@@ -3,13 +3,13 @@
 
 // initialize state variables
 extern bool rollerPressed;
-int rollerState;
+extern int rollerState;
 
 extern int flipState;
-bool flipPressed;
+extern bool flipPressed;
 
 extern int clawState;
-bool clawPressed;
+extern bool clawPressed;
 
 // initialize update state functions
 void updateRoller();
@@ -20,3 +20,5 @@ void updateClaw();
 void runRoller();
 void runFlip();
 void runClaw();
+
+void runClawRoller();

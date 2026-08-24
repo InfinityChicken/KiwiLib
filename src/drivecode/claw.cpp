@@ -87,7 +87,7 @@ void runRoller() {
                 rollerClaw.move_voltage(12000); // TODO: tune where open and closed state of rollerclaw is
                 break;
             // outtaking
-            case 1;
+            case 1:
                 rollerClaw.move_voltage(-12000);
                 break;
         }

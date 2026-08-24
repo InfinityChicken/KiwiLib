@@ -93,7 +93,8 @@ void runCascade() {
         switch (cascadeState) {
             // cascade stop
             case 0: {
-                
+            if (controlType == 1){
+                    cascade.move(0);
                 } else {
                     cascadePID_target = cascadePID_target;
                 }
@@ -105,9 +106,17 @@ void runCascade() {
                 if (controlType == 1) {
                     cascade.move(600);
                 } else {
-                    cascadePID_target += cascadeIncrement; // TODO: currently infinitely increments, make some sort of toggle logic that increments once per press
+                 // TODO: currently infinitely increments, make some sort of toggle logic that increments once per press
+                if (controller.get_digital(cascadeUpControl)) {
+                    if (!cascadePressed){
+                        cascadePID_target += cascadeIncrement;
+                        cascadePressed = true; 
+                    }
+                } else {
+                        cascadePressed = false;
                 }
-                chainBarPID_target = chainBarScore;
+                }
+                    chainBarPID_target = chainBarScore;
                 break;
             }
 
@@ -138,6 +147,7 @@ void runCascade() {
         }
     }
 
+
     // incremental
     if (controlType == 0) {
         // calculate error and move voltage based on the error voltage
@@ -162,5 +172,5 @@ void runCascade() {
     float chainbarPIDOut = chainBarPID.update(chainBarPID_target - chainBarRotation.get_position(), true);
     chainBar.move_voltage(chainbarPIDOut);
 
-    pros::delay(10);
+    pros::delay (10);
 }
