@@ -1,10 +1,15 @@
 #include "drivecode/pinfromwall.hpp"
+#include "drivecode/cascade.hpp"
 #include "pros/misc.h"
 #include "drivecode/objects.hpp"
 
 // initialize state variables
 int pinWallState = 0;
 
+static float chainBarPinWallDown = 0.00;
+static float chainBarPinWallRemove = 0.00;
+
+static float cascadePinWallRemove = 0.00;
 
 void runpinFromWall() {
     while (true) {
@@ -13,17 +18,22 @@ void runpinFromWall() {
                 break;
             }
             case 1: {
-                resetState = 1
+                resetState = 1;
                 rollerClaw.move_voltage(9000);
-                cascade.move(600);
+                
+                pistonClaw.set_value(1);
+                chainBarEasy(chainBarPinWallDown);
+                pistonClaw.set_value(0);
+                chainBarEasy(chainBarPinWallRemove);
 
-                pros::delay(200);
+                // cascade go up to cascadePinWallRemove
+                // cascade reset
+                // chain bar reset
+
+                // to run it only once
+                pinWallState = 0;
             }
         }
-    
-        // calculate error and move voltage based on the error voltage
-        float chainbarPIDOut = chainBarPID.update(chainBarPID_target - chainBarRotation.get_position(), true);
-        chainBar.move_voltage(chainbarPIDOut);
 
         pros::delay(10);
     }

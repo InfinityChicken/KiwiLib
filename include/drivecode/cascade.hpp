@@ -19,6 +19,7 @@ extern int controlType;
 extern std::int32_t chainBarPID_target;
 extern std::int32_t cascadePID_target;
 
+extern void chainBarEasy(float target);
 extern void updateCascade();
 extern void updateChainBar();
 extern void runCascade();

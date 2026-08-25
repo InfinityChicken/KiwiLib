@@ -2,7 +2,7 @@
 #include "objects.hpp"
 
 // initialize state variables
-extern int pinWallState = 0;
+extern int pinWallState;
 
 extern void runpinFromWall();
 

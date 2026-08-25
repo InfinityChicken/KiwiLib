@@ -15,27 +15,17 @@ bool clawPressed = false;
 void updateRoller() {
     // if roller control intake is pressed
     if (controller.get_digital(rollerControlIn)) {
-        if (!rollerPressed) {
-            rollerState = 0;
-        }
-        // roller was just toggled just now
-        rollerPressed = true;
-
+        rollerState = 0;
     }
 
     // if roller control score is pressed
     if (controller.get_digital(rollerControlOut)) {
-        if (!rollerPressed) {
-            rollerState = 1;
-        }
-        // roller was just toggled just now
-        rollerPressed = true;
-
+        rollerState = 1;
     }
 
-    // roller was not toggled just now
+    // roller not running
     else {
-        rollerPressed = false;
+        rollerState = 2;
     }
 }
 
@@ -80,15 +70,17 @@ void runRoller() {
     while (true) {
         // based on our roller state, we toggle it on or off
       
-
         switch (rollerState) {
             // intaking
             case 0:
-                rollerClaw.move_voltage(12000); // TODO: tune where open and closed state of rollerclaw is
+                rollerClaw.move_velocity(200); // TODO: tune where open and closed state of rollerclaw is
                 break;
             // outtaking
             case 1:
-                rollerClaw.move_voltage(-12000);
+                rollerClaw.move_velocity(-200);
+                break;
+            case 2: 
+                rollerClaw.move_velocity(0);
                 break;
         }
 
