@@ -1,4 +1,3 @@
-// TODO: WHOEVER IS WRITING cascade.move PLEASE PLEASE EXPLAIN WHY, WE HAVE A PID JUST SO WE DONT NEED THAT
 #include "drivecode/cascade.hpp"
 #include "pros/misc.h"
 #include "drivecode/objects.hpp"
@@ -21,9 +20,11 @@ int controlType = 0;
 std::int32_t chainBarPID_target = 0;
 std::int32_t cascadePID_target = 0;
 
-static float chainBarLoad = 0.00;
-static float chainBarScore = 0.00;
-static float cascadeIncrement = 0.00;
+float chainBarLoad = 0.00;
+float chainBarScore = 0.00;
+float cascadeIncrement = 0.00;
+
+int incrementWorks = 0;
 
 // chainBarEasy is a function made just to simplify code
 // so we can just call this instead of doing so multiple times, 
@@ -35,47 +36,34 @@ void chainBarEasy(float target) {
 }
 
 void updateCascade() {
-    // if switch button is pressed
-    if (controller.get_digital(cascadeSwitchControl)) {
-        if (!switchPressed) {
-            controlType = (controlType + 1) % 2; //toggle logic between the two states
-        }
-        // switch was just toggled just now
-        switchPressed = true;
-
-    }
-    // switch was not toggled just now
-    else {
-        switchPressed = false;
-    }
-
     // if cascade control down is pressed
     if (controller.get_digital(cascadeDownControl)) {
-        if (controlType == 0) {
-            if (!cascadePressed) {
+        if (!cascadePressed) {
+            // control type: pid increment
+            if (controlType == 0) {
+                cascadeState = 3;
+                chainBarState = 2;
+            } else {
+            // control type: manual
                 cascadeState = 2;
                 chainBarState = 2;
             }
-            cascadePressed = true;
         }
-        else {
-        cascadeState = 2;
-        chainBarState = 2;
-        }
+        cascadePressed = true;
     }
 
-    // if cascade control up is pressed and down is not
+    // if cascade control up is pressed
     else if (controller.get_digital(cascadeUpControl)) {
         if (controlType == 0) {
+            // control type: pid increment
             if (!cascadePressed) {
                 cascadeState = 1;
                 chainBarState = 2;
+            } else {
+            // control type: manual
+            cascadeState = 1;
+            chainBarState = 2;
             }
-            cascadePressed = true;
-        }
-        else {
-        cascadeState = 1;
-        chainBarState = 2;
         }
     }
 
@@ -84,7 +72,9 @@ void updateCascade() {
         cascadeState = 0;
         cascadePressed = false;
     }
+}
 
+void updateCascadeFunctions() {
     // if cascade reset position is pressed
     if (controller.get_digital(cascadeResetControl)) {
         if (!resetPressed) {
@@ -98,7 +88,22 @@ void updateCascade() {
     else {
         resetPressed = false;
     }
+    
+    // if switch button is pressed
+    if (controller.get_digital(cascadeSwitchControl)) {
+        if (!switchPressed) {
+            controlType = (controlType + 1) % 2; //toggle logic between the two states
+        }
+        // switch was just toggled just now
+        switchPressed = true;
+
+    }
+    // switch was not toggled just now
+    else {
+        switchPressed = false;
+    }
 }
+
 
 void updateChainBar() {
     // if cascade reset position is pressed
@@ -137,6 +142,7 @@ void runCascade() {
                 } else {
                     cascadePID_target += cascadeIncrement;
                     cascadeState = 0;
+                    incrementWorks = 1;
                 }
                 chainBarPID_target = chainBarScore;
                 break;
@@ -144,13 +150,17 @@ void runCascade() {
 
             // cascade down
             case 2: {
-                if (controlType == 1) {
-                    cascade.move_velocity(-600);
-                } else {
-                    cascadePID_target -= cascadeIncrement;
-                    cascadeState = 0;
-                }
+                cascade.move_velocity(-600);
                 chainBarPID_target = chainBarScore;
+                break;
+            }
+            
+            // cascade down incrementing
+            case 3: {
+                cascadePID_target -= cascadeIncrement;
+                incrementWorks = 1;
+                pros::delay(100);
+                incrementWorks = 0;
                 break;
             }
 
@@ -159,12 +169,12 @@ void runCascade() {
         switch (chainBarState) {
             // chain bar load state
             case 0: {
-                chainBarPID_target = chainBarLoad; // TODO: add values
+                chainBarPID_target = chainBarLoad;
                 break;
             }
             // chain bar score state
             case 1: {
-                chainBarPID_target = chainBarScore; // TODO: add values
+                chainBarPID_target = chainBarScore;
                 break;
             }
         }
@@ -184,14 +194,12 @@ void runCascade() {
             // cascade reset
             case 1:
                 cascade.move_absolute(0, 600);
-                chainBarPID_target = chainBarLoad; // TODO: add values
+                chainBarPID_target = chainBarLoad;
                 resetState = 0;
                 break;
         }
         
-        // calculate error and move voltage based on the error voltage
-        float chainbarPIDOut = chainBarPID.update(chainBarPID_target - chainBarRotation.get_position(), true);
-        chainBarEasy(chainbarPIDOut);
+        chainBarEasy(chainBarPID_target);
 
         pros::delay (10);
     }

@@ -11,7 +11,7 @@ static float chainBarPinWallRemove = 0.00;
 
 static float cascadePinWallRemove = 0.00;
 
-void runpinFromWall() {
+void runPinFromWall() {
     while (true) {
         switch (pinWallState){
             case 0: {

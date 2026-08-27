@@ -7,6 +7,7 @@
 #include "drivecode/objects.hpp"
 #include "pros/screen.h"
 
+// initialize motors
 void motorInit() {
     // set current roller claw "absolute" position to zero
     rollerClaw.tare_position();
@@ -19,7 +20,7 @@ void motorInit() {
     chainBar.tare_position();
 }
 
-//sensor settings
+// sensor settings
 void sensorInit() {
     vision.clear_led();
     vision.set_exposure(150);
@@ -30,11 +31,19 @@ void sensorInit() {
     vision.set_signature(0, &redSig);
 }
 
-//begin all tasks
+// begin all tasks
 void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
+    pros::Task consoleTask(runConsole, "console task");
+
+    pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task rollerTask(runRoller, "roller task");
+    pros::Task clawTask(runClaw, "claw task");
+    
+    pros::Task pinFromWallTask(runPinFromWall, "pin from wall task");
 }
 
+// function to print motor voltages given a line to start on
 void printMotorVoltages(int line) {
     pros::screen::print(pros::E_TEXT_SMALL, line+0, "leftFront: %d", leftFront.get_power());
     pros::screen::print(pros::E_TEXT_SMALL, line+1, "leftMid: %d", leftMid.get_power());
@@ -44,33 +53,30 @@ void printMotorVoltages(int line) {
     pros::screen::print(pros::E_TEXT_SMALL, line+5, "rightBack: %d", rightBack.get_power());
 }
 
-//brain task
+// print screen task
 void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
         // printMotorVoltages(0)
 
-        pros::screen::print(pros::E_TEXT_SMALL, 0, "-- CASCADE STATES --");
-        pros::screen::print(pros::E_TEXT_SMALL, 1, "cascadeState: %d", cascadeState);
-        pros::screen::print(pros::E_TEXT_SMALL, 2, "chainBarState: %d", chainBarState);
-        pros::screen::print(pros::E_TEXT_SMALL, 3, "resetState: %d", resetState);
-        pros::screen::print(pros::E_TEXT_SMALL, 4, "controlType: %d", controlType);
+        pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
 
-        pros::screen::print(pros::E_TEXT_MEDIUM_CENTER, 5, "-- CLAW STATES --");
-        pros::screen::print(pros::E_TEXT_SMALL, 6, "rollerState: %d", rollerState);
-        pros::screen::print(pros::E_TEXT_SMALL, 7, "flipState: %d", flipState);
+        pros::screen::print(pros::E_TEXT_SMALL, 2, "cascadeState: %d", cascadeState);
+        pros::screen::print(pros::E_TEXT_SMALL, 3, "chainBarState: %d", chainBarState);
+        pros::screen::print(pros::E_TEXT_SMALL, 4, "resetState: %d", resetState);
+        pros::screen::print(pros::E_TEXT_SMALL, 5, "controlType: %d", controlType);
+
+        pros::screen::print(pros::E_TEXT_SMALL, 7, "rollerState: %d", rollerState);
         pros::screen::print(pros::E_TEXT_SMALL, 8, "clawState: %d", clawState);
-        pros::screen::print(pros::E_TEXT_SMALL, 9, "controlType: %d", controlType);
 
-        pros::screen::print(pros::E_TEXT_MEDIUM_CENTER, 10, "-- PIN FROM WALL STATES --");
-        pros::screen::print(pros::E_TEXT_SMALL, 11, "pinWallState: %d", pinWallState);
+        pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks2: %d", incrementWorks);
         
         pros::delay(50);
     }
 }
 
-//console task
+// gamepad task
 void runConsole() {
     while(true) {
         pros::delay(50);

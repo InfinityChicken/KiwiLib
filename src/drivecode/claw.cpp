@@ -7,9 +7,6 @@ int rollerState = 0;
 bool rollerPressedIn = false;
 bool rollerPressedOut = false;
 
-int flipState = 0;
-bool flipPressed = false;
-
 int clawState = 0;
 bool clawPressed = false;
 
@@ -75,23 +72,6 @@ void updateClaw() {
     }
 }
 
-void updateFlip() {
-    // if flip control is pressed
-    if (controller.get_digital(clawFlipControl)) {
-        if (!flipPressed) {
-            flipState = (flipState + 1) % 2;
-        }
-        // flip was just toggled just now
-        flipPressed = true;
-
-    }
-    // flip was not toggled just now
-    else {
-        flipPressed = false;
-    }
-}
-
-// TODO: change to be always running, have 3 states for off, intaking, and outtaking
 void runRoller() {
     while (true) {
         // based on our roller state, we toggle it on or off
@@ -125,24 +105,6 @@ void runClaw() {
             // close
             case 1:
                 pistonClaw.set_value(true);
-                break;
-        }
-
-        pros::delay(10);
-    }
-}
-
-void runFlip() {
-    while (true) {
-        // based on our flip state, we toggle it 180 or 0
-        switch (flipState) {
-            // 0
-            case 0:
-                pistonFlip.set_value(false);
-                break;
-            // 180
-            case 1:
-                pistonFlip.set_value(true);
                 break;
         }
 

@@ -15,7 +15,6 @@ extern pros::controller_digital_e_t cascadeUpControl;
 extern pros::controller_digital_e_t cascadeDownControl;
 
 extern pros::controller_digital_e_t clawControl;
-extern pros::controller_digital_e_t clawFlipControl;
 extern pros::controller_digital_e_t cascadeResetControl;
 
 extern pros::controller_digital_e_t chainBarControl;

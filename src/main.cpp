@@ -24,7 +24,9 @@
 #include "sdcard/sdtest.hpp"
 #include "sdcard/sdmain.hpp"
 
-void on_center_button() {}
+void on_center_button() {
+
+}
 
 void initialize() {
 	// reset the chassis position
@@ -42,19 +44,22 @@ void initialize() {
 	
 
 	// run autonSelector during the set up period
-	//autonSelector();
+	// autonSelector();
 }
 
-void disabled() {}
+void disabled() {
 
-void competition_initialize() {}
+}
+
+void competition_initialize() {
+
+}
 
 void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	runAuton();
-	override();
 } 
 
 void opcontrol() {
@@ -68,13 +73,12 @@ void opcontrol() {
 		// gourav's favourite two stick arcade configuration
 		chassis.arcade(throttle, turn);
 
-		// update drivecode (prints leftFront: value)
-        //pros::screen::print(pros::E_TEXT_MEDIUM, 1, "leftFront: %d", leftFront.get_power());
-
+		// update drivecode
 		updateCascade();
-		updateRoller();
 		updateChainBar();
-		updateFlip();
+		updateCascadeFunctions();
+		
+		updateRoller();
 		updateClaw();
 
 		pros::delay(10);

@@ -4,6 +4,6 @@
 // initialize state variables
 extern int pinWallState;
 
-extern void runpinFromWall();
+extern void runPinFromWall();
 
 
