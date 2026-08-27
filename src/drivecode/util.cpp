@@ -70,7 +70,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 7, "rollerState: %d", rollerState);
         pros::screen::print(pros::E_TEXT_SMALL, 8, "clawState: %d", clawState);
 
-        pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks2: %d", incrementWorks);
+        pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks3: %d", cascadePID_target);
         
         pros::delay(50);
     }
