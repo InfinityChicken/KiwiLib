@@ -7,21 +7,20 @@
 #include "sdcard/sdmain.hpp"
 #include "drivecode/claw.hpp"
 #include "drivecode/cascade.hpp"
+#include "drivecode/pinFromWall.hpp"
+
+extern void motorInit();
+
+//sensor settings
+extern void sensorInit();
 
 //begin all tasks
-void taskInit();
+extern void taskInit();
 
-//set motor modes/init motors
-void motorInit();
+extern void printMotorVoltages(int line);
 
-//initialize sensors
-void sensorInit();
+//brain task
+extern void runScreen();
 
-//screen run function
-void runScreen();
-
-//console run function
-void runConsole();
-
-//controller screen print function
-// void runController();
+//console task
+extern void runConsole();

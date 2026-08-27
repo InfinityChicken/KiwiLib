@@ -4,7 +4,8 @@
 
 // initialize state variables
 int rollerState = 0;
-bool rollerPressed = false;
+bool rollerPressedIn = false;
+bool rollerPressedOut = false;
 
 int flipState = 0;
 bool flipPressed = false;
@@ -13,23 +14,50 @@ int clawState = 0;
 bool clawPressed = false;
 
 void updateRoller() {
-    // if roller control intake is pressed
+    // if intake control is pressed
     if (controller.get_digital(rollerControlIn)) {
-        rollerState = 0;
-    }
+        if (!rollerPressedIn) {
+            // if it is on turn it off
+            if(rollerState == 1) {
+                rollerState = 0;
+            }
 
-    // if roller control score is pressed
-    if (controller.get_digital(rollerControlOut)) {
-        rollerState = 1;
-    }
+            // if it is off turn it on
+            else {
+                rollerState = 1;
+            }
+        }
+        // intake was just toggled just now
+        rollerPressedIn = true;
 
-    // roller not running
+    } 
+    // intake was not toggled just now
     else {
-        rollerState = 2;
+        rollerPressedIn = false;
+    }
+
+    // if R2 is pressed
+    if (controller.get_digital(rollerControlOut)) {
+        if (!rollerPressedOut) {
+            // if it is on turn it off
+            if(rollerState == 2) {
+                rollerState = 0;
+            }
+            
+            // if it is off turn it on
+            else {
+                rollerState = 2;
+            }
+        }
+        // intake was just toggled just now
+        rollerPressedOut = true;
+        
+    }
+    // intake was not toggled just now
+    else {
+        rollerPressedOut = false;
     }
 }
-
-// DONE TODO: add update function for opening and closing claw piston
 
 void updateClaw() {
     // if flip control is pressed
@@ -63,23 +91,21 @@ void updateFlip() {
     }
 }
 
-
-
 // TODO: change to be always running, have 3 states for off, intaking, and outtaking
 void runRoller() {
     while (true) {
         // based on our roller state, we toggle it on or off
-      
         switch (rollerState) {
             // intaking
-            case 0:
-                rollerClaw.move_velocity(200); // TODO: tune where open and closed state of rollerclaw is
+            case 1:
+                rollerClaw.move_velocity(200);
                 break;
             // outtaking
-            case 1:
+            case 2:
                 rollerClaw.move_velocity(-200);
                 break;
-            case 2: 
+            // stop
+            case 0: 
                 rollerClaw.move_velocity(0);
                 break;
         }
@@ -88,17 +114,15 @@ void runRoller() {
     }
 }
 
-// DONE TODO: add run function for opening and closing claw piston
-
 void runClaw() {
     while (true) {
         // based on our claw state, we toggle to open and close
         switch (clawState) {
-            // 0
+            // open
             case 0:
                 pistonClaw.set_value(false);
                 break;
-            // 180
+            // close
             case 1:
                 pistonClaw.set_value(true);
                 break;

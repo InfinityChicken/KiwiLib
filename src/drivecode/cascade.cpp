@@ -35,7 +35,7 @@ void chainBarEasy(float target) {
 }
 
 void updateCascade() {
-        // if switch button is pressed
+    // if switch button is pressed
     if (controller.get_digital(cascadeSwitchControl)) {
         if (!switchPressed) {
             controlType = (controlType + 1) % 2; //toggle logic between the two states
@@ -135,10 +135,10 @@ void runCascade() {
                 if (controlType == 1) {
                     cascade.move_velocity(600);
                 } else {
-                cascadePID_target += cascadeIncrement;
-                chainBarPID_target = chainBarScore;
-                cascadeState = 0;
+                    cascadePID_target += cascadeIncrement;
+                    cascadeState = 0;
                 }
+                chainBarPID_target = chainBarScore;
                 break;
             }
 

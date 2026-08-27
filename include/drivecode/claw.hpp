@@ -1,9 +1,10 @@
-#include "main.h"
-#include "objects.hpp"
+#include "pros/misc.h"
+#include "drivecode/objects.hpp"
 
 // initialize state variables
-extern bool rollerPressed;
 extern int rollerState;
+extern bool rollerPressedIn;
+extern bool rollerPressedOut;
 
 extern int flipState;
 extern bool flipPressed;
@@ -11,14 +12,10 @@ extern bool flipPressed;
 extern int clawState;
 extern bool clawPressed;
 
-// initialize update state functions
-void updateRoller();
-void updateFlip();
-void updateClaw();
+extern void updateRoller();
+extern void updateClaw();
+extern void updateFlip();
 
-// initialize run fuctions
-void runRoller();
-void runFlip();
-void runClaw();
-
-void runClawRoller();
+extern void runRoller();
+extern void runClaw();
+extern void runFlip();
