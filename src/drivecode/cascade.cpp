@@ -36,7 +36,20 @@ void chainBarEasy(float target) {
 }
 
 void updateCascade() {
+
     // if cascade control down is pressed
+    if (controlType == 1) {
+        // without increment
+        if (controller.get_digital(cascadeDownControl)) {
+            cascadeState = 2;
+        }
+    } else {
+        // with increment
+        if (controller.get_digital_new_press(cascadeDownControl)) {
+            cascadeState = 3;
+        }
+    }
+
     if (controller.get_digital(cascadeDownControl)) {
         if (!cascadePressed) {
             // control type: pid increment
