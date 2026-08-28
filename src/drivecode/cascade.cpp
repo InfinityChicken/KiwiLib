@@ -25,16 +25,83 @@ float chainBarLoad = 0.00;
 float chainBarScore = 0.00;
 float cascadeIncrement = 1.00;
 
+// rotation per inch (200rotations/inch)
+float relativeRatio = 0;
+// inches
+const low_boost = 3.25;
+const mid_boost = 5.77;
+const high_boost = 8.77;
+
+const score_boost = 3.25;
+
+float pinDimension = 6.5
+float stackDimension = 6.561;
+
 int incrementWorks = 0; // variable we can get rid of after all testing is complete
+
+
 
 // chainBarEasy is a function made just to simplify code
 // so we can just call this instead of doing so multiple times, 
 // especially in detailed commands such as pinFromWall.cpp
+
 void chainBarEasy(float target) {
-    // calculate error and move voltage based on the error voltage
-    float chainbarPIDOut = chainBarPID.update(target - chainBarRotation.get_position(), true);
-    chainBar.move_voltage(chainbarPIDOut);
+    target = target - chainBarRotation.get_position();
+    // float upperBound, float lowerBound = target + 5.00, target - 5.00;
+
+    // while (!(target <= upperBound || target >= lowerBound)) {
+    while (!target == 0.00) {
+        float error = target - chainBarRotation.get_position()
+        
+        float chainbarPIDOut = chainBarPID.update(error, true);
+        chainBar.move_voltage(chainbarPIDOut);
+    }
+    chainBar.move_voltage(0);
 }
+
+// ------------------ Relative  ------------------
+void moveRelative(int pins, int stacks, String level) {
+    // calculate target height
+    float goal_boost = 0;
+    if (level == "low") {
+        goal_boost = low_boost;
+    } else if (level == "mid") {
+        goal_boost = mid_boost;
+    } else (level == "high") {
+        goal_boost = high_boost;
+    }
+
+    float target_rot = (pins*pinDimension + stacks*stackDimension + goal_boost + score_boost) * relativeRatio;
+
+    while (target_rot != cascadeRotation.get_position()) {
+        // calculate PID output based on rotation input and move the motor to that
+        float cascadePIDOut = cascadePID.update((target_rot) - cascadeRotation.get_position(), true);
+        cascade.move_voltage(cascadePIDOut);
+    }
+    cascade.move_voltage(0);
+}
+
+// void moveAbsolute(float cups) {
+//     // calculate target height
+//     float goal_boost = 0;
+//     if (level == "low") {
+//         goal_boost = low_boost;
+//     } else if (level == "mid") {
+//         goal_boost = mid_boost;
+//     } else (level == "high") {
+//         goal_boost = high_boost;
+//     }
+
+//     float target_rot = (cups * relativeRatio);
+
+//     while (target_rot != cascadeRotation.get_position()) {
+//         // calculate PID output based on rotation input and move the motor to that
+//         float cascadePIDOut = cascadePID.update((target_rot) - cascadeRotation.get_position(), true);
+//         cascade.move_voltage(cascadePIDOut);
+//     }
+//     cascade.move_voltage(0);
+// }
+// ------------------ Relative + Absolute ------------------
 
 void updateCascade() {
     // if cascade is not incrementing

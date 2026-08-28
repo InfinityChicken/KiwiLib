@@ -24,10 +24,8 @@ extern pros::controller_digital_e_t cascadeSwitchControl;
 // drivetrain
 // 55w 5.5w motorstack or 44w
 extern pros::Motor leftFront;
-extern pros::Motor leftMid;
 extern pros::Motor leftBack;
 extern pros::Motor rightFront;
-extern pros::Motor rightMid;
 extern pros::Motor rightBack;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;

@@ -24,11 +24,9 @@ pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
 // TODO: Add actual drivetrain motor ports
 // drivetrain
 pros::Motor leftFront (0, pros::MotorGearset::blue);
-pros::Motor leftMid (0, pros::MotorGearset::blue);
 pros::Motor leftBack (0, pros::MotorGearset::green);
 
 pros::Motor rightFront (0, pros::MotorGearset::blue);
-pros::Motor rightMid (0, pros::MotorGearset::blue);
 pros::Motor rightBack (0, pros::MotorGearset::green);
 
 // 55w 5.5w motorstack
