@@ -57,6 +57,8 @@ Based on the values of variables *<code style="color : aqua">controlType, resetS
 **<code style="color : greenyellow">chainBarState</code>** toggles between the chain bar's position to load and score
 
 ## Claw
+**<code style="color : greenyellow">rollerState</code>** 
+Toggles between the roller's state of intaking and outtaking
 
 ## Pin From Wall
 
