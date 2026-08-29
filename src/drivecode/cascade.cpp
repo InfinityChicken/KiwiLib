@@ -32,7 +32,10 @@ int incrementWorks = 0;
 void chainBarEasy(float target) {
     // calculate error and move voltage based on the error voltage
     float chainbarPIDOut = chainBarPID.update(target - chainBarRotation.get_position(), true);
-    chainBar.move_voltage(chainbarPIDOut);
+    while (chainbarPIDOut != 0.00) {
+        chainbarPIDOut = chainBarPID.update(target - chainBarRotation.get_position(), true);
+        chainBar.move_voltage(chainbarPIDOut);
+    }
 }
 
 void updateCascade() {
