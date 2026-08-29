@@ -13,8 +13,9 @@ bool resetPressed = false;
 int resetState = 0;
 
 bool switchPressed = false;
+
 // control type variable for cascade control switch
-int controlType = 0;
+int controlType = 0; // 0 means incrementing, 1 means not incrementing
 
 // chain bar/cascade pid target variable
 std::int32_t chainBarPID_target = 0;
@@ -22,13 +23,28 @@ std::int32_t cascadePID_target = 0;
 
 float chainBarLoad = 0.00;
 float chainBarScore = 0.00;
-float cascadeIncrement = 0.00;
+float cascadeIncrement = 1.00;
 
-int incrementWorks = 0;
+// rotation per inch (200rotations/inch)
+float relativeRatio = 0;
+// inches
+const low_boost = 3.25;
+const mid_boost = 5.77;
+const high_boost = 8.77;
+
+const score_boost = 3.25;
+
+float pinDimension = 6.5
+float stackDimension = 6.561;
+
+int incrementWorks = 0; // variable we can get rid of after all testing is complete
+
+
 
 // chainBarEasy is a function made just to simplify code
 // so we can just call this instead of doing so multiple times, 
 // especially in detailed commands such as pinFromWall.cpp
+
 void chainBarEasy(float target) {
     // calculate error and move voltage based on the error voltage
     float chainbarPIDOut = chainBarPID.update(target - chainBarRotation.get_position(), true);
@@ -39,46 +55,48 @@ void chainBarEasy(float target) {
 }
 
 void updateCascade() {
-
-    // if cascade control down is pressed
+    // if cascade is not incrementing
     if (controlType == 1) {
-        // without increment
-        if (controller.get_digital(cascadeDownControl)) {
-            cascadeState = 2;
-        }
-    } else {
-        // with increment
+        // cascade down
         if (controller.get_digital_new_press(cascadeDownControl)) {
-            cascadeState = 3;
-        }
-    }
-
-    if (controller.get_digital(cascadeDownControl)) {
-        if (!cascadePressed) {
-            // control type: pid increment
-            if (controlType == 0) {
-                cascadeState = 3;
-                chainBarState = 2;
-            } else {
-            // control type: manual
+            if (cascadeState != 2) {
                 cascadeState = 2;
-                chainBarState = 2;
+            }
+            else {
+                cascadeState = 0;
             }
         }
-        cascadePressed = true;
+
+        // cascade up
+        else if (controller.get_digital_new_press(cascadeUpControl)) {
+            if (cascadeState != 1) {
+                cascadeState = 1;
+            }
+            else {
+                cascadeState = 0;
+            }
+        }
     }
 
-    // if cascade control up is pressed
-    else if (controller.get_digital(cascadeUpControl)) {
-        if (controlType == 0) {
-            // control type: pid increment
-            if (!cascadePressed) {
-                cascadeState = 1;
-                chainBarState = 2;
-            } else {
-            // control type: manual
-            cascadeState = 1;
-            chainBarState = 2;
+    // with increment
+    else if (controlType == 0) {
+        // cascade up
+        if (controller.get_digital_new_press(cascadeDownControl)) {
+            if (cascadeState != 3) {
+                cascadeState = 3;
+            }
+            else {
+                cascadeState = 0;
+            }
+        }
+
+        // cascade down
+        else if (controller.get_digital_new_press(cascadeUpControl)) {
+            if (cascadeState != 4) {
+                cascadeState = 4;
+            }
+            else {
+                cascadeState = 0;
             }
         }
     }
@@ -151,32 +169,37 @@ void runCascade() {
                 break;
             }
 
-            // cascade up
+            // cascade down without decrement
             case 1: {
-                if (controlType == 1) {
-                    cascade.move_velocity(600);
-                } else {
-                    cascadePID_target += cascadeIncrement;
-                    cascadeState = 0;
-                    incrementWorks = 1;
-                }
-                chainBarPID_target = chainBarScore;
-                break;
-            }
-
-            // cascade down
-            case 2: {
                 cascade.move_velocity(-600);
                 chainBarPID_target = chainBarScore;
                 break;
             }
+
+            // cascade up without increment
+            case 2: {
+                cascade.move_velocity(600);
+                chainBarPID_target = chainBarScore;
+                break;
+            }
             
-            // cascade down incrementing
+            // cascade down with decrementing
             case 3: {
                 cascadePID_target -= cascadeIncrement;
                 incrementWorks = 1;
                 pros::delay(100);
                 incrementWorks = 0;
+                cascadeState = 0;
+                break;
+            }
+
+            // cascade up with incrementing
+            case 4: {
+                cascadePID_target += cascadeIncrement;
+                incrementWorks = 1;
+                pros::delay(100);
+                incrementWorks = 0;
+                cascadeState = 0;
                 break;
             }
 

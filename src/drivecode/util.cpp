@@ -46,10 +46,10 @@ void taskInit() {
 // function to print motor voltages given a line to start on
 void printMotorVoltages(int line) {
     pros::screen::print(pros::E_TEXT_SMALL, line+0, "leftFront: %d", leftFront.get_power());
-    pros::screen::print(pros::E_TEXT_SMALL, line+1, "leftMid: %d", leftMid.get_power());
+    // pros::screen::print(pros::E_TEXT_SMALL, line+1, "leftMid: %d", leftMid.get_power());
     pros::screen::print(pros::E_TEXT_SMALL, line+2, "leftBack: %d", leftBack.get_power());
     pros::screen::print(pros::E_TEXT_SMALL, line+3, "rightFront: %d", rightFront.get_power());
-    pros::screen::print(pros::E_TEXT_SMALL, line+4, "rightMid: %d", rightMid.get_power());
+    // pros::screen::print(pros::E_TEXT_SMALL, line+4, "rightMid: %d", rightMid.get_power());
     pros::screen::print(pros::E_TEXT_SMALL, line+5, "rightBack: %d", rightBack.get_power());
 }
 
@@ -70,7 +70,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 7, "rollerState: %d", rollerState);
         pros::screen::print(pros::E_TEXT_SMALL, 8, "clawState: %d", clawState);
 
-        pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks2: %d", incrementWorks);
+        pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks3: %d", cascadePID_target);
         
         pros::delay(50);
     }
