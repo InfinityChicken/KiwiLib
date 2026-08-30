@@ -34,7 +34,7 @@ const high_boost = 8.77;
 
 const score_boost = 3.25;
 
-float pinDimension = 6.5
+float pinDimension = 6.5;
 float stackDimension = 6.561;
 
 int incrementWorks = 0; // variable we can get rid of after all testing is complete
@@ -171,14 +171,14 @@ void runCascade() {
 
             // cascade down without decrement
             case 1: {
-                cascade.move_velocity(-600);
+                cascade.move_velocity(600);
                 chainBarPID_target = chainBarScore;
                 break;
             }
 
             // cascade up without increment
             case 2: {
-                cascade.move_velocity(600);
+                cascade.move_velocity(-600);
                 chainBarPID_target = chainBarScore;
                 break;
             }
