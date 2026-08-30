@@ -18,6 +18,7 @@ pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
 pros::controller_digital_e_t cascadeResetControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 pros::controller_digital_e_t cascadeSwitchControl = pros::E_CONTROLLER_DIGITAL_RIGHT;
 
+
 pros::controller_digital_e_t chainBarControl = pros::E_CONTROLLER_DIGITAL_Y;
 pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
 
@@ -51,6 +52,7 @@ pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
 pros::Distance distCascade(0);
+pros::Distance distCascadeEasy(0);
 
 // chain bar/cascade rotation sensors
 pros::Rotation chainBarRotation(0);

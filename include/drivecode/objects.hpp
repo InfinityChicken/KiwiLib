@@ -60,6 +60,7 @@ extern pros::Distance distFrontRight;
 extern pros::Distance distBack;
 extern pros::Distance distLeft;
 extern pros::Distance distRight;
+extern pros::Distance distCascadeEasy;
 
 // TODO: Add actual vision sensor ports
 // vision sensors for colour sort

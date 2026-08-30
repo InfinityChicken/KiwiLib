@@ -13,6 +13,13 @@ bool resetPressed = false;
 int resetState = 0;
 
 bool switchPressed = false;
+float cascadeHeight = 0;
+
+int scoreHeights[6] = {};
+int heightConstant = 0;
+int currentLevel = 0;
+int targetInches = 0;
+
 
 // control type variable for cascade control switch
 int controlType = 0; // 0 means incrementing, 1 means not incrementing
@@ -53,6 +60,8 @@ void chainBarEasy(float target) {
         chainBar.move_voltage(chainbarPIDOut);
     }
 }
+
+
 
 void updateCascade() {
     // if cascade is not incrementing
@@ -221,7 +230,8 @@ void runCascade() {
         // incremental
         if (controlType == 0) {
             // calculate error and move voltage based on the error voltage
-            float cascadePIDOut = cascadePID.update(cascadePID_target - cascadeRotation.get_position(), true);
+            float cascadePIDOut = cascadePID.update(cascadePID_target - cascade
+.get_position(), true);
             cascade.move_voltage(cascadePIDOut);
         }
 
@@ -241,5 +251,36 @@ void runCascade() {
         chainBarEasy(chainBarPID_target);
 
         pros::delay (10);
+    }
+}
+
+//running variable for cascade levle 
+// once height modulus is over the threhsold add one to that variable
+// when it let go, set the pid height to the running variable plus one 
+// have something that constantly updating the running variable to track what level it is at 
+//const tracking separate task check if going up and down and modulus to set if its adding or subtracting 
+// ds tracks height of floor convert these heights into the levels 
+//constantly update the level youre at, to do this we can use modulus and once the mod of the set interval is = 0, track going up and down as well (use velocity of motor positive or negative)
+//track when button is released, set target height for cascade height for the pid to that level plus one, then convert to the actual number youre supposed to be on ( step function! )
+
+
+// tracking the get_distance 
+
+// tracking current scoring level you're at 
+
+// once get distance reaches a certain threshold that we agree upon later, we increment the scoring level and then snap to the next level (step function)
+// these levels are going to be tracked independently of the level 
+// every time we gp up a certain height moduloing that will incremenet the levle size 
+
+
+void cascadeEasy() {
+    while (controller.get_digital(cascadeUpControl)) {
+        cascadeHeight = distCascadeEasy.get_distance()/25.4; // converting cascade height into inches from mm
+        currentLevel = static_cast<int>((cascadeHeight) / heightConstant); // tracking the level of pin/cup height that we're at. using integer division to truncate our level down
+    }
+    targetInches = scoreHeights[currentLevel + 1]; //since we want to snap up, we want to increase the level by 1 to be able to snap to the next cup/pin target height, accessing the height from an array
+    while (distCascadeEasy.get_distance()/25.4 < targetInches) { // whilst our cascade height is less than our target inches amount..
+        float cascadePIDOut = cascadePID.update(cascadePID_target - cascadeHeight); // pid update
+
     }
 }
