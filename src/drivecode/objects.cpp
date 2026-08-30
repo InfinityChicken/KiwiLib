@@ -2,29 +2,111 @@
 #include <climits>
 #include "objects.hpp"
 #include "drivecode/util.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/distance.hpp"
+#include "pros/misc.h"
+#include "pros/motor_group.hpp"
+#include "pros/rotation.hpp"
 
-//drive motors
-//TODO: make odom compatible with 5.5w 11w mixed
+// TODO: CONTROLS
+// controls
+pros::controller_digital_e_t intakeControl = pros::E_CONTROLLER_DIGITAL_L1;
+pros::controller_digital_e_t outtakeControl = pros::E_CONTROLLER_DIGITAL_L2;
+pros::controller_digital_e_t cascadeControl = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t clawRotateControl = pros::E_CONTROLLER_DIGITAL_R2;
+
+pros::controller_digital_e_t clawCloseControl = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualCascadeControlUp = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualCascadeControlDown = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualChainBarControlUp = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t manualChainBarControlDown = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t colorSwitchControl = pros::E_CONTROLLER_DIGITAL_A;
+
+// TODO: Add actual drivetrain motor ports
+// drivetrain
 pros::MotorGroup leftMotors({0, 0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({0, 0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-0, -0, -0}, pros::MotorGearset::blue);
 
-//sensors
-pros::Imu imu(0);
-pros::Rotation horizRotation(0);
-pros::Distance distRight(0);
-pros::Distance distLeft(0);
-pros::Distance distFront(0);
+// TODO: Add actual intake motor ports
+// intake
+pros::Motor intake(9, pros::MotorGearset::green); // 5.5w
+
+// TODO: Add actual cascade ports and rotation
+// TODO: Change motor gearsets to actual used (these are for testing)
+// cascade and chainbar motors
+pros::Motor cascadeL (0, pros::MotorGearset::blue);
+pros::Motor cascadeR (0, pros::MotorGearset::blue);
+pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
+
+// TODO: Add actual cascade sensor ports
+// cascade rotation sensor for macro
+pros::Rotation cascadeRotation(0);
+
+// cascade distance sensor for macro
+pros::Distance distCascade(0);
+
+// TODO: Add actual claw ports
+// piston claw
+pros::adi::DigitalOut pistonClawRotate(0);
+pros::adi::DigitalOut pistonClawClose(0);
+
+// TODO: Add actual distance sensor ports
+// distance sensors for dsr
+pros::Distance distFrontLeft(0);
+pros::Distance distFrontRight(0);
 pros::Distance distBack(0);
+pros::Distance distLeft(0);
+pros::Distance distRight(0);
 
-//odom objects
+// TODO: Add actual vision sensor ports
+// vision sensors for colour sort
+pros::Vision vision(0);
+
+// TODO: Add actual odometry ports
+// odometry sensors for chassis
+pros::Rotation horizRotation(0);
+pros::Imu imu(0);
+
+// TODO: Retune color if ever needed
+// color signatures for vision sensor
+pros::vision_signature_s_t redSig = pros::Vision::signature_from_utility(1, 
+                                                                       9341, 
+                                                                       12549, 
+                                                                      10945, 
+                                                                       -1999, 
+                                                                       -745, 
+                                                                      -1372, 
+                                                                       2.5, 
+                                                                        0);
+
+pros::vision_signature_s_t blueSig = pros::Vision::signature_from_utility(2, 
+                                                                       -4353, 
+                                                                       -3559, 
+                                                                      -3956, 
+                                                                       6299, 
+                                                                       7737, 
+                                                                      7018, 
+                                                                       2.5, 
+                                                                        0);
+
+pros::vision_signature_s_t yellowSig = pros::Vision::signature_from_utility(3, 
+                                                                       593, 
+                                                                       1227, 
+                                                                      910, 
+                                                                       -4851, 
+                                                                       -4147, 
+                                                                      -4499, 
+                                                                       2.5, 
+                                                                        0);
+
+// odom objects
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
     2,
     0
 );
 
-//odom sensors
+// odom sensors
 lemlib::OdomSensors odomSensorsDrive(
     nullptr,
     nullptr,
@@ -34,48 +116,48 @@ lemlib::OdomSensors odomSensorsDrive(
 );
 
 
-//drivetrain
+// drivetrain
 lemlib::Drivetrain drivetrain(
     &leftMotors,
     &rightMotors,
     11.44,
     3.25,
     450,
-    60 //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
+    60 
+    //radius multiplier for movetopose angular constraint. more horizontaldrift allows more aggressive drifting
 );
 
-//controller settings
-lemlib::ControllerSettings lateralController(
-    10,                           //kP
-    0.16,                         //kI
-    56,                           //kD    
-    4,                   //windup range
-    0.5,                    //small error
-    50,           //small error timeout
-    0,                    //large error 
-    500,           //large error timeout
-    0                           //slew
+// lateral pid controller
+lemlib::ControllerSettings lateralController(10, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              3, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              20 // maximum acceleration (slew)
 );
 
-lemlib::ControllerSettings angularController(
-    2.75,
-    0.32,
-    20,
-    5,
-    2,
-    50,
-    0,
-    500,
-    0
+// angular pid controller
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              10, // derivative gain (kD)
+                                              3, // anti windup
+                                              1, // small error range, in inches
+                                              100, // small error range timeout, in milliseconds
+                                              3, // large error range, in inches
+                                              500, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 
-//distance sensors
-lemlib::DistanceSensors distSensors(distFront, 0, 0,
-                                    distBack, 0, 0,
-                                    distLeft, 0, 0,
-                                    distRight, 0, 0);
+// distance sensors
+lemlib::DistanceSensors distSensors(distFrontLeft, -4.13, 5.27,
+                                    distBack, 2.99, 4.66,
+                                    distLeft, 2.04, 4.80,
+                                    distRight, -3.18, 4.80);
 
-//controller
+// controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // chassis
@@ -85,4 +167,17 @@ lemlib::Chassis chassis(
     angularController,
     odomSensorsDrive,
     distSensors
+);
+
+// cascade rotation PID
+lemlib::PID cascadePID(5,
+                         // proportional gain (kP)
+                         0.01,
+                         // integral gain (kI)
+                         20,
+                         // derivative gain (kD)
+                         5,
+                         // antiwindup
+                         false
+                         // sign flip reset boolean
 );

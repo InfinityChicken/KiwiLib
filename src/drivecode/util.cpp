@@ -1,18 +1,70 @@
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "drivecode/util.hpp"
 #include "drivecode/objects.hpp"
+#include "sdcard/sdmain.hpp"
+#include "drivecode/cascade.hpp"
+#include "drivecode/intake.hpp"
+#include "drivecode/pistons.hpp"
+// #include "autonomous/autonSelector.hpp"
 
-void motorInit() {
+void runCascade();
+
+void motorInit() {}
+
+// sensor settings
+void sensorInit() {
+    vision.clear_led();
+    vision.set_exposure(150);
+    vision.set_led(4024241);
+    vision.set_signature(3, &yellowSig);
+    vision.set_signature(2, &blueSig);
+    vision.set_signature(1, &redSig);
 }
 
-//sensor settings
-void sensorInit() {}
+// display logo for auton selector
+void displayLogo() {
+    // create a variable for the c array (image)
+    LV_IMAGE_DECLARE(logo);
+
+    // declare and define the image object
+    lv_obj_t* img = lv_image_create(lv_screen_active());
+
+    // set the source data for the image 
+    lv_image_set_src(img,&logo);
+    
+    // center the image
+    lv_obj_center(img);
+}
+
+// display vinish for the jokes
+void displayVinish() {
+    // create a variable for the c array (image)
+    LV_IMAGE_DECLARE(vinish);
+
+    // declare and define the image object
+    lv_obj_t* img = lv_image_create(lv_screen_active());
+
+    // set the source data for the image 
+    lv_image_set_src(img,&vinish);
+}
 
 //begin all tasks
 void taskInit() {
-    pros::Task screenTask(runScreen, "screen task");
+    if (!pros::competition::is_disabled()) {
+        if (!pros::competition::is_autonomous()) {
+            pros::Task screenTask(runScreen, "screen task");
+        }
+    }
+
+    pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task flipTask(runFlip, "flip task");
+    pros::Task intakeTask(runIntake, "intake task");
+    pros::Task pistonTask(runPistons, "pistons task");
+
+    pros::Task scoreTask(macroScore, "score task");
 }
 
 //brain task
@@ -20,17 +72,15 @@ void runScreen() {
     while(true) {
         lemlib::Pose pose = chassis.getPose();
 
-        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "X: %.3f", pose.x);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Y: %.3f", pose.y);
-        pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Theta: %.3f", pose.theta);
-        
-        pros::delay(50);
+        // pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Intake state: %d", intakeState);
+
+        pros::delay(10);
     }
 }
 
 //console task
 void runConsole() {
     while(true) {
-        pros::delay(50);
+        pros::delay(10);
     }
 }
