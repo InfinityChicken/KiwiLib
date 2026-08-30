@@ -35,11 +35,10 @@ float cascadeIncrement = 1.00;
 // rotation per inch (200rotations/inch)
 float relativeRatio = 0;
 // inches
-const low_boost = 3.25;
-const mid_boost = 5.77;
-const high_boost = 8.77;
-
-const score_boost = 3.25;
+const double low_boost = 3.25;
+const double mid_boost = 5.77;
+const double high_boost = 8.77;
+const double score_boost = 3.25;
 
 float pinDimension = 6.5;
 float stackDimension = 6.561;
@@ -280,7 +279,9 @@ void cascadeEasy() {
     }
     targetInches = scoreHeights[currentLevel + 1]; //since we want to snap up, we want to increase the level by 1 to be able to snap to the next cup/pin target height, accessing the height from an array
     while (distCascadeEasy.get_distance()/25.4 < targetInches) { // whilst our cascade height is less than our target inches amount..
-        float cascadePIDOut = cascadePID.update(cascadePID_target - cascadeHeight); // pid update
+        //float cascadePIDOut = cascadePID.update(cascadePID_target - cascadeHeight); // pid update
+         float cascadePIDOut = cascadePID.update(targetInches, cascadeHeight); 
 
+        pros::delay (10);
     }
 }

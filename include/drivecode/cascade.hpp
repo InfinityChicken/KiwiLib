@@ -30,7 +30,6 @@ extern float cascadeHeight;
 extern float pinDimension;
 extern float stackDimension;
 
-extern int scoreHeights;
 extern int heightConstant;
 extern int currentLevel;
 extern int targetInches;
