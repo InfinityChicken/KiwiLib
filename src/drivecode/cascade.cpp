@@ -1,4 +1,5 @@
 #include "drivecode/cascade.hpp"
+#include "drivecode/cascadeControl.hpp"
 #include "pros/misc.h"
 #include "drivecode/objects.hpp"
 
@@ -22,7 +23,8 @@ int targetInches = 0;
 
 
 // control type variable for cascade control switch
-int controlType = 0; // 0 means incrementing, 1 means not incrementing
+// 0: incrementing, 1: manual
+int controlType = 0; 
 
 // chain bar/cascade pid target variable
 std::int32_t chainBarPID_target = 0;
@@ -34,7 +36,8 @@ float cascadeIncrement = 1.00;
 
 // rotation per inch (200rotations/inch)
 float relativeRatio = 0;
-// inches
+
+// offset boosts for goals
 const double low_boost = 3.25;
 const double mid_boost = 5.77;
 const double high_boost = 8.77;
@@ -43,73 +46,71 @@ const double score_boost = 3.25;
 float pinDimension = 6.5;
 float stackDimension = 6.561;
 
-int incrementWorks = 0; // variable we can get rid of after all testing is complete
-
-
+// oorja's variable we can get rid of after all testing is complete
+int incrementWorks = 0; 
 
 // chainBarEasy is a function made just to simplify code
 // so we can just call this instead of doing so multiple times, 
 // especially in detailed commands such as pinFromWall.cpp
 
 void chainBarEasy(float target) {
+    float error = 1.0;
+
     // calculate error and move voltage based on the error voltage
     float chainbarPIDOut = chainBarPID.update(target - chainBarRotation.get_position(), true);
-    while (chainbarPIDOut != 0.00) {
+
+    // reduce error as much as possible
+    // continue unless it is within the max error and min error
+    while (!(chainbarPIDOut <= target + error && chainbarPIDOut >= target - error) ) {
         chainbarPIDOut = chainBarPID.update(target - chainBarRotation.get_position(), true);
         chainBar.move_voltage(chainbarPIDOut);
     }
 }
 
+// running variable for cascade level 
+// once height modulus is over the threhsold add one to that variable
+// when it let go, set the pid height to the running variable plus one 
+// have something that constantly updating the running variable to track what level it is at 
+// const tracking separate task check if going up and down and modulus to set if its adding or subtracting 
+// ds tracks height of floor convert these heights into the levels 
+//constantly update the level youre at, to do this we can use modulus and once the mod of the set interval is = 0, track going up and down as well (use velocity of motor positive or negative)
+//track when button is released, set target height for cascade height for the pid to that level plus one, then convert to the actual number youre supposed to be on ( step function! )
 
+
+// tracking the get_distance 
+
+// tracking current scoring level you're at 
+
+// once get distance reaches a certain threshold that we agree upon later, we increment the scoring level and then snap to the next level (step function)
+// these levels are going to be tracked independently of the level 
+// every time we gp up a certain height moduloing that will incremenet the levle size 
+
+void cascadeEasy() {
+    while (controller.get_digital(cascadeUpControl)) {
+        cascadeHeight = distCascadeEasy.get_distance()/25.4; // converting cascade height into inches from mm
+        currentLevel = static_cast<int>((cascadeHeight) / heightConstant); // tracking the level of pin/cup height that we're at. using integer division to truncate our level down
+    }
+    targetInches = scoreHeights[currentLevel + 1]; //since we want to snap up, we want to increase the level by 1 to be able to snap to the next cup/pin target height, accessing the height from an array
+    while (distCascadeEasy.get_distance()/25.4 < targetInches) { // whilst our cascade height is less than our target inches amount..
+        //float cascadePIDOut = cascadePID.update(cascadePID_target - cascadeHeight); // pid update
+         float cascadePIDOut = cascadePID.update(targetInches, cascadeHeight); 
+
+        pros::delay (10);
+    }
+}
 
 void updateCascade() {
-    // if cascade is not incrementing
+    // manual
     if (controlType == 1) {
-        // cascade down
-        if (controller.get_digital_new_press(cascadeDownControl)) {
-            if (cascadeState != 2) {
-                cascadeState = 2;
-            }
-            else {
-                cascadeState = 0;
-            }
-        }
-
-        // cascade up
-        else if (controller.get_digital_new_press(cascadeUpControl)) {
-            if (cascadeState != 1) {
-                cascadeState = 1;
-            }
-            else {
-                cascadeState = 0;
-            }
-        }
+        updateCascadeManual();
     }
 
     // with increment
     else if (controlType == 0) {
-        // cascade up
-        if (controller.get_digital_new_press(cascadeDownControl)) {
-            if (cascadeState != 3) {
-                cascadeState = 3;
-            }
-            else {
-                cascadeState = 0;
-            }
-        }
-
-        // cascade down
-        else if (controller.get_digital_new_press(cascadeUpControl)) {
-            if (cascadeState != 4) {
-                cascadeState = 4;
-            }
-            else {
-                cascadeState = 0;
-            }
-        }
+        updateCascadeIncremental();
     }
 
-    // no cascade buttons are pressed, 0 vel
+    // no cascade buttons are pressed, so stop cascade
     else {
         cascadeState = 0;
         cascadePressed = false;
@@ -146,7 +147,6 @@ void updateCascadeFunctions() {
     }
 }
 
-
 void updateChainBar() {
     // if cascade reset position is pressed
     if (controller.get_digital(chainBarControl)) {
@@ -166,51 +166,26 @@ void updateChainBar() {
 void runCascade() {
     while (true) {
         // based on our cascade state, it goes up or down depending on the value of cascadeState
-        switch (cascadeState) {
-            // cascade stop
-            case 0: {
-            if (controlType == 1){
-                    cascade.move_velocity(0);
-                } else {
-                    cascadePID_target = cascadePID_target;
-                }
-                break;
-            }
+        // manual cascade control
+        if (controlType == 0) {
+            runCascadeManual();
+        }
+        // incremental cascade control
+        if (controlType == 1) {
+            runCascadeIncremental();
+        }
 
-            // cascade down without decrement
-            case 1: {
-                cascade.move_velocity(600);
-                chainBarPID_target = chainBarScore;
+        // based on our cascade reset state, it will reset/not reset based on the state
+        switch (resetState) {
+            // cascade no reset
+            case 0:
                 break;
-            }
-
-            // cascade up without increment
-            case 2: {
-                cascade.move_velocity(-600);
-                chainBarPID_target = chainBarScore;
+            // cascade reset
+            case 1:
+                cascade.move_absolute(0, 600);
+                chainBarPID_target = chainBarLoad;
+                resetState = 0;
                 break;
-            }
-            
-            // cascade down with decrementing
-            case 3: {
-                cascadePID_target -= cascadeIncrement;
-                incrementWorks = 1;
-                pros::delay(100);
-                incrementWorks = 0;
-                cascadeState = 0;
-                break;
-            }
-
-            // cascade up with incrementing
-            case 4: {
-                cascadePID_target += cascadeIncrement;
-                incrementWorks = 1;
-                pros::delay(100);
-                incrementWorks = 0;
-                cascadeState = 0;
-                break;
-            }
-
         }
 
         switch (chainBarState) {
@@ -226,61 +201,7 @@ void runCascade() {
             }
         }
 
-        // incremental
-        if (controlType == 0) {
-            // calculate error and move voltage based on the error voltage
-            float cascadePIDOut = cascadePID.update(cascadePID_target - cascade
-.get_position(), true);
-            cascade.move_voltage(cascadePIDOut);
-        }
-
-        // based on our cascade reset state, it will reset/not reset based on the state
-        switch (resetState) {
-            // cascade no reset
-            case 0:
-                break;
-            // cascade reset
-            case 1:
-                cascade.move_absolute(0, 600);
-                chainBarPID_target = chainBarLoad;
-                resetState = 0;
-                break;
-        }
-        
         chainBarEasy(chainBarPID_target);
-
-        pros::delay (10);
-    }
-}
-
-//running variable for cascade levle 
-// once height modulus is over the threhsold add one to that variable
-// when it let go, set the pid height to the running variable plus one 
-// have something that constantly updating the running variable to track what level it is at 
-//const tracking separate task check if going up and down and modulus to set if its adding or subtracting 
-// ds tracks height of floor convert these heights into the levels 
-//constantly update the level youre at, to do this we can use modulus and once the mod of the set interval is = 0, track going up and down as well (use velocity of motor positive or negative)
-//track when button is released, set target height for cascade height for the pid to that level plus one, then convert to the actual number youre supposed to be on ( step function! )
-
-
-// tracking the get_distance 
-
-// tracking current scoring level you're at 
-
-// once get distance reaches a certain threshold that we agree upon later, we increment the scoring level and then snap to the next level (step function)
-// these levels are going to be tracked independently of the level 
-// every time we gp up a certain height moduloing that will incremenet the levle size 
-
-
-void cascadeEasy() {
-    while (controller.get_digital(cascadeUpControl)) {
-        cascadeHeight = distCascadeEasy.get_distance()/25.4; // converting cascade height into inches from mm
-        currentLevel = static_cast<int>((cascadeHeight) / heightConstant); // tracking the level of pin/cup height that we're at. using integer division to truncate our level down
-    }
-    targetInches = scoreHeights[currentLevel + 1]; //since we want to snap up, we want to increase the level by 1 to be able to snap to the next cup/pin target height, accessing the height from an array
-    while (distCascadeEasy.get_distance()/25.4 < targetInches) { // whilst our cascade height is less than our target inches amount..
-        //float cascadePIDOut = cascadePID.update(cascadePID_target - cascadeHeight); // pid update
-         float cascadePIDOut = cascadePID.update(targetInches, cascadeHeight); 
 
         pros::delay (10);
     }
