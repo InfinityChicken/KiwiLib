@@ -108,3 +108,6 @@ extern lemlib::PID chainBarPID;
 
 // cascade pid
 extern lemlib::PID cascadePID;
+
+// anti tip pid
+extern lemlib::PID antiTipPID;

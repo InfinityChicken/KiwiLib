@@ -207,3 +207,16 @@ lemlib::PID cascadePID(5,
                          false
                          // sign flip reset boolean
 );
+
+// anti tip pid
+lemlib::PID antiTipPID(4,
+                         // proportional gain (kP)
+                         0,
+                         // integral gain (kI)
+                         40,
+                         // derivative gain (kD)
+                         0,
+                         // antiwindup
+                         false
+                         // sign flip reset boolean
+);
