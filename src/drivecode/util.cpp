@@ -1,9 +1,8 @@
 #include "drivecode/util.hpp"
 #include "autonomous/autonSelector.hpp"
-#include "pros/misc.h"
-#include "pros/motors.h"
+// #include "pros/misc.h"
+// #include "pros/motors.h"
 #include "pros/rtos.hpp"
-#include "drivecode/util.hpp"
 #include "drivecode/objects.hpp"
 #include "pros/screen.h"
 
@@ -39,6 +38,7 @@ void taskInit() {
     pros::Task cascadeTask(runCascade, "cascade task");
     pros::Task rollerTask(runRoller, "roller task");
     pros::Task clawTask(runClaw, "claw task");
+    pros::Task toggleTask(runToggle, "toggle task");
     
     pros::Task pinFromWallTask(runPinFromWall, "pin from wall task");
 }
@@ -62,15 +62,15 @@ void runScreen() {
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
 
-        pros::screen::print(pros::E_TEXT_SMALL, 2, "cascadeState: %d", cascadeState);
-        pros::screen::print(pros::E_TEXT_SMALL, 3, "chainBarState: %d", chainBarState);
-        pros::screen::print(pros::E_TEXT_SMALL, 4, "resetState: %d", resetState);
-        pros::screen::print(pros::E_TEXT_SMALL, 5, "controlType: %d", controlType);
+        // pros::screen::print(pros::E_TEXT_SMALL, 2, "cascadeState: %d", cascadeState);
+        // pros::screen::print(pros::E_TEXT_SMALL, 3, "chainBarState: %d", chainBarState);
+        // pros::screen::print(pros::E_TEXT_SMALL, 4, "resetState: %d", resetState);
+        // pros::screen::print(pros::E_TEXT_SMALL, 5, "controlType: %d", controlType);
 
-        pros::screen::print(pros::E_TEXT_SMALL, 7, "rollerState: %d", rollerState);
-        pros::screen::print(pros::E_TEXT_SMALL, 8, "clawState: %d", clawState);
+        // pros::screen::print(pros::E_TEXT_SMALL, 7, "rollerState: %d", rollerState);
+        // pros::screen::print(pros::E_TEXT_SMALL, 8, "clawState: %d", clawState);
 
-        pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks3: %d", cascadePID_target);
+        // pros::screen::print(pros::E_TEXT_SMALL, 10, "incrementWorks3: %d", cascadePID_target);
         
         pros::delay(50);
     }

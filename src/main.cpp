@@ -12,21 +12,20 @@
 #include "drivecode/util.hpp"
 #include "drivecode/cascade.hpp"
 #include "drivecode/claw.hpp"
+#include "drivecode/toggle.hpp"
 
 // lemlib & pros
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/intersect.hpp"
 #include "pros/motors.h"
 #include "pros/misc.h"
-#include "pros/apix.h"
 
 // sdcard
-#include "sdcard/sdtest.hpp"
-#include "sdcard/sdmain.hpp"
+// #include "sdcard/sdtest.hpp"
+// #include "sdcard/sdmain.hpp"
 
 // anti tip and all bs stuff
 static constexpr float IMU_PITCH_SIGN = -1.0; // flip the sign of the pitch if the bot is flipped, shudnt be changed
-
 
 void on_center_button() {
 
@@ -95,7 +94,6 @@ void opcontrol() {
 			antiTipping = false;
 		}
 
-
 		// execute if antiTip is true (the bot is tipping)
 		// P and D cuz forums online said I causes more error
 		if (antiTipping) {
@@ -128,6 +126,8 @@ void opcontrol() {
 		
 		updateRoller();
 		updateClaw();
+
+		updateToggle();
 
 		pros::delay(10);
 	}

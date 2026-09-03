@@ -1,6 +1,6 @@
 #include "lemlib/chassis/chassis.hpp"
 #include <climits>
-#include "pros/abstract_motor.hpp"
+// #include "pros/abstract_motor.hpp"
 #include "pros/distance.hpp"
 #include "pros/misc.h"
 #include "pros/motor_group.hpp"
@@ -19,6 +19,8 @@ extern pros::controller_digital_e_t cascadeResetControl;
 
 extern pros::controller_digital_e_t chainBarControl;
 extern pros::controller_digital_e_t cascadeSwitchControl;
+
+extern pros::controller_digital_e_t toggleControl;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
@@ -52,6 +54,10 @@ extern pros::Rotation cascadeRotation;
 // piston claw
 extern pros::adi::DigitalOut pistonClaw;
 extern pros::adi::DigitalOut pistonFlip;
+
+// TODO: Add actual piston toggle ports
+// toggle pistons
+extern pros::adi::DigitalOut pistonToggle;
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr

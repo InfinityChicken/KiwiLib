@@ -18,9 +18,10 @@ pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
 pros::controller_digital_e_t cascadeResetControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 pros::controller_digital_e_t cascadeSwitchControl = pros::E_CONTROLLER_DIGITAL_RIGHT;
 
-
 pros::controller_digital_e_t chainBarControl = pros::E_CONTROLLER_DIGITAL_Y;
 pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
+
+pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_A;
 
 // TODO: Add actual drivetrain motor ports
 // drivetrain
@@ -62,6 +63,10 @@ pros::Rotation cascadeRotation(0);
 // piston claw
 pros::adi::DigitalOut pistonClaw(0);
 pros::adi::DigitalOut pistonFlip(0);
+
+// TODO: Add actual piston toggle ports
+// toggle pistons
+pros::adi::DigitalOut pistonToggle(0);
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
