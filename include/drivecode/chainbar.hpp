@@ -1,15 +1,13 @@
 #include "main.h"
-#include "pros/misc.h"
 #include "drivecode/objects.hpp"
 
 extern int chainBarState;
 
-// positions, tune
-extern int targetPos;
-extern int loadPos;
-extern int neutralPos;
-extern int upperScorePos;
-extern int lowerScorePos;
+inline int targetPos = 0;
+inline int loadPos = 0;
+inline int neutralPos = 0;
+inline int upperScorePos = 0;
+inline int lowerScorePos = 0;
 
 void runChainBar();
 void updateChainBar();

@@ -141,7 +141,7 @@ lemlib::PID chainBarPID(5,
                          // derivative gain (kD)
                          5,
                          // antiwindup
-                         false
+                         true
                          // sign flip reset boolean
 );
 
@@ -154,6 +154,6 @@ lemlib::PID cascadePID(5,
                          // derivative gain (kD)
                          5,
                          // antiwindup
-                         false
+                         true
                          // sign flip reset boolean
 );

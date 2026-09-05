@@ -1,6 +1,4 @@
 #include "drivecode/toggle.hpp"
-// #include "pros/misc.h"
-#include "drivecode/objects.hpp"
 
 // initialize state variables
 int toggleState = 0;
@@ -10,7 +8,8 @@ void updateToggle() {
     // if toggle control is pressed
     if (controller.get_digital(toggleControl)) {
         if (!togglePressed) {
-            toggleState = (toggleState + 1) % 2;
+            if(toggleState == 0) toggleState = 1;
+            else toggleState = 0;
         }
         // toggle was just toggled just now
         togglePressed = true;
