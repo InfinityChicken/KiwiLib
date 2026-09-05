@@ -12,7 +12,7 @@ void motorInit() {
     rollerClaw.tare_position();
 
     // set current cascade "absolute" position to zero
-    cascade.tare_position();
+    cascadeFulls.tare_position();
 
     // set chain bar "absolute" position to zero, assuming you 
     // are resting it against something rigid

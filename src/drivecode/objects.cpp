@@ -10,8 +10,8 @@
 
 // TODO: CONTROLS
 // Buttons on the controller that control assigned subsystems
-pros::controller_digital_e_t rollerControlIn = pros::E_CONTROLLER_DIGITAL_R1;
-pros::controller_digital_e_t rollerControlOut = pros::E_CONTROLLER_DIGITAL_R2;
+pros::controller_digital_e_t cbUpControl = pros::E_CONTROLLER_DIGITAL_R1;
+pros::controller_digital_e_t cbDownControl = pros::E_CONTROLLER_DIGITAL_R2;
 pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
 
@@ -24,49 +24,30 @@ pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
 pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_A;
 
 // TODO: Add actual drivetrain motor ports
-// drivetrain
-pros::Motor leftFront (0, pros::MotorGearset::blue);
-pros::Motor leftBack (0, pros::MotorGearset::green);
-
-pros::Motor rightFront (0, pros::MotorGearset::blue);
-pros::Motor rightBack (0, pros::MotorGearset::green);
-
-// 55w 5.5w motorstack
-// pros::MotorGroup leftMotors({0, 0, 0});
-// pros::MotorGroup rightMotors({0, 0, 0});
-
-// 44w
 pros::MotorGroup leftMotors({-0, 0}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
-// rollerClaw
-pros::Motor rollerClaw(0, pros::MotorGearset::blue); // 5.5w
+pros::Motor rollerClaw(0, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
-// TODO: Change motor gearsets to actual used (these are for testing)
 // cascade and chainbar motors
-pros::MotorGroup cascade({0, 0, 0, 0}, pros::MotorGearset::blue);
-
-pros::Motor chainBar (0, pros::MotorGearset::green); // 5.5 w
+pros::MotorGroup cascadeFulls({0, 0}, pros::MotorGearset::blue);
+pros::Motor cascadeHalf(0, pros::MotorGearset::green); // 5.5 w
+pros::Motor chainBar (0, pros::MotorGearset::red);
 
 // TODO: Add actual cascade sensor ports
 // cascade distance sensor for macro
 pros::Distance distCascade(0);
-pros::Distance distCascadeEasy(0);
 
 // chain bar/cascade rotation sensors
 pros::Rotation chainBarRotation(0);
 pros::Rotation cascadeRotation(0);
 
 // TODO: Add actual claw ports
-// piston claw
-pros::adi::DigitalOut pistonClaw(0);
-pros::adi::DigitalOut pistonFlip(0);
-
-// TODO: Add actual piston toggle ports
-// toggle pistons
-pros::adi::DigitalOut pistonToggle(0);
+// pistons
+pros::adi::DigitalOut pistonClaw('A');
+pros::adi::DigitalOut pistonToggle('A');
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
@@ -76,51 +57,15 @@ pros::Distance distBack(0);
 pros::Distance distLeft(0);
 pros::Distance distRight(0);
 
-// TODO: Add actual vision sensor ports
-// vision sensors for colour sort
-pros::Vision vision(0);
-
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
 pros::Rotation horizRotation(0);
 pros::Imu imu(0);
 
-// TODO: Retune color if ever needed
-// color signatures for vision sensor
-pros::vision_signature_s_t redSig = pros::Vision::signature_from_utility(0, 
-                                                                       0, 
-                                                                       0, 
-                                                                      0, 
-                                                                       0, 
-                                                                       0, 
-                                                                      0, 
-                                                                       2.5, 
-                                                                        0);
-
-pros::vision_signature_s_t blueSig = pros::Vision::signature_from_utility(0, 
-                                                                       0, 
-                                                                       0, 
-                                                                      0, 
-                                                                       0, 
-                                                                       0, 
-                                                                      0, 
-                                                                       2.5, 
-                                                                        0);
-
-pros::vision_signature_s_t yellowSig = pros::Vision::signature_from_utility(0, 
-                                                                       0, 
-                                                                       0, 
-                                                                      0, 
-                                                                       0, 
-                                                                       0, 
-                                                                      0, 
-                                                                       2.5, 
-                                                                        0);
-
 // odom objects
 lemlib::TrackingWheel horizOdom(
     &horizRotation, 
-    2,
+    2.75,
     0
 );
 
@@ -133,7 +78,7 @@ lemlib::OdomSensors odomSensorsDrive(
     &imu
 );
 
-
+//TODO: ADD ACTUAL VALUES
 // drivetrain
 lemlib::Drivetrain drivetrain(
     &leftMotors,
@@ -208,19 +153,6 @@ lemlib::PID cascadePID(5,
                          20,
                          // derivative gain (kD)
                          5,
-                         // antiwindup
-                         false
-                         // sign flip reset boolean
-);
-
-// anti tip pid
-lemlib::PID antiTipPID(4,
-                         // proportional gain (kP)
-                         0,
-                         // integral gain (kI)
-                         40,
-                         // derivative gain (kD)
-                         0,
                          // antiwindup
                          false
                          // sign flip reset boolean
