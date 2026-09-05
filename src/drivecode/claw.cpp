@@ -10,19 +10,14 @@ bool rollerPressedOut = false;
 int clawState = 0;
 bool clawPressed = false;
 
+// TODO: changed control for gourav
+// TODO: toggle without roll out
+// TODO: Modulo fun added instead its just easier for me
 void updateRoller() {
     // if intake control is pressed
-    if (controller.get_digital(rollerControlIn)) {
+    if (controller.get_digital(rollerInControl)) {
         if (!rollerPressedIn) {
-            // if it is on turn it off
-            if(rollerState == 1) {
-                rollerState = 0;
-            }
-
-            // if it is off turn it on
-            else {
-                rollerState = 1;
-            }
+            rollerState = (rollerState + 1) % 2;
         }
         // intake was just toggled just now
         rollerPressedIn = true;
@@ -31,28 +26,6 @@ void updateRoller() {
     // intake was not toggled just now
     else {
         rollerPressedIn = false;
-    }
-
-    // if R2 is pressed
-    if (controller.get_digital(rollerControlOut)) {
-        if (!rollerPressedOut) {
-            // if it is on turn it off
-            if(rollerState == 2) {
-                rollerState = 0;
-            }
-            
-            // if it is off turn it on
-            else {
-                rollerState = 2;
-            }
-        }
-        // intake was just toggled just now
-        rollerPressedOut = true;
-        
-    }
-    // intake was not toggled just now
-    else {
-        rollerPressedOut = false;
     }
 }
 
@@ -72,6 +45,8 @@ void updateClaw() {
     }
 }
 
+// TODO: changed control for gourav
+// TODO: toggle without roll out
 void runRoller() {
     while (true) {
         // based on our roller state, we toggle it on or off
@@ -79,10 +54,6 @@ void runRoller() {
             // intaking
             case 1:
                 rollerClaw.move_velocity(200);
-                break;
-            // outtaking
-            case 2:
-                rollerClaw.move_velocity(-200);
                 break;
             // stop
             case 0: 
@@ -94,6 +65,8 @@ void runRoller() {
     }
 }
 
+// TODO: changed control for gourav
+// TODO: claw open/close will stop roller
 void runClaw() {
     while (true) {
         // based on our claw state, we toggle to open and close
@@ -101,10 +74,12 @@ void runClaw() {
             // open
             case 0:
                 pistonClaw.set_value(false);
+                rollerState = 0;
                 break;
             // close
             case 1:
                 pistonClaw.set_value(true);
+                rollerState = 0;
                 break;
         }
 

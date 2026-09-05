@@ -5,17 +5,14 @@
 #include "pros/misc.h"
 #include "pros/motor_group.hpp"
 #include "pros/rotation.hpp"
-#include "pros/vision.hpp"
 
+// Buttons on the controller that control assigned subsystems
 extern pros::controller_digital_e_t cbUpControl;
 extern pros::controller_digital_e_t cbDownControl;
 extern pros::controller_digital_e_t cascadeUpControl;
 extern pros::controller_digital_e_t cascadeDownControl;
 
-extern pros::controller_digital_e_t cascadeResetControl;
-extern pros::controller_digital_e_t cascadeSwitchControl;
-
-extern pros::controller_digital_e_t chainBarControl;
+extern pros::controller_digital_e_t rollerInControl;
 extern pros::controller_digital_e_t clawControl;
 
 extern pros::controller_digital_e_t toggleControl;

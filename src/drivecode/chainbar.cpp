@@ -1,9 +1,7 @@
 #include "drivecode/chainbar.hpp"
+#include "drivecode/cascade.hpp"
 
 int chainBarState = 0;
-
-bool cbUpPressed = false;
-bool cbDownPressed = false;
 
 void updateChainBar() {
     // if the chain bar up is pressed

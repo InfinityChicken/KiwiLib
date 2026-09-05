@@ -1,9 +1,13 @@
 #include "main.h"
 #include "drivecode/objects.hpp"
 
-extern float cascadeTarget;
-inline int heights[7] = {0, 0, 0, 0, 0, 0, 0};
-extern int controlType;
+// TODO: dsun modified the cascade cpp to fix bugs
+extern float cascadeTarget; //initializes at neutral
 
-void updateCascadeManual();
-void runCascadeAuto();
+extern bool cbUpPressed;
+extern bool cbDownPressed;
+extern int controlType; 
+
+extern void cascadeManual();
+
+extern void runCascadeAuto();

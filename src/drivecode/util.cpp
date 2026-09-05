@@ -19,39 +19,39 @@ void motorInit() {
     chainBar.tare_position();
 }
 
-// sensor settings
-void sensorInit() {
-    vision.clear_led();
-    vision.set_exposure(150);
-    vision.set_led(4024241);
+// // sensor settings
+// void sensorInit() {
+//     vision.clear_led();
+//     vision.set_exposure(150);
+//     vision.set_led(4024241);
 
-    vision.set_signature(0, &yellowSig);
-    vision.set_signature(0, &blueSig);
-    vision.set_signature(0, &redSig);
-}
+//     vision.set_signature(0, &yellowSig);
+//     vision.set_signature(0, &blueSig);
+//     vision.set_signature(0, &redSig);
+// }
 
 // begin all tasks
 void taskInit() {
     pros::Task screenTask(runScreen, "screen task");
     pros::Task consoleTask(runConsole, "console task");
 
-    pros::Task cascadeTask(runCascade, "cascade task");
+    pros::Task cascadeTask(cascadeManual, "cascade task");
     pros::Task rollerTask(runRoller, "roller task");
     pros::Task clawTask(runClaw, "claw task");
     pros::Task toggleTask(runToggle, "toggle task");
     
-    pros::Task pinFromWallTask(runPinFromWall, "pin from wall task");
+    // pros::Task pinFromWallTask(runPinFromWall, "pin from wall task");
 }
 
-// function to print motor voltages given a line to start on
-void printMotorVoltages(int line) {
-    pros::screen::print(pros::E_TEXT_SMALL, line+0, "leftFront: %d", leftFront.get_power());
-    // pros::screen::print(pros::E_TEXT_SMALL, line+1, "leftMid: %d", leftMid.get_power());
-    pros::screen::print(pros::E_TEXT_SMALL, line+2, "leftBack: %d", leftBack.get_power());
-    pros::screen::print(pros::E_TEXT_SMALL, line+3, "rightFront: %d", rightFront.get_power());
-    // pros::screen::print(pros::E_TEXT_SMALL, line+4, "rightMid: %d", rightMid.get_power());
-    pros::screen::print(pros::E_TEXT_SMALL, line+5, "rightBack: %d", rightBack.get_power());
-}
+// // function to print motor voltages given a line to start on
+// void printMotorVoltages(int line) {
+//     pros::screen::print(pros::E_TEXT_SMALL, line+0, "leftFront: %d", leftFront.get_power());
+//     // pros::screen::print(pros::E_TEXT_SMALL, line+1, "leftMid: %d", leftMid.get_power());
+//     pros::screen::print(pros::E_TEXT_SMALL, line+2, "leftBack: %d", leftBack.get_power());
+//     pros::screen::print(pros::E_TEXT_SMALL, line+3, "rightFront: %d", rightFront.get_power());
+//     // pros::screen::print(pros::E_TEXT_SMALL, line+4, "rightMid: %d", rightMid.get_power());
+//     pros::screen::print(pros::E_TEXT_SMALL, line+5, "rightBack: %d", rightBack.get_power());
+// }
 
 // print screen task
 void runScreen() {

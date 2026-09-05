@@ -15,8 +15,8 @@ extern void sensorInit();
 // begin all tasks
 extern void taskInit();
 
-// function to print motor voltages given a line to start on
-extern void printMotorVoltages(int line);
+// // function to print motor voltages given a line to start on
+// extern void printMotorVoltages(int line);
 
 // print screen task
 extern void runScreen();

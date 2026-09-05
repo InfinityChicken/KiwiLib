@@ -3,7 +3,7 @@
 //set controlType to 1 if you want to use pid
 //cascade pid currently inaccessible in driver
 
-float cascadeTarget = heights[0]; //initializes at neutral
+//float cascadeTarget = heights[0]; //initializes at neutral
 
 bool cbUpPressed = false;
 bool cbDownPressed = false;
@@ -13,7 +13,9 @@ void cascadeManual() {
     if (controller.get_digital(cascadeUpControl)) {
         cascadeFulls.move_velocity(600);
         cascadeHalf.move_velocity(200);
-    } else if (controller.get_digital(cascadeDownControl)) {
+    }
+    
+    else if (controller.get_digital(cascadeDownControl)) {
         cascadeFulls.move_velocity(-600);
         cascadeHalf.move_velocity(-200);
     }

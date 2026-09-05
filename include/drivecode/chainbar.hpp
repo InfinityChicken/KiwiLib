@@ -9,5 +9,5 @@ inline int neutralPos = 0;
 inline int upperScorePos = 0;
 inline int lowerScorePos = 0;
 
-void runChainBar();
-void updateChainBar();
+extern void runChainBar();
+extern void updateChainBar();

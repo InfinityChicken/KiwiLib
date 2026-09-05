@@ -15,20 +15,17 @@ pros::controller_digital_e_t cbDownControl = pros::E_CONTROLLER_DIGITAL_R2;
 pros::controller_digital_e_t cascadeUpControl = pros::E_CONTROLLER_DIGITAL_L1;
 pros::controller_digital_e_t cascadeDownControl = pros::E_CONTROLLER_DIGITAL_L2;
 
-pros::controller_digital_e_t cascadeResetControl = pros::E_CONTROLLER_DIGITAL_DOWN;
-pros::controller_digital_e_t cascadeSwitchControl = pros::E_CONTROLLER_DIGITAL_RIGHT;
-
-pros::controller_digital_e_t chainBarControl = pros::E_CONTROLLER_DIGITAL_Y;
+pros::controller_digital_e_t rollerInControl = pros::E_CONTROLLER_DIGITAL_Y;
 pros::controller_digital_e_t clawControl = pros::E_CONTROLLER_DIGITAL_B;
 
-pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_A;
+pros::controller_digital_e_t toggleControl = pros::E_CONTROLLER_DIGITAL_DOWN;
 
 // TODO: Add actual drivetrain motor ports
 pros::MotorGroup leftMotors({-0, 0}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual intake motor ports
-pros::Motor rollerClaw(0, pros::MotorGearset::green);
+pros::Motor rollerClaw(5, pros::MotorGearset::green);
 
 // TODO: Add actual cascade ports and rotation
 // cascade and chainbar motors
