@@ -40,7 +40,7 @@ void initialize() {
 	motorInit();
 
 	// initialize the sensors
-	//sensorInit();
+	sensorInit();
 
 	// initialize the tasks after hardware initialization
 	taskInit();

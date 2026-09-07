@@ -19,16 +19,19 @@ void motorInit() {
     chainBar.tare_position();
 }
 
-// // sensor settings
-// void sensorInit() {
-//     vision.clear_led();
-//     vision.set_exposure(150);
-//     vision.set_led(4024241);
+// sensor settings
+void sensorInit() {
+    cascadeRotation.reset();
+    chainBarRotation.reset();
 
-//     vision.set_signature(0, &yellowSig);
-//     vision.set_signature(0, &blueSig);
-//     vision.set_signature(0, &redSig);
-// }
+    // vision.clear_led();
+    // vision.set_exposure(150);
+    // vision.set_led(4024241);
+
+    // vision.set_signature(0, &yellowSig);
+    // vision.set_signature(0, &blueSig);
+    // vision.set_signature(0, &redSig);
+}
 
 // begin all tasks
 void taskInit() {

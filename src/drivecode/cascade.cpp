@@ -11,13 +11,25 @@ int controlType = 0;
 
 void cascadeManual() {
     if (controller.get_digital(cascadeUpControl)) {
-        cascadeFulls.move_velocity(600);
-        cascadeHalf.move_velocity(200);
+        if (cascadeRotation.get_position() < 100) {
+            cascadeFulls.move_velocity(600);
+            cascadeHalf.move_velocity(200);
+        }
+        else {
+            cascadeFulls.move_velocity(0);
+            cascadeHalf.move_velocity(0);
+        }
     }
     
     else if (controller.get_digital(cascadeDownControl)) {
-        cascadeFulls.move_velocity(-600);
-        cascadeHalf.move_velocity(-200);
+        if (cascadeRotation.get_position() > 0) {
+            cascadeFulls.move_velocity(-600);
+            cascadeHalf.move_velocity(-200);
+        }
+        else {
+            cascadeFulls.move_velocity(0);
+            cascadeHalf.move_velocity(0);
+        }
     }
 }
 
