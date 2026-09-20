@@ -3,6 +3,7 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/motors.h"
+#include <cmath>
 
 lemlib::TrackingWheel::TrackingWheel(pros::adi::Encoder* encoder, float wheelDiameter, float distance,
                                      float gearRatio) {
@@ -44,6 +45,9 @@ float lemlib::TrackingWheel::getDistanceTraveled() {
         std::vector<double> positions = this->motors->get_position_all();
         std::vector<float> distances;
         for (int i = 0; i < this->motors->size(); i++) {
+            // Skip disconnected motors — PROS returns PROS_ERR_F (~inf) for an
+            // unreachable port, which would otherwise NaN out the whole avg.
+            if (!std::isfinite(positions[i])) continue;
             float in;
             switch (gearsets[i]) {
                 case pros::MotorGears::red: in = 100; break;
@@ -53,6 +57,7 @@ float lemlib::TrackingWheel::getDistanceTraveled() {
             }
             distances.push_back(positions[i] * (diameter * M_PI) * (rpm / in));
         }
+        if (distances.empty()) return 0;
         return lemlib::avg(distances);
     } else {
         return 0;
