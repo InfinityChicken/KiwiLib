@@ -12,7 +12,7 @@ void motorInit() {
 
 // sensor settings
 void sensorInit() {
-    liftRotation.set_position(0);
+    
 }
 
 // begin all tasks

@@ -84,7 +84,8 @@ void opcontrol() {
 		updateManualLift();
 		updateMacroLift();
 		updateClaw();
-		updateToggle();
+		// updateToggle();
+		updateToggleTest();
 
 		pros::delay(10);
 

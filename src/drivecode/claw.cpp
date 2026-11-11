@@ -1,5 +1,6 @@
 #include "drivecode/claw.hpp"
 #include "drivecode/objects.hpp"
+#include <iostream>
 
 int clawState = 0;
 bool clawOpenPressed = false;
@@ -13,7 +14,7 @@ void updateClaw() {
                 clawState = 2;
             }
             // if it is rolling in turn it off
-            if (clawState == 2) {
+            else if (clawState == 2) {
                 clawState = 0;
             }
         }
@@ -30,7 +31,7 @@ void updateClaw() {
                 clawState = 1;
             }
             // if it is rolling in turn it off
-            if (clawState == 1) {
+            else if (clawState == 1) {
                 clawState = 0;
             }
 

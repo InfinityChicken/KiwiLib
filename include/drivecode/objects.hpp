@@ -24,7 +24,7 @@ extern pros::Motor clawRoller;
 
 extern pros::MotorGroup reversebar;
 
-extern pros::Distance distLift;
+extern pros::Distance distClaw;
 extern pros::Distance distLiftHeight;
 extern pros::Optical goalOptical;
 

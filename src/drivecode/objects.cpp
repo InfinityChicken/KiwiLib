@@ -16,7 +16,7 @@ pros::controller_digital_e_t CONTROL8 = pros::E_CONTROLLER_DIGITAL_B;
 // TODO: Add actual drivetrain motor ports
 // 55w, 2x 11w 5.5w each side
 pros::MotorGroup leftMotors({0, -0, 0}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({0, -0, 0}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-0, 0, -0}, pros::MotorGearset::blue);
 
 // TODO: Add actual claw ports
 // 5.5w motor
@@ -24,20 +24,17 @@ pros::Motor clawRoller(0, pros::MotorGearset::green);
 
 // TODO: Add actual reverse bar ports and rotation
 // 2x 11w motors
-pros::MotorGroup reversebar({0, 0}, pros::MotorGearset::blue);//all motors for cascade are green
-
-// TODO: Add actual lift sensor ports
-// lift distance sensors for autolift/score macro
-pros::Distance distLift(0);
-pros::Distance distLiftHeight(0);
-// goal type optical sensor
-pros::Optical goalOptical(0);
-
-// lift rotation sensor for lift PID
-pros::Rotation liftRotation(0);
+pros::MotorGroup reversebar({19, -17}, pros::MotorGearset::green);//all motors for cascade are green
 
 // toggle roller motor
 pros::Motor toggleRoller(0, pros::MotorGearset::green);
+
+// TODO: Add actual lift sensor ports
+// lift distance sensors for autolift/score macro
+pros::Distance distClaw(0);
+pros::Distance distLiftHeight(0);
+// goal type optical sensor
+pros::Optical goalOptical(0);
 
 // toggle optical sensor for autotoggle
 pros::Optical toggleOptical(0);

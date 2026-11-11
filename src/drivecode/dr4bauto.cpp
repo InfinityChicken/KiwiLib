@@ -92,7 +92,7 @@ void macroLift() {
                 }
 
                 // while we still see pins in front of us keep moving up
-                while (lemlib::mmToIn(distLift.get_distance()) <= macroMaxDist) {
+                while (lemlib::mmToIn(distClaw.get_distance()) <= macroMaxDist) {
                     reversebar.move_voltage(12000);
 
                     // TODO REMOVE THIS TEST RUMBLE
