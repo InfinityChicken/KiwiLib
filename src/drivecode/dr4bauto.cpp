@@ -8,8 +8,8 @@ const int goalOpticRange = 30;
 
 // max/min lift heights and liftheight is in dr4b.cpp
 
-std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
-std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
+// std::vector<float> allianceGoalHeights = {3.25,10,17,23,30,37.5,43.5,47};
+// std::vector<float> neutralGoalHeights = {5.77,12.5,19,26,32.5,39.5,46,49.5};
 // slight issue with the 49.5 is that we may not be allowed to go that far because we go up
 // higher than 50in after 1 inch extra height
 
