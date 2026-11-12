@@ -205,10 +205,10 @@ void runLiftAuto(float liftTarget) {
         liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
         // set error to the difference between the target and the current height
         if ((liftTarget - liftHeight) < setLiftError) {
-            float error = liftTarget - liftHeight;
+            error = liftTarget - liftHeight;
         }
         else {
-            float error = setLiftError;
+            error = setLiftError;
         }
 
         if (std::abs(error) < errorRange) {
