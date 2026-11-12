@@ -195,13 +195,21 @@ void macroLift() {
 void runLiftAuto(float liftTarget) {
     // set a constant value for accepted error range, 0.25
     const float errorRange = 0.25;
+    // TODO set a value for liftError of what we want error to be until reaching target
+    const float setLiftError = 0;
+    float error = 0;
 
     // while the error is greater than the acceptable error range
     while (true) {
         // set the lift height to the value we pull from the lift height dist sensor
         liftHeight = lemlib::mmToIn(distLiftHeight.get_distance());
         // set error to the difference between the target and the current height
-        float error = liftTarget - liftHeight;
+        if ((liftTarget - liftHeight) < setLiftError) {
+            float error = liftTarget - liftHeight;
+        }
+        else {
+            float error = setLiftError;
+        }
 
         if (std::abs(error) < errorRange) {
             // force stop the reverse bar's power because error will still produce a power
