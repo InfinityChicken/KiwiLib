@@ -20,9 +20,9 @@ extern pros::controller_digital_e_t CONTROL8;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 
-extern pros::Motor clawRoller;
+extern pros::Motor claw;
 
-extern pros::MotorGroup reversebar;
+extern pros::MotorGroup lift;
 
 extern pros::Distance distClaw;
 extern pros::Distance distLiftHeight;
@@ -30,7 +30,7 @@ extern pros::Optical goalOptical;
 
 extern pros::Rotation liftRotation;
 
-extern pros::Motor toggleRoller;
+extern pros::Motor toggle;
 extern pros::Optical toggleOptical;
 
 extern pros::Distance distFront;

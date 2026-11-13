@@ -50,19 +50,19 @@ void runClaw() {
         switch (clawState) {
             // claw off
             case 0: {
-                clawRoller.move_voltage(0);
+                claw.move_voltage(0);
                 break;
             }
 
             // claw rolling in
             case 1: {
-                clawRoller.move_voltage(12000);
+                claw.move_voltage(12000);
                 break;
             }
 
             // claw rolling out
             case 2: {
-                clawRoller.move_voltage(-6000);
+                claw.move_voltage(-6000);
                 break;
             }
         }

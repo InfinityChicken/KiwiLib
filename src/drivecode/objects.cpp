@@ -20,14 +20,14 @@ pros::MotorGroup rightMotors({-4, 5, -6}, pros::MotorGearset::blue);
 
 // TODO: Add actual claw ports
 // 5.5w motor
-pros::Motor clawRoller(7, pros::MotorGearset::green);
+pros::Motor claw(7, pros::MotorGearset::green);
 
 // TODO: Add actual reverse bar ports and rotation
 // 2x 11w motors
-pros::MotorGroup reversebar({19, -17}, pros::MotorGearset::green);//all motors for cascade are green
+pros::MotorGroup lift({19, -17}, pros::MotorGearset::green);//all motors for cascade are green
 
 // toggle roller motor
-pros::Motor toggleRoller(9, pros::MotorGearset::green);
+pros::Motor toggle(9, pros::MotorGearset::green);
 
 // TODO: Add actual lift sensor ports
 // lift distance sensors for autolift/score macro

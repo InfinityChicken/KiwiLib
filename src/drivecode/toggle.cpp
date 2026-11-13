@@ -26,10 +26,10 @@ void updateToggle() {
 }
 
 void updateToggleTest() {
-    if (controller.get_digital(CONTROL6)) {
+    if (controller.get_digital(CONTROL7)) {
         toggleState = 1;
     } 
-    else if (controller.get_digital(CONTROL7)) {
+    else if (controller.get_digital(CONTROL8)) {
         toggleState = 2;
     } 
     else {
@@ -44,18 +44,18 @@ void runToggle() {
         switch (toggleState) {
             // toggle off
             case 0: {
-                toggleRoller.move_voltage(0);
+                toggle.move_voltage(0);
                 break;
             }
 
             // toggle rolling
             case 1: {
-                toggleRoller.move_voltage(12000);
+                toggle.move_voltage(12000);
                 break;
             }
 
             case 2: {
-                toggleRoller.move_voltage(-12000);
+                toggle.move_voltage(-12000);
                 break;
             }
         }

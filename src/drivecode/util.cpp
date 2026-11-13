@@ -7,7 +7,7 @@
 
 // initialize motors
 void motorInit() {
-    reversebar.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
+    lift.set_brake_mode(pros::motor_brake_mode_e::E_MOTOR_BRAKE_BRAKE);
 }
 
 // sensor settings
@@ -23,6 +23,7 @@ void taskInit() {
     pros::Task clawTask(runClaw, "claw task");
     pros::Task toggleTask(runToggle, "toggle task");
     pros::Task liftTask(runLift, "dr4b task");
+    pros::Task pidLiftTask(runPidLift, "pid lift task");
 }
 
 // print screen task

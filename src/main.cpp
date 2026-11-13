@@ -40,6 +40,7 @@ void initialize() {
 
 	// initialize the tasks after hardware initialization
 	taskInit();
+	liftTarget = lemlib::mmToIn(distLiftHeight.get_distance())
 	
 
 	// run autonSelector during the set up period
@@ -82,7 +83,7 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		updateManualLift();
-		updateMacroLift();
+		updatePidLift();
 		updateClaw();
 		// updateToggle();
 		updateToggleTest();
