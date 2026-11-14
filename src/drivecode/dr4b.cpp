@@ -10,6 +10,8 @@ float liftHeight;
 int manualLiftState = 0;
 bool manualControl = false;
 
+// how do i solve this 
+
 void updateManualLift() {
     // if lift manual up pressed
     if (controller.get_digital(liftUp)) {

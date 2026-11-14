@@ -9,7 +9,6 @@ bool clawPressed = false;
 int tempRoller = 0;
 
 void updateClaw() {
-
     // constantly checks if clawButton held; if not then set claw to temp roller
     if (controller.get_digital(clawButton)) {
         clawState = 2;

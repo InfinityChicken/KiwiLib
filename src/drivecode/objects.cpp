@@ -6,20 +6,28 @@
 
 // REFACTOR (11/13/2026) : changed CONTROL1 --> clawButton; Gourav wants the claw open/close to be the same button
 pros::controller_digital_e_t clawButton = pros::E_CONTROLLER_DIGITAL_R1;
+
 // REFACTOR (11/13/2026) : changed CONTROL2 --> clawStopSpinning; Gourav wants the claw stop spinning to be R2
 pros::controller_digital_e_t clawSpinToggle = pros::E_CONTROLLER_DIGITAL_R2; 
-pros::controller_digital_e_t liftUp = pros::E_CONTROLLER_DIGITAL_L1; //dr4b up
-pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_L2; //dr4b down
 
-pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT; //pid dr4b up
+// DR4B UP
+pros::controller_digital_e_t liftUp = pros::E_CONTROLLER_DIGITAL_L1;
+// DR4B DOWN
+pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_L2;
+
+// DR4B PID UP
+pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT;
+// DR4B PID DOWN
 pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN; //pid dr4b down
 
 // REFACTOR (11/13/2026) : changed CONTROL7 --> toggleClockwise; Gourav wants this button to spin the toggle forward
 pros::controller_digital_e_t toggleClockwise = pros::E_CONTROLLER_DIGITAL_Y; //toggle forward
+
 // REFACTOR (11/13/2026) : changed CONTROL8 --> toggleCounterClockwise; Gourav wants this button to spin the toggle backward
 pros::controller_digital_e_t toggleCounterClockwise= pros::E_CONTROLLER_DIGITAL_B; //toggle backward
 
-pros::controller_digital_e_t liftFullDown = pros::E_CONTROLLER_DIGITAL_DOWN; //dr4b goes down all the way 
+// RESET LIFT TO DOWN POSITION
+pros::controller_digital_e_t liftFullDown = pros::E_CONTROLLER_DIGITAL_DOWN; 
 
 // TODO: Add actual drivetrain motor ports
 // 55w, 2x 11w 5.5w each side
@@ -118,10 +126,10 @@ lemlib::ControllerSettings angularController(6, // proportional gain (kP)
 );
 
 // distance sensors
-lemlib::DistanceSensors distSensors(distFront, 0, 0,
-                                    distBack, 0, 0,
-                                    distLeft, 0, 0,
-                                    distRight, 0, 0);
+lemlib::DistanceSensors distSensors(distFront, 4.054, 4.663,
+                                    distBack, 5.954, 5.226,
+                                    distLeft, -3.454, 5.176,
+                                    distRight, -3.454, 5.176);
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
