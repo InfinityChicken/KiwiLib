@@ -7,6 +7,7 @@ int toggleState = 0;
 int toggleSideState = 0;
 int opticalTeamColor_upper= 0;
 int opticalTeamColor_lower= 0;
+char teamColor = 'R'; // default red
 
 bool toggleSideMacro_oncePressed = false;
 bool toggleSideMacro_twicePressed = false;
