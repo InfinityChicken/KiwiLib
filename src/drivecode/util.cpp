@@ -5,6 +5,7 @@
 #include "drivecode/toggle.hpp"
 #include "drivecode/dr4b.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "util.hpp"
 #include <cmath>
 
@@ -15,6 +16,8 @@ void motorInit() {
 
 // sensor settings
 void sensorInit() {
+    lift.tare_position_all();
+    lift.set_encoder_units(pros::motor_encoder_units_e::E_MOTOR_ENCODER_DEGREES);
     
 }
 
@@ -26,8 +29,8 @@ void taskInit() {
     pros::Task clawTask(runClaw, "claw task");
     pros::Task toggleTask(runToggle, "toggle task");
     pros::Task liftTask(runLift, "dr4b task");
-    pros::Task pidLiftTask(runPidLift, "pid lift task");
-    pros::Task autoToggleTask(autoToggle, "auto toggle task");
+    // pros::Task pidLiftTask(runPidLift, "pid lift task");
+    // pros::Task autoToggleTask(autoToggle, "auto toggle task");
 }
 
 // print screen task
@@ -36,11 +39,10 @@ void runScreen() {
         lemlib::Pose pose = chassis.getPose();
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
-        pros::screen::print(pros::E_TEXT_SMALL, 1, "lift height: %.3f", lemlib::mmToIn(distLiftHeight.get_distance()));
+        pros::screen::print(pros::E_TEXT_SMALL, 1, "lift deg: %.3f", lift.get_position());
         pros::screen::print(pros::E_TEXT_SMALL, 2, "color: %.3f", toggleOptical.get_hue());
         pros::screen::print(pros::E_TEXT_SMALL, 3, "lift pid target: %.3f", liftTarget);
-        pros::screen::print(pros::E_TEXT_SMALL, 6, "1-6 drive motors, 11 claw, 9 toggle, 19+17 lift");
-
+        pros::screen::print(pros::E_TEXT_SMALL, 4, "toggle state: %d", toggleState);
         pros::delay(10);
     }
 }

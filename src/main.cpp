@@ -59,6 +59,9 @@ void competition_initialize() {
 void autonomous() {
 	// set the autonomous to brake
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	// chassis.turnToHeading(90, 1000);	
+	manualControl = true;
+	preloadAuto();
 
 	// chassis.setPose(-1, -1, 180);
     // chassis.distReset('R', 'F');
@@ -70,6 +73,7 @@ void autonomous() {
 void opcontrol() {
 	// set the drive to coast
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	manualControl = false;
 	
 	// static bool antiTipping = false;
 
@@ -88,6 +92,8 @@ void opcontrol() {
 		updateClaw();
 		// updateToggle();
 		updateManualToggle();
+
+		// angularPIDTuning(90);
 
 		pros::delay(10);
 

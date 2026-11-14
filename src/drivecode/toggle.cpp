@@ -70,9 +70,9 @@ void updateManualToggle() {
     if (controller.get_digital(toggleClockwise)) {
         toggleState = 1;
     } 
-    else if (controller.get_digital(toggleCounterClockwise)) {
-        toggleState = 2;
-    } 
+    // else if (controller.get_digital(toggleCounterClockwise)) {
+    //     toggleState = 2;
+    // } 
     else {
         toggleState = 0;
     }
@@ -82,7 +82,7 @@ void updateManualToggle() {
 
 void runToggle() {
     while (true) {
-        switch (toggleSideState) {
+        switch (toggleState) {
             // toggle off
             case 0: {
                 toggle.move_voltage(0);

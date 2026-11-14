@@ -31,23 +31,22 @@ pros::controller_digital_e_t liftFullDown = pros::E_CONTROLLER_DIGITAL_DOWN;
 
 // TODO: Add actual drivetrain motor ports
 // 55w, 2x 11w 5.5w each side
-pros::MotorGroup leftMotors({1, -2, 3}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({-4, 5, -6}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({12, -13, -14}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({-20, 16, 15}, pros::MotorGearset::blue);
 
 // TODO: Add actual claw ports
 // 5.5w motor
-pros::Motor claw(11, pros::MotorGearset::green);
+pros::Motor claw(7, pros::MotorGearset::green);
 
 // TODO: Add actual reverse bar ports and rotation
 // 2x 11w motors
-pros::MotorGroup lift({19, -17}, pros::MotorGearset::green);//all motors for cascade are green
+pros::MotorGroup lift({-3, 1}, pros::MotorGearset::green);//all motors for cascade are green
 
 // toggle roller motor
-pros::Motor toggle(9, pros::MotorGearset::green);
+pros::Motor toggle(11, pros::MotorGearset::green);
 
 // TODO: Add actual lift sensor ports
 // lift distance sensors for autolift/score macro
-pros::Distance distClaw(0);
 pros::Distance distLiftHeight(0);
 // goal type optical sensor
 pros::Optical goalOptical(0);
@@ -57,16 +56,16 @@ pros::Optical toggleOptical(0);
 
 // TODO: Add actual distance sensor ports
 // distance sensors for dsr
-pros::Distance distFront(0);
-pros::Distance distBack(0);
-pros::Distance distLeft(0);
-pros::Distance distRight(0);
+pros::Distance distFront(21);
+pros::Distance distBack(8);
+pros::Distance distLeft(2);
+pros::Distance distRight(6);
 
 // TODO: Add actual odometry ports
 // odometry sensors for chassis
-pros::Rotation horizRotation(0);
-pros::Rotation vertRotation(0);
-pros::Imu imu(0);
+pros::Rotation horizRotation(9);
+pros::Rotation vertRotation(17);
+pros::Imu imu(10);
 
 // odom objects
 lemlib::TrackingWheel horizOdom(
@@ -85,7 +84,7 @@ lemlib::OdomSensors odomSensorsDrive(
     nullptr,
     nullptr,
     &horizOdom,
-    &vertOdom,
+    nullptr,
     &imu
 );
 
@@ -104,7 +103,7 @@ lemlib::Drivetrain drivetrain(
 // lateral pid controller
 lemlib::ControllerSettings lateralController(2, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              0, // derivative gain (kD)
+                                              4, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
@@ -114,9 +113,9 @@ lemlib::ControllerSettings lateralController(2, // proportional gain (kP)
 );
 
 // angular pid controller
-lemlib::ControllerSettings angularController(6, // proportional gain (kP)
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              0, // derivative gain (kD)
+                                              4, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
