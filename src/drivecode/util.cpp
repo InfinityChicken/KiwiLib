@@ -4,6 +4,9 @@
 #include "drivecode/claw.hpp"
 #include "drivecode/toggle.hpp"
 #include "drivecode/dr4b.hpp"
+#include "pros/misc.h"
+#include "util.hpp"
+#include <cmath>
 
 // initialize motors
 void motorInit() {
@@ -32,11 +35,9 @@ void runScreen() {
         lemlib::Pose pose = chassis.getPose();
 
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
-        // pros::screen::print(pros::E_TEXT_SMALL, 1, "clawOpenPressed: %d clawState: %d", clawOpenPressed, clawState);
-        pros::screen::print(pros::E_TEXT_SMALL, 2, "toggleState: %d", toggleState);
-        pros::screen::print(pros::E_TEXT_SMALL, 3, "liftHeight: %d", liftHeight);
-        pros::screen::print(pros::E_TEXT_SMALL, 4, "manualLiftState: %d manualControl: %d", manualLiftState, manualControl);
-        pros::screen::print(pros::E_TEXT_SMALL, 5, "liftMacroState: %d liftMacroPressed: %d", liftMacroState, liftMacroPressed);
+        pros::screen::print(pros::E_TEXT_SMALL, 1, "lift height: %.3f", lemlib::mmToIn(distLiftHeight.get_distance()));
+        pros::screen::print(pros::E_TEXT_SMALL, 2, "color: %.3f", toggleOptical.get_hue());
+        pros::screen::print(pros::E_TEXT_SMALL, 6, "1-6 drive motors, 11 claw, 9 toggle, 19+17 lift");
 
         pros::delay(10);
     }
@@ -46,5 +47,63 @@ void runScreen() {
 void runConsole() {
     while(true) {
         pros::delay(10);
+    }
+}
+
+
+void liftPIDTuning(float target) {
+    bool buttonPressed = false;
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+        if (!buttonPressed) {
+            if (liftTarget != target) {
+                liftTarget = target;
+            }
+            else if (liftTarget == target) {
+                liftTarget = initialHeight;
+            }
+
+        }
+        buttonPressed = true;
+    } 
+    else {
+        buttonPressed = false;
+    }
+}
+
+void linearPIDTuning(float target) {
+    bool buttonPressed = false;
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+        if (!buttonPressed) {
+            if (std::abs(chassis.getPose().y - target) < 0.5) {
+                chassis.moveToPoint(0, target, 1000);
+            }
+            else {
+                chassis.moveToPoint(0, 0, 1000, {.forwards = false});
+            }
+
+        }
+        buttonPressed = true;
+    } 
+    else {
+        buttonPressed = false;
+    }
+}
+
+void angularPIDTuning(float target) {
+    bool buttonPressed = false;
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+        if (!buttonPressed) {
+            if (std::abs(chassis.getPose().theta - target) < 0.5) {
+                chassis.turnToHeading(target, 1000);
+            }
+            else {
+                chassis.turnToHeading(0, 1000);
+            }
+
+        }
+        buttonPressed = true;
+    } 
+    else {
+        buttonPressed = false;
     }
 }

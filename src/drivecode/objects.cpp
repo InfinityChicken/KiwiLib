@@ -3,15 +3,15 @@
 
 // TODO: CONTROLS
 // Buttons on the controller that control assigned subsystems
-pros::controller_digital_e_t CONTROL1 = pros::E_CONTROLLER_DIGITAL_R1;
-pros::controller_digital_e_t CONTROL2 = pros::E_CONTROLLER_DIGITAL_R2;
-pros::controller_digital_e_t CONTROL3 = pros::E_CONTROLLER_DIGITAL_L1;
-pros::controller_digital_e_t CONTROL4 = pros::E_CONTROLLER_DIGITAL_L2;
+pros::controller_digital_e_t CONTROL1 = pros::E_CONTROLLER_DIGITAL_R1; //claw open
+pros::controller_digital_e_t CONTROL2 = pros::E_CONTROLLER_DIGITAL_R2; //claw roll
+pros::controller_digital_e_t CONTROL3 = pros::E_CONTROLLER_DIGITAL_L1; //dr4b up
+pros::controller_digital_e_t CONTROL4 = pros::E_CONTROLLER_DIGITAL_L2; //dr4b down
 
-pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT;
-pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN;
-pros::controller_digital_e_t CONTROL7 = pros::E_CONTROLLER_DIGITAL_Y;
-pros::controller_digital_e_t CONTROL8 = pros::E_CONTROLLER_DIGITAL_B;
+pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT; //pid dr4b up
+pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN; //pid dr4b down
+pros::controller_digital_e_t CONTROL7 = pros::E_CONTROLLER_DIGITAL_Y; //toggle forward
+pros::controller_digital_e_t CONTROL8 = pros::E_CONTROLLER_DIGITAL_B; //toggle backward
 
 // TODO: Add actual drivetrain motor ports
 // 55w, 2x 11w 5.5w each side
@@ -20,7 +20,7 @@ pros::MotorGroup rightMotors({-4, 5, -6}, pros::MotorGearset::blue);
 
 // TODO: Add actual claw ports
 // 5.5w motor
-pros::Motor claw(7, pros::MotorGearset::green);
+pros::Motor claw(11, pros::MotorGearset::green);
 
 // TODO: Add actual reverse bar ports and rotation
 // 2x 11w motors

@@ -40,8 +40,9 @@ void initialize() {
 
 	// initialize the tasks after hardware initialization
 	taskInit();
-	liftTarget = lemlib::mmToIn(distLiftHeight.get_distance())
+	liftTarget = lemlib::mmToIn(distLiftHeight.get_distance());
 	
+	color = 'R';
 
 	// run autonSelector during the set up period
 	// autonSelector();

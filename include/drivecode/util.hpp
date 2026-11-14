@@ -21,3 +21,7 @@ extern void runScreen();
 
 // gamepad task
 extern void runConsole();
+
+extern void liftPIDTuning(float target);
+extern void linearPIDTuning(float target);
+extern void angularPIDTuning(float target);

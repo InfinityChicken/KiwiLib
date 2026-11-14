@@ -12,14 +12,19 @@ int opticalTeamColor_lower= 0;
 void updateToggle() {
     // if toggle optical sensor sees a toggle
     if (toggleOptical.get_proximity() <= 100) {
-        // if toggle optical color is within the appropriate range 
-        // // TODO: NEEDS TO BE FIXED SO IT CHECKS IF IT'S OUR ALLIANCE COLOR
-        // if (!(toggleOptical.get_hue() > opticalTeamColor + toggleOpticRange && toggleOptical.get_hue() < opticalTeamColor - toggleOpticRange)) {
-        //     toggleState = 1;
-        // }
-        // else {
-        //     toggleState = 0;
-        // }
+        if(color == 'R') {
+            if(toggleOptical.get_hue() > 0 && toggleOptical.get_hue() < 0) {
+                toggleState = 0;
+            } else {
+                toggleState = 1;
+            }
+        } else if (color == 'B') {
+            if(toggleOptical.get_hue() > 0 && toggleOptical.get_hue() < 0) {
+                toggleState = 0;
+            } else {
+                toggleState = 1;
+            }
+        }
     }
 
     pros::delay(10);

@@ -43,7 +43,7 @@ float updateTarget(bool up) {
     }
 }
 
-void updaterunPidLift() {
+void updatePidLift() {
     //if you are holding it then accelerate to full speed once you let go snap to the next target
     if (controller.get_digital(CONTROL5)) {
         manualLiftState = 1;
