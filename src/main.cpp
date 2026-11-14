@@ -42,7 +42,7 @@ void initialize() {
 	taskInit();
 	liftTarget = lemlib::mmToIn(distLiftHeight.get_distance());
 	
-	color = 'R';
+	teamColor = 'R';
 
 	// run autonSelector during the set up period
 	// autonSelector();

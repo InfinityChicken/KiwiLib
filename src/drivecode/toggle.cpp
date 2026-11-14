@@ -8,19 +8,22 @@ int toggleSideState = 0;
 int opticalTeamColor_upper= 0;
 int opticalTeamColor_lower= 0;
 
+bool toggleSideMacro_oncePressed = false;
+bool toggleSideMacro_twicePressed = false;
+
 // upper red: 0/lower red: 330
 // upper blue: 170/lower blue: 230
 
 void updateToggle() {
     // if toggle optical sensor sees a toggle
     if (toggleOptical.get_proximity() <= 100) {
-        if(color == 'R') {
+        if(teamColor == 'R') {
             if(toggleOptical.get_hue() > 330 && toggleOptical.get_hue() < 360 || toggleOptical.get_hue() > 0 && toggleOptical.get_hue() < 30)  {// red has weird logic because it has two sides
                 toggleState = 0;
             } else {
                 toggleState = 1;
             }
-        } else if (color == 'B') {
+        } else if (teamColor == 'B') {
             if(toggleOptical.get_hue() > 170 && toggleOptical.get_hue() < 230) {
                 toggleState = 0;
             } else {
@@ -28,22 +31,35 @@ void updateToggle() {
             }
         }
     }
+    else {
+        toggleState = 0;
+    }
 
     pros::delay(10);
 }
 
 void updateToggleSideMacro() {
-    // flip once
     if (controller.get_digital(CONTROL7)) {
-        toggleSideState = 1;
+        if (!toggleSideMacro_oncePressed) {
+            toggleSideState = 1;
+        }
+        toggleSideMacro_oncePressed = true;
     } 
-    // flip twice
-    else if (controller.get_digital(CONTROL8)) {
-        toggleSideState = 2;
-    }
     else {
-        toggleSideState = 0;
+        toggleSideMacro_oncePressed = false;
     }
+
+    if (controller.get_digital(CONTROL8)) {
+        if (!toggleSideMacro_twicePressed) {
+            toggleSideState = 2;
+        }
+        toggleSideMacro_twicePressed = true;
+    } 
+    else {
+        toggleSideMacro_twicePressed = false;
+    }
+
+    pros::delay(10);
 }
 
 void updateToggleTest() {
@@ -87,7 +103,7 @@ void runToggle() {
 
 void runToggleSideMacro() {
     while (true) {
-        switch (toggleState) {
+        switch (toggleSideState) {
             // toggle off
             case 0: {
                 toggle.move_voltage(0);
@@ -97,11 +113,13 @@ void runToggleSideMacro() {
             // toggle rolling
             case 1: {
                 toggle.move_relative(360, 12000);
+                toggleSideState = 0;
                 break;
             }
 
             case 2: {
                 toggle.move_relative(-720, -12000);
+                toggleSideState = 0;
                 break;
             }
         }

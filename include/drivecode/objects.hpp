@@ -6,12 +6,10 @@
 #include "pros/optical.hpp"
 #include "pros/rotation.hpp"
 
-// placeholder names
 extern pros::controller_digital_e_t CONTROL1;
 extern pros::controller_digital_e_t CONTROL2;
 extern pros::controller_digital_e_t CONTROL3;
 extern pros::controller_digital_e_t CONTROL4;
-
 extern pros::controller_digital_e_t CONTROL5;
 extern pros::controller_digital_e_t CONTROL6;
 extern pros::controller_digital_e_t CONTROL7;
@@ -24,13 +22,12 @@ extern pros::Motor claw;
 
 extern pros::MotorGroup lift;
 
+extern pros::Motor toggle;
+
 extern pros::Distance distClaw;
 extern pros::Distance distLiftHeight;
 extern pros::Optical goalOptical;
 
-extern pros::Rotation liftRotation;
-
-extern pros::Motor toggle;
 extern pros::Optical toggleOptical;
 
 extern pros::Distance distFront;
@@ -40,16 +37,20 @@ extern pros::Distance distRight;
 
 extern pros::Rotation horizRotation;
 extern pros::Rotation vertRotation;
+extern pros::Imu imu;
+
+
+// ODOM
+
 extern lemlib::TrackingWheel horizOdom;
 extern lemlib::TrackingWheel vertOdom;
-
-extern pros::Imu imu;
 
 extern lemlib::OdomSensors odomSensorsDrive;
 
 extern lemlib::Drivetrain drivetrain;
 
 extern lemlib::ControllerSettings lateralController;
+
 extern lemlib::ControllerSettings angularController;
 
 extern lemlib::DistanceSensors distSensors;
