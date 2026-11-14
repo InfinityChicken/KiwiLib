@@ -27,6 +27,7 @@ void taskInit() {
     pros::Task toggleTask(runToggle, "toggle task");
     pros::Task liftTask(runLift, "dr4b task");
     pros::Task pidLiftTask(runPidLift, "pid lift task");
+    pros::Task autoToggleTask(autoToggle, "auto toggle task");
 }
 
 // print screen task
@@ -37,6 +38,7 @@ void runScreen() {
         pros::screen::print(pros::E_TEXT_SMALL, 0, "X: %.3f Y: %.3f Theta: %.3f", pose.x, pose.y, pose.theta);
         pros::screen::print(pros::E_TEXT_SMALL, 1, "lift height: %.3f", lemlib::mmToIn(distLiftHeight.get_distance()));
         pros::screen::print(pros::E_TEXT_SMALL, 2, "color: %.3f", toggleOptical.get_hue());
+        pros::screen::print(pros::E_TEXT_SMALL, 3, "lift pid target: %.3f", liftTarget);
         pros::screen::print(pros::E_TEXT_SMALL, 6, "1-6 drive motors, 11 claw, 9 toggle, 19+17 lift");
 
         pros::delay(10);

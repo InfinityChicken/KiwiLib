@@ -6,14 +6,21 @@
 #include "pros/optical.hpp"
 #include "pros/rotation.hpp"
 
-extern pros::controller_digital_e_t CONTROL1;
-extern pros::controller_digital_e_t CONTROL2;
-extern pros::controller_digital_e_t CONTROL3;
-extern pros::controller_digital_e_t CONTROL4;
+extern pros::controller_digital_e_t clawButton;
+extern pros::controller_digital_e_t clawSpinToggle;
+
+extern pros::controller_digital_e_t liftUp;
+extern pros::controller_digital_e_t liftDown;
+
 extern pros::controller_digital_e_t CONTROL5;
 extern pros::controller_digital_e_t CONTROL6;
-extern pros::controller_digital_e_t CONTROL7;
-extern pros::controller_digital_e_t CONTROL8;
+
+extern pros::controller_digital_e_t toggleClockwise;
+extern pros::controller_digital_e_t toggleCounterClockwise;
+
+extern pros::controller_digital_e_t driveModeToggle;
+
+extern pros::controller_digital_e_t liftFullDown;
 
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
@@ -60,3 +67,7 @@ extern pros::Controller controller;
 extern lemlib::Chassis chassis;
 
 extern lemlib::PID liftPID;
+
+
+
+// make the down arrow set the PID target to all the way down and the PIDs are underconditionied, set manual var to be true, make it go down to initial height

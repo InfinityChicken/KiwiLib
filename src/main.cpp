@@ -84,10 +84,10 @@ void opcontrol() {
 		chassis.arcade(throttle, turn);
 
 		updateManualLift();
-		updatePidLift();
+		// updatePidLift();
 		updateClaw();
 		// updateToggle();
-		updateToggleTest();
+		updateManualToggle();
 
 		pros::delay(10);
 

@@ -11,36 +11,39 @@ char teamColor = 'R'; // default red
 
 bool toggleSideMacro_oncePressed = false;
 bool toggleSideMacro_twicePressed = false;
+bool autoToggleActive = false;
 
 // upper red: 0/lower red: 330
 // upper blue: 170/lower blue: 230
 
-void updateToggle() {
-    // if toggle optical sensor sees a toggle
-    if (toggleOptical.get_proximity() <= 100) {
-        if(teamColor == 'R') {
-            if(toggleOptical.get_hue() > 330 && toggleOptical.get_hue() < 360 || toggleOptical.get_hue() > 0 && toggleOptical.get_hue() < 30)  {// red has weird logic because it has two sides
-                toggleState = 0;
-            } else {
-                toggleState = 1;
-            }
-        } else if (teamColor == 'B') {
-            if(toggleOptical.get_hue() > 170 && toggleOptical.get_hue() < 230) {
-                toggleState = 0;
-            } else {
-                toggleState = 1;
+void autoToggle() {
+    while(autoToggleActive) {
+        // if toggle optical sensor sees a toggle
+        if (toggleOptical.get_proximity() <= 100) {
+            if(teamColor == 'R') {
+                if(toggleOptical.get_hue() > 330 && toggleOptical.get_hue() < 360 || toggleOptical.get_hue() > 0 && toggleOptical.get_hue() < 30)  {// red has weird logic because it has two sides
+                    toggleState = 0;
+                } else {
+                    toggleState = 1;
+                }
+            } else if (teamColor == 'B') {
+                if(toggleOptical.get_hue() > 170 && toggleOptical.get_hue() < 230) {
+                    toggleState = 0;
+                } else {
+                    toggleState = 1;
+                }
             }
         }
-    }
-    else {
-        toggleState = 0;
-    }
+        else {
+            toggleState = 0;
+        }
 
-    pros::delay(10);
+        pros::delay(10);
+    }
 }
 
 void updateToggleSideMacro() {
-    if (controller.get_digital(CONTROL7)) {
+    if (controller.get_digital(toggleClockwise)) {
         if (!toggleSideMacro_oncePressed) {
             toggleSideState = 1;
         }
@@ -50,7 +53,7 @@ void updateToggleSideMacro() {
         toggleSideMacro_oncePressed = false;
     }
 
-    if (controller.get_digital(CONTROL8)) {
+    if (controller.get_digital(toggleCounterClockwise)) {
         if (!toggleSideMacro_twicePressed) {
             toggleSideState = 2;
         }
@@ -63,11 +66,11 @@ void updateToggleSideMacro() {
     pros::delay(10);
 }
 
-void updateToggleTest() {
-    if (controller.get_digital(CONTROL7)) {
+void updateManualToggle() {
+    if (controller.get_digital(toggleClockwise)) {
         toggleState = 1;
     } 
-    else if (controller.get_digital(CONTROL8)) {
+    else if (controller.get_digital(toggleCounterClockwise)) {
         toggleState = 2;
     } 
     else {

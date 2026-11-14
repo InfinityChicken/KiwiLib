@@ -3,15 +3,23 @@
 
 // TODO: CONTROLS
 // Buttons on the controller that control assigned subsystems
-pros::controller_digital_e_t CONTROL1 = pros::E_CONTROLLER_DIGITAL_R1; //claw open
-pros::controller_digital_e_t CONTROL2 = pros::E_CONTROLLER_DIGITAL_R2; //claw roll
-pros::controller_digital_e_t CONTROL3 = pros::E_CONTROLLER_DIGITAL_L1; //dr4b up
-pros::controller_digital_e_t CONTROL4 = pros::E_CONTROLLER_DIGITAL_L2; //dr4b down
+
+// REFACTOR (11/13/2026) : changed CONTROL1 --> clawButton; Gourav wants the claw open/close to be the same button
+pros::controller_digital_e_t clawButton = pros::E_CONTROLLER_DIGITAL_R1;
+// REFACTOR (11/13/2026) : changed CONTROL2 --> clawStopSpinning; Gourav wants the claw stop spinning to be R2
+pros::controller_digital_e_t clawSpinToggle = pros::E_CONTROLLER_DIGITAL_R2; 
+pros::controller_digital_e_t liftUp = pros::E_CONTROLLER_DIGITAL_L1; //dr4b up
+pros::controller_digital_e_t liftDown = pros::E_CONTROLLER_DIGITAL_L2; //dr4b down
 
 pros::controller_digital_e_t CONTROL5 = pros::E_CONTROLLER_DIGITAL_LEFT; //pid dr4b up
 pros::controller_digital_e_t CONTROL6 = pros::E_CONTROLLER_DIGITAL_DOWN; //pid dr4b down
-pros::controller_digital_e_t CONTROL7 = pros::E_CONTROLLER_DIGITAL_Y; //toggle forward
-pros::controller_digital_e_t CONTROL8 = pros::E_CONTROLLER_DIGITAL_B; //toggle backward
+
+// REFACTOR (11/13/2026) : changed CONTROL7 --> toggleClockwise; Gourav wants this button to spin the toggle forward
+pros::controller_digital_e_t toggleClockwise = pros::E_CONTROLLER_DIGITAL_Y; //toggle forward
+// REFACTOR (11/13/2026) : changed CONTROL8 --> toggleCounterClockwise; Gourav wants this button to spin the toggle backward
+pros::controller_digital_e_t toggleCounterClockwise= pros::E_CONTROLLER_DIGITAL_B; //toggle backward
+
+pros::controller_digital_e_t liftFullDown = pros::E_CONTROLLER_DIGITAL_DOWN; //dr4b goes down all the way 
 
 // TODO: Add actual drivetrain motor ports
 // 55w, 2x 11w 5.5w each side

@@ -12,13 +12,13 @@ bool manualControl = false;
 
 void updateManualLift() {
     // if lift manual up pressed
-    if (controller.get_digital(CONTROL3)) {
+    if (controller.get_digital(liftUp)) {
         manualLiftState = 1;
         manualControl = true;
     } 
     // if lift manual down pressed
-    else if (controller.get_digital(CONTROL4)) {
-        manualLiftState = 2;
+    else if (controller.get_digital(liftDown)) {
+        manualLiftState = 3;
         manualControl = true;
     } 
     // lift manual was not toggled
@@ -27,7 +27,12 @@ void updateManualLift() {
         manualControl = false;
     }
 
-    pros::delay(10);
+    if (controller.get_digital(liftFullDown)) {
+        manualControl = false;
+        liftTarget = initialHeight;
+    }
+
+    pros::delay(10); 
 }
 
 void runLift() {
@@ -56,6 +61,12 @@ void runLift() {
                 // manual lift down
                 case 2: {
                     lift.move_voltage(-12000);
+                    break;
+                }
+
+                // half speed
+                case 3: {
+                    lift.move_voltage(-6000);
                     break;
                 }
             }

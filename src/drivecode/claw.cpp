@@ -3,43 +3,45 @@
 #include <iostream>
 
 int clawState = 0;
-bool clawOpenPressed = false;
-bool clawClosePressed = false;
+bool clawSpinPressed = false;
+bool clawPressed = false;
+
+int tempRoller = 0;
 
 void updateClaw() {
-    if (controller.get_digital(CONTROL1)) {
-        if (!clawOpenPressed) {
-            // if it is not rolling in turn it rolling in
-            if (clawState != 2) {
-                clawState = 2;
-            }
-            // if it is rolling in turn it off
-            else if (clawState == 2) {
-                clawState = 0;
-            }
+
+    // constantly checks if clawButton held; if not then set claw to temp roller
+    if (controller.get_digital(clawButton)) {
+        clawState = 2;
+        clawPressed = true;
+
+    } else {
+        if(clawPressed) {
+            clawState = tempRoller;
+            clawPressed = false;
         }
-        clawOpenPressed = true;
-    } 
-    else {
-        clawOpenPressed = false;
     }
 
-    if (controller.get_digital(CONTROL2)) {
-        if (!clawClosePressed) {
+    // uses toggle logic to set tempRoller, if clawState=2 and clawButton no longer held-->goes back to tempRoller last saved 
+    // by the toggle below
+    if (controller.get_digital(clawSpinToggle)) {
+        if (!clawSpinPressed) {
             // if it is not rolling in turn it rolling in
             if (clawState != 1) {
                 clawState = 1;
+                tempRoller = clawState;
             }
             // if it is rolling in turn it off
             else if (clawState == 1) {
                 clawState = 0;
+                tempRoller = clawState;
             }
 
         }
-        clawClosePressed = true;
+        clawSpinPressed = true;
     } 
     else {
-        clawClosePressed = false;
+        clawSpinPressed = false;
     }
 
     pros::delay(10);
@@ -54,13 +56,13 @@ void runClaw() {
                 break;
             }
 
-            // claw rolling in
+            // claw rollers turning inwards (closed)
             case 1: {
                 claw.move_voltage(12000);
                 break;
             }
 
-            // claw rolling out
+            // claw rollers turning outwards (open)
             case 2: {
                 claw.move_voltage(-6000);
                 break;
@@ -69,4 +71,5 @@ void runClaw() {
         
         pros::delay(10);
     }
+
 }

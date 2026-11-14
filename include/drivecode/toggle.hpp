@@ -16,13 +16,14 @@ extern bool toggleSideMacro_oncePressed;
 extern bool toggleSideMacro_twicePressed;
 
 extern char teamColor; // default red
+extern bool autoToggleActive;
 
 // upper red: 0/lower red: 330
 // upper blue: 170/lower blue: 230
 
-extern void updateToggle();
+extern void autoToggle();
 extern void updateToggleSideMacro();
-extern void updateToggleTest();
+extern void updateManualToggle();
 
 extern void runToggle();
 extern void runToggleSideMacro();
